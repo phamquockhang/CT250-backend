@@ -21,7 +21,7 @@ public class Country {
     @Id
     Integer countryId;
     String countryName;
-    String countryCode;
+    Integer countryCode;
 
     @OneToMany(mappedBy = "country")
     Set<User> users;

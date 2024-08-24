@@ -18,7 +18,7 @@ import java.sql.Timestamp;
 @EntityListeners(AuditingEntityListener.class)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class BaseEntity implements Serializable {
-
+    
     @Serial
     private static final long serialVersionUID = 1L;
 
