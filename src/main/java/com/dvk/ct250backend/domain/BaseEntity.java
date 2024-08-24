@@ -1,44 +1,41 @@
 package com.dvk.ct250backend.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.Column;
+import jakarta.persistence.EntityListeners;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
-
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import jakarta.persistence.*;
+import java.io.Serial;
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
 
-@MappedSuperclass
+@Data
 @EntityListeners(AuditingEntityListener.class)
-@Getter
-@Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class BaseEntity implements Serializable {
 
-    private static final long serialVersionUID = -863164858986274318L;
+    @Serial
+    private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "createddate")
     @CreatedDate
-    private Date createdDate;
+    @Column(updatable = false)
+    Timestamp createdAt;
 
-    @Column(name = "createdby")
     @CreatedBy
-    private String createdBy;
+    @Column(updatable = false)
+    String createdBy;
 
-    @Column(name = "modifieddate")
     @LastModifiedDate
-    private Date modifiedDate;
+    @Column(insertable = false)
+    Timestamp modifiedAt;
 
-    @Column(name = "modifiedby")
-    @LastModifiedBy
-    private String modifiedBy;
+    @LastModifiedDate
+    @Column(insertable = false)
+    String modifiedBy;
 
 }

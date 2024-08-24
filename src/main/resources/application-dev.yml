@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://avnadmin:AVNS_AgrUvRlC9rufFI_x5al@ct250-ttdat-cloud.h.aivencloud.com:23952/ct250?sslmode=require
+    username: avnadmin
+    password: AVNS_AgrUvRlC9rufFI_x5al
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
