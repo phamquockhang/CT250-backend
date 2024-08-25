@@ -1,7 +1,7 @@
-package com.dvk.ct250backend.domain.user;
+package com.dvk.ct250backend.domain.user.entity;
 
-import com.dvk.ct250backend.domain.BaseEntity;
-import com.dvk.ct250backend.domain.Country;
+import com.dvk.ct250backend.domain.common.BaseEntity;
+import com.dvk.ct250backend.domain.country.entity.Country;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;

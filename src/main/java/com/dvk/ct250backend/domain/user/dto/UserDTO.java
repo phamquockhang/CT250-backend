@@ -1,6 +1,6 @@
-package com.dvk.ct250backend.domain.user;
+package com.dvk.ct250backend.domain.user.dto;
 
-import com.dvk.ct250backend.domain.CountryDTO;
+import com.dvk.ct250backend.domain.country.dto.CountryDTO;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

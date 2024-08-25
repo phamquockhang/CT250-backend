@@ -1,5 +1,7 @@
-package com.dvk.ct250backend.domain.user;
+package com.dvk.ct250backend.domain.user.mapper;
 
+import com.dvk.ct250backend.domain.user.dto.RoleDTO;
+import com.dvk.ct250backend.domain.user.entity.Role;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

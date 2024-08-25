@@ -1,4 +1,4 @@
-package com.dvk.ct250backend.domain.user;
+package com.dvk.ct250backend.domain.user.dto;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

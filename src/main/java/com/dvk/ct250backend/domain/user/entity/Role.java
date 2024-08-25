@@ -1,4 +1,4 @@
-package com.dvk.ct250backend.domain.user;
+package com.dvk.ct250backend.domain.user.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

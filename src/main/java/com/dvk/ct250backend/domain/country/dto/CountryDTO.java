@@ -1,4 +1,4 @@
-package com.dvk.ct250backend.domain;
+package com.dvk.ct250backend.domain.country.dto;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

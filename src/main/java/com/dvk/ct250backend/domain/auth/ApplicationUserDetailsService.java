@@ -1,6 +1,6 @@
 package com.dvk.ct250backend.domain.auth;
 
-import com.dvk.ct250backend.infrastructure.repository.UserRepository;
+import com.dvk.ct250backend.domain.user.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;

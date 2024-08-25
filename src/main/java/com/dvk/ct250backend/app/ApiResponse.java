@@ -1,4 +1,4 @@
-package com.dvk.ct250backend.domain;
+package com.dvk.ct250backend.app;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;

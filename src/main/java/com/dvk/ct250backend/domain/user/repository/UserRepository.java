@@ -1,6 +1,6 @@
-package com.dvk.ct250backend.infrastructure.repository;
+package com.dvk.ct250backend.domain.user.repository;
 
-import com.dvk.ct250backend.domain.user.User;
+import com.dvk.ct250backend.domain.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
