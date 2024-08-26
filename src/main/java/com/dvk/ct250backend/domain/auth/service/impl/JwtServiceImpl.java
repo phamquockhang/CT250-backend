@@ -1,6 +1,7 @@
-package com.dvk.ct250backend.domain.auth.service;
+package com.dvk.ct250backend.domain.auth.service.impl;
 
 
+import com.dvk.ct250backend.domain.auth.service.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -18,7 +19,7 @@ import java.util.Map;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class JwtServiceImpl implements JwtService{
+public class JwtServiceImpl implements JwtService {
 
     @Value("${application.security.jwt.secret}")
     String jwtSecret;
