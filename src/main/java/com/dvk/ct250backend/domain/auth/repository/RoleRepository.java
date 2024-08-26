@@ -1,6 +1,6 @@
-package com.dvk.ct250backend.domain.user.repository;
+package com.dvk.ct250backend.domain.auth.repository;
 
-import com.dvk.ct250backend.domain.user.entity.Role;
+import com.dvk.ct250backend.domain.auth.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

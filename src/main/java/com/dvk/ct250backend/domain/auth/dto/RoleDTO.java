@@ -1,4 +1,4 @@
-package com.dvk.ct250backend.domain.country.dto;
+package com.dvk.ct250backend.domain.auth.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
@@ -10,8 +10,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CountryDTO {
-    Integer countryId;
-    String countryName;
-    Integer countryCode;
+public class RoleDTO {
+    Integer roleId;
+    String roleName;
 }

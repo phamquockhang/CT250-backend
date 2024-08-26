@@ -1,6 +1,6 @@
 package com.dvk.ct250backend.infrastructure.filter;
 
-import com.dvk.ct250backend.domain.auth.JwtService;
+import com.dvk.ct250backend.domain.auth.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,4 +1,4 @@
-package com.dvk.ct250backend.domain.user.dto;
+package com.dvk.ct250backend.domain.auth.dto;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -8,7 +8,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class RoleDTO {
-    Integer roleId;
-    String roleName;
+public class AuthRequest {
+    String email;
+    String password;
 }

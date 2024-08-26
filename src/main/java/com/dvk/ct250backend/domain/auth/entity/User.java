@@ -1,4 +1,4 @@
-package com.dvk.ct250backend.domain.user.entity;
+package com.dvk.ct250backend.domain.auth.entity;
 
 import com.dvk.ct250backend.domain.common.BaseEntity;
 import com.dvk.ct250backend.domain.country.entity.Country;
