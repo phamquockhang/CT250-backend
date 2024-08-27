@@ -13,11 +13,20 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    UserMapper userMapper;
+    private final UserMapper userMapper;
     @Override
     public UserDTO createUser(UserDTO userDTO) {
         User user = userMapper.toUser(userDTO);
         User savedUser = userRepository.save(user);
         return userMapper.toUserDTO(savedUser);
+    }
+
+    @Override
+    public UserDTO getUserByUserName(String userName) {
+        User user = userRepository.findByEmail(userName);
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+        return userMapper.toUserDTO(user);
     }
 }

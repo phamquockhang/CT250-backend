@@ -22,5 +22,5 @@ public class UserDTO {
     String id;
     String phoneNumber;
     CountryDTO country;
-    Set<RoleDTO> roles;
+    //Set<RoleDTO> roles;
 }

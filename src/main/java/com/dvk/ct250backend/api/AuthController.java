@@ -1,44 +1,38 @@
 package com.dvk.ct250backend.api;
 
-import com.dvk.ct250backend.domain.auth.dto.UserDTO;
+
 import com.dvk.ct250backend.domain.auth.dto.request.AuthRequest;
-import com.dvk.ct250backend.domain.auth.service.AuthService;
-import com.dvk.ct250backend.domain.auth.service.JwtService;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
+import com.dvk.ct250backend.domain.auth.dto.response.AuthResponse;
+import com.dvk.ct250backend.infrastructure.utils.SecurityUtil;
+
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @RestController
-@RequestMapping("/v1/auth")
-@RequiredArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthController {
 
-    AuthService authService;
-    JwtService jwtService;
-    UserDetailsService userDetailsService;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final SecurityUtil securityUtil;
+    public AuthController(AuthenticationManagerBuilder authenticationManagerBuilder, SecurityUtil securityUtil) {
+        this.authenticationManagerBuilder = authenticationManagerBuilder;
+        this.securityUtil = securityUtil;
+    }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody AuthRequest authRequest) {
-        UserDTO userDTO = authService.login(authRequest);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(userDTO.getEmail());
-        String accessToken = jwtService.generateToken(userDetails);
-        String refreshToken = jwtService.generateRefreshToken(userDetails);
+    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest authRequest) {
+        UsernamePasswordAuthenticationToken authenticationToken
+                = new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword());
 
-        Map<String, String> tokens = new HashMap<>();
-        tokens.put("accessToken", accessToken);
-        tokens.put("refreshToken", refreshToken);
-
-        return ResponseEntity.ok(tokens);
+        Authentication authentication =
+                authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        AuthResponse authResponse = new AuthResponse();
+        String accessToken = this.securityUtil.createToken(authentication);
+        authResponse.setAccessToken(accessToken);
+        return ResponseEntity.ok().body(authResponse);
     }
 }

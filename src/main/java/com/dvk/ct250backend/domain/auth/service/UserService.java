@@ -4,4 +4,5 @@ import com.dvk.ct250backend.domain.auth.dto.UserDTO;
 
 public interface UserService {
     UserDTO createUser(UserDTO userDTO);
+    UserDTO getUserByUserName(String userName);
 }
