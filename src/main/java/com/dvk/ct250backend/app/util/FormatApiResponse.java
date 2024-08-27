@@ -22,17 +22,17 @@ public class FormatApiResponse implements ResponseBodyAdvice<Object> {
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
         HttpServletResponse httpServletResponse = ((ServletServerHttpResponse) response).getServletResponse();
         int status = httpServletResponse.getStatus();
-        ApiResponse<Object> restResponse = new ApiResponse<Object>();
-        restResponse.setStatus(status);
+        ApiResponse<Object> apiResponse = new ApiResponse<Object>();
+        apiResponse.setStatus(status);
         if(status >= 400){
-            restResponse.setError("Call API Error");
-            restResponse.setMessage(body);
+            apiResponse.setError("Call API Error");
+            apiResponse.setMessage(body);
         }else{
-            restResponse.setData(body);
-            restResponse.setMessage("Call API Success");
+            apiResponse.setData(body);
+            apiResponse.setMessage("Call API Success");
         }
 
-        return restResponse;
+        return apiResponse;
     }
 }
 
