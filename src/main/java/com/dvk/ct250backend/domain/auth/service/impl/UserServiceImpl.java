@@ -1,6 +1,7 @@
 package com.dvk.ct250backend.domain.auth.service.impl;
 
 import com.dvk.ct250backend.domain.auth.dto.UserDTO;
+import com.dvk.ct250backend.domain.auth.dto.request.AuthRequest;
 import com.dvk.ct250backend.domain.auth.entity.User;
 import com.dvk.ct250backend.domain.auth.mapper.UserMapper;
 import com.dvk.ct250backend.domain.auth.repository.UserRepository;
@@ -27,9 +28,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO getUserByUserName(String userName) {
         User user = userRepository.findByEmail(userName);
-        if (user == null) {
-            throw new RuntimeException("User not found");
-        }
+        //AuthRequest authRequest = new AuthRequest();
+//        authRequest.setEmail(user.getEmail());
+//        authRequest.setPassword(user.getPassword());
         return userMapper.toUserDTO(user);
     }
 }
