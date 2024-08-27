@@ -1,4 +1,4 @@
-package com.dvk.ct250backend.app;
+package com.dvk.ct250backend.app.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
@@ -12,6 +12,7 @@ import lombok.experimental.FieldDefaults;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse<T> {
     int status;
-    String message;
+    String error;
+    Object message;
     T data;
 }
