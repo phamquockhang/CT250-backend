@@ -21,9 +21,6 @@ public class UserDetailCustom implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserDTO userDTO = this.userService.getUserByUserName(username);
 
-        if (userDTO == null || userDTO.getEmail() == null || userDTO.getPassword() == null) {
-            throw new UsernameNotFoundException("User not found with username: " + username);
-        }
         return new org.springframework.security.core.userdetails.User(
                 userDTO.getEmail(),
                 userDTO.getPassword(),

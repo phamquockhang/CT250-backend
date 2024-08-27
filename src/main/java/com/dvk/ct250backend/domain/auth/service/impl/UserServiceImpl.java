@@ -6,13 +6,16 @@ import com.dvk.ct250backend.domain.auth.mapper.UserMapper;
 import com.dvk.ct250backend.domain.auth.repository.UserRepository;
 import com.dvk.ct250backend.domain.auth.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+    @Autowired
+    private UserRepository userRepository;
 
-    private final UserRepository userRepository;
+    @Autowired
     private final UserMapper userMapper;
     @Override
     public UserDTO createUser(UserDTO userDTO) {

@@ -5,6 +5,7 @@ import com.dvk.ct250backend.domain.auth.dto.request.AuthRequest;
 import com.dvk.ct250backend.domain.auth.dto.response.AuthResponse;
 import com.dvk.ct250backend.infrastructure.utils.SecurityUtil;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -24,7 +25,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<AuthResponse> login(@Valid @RequestBody AuthRequest authRequest) {
         UsernamePasswordAuthenticationToken authenticationToken
                 = new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword());
 
