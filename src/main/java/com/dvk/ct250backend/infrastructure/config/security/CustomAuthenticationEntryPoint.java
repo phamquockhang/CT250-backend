@@ -12,6 +12,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Component
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
@@ -32,7 +33,10 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
         ApiResponse<Object> res = new ApiResponse<Object>();
         res.setStatus(HttpStatus.UNAUTHORIZED.value());
-        res.setError(authException.getCause().getMessage());
+        String errorMessage = Optional.ofNullable(authException.getCause())
+                .map(Throwable::getMessage)
+                .orElse(authException.getMessage());
+        res.setError(errorMessage);
         res.setMessage("Invalid token (expired, incorrect format, or JWT not provided in header)...");
 
         mapper.writeValue(response.getWriter(), res);

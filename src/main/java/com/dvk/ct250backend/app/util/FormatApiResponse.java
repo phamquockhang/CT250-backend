@@ -24,9 +24,11 @@ public class FormatApiResponse implements ResponseBodyAdvice<Object> {
         int status = httpServletResponse.getStatus();
         ApiResponse<Object> apiResponse = new ApiResponse<Object>();
         apiResponse.setStatus(status);
-        if(status >= 400){
-            apiResponse.setError("Call API Error");
-            apiResponse.setMessage(body);
+        if(body instanceof String){
+            return body;
+        }
+        if  (status >= 400){
+            return body;
         }else{
             apiResponse.setData(body);
             apiResponse.setMessage("Call API Success");
