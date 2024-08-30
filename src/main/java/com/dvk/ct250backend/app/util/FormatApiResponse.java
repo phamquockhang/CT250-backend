@@ -1,6 +1,7 @@
 package com.dvk.ct250backend.app.util;
 
 import com.dvk.ct250backend.app.dto.response.ApiResponse;
+import com.dvk.ct250backend.app.util.annotation.ApiMessage;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
@@ -19,22 +20,34 @@ public class FormatApiResponse implements ResponseBodyAdvice<Object> {
     }
 
     @Override
-    public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-        HttpServletResponse httpServletResponse = ((ServletServerHttpResponse) response).getServletResponse();
-        int status = httpServletResponse.getStatus();
-        ApiResponse<Object> apiResponse = new ApiResponse<Object>();
-        apiResponse.setStatus(status);
-        if(body instanceof String){
+    public Object beforeBodyWrite(
+            Object body,
+            MethodParameter returnType,
+            MediaType selectedContentType,
+            Class selectedConverterType,
+            ServerHttpRequest request,
+            ServerHttpResponse response) {
+        HttpServletResponse servletResponse = ((ServletServerHttpResponse) response).getServletResponse();
+        int status = servletResponse.getStatus();
+
+        ApiResponse<Object> res = new ApiResponse<Object>();
+        res.setStatus(status);
+
+        if (body instanceof String) {
             return body;
-        }
-        if  (status >= 400){
-            return body;
-        }else{
-            apiResponse.setData(body);
-            apiResponse.setMessage("Call API Success");
         }
 
-        return apiResponse;
+        if (status >= 400) {
+            return body;
+        } else {
+            res.setData(body);
+            ApiMessage message = returnType.getMethodAnnotation(ApiMessage.class);
+            res.setMessage(message != null ? message.value() : "CALL API SUCCESS");
+        }
+
+        return res;
     }
+
 }
+
 
