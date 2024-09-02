@@ -8,8 +8,9 @@ public class DateTimeConfig implements WebMvcConfigurer {
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        DateTimeFormatterRegistrar registrar = new DateTimeFormatterRegistrar();
-        registrar.setUseIsoFormat(true);
-        registrar.registerFormatters(registry);
+        new DateTimeFormatterRegistrar() {{
+            setUseIsoFormat(true);
+            registerFormatters(registry);
+        }};
     }
 }

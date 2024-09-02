@@ -10,8 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 @Component
@@ -27,25 +25,20 @@ public class JwtUtils {
     private long refreshTokenDurationInSeconds;
 
     public String generateAccessToken(UserDetails userDetails) {
-        return generateJwtToken(userDetails, new HashMap<>(), accessTokenDurationInSeconds);
+        return generateJwtToken(userDetails, accessTokenDurationInSeconds);
     }
 
     public String generateRefreshToken(UserDetails userDetails) {
-        return generateJwtToken(userDetails, new HashMap<>(), refreshTokenDurationInSeconds);
+        return generateJwtToken(userDetails, refreshTokenDurationInSeconds);
     }
 
-    private String generateJwtToken(UserDetails userDetails,
-                                    Map<String, Object> extraClaims,
-                                    long tokenDurationInSeconds){
+    private String generateJwtToken(UserDetails userDetails, long tokenDurationInSeconds) {
         JwtEncoder jwtEncoder = applicationContext.getBean(JwtEncoder.class);
         JwtClaimsSet claimsSet = JwtClaimsSet.builder()
                 .subject(userDetails.getUsername())
                 .issuedAt(Instant.now())
                 .expiresAt(Instant.now().plus(tokenDurationInSeconds, ChronoUnit.SECONDS))
                 .build();
-        if(!extraClaims.isEmpty()){
-            claimsSet.getClaims().putAll(extraClaims);
-        }
         JwsHeader jwsHeader = JwsHeader.with(SignatureAlgorithm.RS256).build();
         return jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, claimsSet)).getTokenValue();
     }
@@ -59,8 +52,6 @@ public class JwtUtils {
     }
 
     public boolean isTokenValid(Jwt jwtToken, UserDetails userDetails) {
-        final String userEmail = getUsername(jwtToken);
-        return !isTokenExpired(jwtToken) && userEmail.equals(userDetails.getUsername());
+        return !isTokenExpired(jwtToken) && getUsername(jwtToken).equals(userDetails.getUsername());
     }
-
 }

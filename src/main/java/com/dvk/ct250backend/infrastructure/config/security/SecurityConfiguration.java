@@ -1,6 +1,5 @@
 package com.dvk.ct250backend.infrastructure.config.security;
 
-
 import com.dvk.ct250backend.infrastructure.filter.JwtAuthFilter;
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -52,7 +51,7 @@ public class SecurityConfiguration {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(corsConfig -> corsConfig.configurationSource(request -> {
-                    CorsConfiguration config = new CorsConfiguration();
+                    var config = new CorsConfiguration();
                     config.setAllowedOrigins(List.of("http://localhost:5173"));
                     config.setAllowedMethods(Collections.singletonList("*"));
                     config.setAllowCredentials(true);
@@ -60,14 +59,12 @@ public class SecurityConfiguration {
                     config.setMaxAge(3600L);
                     return config;
                 }))
-                .authorizeHttpRequests(
-                        requests -> requests
-                                .requestMatchers("/api/v1/auth/**", "/api/v1/countries").permitAll()
-                                .anyRequest().authenticated())
+                .authorizeHttpRequests(requests -> requests
+                        .requestMatchers("/api/v1/auth/**", "/api/v1/countries").permitAll()
+                        .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults())
-                        .authenticationEntryPoint(customAuthenticationEntryPoint)
-                )
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults())
+                        .authenticationEntryPoint(customAuthenticationEntryPoint))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin(AbstractHttpConfigurer::disable);
 
@@ -89,8 +86,8 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService){
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+    public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService) {
+        var authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;

@@ -55,12 +55,12 @@ public class AuthServiceImpl implements AuthService {
         String accessToken = jwtUtils.generateAccessToken(user);
         String refreshToken = jwtUtils.generateRefreshToken(user);
 
-        //Store refresh token in http only cookie
+        // Store refresh token in http only cookie
         Cookie refreshTokenCookie = new Cookie("refresh_token", refreshToken);
         refreshTokenCookie.setHttpOnly(true);
-//        refreshTokenCookie.setSecure(true); //HTTPS
+        // refreshTokenCookie.setSecure(true); // HTTPS
         refreshTokenCookie.setPath("/");
-        //prevent CSRF attacks
+        // prevent CSRF attacks
         refreshTokenCookie.setAttribute("SameSite", "Strict");
         refreshTokenCookie.setMaxAge(7 * 24 * 60 * 60); // 7 days
 
@@ -76,9 +76,8 @@ public class AuthServiceImpl implements AuthService {
         String username = jwtUtils.getUsername(jwtRefreshToken);
         User user = userRepository.findByEmail(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        return AuthResponse.builder().
-                accessToken(jwtUtils.generateAccessToken(user))
+        return AuthResponse.builder()
+                .accessToken(jwtUtils.generateAccessToken(user))
                 .build();
-
     }
 }

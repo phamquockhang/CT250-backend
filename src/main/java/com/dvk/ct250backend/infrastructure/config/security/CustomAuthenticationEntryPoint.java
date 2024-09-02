@@ -18,7 +18,6 @@ import java.util.Optional;
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     private final AuthenticationEntryPoint delegate = new BearerTokenAuthenticationEntryPoint();
-
     private final ObjectMapper mapper;
 
     public CustomAuthenticationEntryPoint(ObjectMapper mapper) {
@@ -28,17 +27,20 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException, ServletException {
-        this.delegate.commence(request, response, authException);
+        delegate.commence(request, response, authException);
         response.setContentType("application/json;charset=UTF-8");
 
-        ApiResponse<Object> res = new ApiResponse<Object>();
+        var res = new ApiResponse<Object>();
         res.setStatus(HttpStatus.UNAUTHORIZED.value());
-        String errorMessage = Optional.ofNullable(authException.getCause())
-                .map(Throwable::getMessage)
-                .orElse(authException.getMessage());
-        res.setError(errorMessage);
+        res.setError(getErrorMessage(authException));
         res.setMessage("Invalid token (expired, incorrect format, or JWT not provided in header)...");
 
         mapper.writeValue(response.getWriter(), res);
+    }
+
+    private String getErrorMessage(AuthenticationException authException) {
+        return Optional.ofNullable(authException.getCause())
+                .map(Throwable::getMessage)
+                .orElse(authException.getMessage());
     }
 }
