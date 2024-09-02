@@ -1,17 +1,29 @@
 package com.dvk.ct250backend.domain.auth.mapper;
 
-import com.dvk.ct250backend.domain.country.mapper.CountryMapper;
 import com.dvk.ct250backend.domain.auth.dto.UserDTO;
+import com.dvk.ct250backend.domain.auth.entity.Role;
 import com.dvk.ct250backend.domain.auth.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 
-@Mapper(componentModel = "spring", uses = {RoleMapper.class, CountryMapper.class})
-//@Mapper(componentModel = "spring", uses = { CountryMapper.class})
+import java.util.Set;
+import java.util.stream.Collectors;
+
+@Mapper
 public interface UserMapper {
-    //@Mapping(target = "password", ignore = true)
+    @Mapping(target = "password", ignore = true)
+    @Mapping(target = "roles", source = "roles", qualifiedByName = "rolesToRoleName")
+    @Mapping(target = "countryId", source = "country.countryId")
     UserDTO toUserDTO(User user);
 
+    @Mapping(target = "roles", ignore = true)
+    @Mapping(target = "country.countryId", source = "countryId")
     User toUser(UserDTO userDTO);
+
+    @Named("rolesToRoleName")
+    default Set<String> rolesToRoleName(Set<Role> roles){
+        return roles.stream().map(Role::getRoleName).collect(Collectors.toSet());
+    }
 }
 

@@ -2,6 +2,7 @@ package com.dvk.ct250backend.domain.common;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.MappedSuperclass;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
@@ -16,6 +17,7 @@ import java.sql.Timestamp;
 
 @Data
 @EntityListeners(AuditingEntityListener.class)
+@MappedSuperclass
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class BaseEntity implements Serializable {
     
