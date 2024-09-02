@@ -1,4 +1,4 @@
-package com.nqvinh.careerseek.util;
+package com.dvk.ct250backend.infrastructure.utils;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
