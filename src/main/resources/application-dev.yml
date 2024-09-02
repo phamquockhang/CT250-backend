@@ -16,7 +16,8 @@ spring:
 application:
   security:
     jwt:
-      base64-secret: iUPAlAIfmBbdXzZmlrhAJMPGQlcc5RoXc/42g8YsW38PXlBFAN7tTSVHgOCWW+7l0vT/NYPWYv3C0BQukGLAVg==
+      public-key: classpath:public.pem
+      private-key: classpath:private.pem
       token-validity-in-seconds: 86400 #1 day
 #      refresh-token:
 #        expiration: 604800000 #7 days

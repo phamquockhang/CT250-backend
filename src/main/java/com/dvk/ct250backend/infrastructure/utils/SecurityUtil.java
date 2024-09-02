@@ -1,13 +1,12 @@
-package com.dvk.ct250backend.infrastructure.utils;
+package com.nqvinh.careerseek.util;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.jwt.JwtClaimsSet;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
-import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
+import org.springframework.security.oauth2.jwt.*;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -16,12 +15,13 @@ import java.util.Optional;
 
 @Service
 public class SecurityUtil {
-
     private final JwtEncoder jwtEncoder;
 
     public SecurityUtil(JwtEncoder jwtEncoder) {
         this.jwtEncoder = jwtEncoder;
     }
+
+    public static final SignatureAlgorithm JWT_ALGORITHM = SignatureAlgorithm.RS256;
 
     @Value("${application.security.jwt.token-validity-in-seconds}")
     private Long jwtKeyExpiration;
@@ -34,10 +34,10 @@ public class SecurityUtil {
                 .issuedAt(now)
                 .expiresAt(validity)
                 .subject(authentication.getName())
-                .claim("authorize", authentication.getAuthorities()) // Chỉ lưu trữ authorities
+                .claim("authorize", authentication)
                 .build();
-
-        return this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+        JwsHeader jwsHeader = JwsHeader.with(JWT_ALGORITHM).build();
+        return this.jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, claims)).getTokenValue();
     }
 
     public static Optional<String> getCurrentUserLogin() {
@@ -50,6 +50,8 @@ public class SecurityUtil {
             return null;
         } else if (authentication.getPrincipal() instanceof UserDetails springSecurityUser) {
             return springSecurityUser.getUsername();
+        } else if (authentication.getPrincipal() instanceof Jwt jwt) {
+            return jwt.getSubject();
         } else if (authentication.getPrincipal() instanceof String s) {
             return s;
         }
