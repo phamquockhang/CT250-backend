@@ -37,7 +37,7 @@ import java.util.List;
 @Configuration
 @EnableMethodSecurity
 @RequiredArgsConstructor
-public class ecurityConfiguration {
+public class SecurityConfiguration {
 
     private final RSAKeyRecord rsaKeyRecord;
     private final JwtAuthFilter jwtAuthFilter;
