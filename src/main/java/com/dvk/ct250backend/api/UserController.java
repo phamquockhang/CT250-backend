@@ -3,6 +3,7 @@ package com.dvk.ct250backend.api;
 import com.dvk.ct250backend.app.dto.response.ApiResponse;
 import com.dvk.ct250backend.domain.auth.dto.UserDTO;
 import com.dvk.ct250backend.domain.auth.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ApiResponse<UserDTO> createUser(@RequestBody UserDTO userDTO) {
+    public ApiResponse<UserDTO> createUser(@RequestBody @Valid UserDTO userDTO) {
         return ApiResponse.<UserDTO>builder()
                 .status(HttpStatus.CREATED.value())
                 .data(userService.createUser(userDTO))
@@ -42,7 +43,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ApiResponse<UserDTO> updateUser(@PathVariable UUID id, @RequestBody UserDTO userDTO) {
+    public ApiResponse<UserDTO> updateUser(@PathVariable UUID id, @RequestBody @Valid UserDTO userDTO) {
         return ApiResponse.<UserDTO>builder()
                 .status(HttpStatus.OK.value())
                 .data(userService.updateUser(id, userDTO))

@@ -1,4 +1,4 @@
-package com.dvk.ct250backend.domain.common;
+package com.dvk.ct250backend.domain.common.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

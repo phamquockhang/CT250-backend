@@ -1,59 +1,64 @@
-package com.dvk.ct250backend.domain.auth.entity;
+    package com.dvk.ct250backend.domain.auth.entity;
 
-import com.dvk.ct250backend.domain.common.BaseEntity;
-import com.dvk.ct250backend.domain.country.entity.Country;
-import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+    import com.dvk.ct250backend.domain.auth.enums.GenderEnum;
+    import com.dvk.ct250backend.domain.common.entity.BaseEntity;
+    import com.dvk.ct250backend.domain.country.entity.Country;
+    import jakarta.persistence.*;
+    import lombok.*;
+    import lombok.experimental.FieldDefaults;
+    import org.springframework.security.core.GrantedAuthority;
+    import org.springframework.security.core.authority.SimpleGrantedAuthority;
+    import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+    import java.util.Collection;
+    import java.util.HashSet;
+    import java.util.Set;
+    import java.util.UUID;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "users")
-@FieldDefaults(level = AccessLevel.PRIVATE)
-public class User extends BaseEntity implements UserDetails {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    UUID userId;
-    String email;
-    String password;
-    String firstName;
-    String lastName;
-    String id;
-    boolean gender;
-    String phoneNumber;
+    @Data
+    @EqualsAndHashCode(callSuper = true)
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Entity
+    @Table(name = "users")
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    public class User extends BaseEntity implements UserDetails {
+        @Id
+        @GeneratedValue(strategy = GenerationType.UUID)
+        UUID userId;
+        String email;
+        String password;
+        String firstName;
+        String lastName;
+        String id;
 
-    @ManyToOne
-    @JoinColumn(name = "country_id")
-    Country country;
+    //    @Enumerated(EnumType.STRING)
+    //    GenderEnum gender;
+        boolean gender;
+
+        String phoneNumber;
+
+        @ManyToOne
+        @JoinColumn(name = "country_id")
+        Country country;
 
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "role_binding",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    Set<Role> roles = new HashSet<>();
+        @ManyToMany(fetch = FetchType.EAGER)
+        @JoinTable(
+                name = "role_binding",
+                joinColumns = @JoinColumn(name = "user_id"),
+                inverseJoinColumns = @JoinColumn(name = "role_id")
+        )
+        Set<Role> roles = new HashSet<>();
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getRoleName())).toList();
+        @Override
+        public Collection<? extends GrantedAuthority> getAuthorities() {
+            return roles.stream().map(role -> new SimpleGrantedAuthority(role.getRoleName())).toList();
+        }
+
+        @Override
+        public String getUsername() {
+            return email;
+        }
     }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-}
