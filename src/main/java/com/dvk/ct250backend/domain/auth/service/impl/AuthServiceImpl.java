@@ -40,8 +40,15 @@ public class AuthServiceImpl implements AuthService {
     public UserDTO register(UserDTO userDTO) {
         User user = userMapper.toUser(userDTO);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         Role role = roleRepository.findByRoleName("USER");
-        user.setRoles(Set.of(role));
+        if (role == null) {
+            role = new Role();
+            role.setRoleName("USER");
+            role = roleRepository.save(role);
+        }
+
+        user.setRole(role);
         return userMapper.toUserDTO(userRepository.save(user));
     }
 

@@ -13,4 +13,7 @@ import lombok.experimental.FieldDefaults;
 public class RoleDTO {
     Integer roleId;
     String roleName;
+    String description;
+    Boolean isActive;
+
 }

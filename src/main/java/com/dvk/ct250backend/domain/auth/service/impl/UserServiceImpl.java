@@ -1,58 +1,115 @@
 package com.dvk.ct250backend.domain.auth.service.impl;
 
+import com.dvk.ct250backend.app.dto.PaginationDTO;
+import com.dvk.ct250backend.app.exception.IdInValidException;
 import com.dvk.ct250backend.domain.auth.dto.UserDTO;
 import com.dvk.ct250backend.domain.auth.entity.User;
 import com.dvk.ct250backend.domain.auth.mapper.UserMapper;
 import com.dvk.ct250backend.domain.auth.repository.UserRepository;
 import com.dvk.ct250backend.domain.auth.service.UserService;
+import com.dvk.ct250backend.domain.country.entity.Country;
+import com.dvk.ct250backend.domain.country.service.CountryService;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PACKAGE, makeFinal = true)
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
+    private final CountryService countryService;
 
     @Override
-    public List<UserDTO> getAllUsers() {
-        return userRepository.findAll().stream()
-                .map(userMapper::toUserDTO)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public UserDTO getUserById(UUID userId) {
-        Optional<User> user = userRepository.findById(userId);
-        return user.map(userMapper::toUserDTO).orElse(null);
-    }
-
-    @Override
-    public UserDTO createUser(UserDTO userDTO) {
+    @Transactional
+    public UserDTO createUser(UserDTO userDTO) throws IdInValidException {
+        validateUserDetails(userDTO);
         User user = userMapper.toUser(userDTO);
-        user = userRepository.save(user);
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        validateAndSetCountry(userDTO, user);
+        return userMapper.toUserDTO(userRepository.save(user));
+    }
+
+    private void validateUserDetails(UserDTO userDTO) throws IdInValidException {
+        if (userRepository.existsByEmail(userDTO.getEmail())) {
+            throw new IdInValidException("Email " + userDTO.getEmail() + " already exists, please use a different email.");
+        }
+        if (userDTO.getPassportNumber() != null && userRepository.existsByPassportNumber(userDTO.getPassportNumber())) {
+            throw new IdInValidException("Passport " + userDTO.getPassportNumber() + " already exists, please use a different passport.");
+        }
+        if (userDTO.getIdentificationNumber() != null && userRepository.existsByIdentificationNumber(userDTO.getIdentificationNumber())) {
+            throw new IdInValidException("Identity " + userDTO.getIdentificationNumber() + " already exists, please use a different identity.");
+        }
+        if (userDTO.getPassportNumber() == null && userDTO.getIdentificationNumber() == null && userDTO.getPhoneNumber() == null) {
+            throw new IdInValidException("Passport number, identification number, or phone number must be provided.");
+        }
+    }
+
+    private void validateAndSetCountry(UserDTO userDTO, User user) throws IdInValidException {
+        if (userDTO.getCountryId() == null) {
+            throw new IdInValidException("Country ID must be provided.");
+        }
+        Country country = countryService.findById(userDTO.getCountryId())
+                .orElseThrow(() -> new IdInValidException("Country ID " + userDTO.getCountryId() + " is invalid."));
+        user.setCountry(country);
+    }
+
+    @Override
+    public PaginationDTO getAllUsers(Specification<User> spec, Pageable pageable) {
+        Page<User> pageUser = userRepository.findAll(spec, pageable);
+        PaginationDTO.Meta meta = new PaginationDTO.Meta();
+        meta.setPage(pageable.getPageNumber() + 1);
+        meta.setPageSize(pageable.getPageSize());
+        meta.setPages(pageUser.getTotalPages());
+        meta.setTotal(pageUser.getTotalElements());
+
+        PaginationDTO paginationDTO = new PaginationDTO();
+        paginationDTO.setMeta(meta);
+        paginationDTO.setResult(pageUser.getContent().stream().map(userMapper::toUserDTOWithNullCheck).collect(Collectors.toList()));
+
+        return paginationDTO;
+    }
+
+    @Override
+    public UserDTO getUserById(UUID id) throws IdInValidException {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IdInValidException("User ID " + id + " is invalid."));
         return userMapper.toUserDTO(user);
     }
 
     @Override
-    public UserDTO updateUser(UUID userId, UserDTO userDTO) {
-        if (userRepository.existsById(userId)) {
-            User user = userMapper.toUser(userDTO);
-            user.setUserId(userId);
-            user = userRepository.save(user);
-            return userMapper.toUserDTO(user);
-        }
-        return null;
+    public void deleteUser(UUID id) throws IdInValidException {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IdInValidException("User ID " + id + " is invalid."));
+        userRepository.delete(user);
     }
 
     @Override
-    public void deleteUser(UUID userId) {
-        userRepository.deleteById(userId);
+    @Transactional
+    public UserDTO updateUser(UserDTO userDTO) throws IdInValidException {
+        User user = userRepository.findById(userDTO.getUserId())
+                .orElseThrow(() -> new IdInValidException("User ID " + userDTO.getUserId() + " is invalid."));
+        userMapper.updateUserFromDTO(userDTO, user);
+        if (userDTO.getCountryId() != null) {
+            Country country = countryService.findById(userDTO.getCountryId())
+                    .orElseThrow(() -> new IdInValidException("Country ID " + userDTO.getCountryId() + " is invalid."));
+            user.setCountry(country);
+        }
+        return userMapper.toUserDTO(userRepository.save(user));
     }
+
+
+
 }

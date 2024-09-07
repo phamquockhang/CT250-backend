@@ -1,8 +1,8 @@
 package com.dvk.ct250backend.domain.common.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.MappedSuperclass;
+import com.dvk.ct250backend.infrastructure.audit.AuditAwareImpl;
+import com.dvk.ct250backend.infrastructure.utils.JwtUtils;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
@@ -11,18 +11,14 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.Instant;
 
 @Data
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BaseEntity implements Serializable {
-    
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class BaseEntity {
 
     @CreatedDate
     @Column(updatable = false)
@@ -34,10 +30,38 @@ public class BaseEntity implements Serializable {
 
     @LastModifiedDate
     @Column(insertable = false)
-    Timestamp modifiedAt;
+    Timestamp updatedAt;
 
-    @LastModifiedDate
     @Column(insertable = false)
-    String modifiedBy;
+    String updatedBy;
 
+//    @PrePersist
+//    public void handleBeforeCreate() {
+//        this.createdBy = JwtUtils.getCurrentUserLogin().isPresent()
+//                ? JwtUtils.getCurrentUserLogin().get()
+//                : "";
+//
+//        this.createdAt = Timestamp.from(Instant.now());
+//    }
+//
+//    @PreUpdate
+//    public void handleBeforeUpdate() {
+//        this.updatedBy = JwtUtils.getCurrentUserLogin().isPresent()
+//                ? JwtUtils.getCurrentUserLogin().get()
+//                : "";
+//
+//        this.updatedAt = Timestamp.from(Instant.now());
+//    }
+
+    @PrePersist
+    public void handleBeforeCreate() {
+        this.createdBy = new AuditAwareImpl().getCurrentAuditor().orElse("");
+        this.createdAt = Timestamp.from(Instant.now());
+    }
+
+    @PreUpdate
+    public void handleBeforeUpdate() {
+        this.updatedBy = new AuditAwareImpl().getCurrentAuditor().orElse("");
+        this.updatedAt = Timestamp.from(Instant.now());
+    }
 }

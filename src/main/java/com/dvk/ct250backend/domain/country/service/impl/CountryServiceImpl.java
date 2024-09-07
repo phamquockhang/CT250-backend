@@ -11,6 +11,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,5 +27,10 @@ public class CountryServiceImpl implements CountryService {
         return countries.stream()
                 .map(countryMapper::toCountryDTO)
                 .toList();
+    }
+
+    @Override
+    public Optional<Country> findById(Integer id) { // Implement this method
+        return countryRepository.findById(id);
     }
 }
