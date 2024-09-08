@@ -1,0 +1,18 @@
+package com.dvk.ct250backend.domain.auth.service;
+
+import com.dvk.ct250backend.app.dto.PaginationDTO;
+import com.dvk.ct250backend.app.exception.IdInValidException;
+import com.dvk.ct250backend.domain.auth.dto.UserDTO;
+import com.dvk.ct250backend.domain.auth.entity.User;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+
+import java.util.UUID;
+
+public interface UserService {
+    UserDTO createUser(UserDTO userDTO) throws IdInValidException;
+    UserDTO getUserById(UUID id) throws IdInValidException;
+    PaginationDTO getAllUsers(Specification<User> spec, Pageable pageable);
+    void deleteUser(UUID id) throws IdInValidException;
+    UserDTO updateUser(UserDTO userDTO) throws IdInValidException;
+}
