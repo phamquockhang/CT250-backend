@@ -1,6 +1,7 @@
 package com.dvk.ct250backend.domain.common.entity;
 
 import com.dvk.ct250backend.infrastructure.audit.AuditAwareImpl;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -17,6 +18,7 @@ import java.time.Instant;
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BaseEntity {
 
     @CreatedDate

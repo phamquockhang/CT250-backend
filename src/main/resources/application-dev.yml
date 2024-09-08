@@ -1,11 +1,11 @@
 spring:
   datasource:
-#    url: jdbc:postgresql://ct250-ttdat-cloud.h.aivencloud.com:23952/ct250?sslmode=require
-#    username: avnadmin
-#    password: AVNS_AgrUvRlC9rufFI_x5al
-    url: jdbc:postgresql://localhost:5432/ct250
-    username: user
-    password: pass
+    url: jdbc:postgresql://ct250-ttdat-cloud.h.aivencloud.com:23952/ct250?sslmode=require
+    username: avnadmin
+    password: AVNS_AgrUvRlC9rufFI_x5al
+#    url: jdbc:postgresql://localhost:5432/ct250
+#    username: user
+#    password: pass
   jpa:
     show-sql: true
     properties:
