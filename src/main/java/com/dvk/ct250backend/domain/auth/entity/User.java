@@ -3,14 +3,15 @@ package com.dvk.ct250backend.domain.auth.entity;
 import com.dvk.ct250backend.domain.auth.enums.GenderEnum;
 import com.dvk.ct250backend.domain.common.entity.BaseEntity;
 import com.dvk.ct250backend.domain.country.entity.Country;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,15 +32,16 @@ public class User extends BaseEntity implements UserDetails {
     String firstName;
     String lastName;
 
-    @Column(name = "identification", unique = true, length = 12)
-    String identificationNumber;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    Date dateOfBirth;
 
-    @Column(name = "passport", unique = true, length = 20)
-    String passportNumber;
+    @Column(name = "identity_number", unique = true, length = 20)
+    String identityNumber;
 
     @Enumerated(EnumType.STRING)
     GenderEnum gender;
 
+    @Column(name = "phone_number", length = 20)
     String phoneNumber;
 
     @ManyToOne
@@ -59,5 +61,4 @@ public class User extends BaseEntity implements UserDetails {
     public String getUsername() {
         return email;
     }
-
 }

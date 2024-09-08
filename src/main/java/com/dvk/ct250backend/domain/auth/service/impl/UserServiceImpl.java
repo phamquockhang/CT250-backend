@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -38,7 +39,6 @@ public class UserServiceImpl implements UserService {
         validateUserDetails(userDTO);
         User user = userMapper.toUser(userDTO);
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        validateAndSetCountry(userDTO, user);
         return userMapper.toUserDTO(userRepository.save(user));
     }
 
@@ -46,24 +46,34 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsByEmail(userDTO.getEmail())) {
             throw new IdInValidException("Email " + userDTO.getEmail() + " already exists, please use a different email.");
         }
-        if (userDTO.getPassportNumber() != null && userRepository.existsByPassportNumber(userDTO.getPassportNumber())) {
-            throw new IdInValidException("Passport " + userDTO.getPassportNumber() + " already exists, please use a different passport.");
-        }
-        if (userDTO.getIdentificationNumber() != null && userRepository.existsByIdentificationNumber(userDTO.getIdentificationNumber())) {
-            throw new IdInValidException("Identity " + userDTO.getIdentificationNumber() + " already exists, please use a different identity.");
-        }
-        if (userDTO.getPassportNumber() == null && userDTO.getIdentificationNumber() == null && userDTO.getPhoneNumber() == null) {
-            throw new IdInValidException("Passport number, identification number, or phone number must be provided.");
-        }
-    }
 
-    private void validateAndSetCountry(UserDTO userDTO, User user) throws IdInValidException {
+        Map<String, String> requiredFields = Map.of(
+            "First name", userDTO.getFirstName(),
+            "Last name", userDTO.getLastName(),
+            "Gender", userDTO.getGender(),
+            "Identity number", userDTO.getIdentityNumber(),
+            "Phone number", userDTO.getPhoneNumber()
+        );
+
+        requiredFields.forEach((field, value) -> {
+            if (value == null || value.isEmpty()) {
+                try {
+                    throw new IdInValidException(field + " must be provided.");
+                } catch (IdInValidException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
+        if (userDTO.getDateOfBirth() == null) {
+            throw new IdInValidException("Date of birth must be provided.");
+        }
         if (userDTO.getCountryId() == null) {
             throw new IdInValidException("Country ID must be provided.");
         }
-        Country country = countryService.findById(userDTO.getCountryId())
-                .orElseThrow(() -> new IdInValidException("Country ID " + userDTO.getCountryId() + " is invalid."));
-        user.setCountry(country);
+        if (userDTO.getRoleId() == null) {
+            throw new IdInValidException("Role ID must be provided.");
+        }
     }
 
     @Override
@@ -83,9 +93,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getUserById(UUID id) throws IdInValidException {
+    public UserDTO getUserById(UUID id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new IdInValidException("User ID " + id + " is invalid."));
+                .orElseThrow(() -> new IllegalArgumentException("User ID " + id + " is invalid."));
         return userMapper.toUserDTO(user);
     }
 
@@ -104,12 +114,9 @@ public class UserServiceImpl implements UserService {
         userMapper.updateUserFromDTO(userDTO, user);
         if (userDTO.getCountryId() != null) {
             Country country = countryService.findById(userDTO.getCountryId())
-                    .orElseThrow(() -> new IdInValidException("Country ID " + userDTO.getCountryId() + " is invalid."));
+                    .orElseThrow(() -> new IdInValidException("Country ID " + userDTO.getCountryId() + " is invalid.") );
             user.setCountry(country);
         }
         return userMapper.toUserDTO(userRepository.save(user));
     }
-
-
-
 }
