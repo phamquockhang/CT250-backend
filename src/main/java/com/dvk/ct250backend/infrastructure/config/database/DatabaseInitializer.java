@@ -1,4 +1,4 @@
-package com.dvk.ct250backend.infrastructure.config;
+package com.dvk.ct250backend.infrastructure.config.database;
 
 import com.dvk.ct250backend.domain.auth.entity.Permission;
 import com.dvk.ct250backend.domain.auth.entity.Role;

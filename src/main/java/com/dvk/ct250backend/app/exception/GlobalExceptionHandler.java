@@ -45,6 +45,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
     }
 
+
+    @ExceptionHandler(value = {
+            PermissionException.class,
+    })
+    public ResponseEntity<ApiResponse<Object>> handlePermissionException(Exception ex) {
+        ApiResponse<Object> res = new ApiResponse<Object>();
+        res.setStatus(HttpStatus.FORBIDDEN.value());
+        res.setMessage("Forbidden");
+        res.setError(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(res);
+    }
+
+
 //    @ExceptionHandler(value = {
 //            NoResourceFoundException.class,
 //    })
