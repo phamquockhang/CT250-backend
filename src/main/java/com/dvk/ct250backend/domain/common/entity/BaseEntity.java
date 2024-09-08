@@ -1,7 +1,6 @@
 package com.dvk.ct250backend.domain.common.entity;
 
 import com.dvk.ct250backend.infrastructure.audit.AuditAwareImpl;
-import com.dvk.ct250backend.infrastructure.utils.JwtUtils;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -35,23 +34,6 @@ public class BaseEntity {
     @Column(insertable = false)
     String updatedBy;
 
-//    @PrePersist
-//    public void handleBeforeCreate() {
-//        this.createdBy = JwtUtils.getCurrentUserLogin().isPresent()
-//                ? JwtUtils.getCurrentUserLogin().get()
-//                : "";
-//
-//        this.createdAt = Timestamp.from(Instant.now());
-//    }
-//
-//    @PreUpdate
-//    public void handleBeforeUpdate() {
-//        this.updatedBy = JwtUtils.getCurrentUserLogin().isPresent()
-//                ? JwtUtils.getCurrentUserLogin().get()
-//                : "";
-//
-//        this.updatedAt = Timestamp.from(Instant.now());
-//    }
 
     @PrePersist
     public void handleBeforeCreate() {

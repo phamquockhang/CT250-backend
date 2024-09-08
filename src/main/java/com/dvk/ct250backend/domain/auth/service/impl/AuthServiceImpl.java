@@ -15,14 +15,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +34,9 @@ public class AuthServiceImpl implements AuthService {
     AuthenticationManager authenticationManager;
     JwtUtils jwtUtils;
     JwtDecoder jwtDecoder;
+
+    @Value("${application.security.jwt.refresh-token-validity-in-seconds}")
+    int refreshTokenExpiration;
 
     @Override
     public UserDTO register(UserDTO userDTO) {
@@ -57,8 +59,16 @@ public class AuthServiceImpl implements AuthService {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword())
         );
+
         User user = userRepository.findByEmail(authRequest.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
+        AuthResponse.UserLogin userLogin = new AuthResponse.UserLogin(
+                user.getUserId(),
+                user.getEmail(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getRole()
+        );
         String accessToken = jwtUtils.generateAccessToken(user);
         String refreshToken = jwtUtils.generateRefreshToken(user);
 
@@ -69,11 +79,12 @@ public class AuthServiceImpl implements AuthService {
         refreshTokenCookie.setPath("/");
         // prevent CSRF attacks
         refreshTokenCookie.setAttribute("SameSite", "Strict");
-        refreshTokenCookie.setMaxAge(7 * 24 * 60 * 60); // 7 days
+        refreshTokenCookie.setMaxAge(refreshTokenExpiration); // 7 days
 
         response.addCookie(refreshTokenCookie);
         return AuthResponse.builder()
                 .accessToken(accessToken)
+                .user(userLogin)
                 .build();
     }
 

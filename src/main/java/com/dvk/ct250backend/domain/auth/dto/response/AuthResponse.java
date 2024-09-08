@@ -14,7 +14,6 @@ import java.util.UUID;
 public class AuthResponse {
 
     String accessToken;
-
     UserLogin user;
 
     @Data
