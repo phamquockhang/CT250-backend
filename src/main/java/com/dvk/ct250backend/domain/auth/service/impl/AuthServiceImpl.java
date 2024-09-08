@@ -25,6 +25,8 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -47,16 +49,16 @@ public class AuthServiceImpl implements AuthService {
         User user = userMapper.toUser(userDTO);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        Role role = roleRepository.findByRoleName("USER");
-        if (role == null) {
-            role = new Role();
-            role.setRoleName("USER");
-            role.setIsActive(true);
-            role.setDescription("User role");
-            role = roleRepository.save(role);
+        Optional<Role> role = roleRepository.findByRoleName("USER");
+        if (role.isEmpty()) {
+            role = Optional.of(new Role());
+            role.get().setRoleName("USER");
+            role.get().setIsActive(true);
+            role.get().setDescription("User role");
+            role = Optional.of(roleRepository.save(role.get()));
         }
 
-        user.setRole(role);
+        user.setRole(role.get());
         return userMapper.toUserDTO(userRepository.save(user));
     }
 
@@ -113,23 +115,19 @@ public class AuthServiceImpl implements AuthService {
                 .build();
     }
 
-   @Override
-   public void logout(HttpServletResponse response) throws IdInValidException {
-    String email = auditAware.getCurrentAuditor().orElse("");
+    @Override
+    public void logout(HttpServletResponse response) throws IdInValidException {
+        String email = auditAware.getCurrentAuditor().orElse("");
 
-    if (email.isEmpty()) {
-        throw new IdInValidException("Access Token not valid");
+        if (email.isEmpty()) {
+            throw new IdInValidException("Access Token not valid");
+        }
+        SecurityContextHolder.clearContext();
+        Cookie refreshTokenCookie = new Cookie("refresh_token", null);
+        refreshTokenCookie.setHttpOnly(true);
+        refreshTokenCookie.setPath("/");
+        refreshTokenCookie.setMaxAge(0);
+
+        response.addCookie(refreshTokenCookie);
     }
-
-    // Clear the authentication context
-    SecurityContextHolder.clearContext();
-
-    // Remove the refresh token cookie
-    Cookie refreshTokenCookie = new Cookie("refresh_token", null);
-    refreshTokenCookie.setHttpOnly(true);
-    refreshTokenCookie.setPath("/");
-    refreshTokenCookie.setMaxAge(0); // Set max age to 0 to delete the cookie
-
-    response.addCookie(refreshTokenCookie);
-}
 }

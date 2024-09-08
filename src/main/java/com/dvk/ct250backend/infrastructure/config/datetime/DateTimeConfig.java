@@ -1,4 +1,4 @@
-package com.dvk.ct250backend.infrastructure.config;
+package com.dvk.ct250backend.infrastructure.config.datetime;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;

@@ -7,9 +7,9 @@ import lombok.experimental.FieldDefaults;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PaginationDTO {
+public class PaginationDTO<T> {
     Meta meta;
-    Object result;
+    T result;
 
     @Getter
     @Setter

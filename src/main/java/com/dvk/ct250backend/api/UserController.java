@@ -25,7 +25,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ApiResponse<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) throws IdInValidException, Exception {
+    public ApiResponse<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) throws Exception {
         UserDTO createdUser = userService.createUser(userDTO);
         return ApiResponse.<UserDTO>builder()
                 .status(HttpStatus.CREATED.value())
