@@ -1,7 +1,7 @@
 package com.dvk.ct250backend.api;
 
-
 import com.dvk.ct250backend.app.dto.response.ApiResponse;
+import com.dvk.ct250backend.app.exception.IdInValidException;
 import com.dvk.ct250backend.domain.auth.dto.UserDTO;
 import com.dvk.ct250backend.domain.auth.dto.request.AuthRequest;
 import com.dvk.ct250backend.domain.auth.dto.response.AuthResponse;
@@ -11,7 +11,9 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,13 +25,12 @@ public class AuthController {
     AuthService authService;
 
     @PostMapping("/register")
-    public ApiResponse<UserDTO> register(@RequestBody UserDTO userDTO) {
+    public ApiResponse<UserDTO> register(@RequestBody UserDTO userDTO) throws IdInValidException {
         return ApiResponse.<UserDTO>builder()
                 .status(HttpStatus.CREATED.value())
                 .data(authService.register(userDTO))
                 .build();
     }
-
 
     @PostMapping("/login")
     public ApiResponse<AuthResponse> login(@Valid @RequestBody AuthRequest authRequest,
@@ -45,6 +46,14 @@ public class AuthController {
         return ApiResponse.<AuthResponse>builder()
                 .status(HttpStatus.OK.value())
                 .data(authService.refreshAccessToken(refreshToken))
+                .build();
+    }
+
+    @PostMapping("/logout")
+    public ApiResponse<Void> logout(HttpServletResponse response) throws IdInValidException {
+        authService.logout(response);
+        return ApiResponse.<Void>builder()
+                .status(HttpStatus.OK.value())
                 .build();
     }
 }

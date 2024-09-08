@@ -5,12 +5,18 @@ import com.dvk.ct250backend.domain.auth.entity.User;
 import com.dvk.ct250backend.domain.auth.enums.GenderEnum;
 import com.dvk.ct250backend.domain.auth.repository.RoleRepository;
 import com.dvk.ct250backend.domain.auth.repository.UserRepository;
+import com.dvk.ct250backend.domain.country.repository.CountryRepository;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
 @Service
+@RequiredArgsConstructor
 public class DatabaseInitializer implements CommandLineRunner {
 
    // private final PermissionRepository permissionRepository;
@@ -18,16 +24,6 @@ public class DatabaseInitializer implements CommandLineRunner {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public DatabaseInitializer(
-           // PermissionRepository permissionRepository,
-            RoleRepository roleRepository,
-            UserRepository userRepository,
-            PasswordEncoder passwordEncoder) {
-       // this.permissionRepository = permissionRepository;
-        this.roleRepository = roleRepository;
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Override
     public void run(String... args) throws Exception {
@@ -69,8 +65,8 @@ public class DatabaseInitializer implements CommandLineRunner {
             adminUser.setLastName("ADMIN");
             adminUser.setPhoneNumber("0123456789");
             adminUser.setCountry(null);
-            adminUser.setIdentificationNumber(null);
-            adminUser.setPassportNumber(null);
+            adminUser.setIdentityNumber(null);
+            adminUser.setDateOfBirth(null);
             Role adminRole = this.roleRepository.findByRoleName("ADMIN");
             if (adminRole != null) {
                 adminUser.setRole(adminRole);
