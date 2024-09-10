@@ -6,13 +6,24 @@ spring:
 #    url: jdbc:postgresql://localhost:5432/ct250
 #    username: user
 #    password: pass
+#  oauth2:
+#    client:
+#      registration:
+#        google:
+#          clientId: 792577760982-cgvb3ejpau2batlehel1p118v1edvirb.apps.googleusercontent.com
+#          clientSecret: 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
+#          scope:
+#            - email
+#            - profile
+
+
   jpa:
     show-sql: true
     properties:
       hibernate:
         format_sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
   data:
     web:
       pageable:

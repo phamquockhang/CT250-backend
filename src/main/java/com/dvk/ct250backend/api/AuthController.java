@@ -14,6 +14,8 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -56,4 +58,31 @@ public class AuthController {
                 .status(HttpStatus.OK.value())
                 .build();
     }
+
+
+    @GetMapping("/login")
+    public ApiResponse<String> login() {
+        return ApiResponse.<String>builder()
+                .status(HttpStatus.OK.value())
+                .data("Please login with Google")
+                .build();
+    }
+
+    @GetMapping("/success")
+    public ApiResponse<UserDTO> loginSuccess(@AuthenticationPrincipal OidcUser oidcUser) {
+        UserDTO userDTO = authService.processOAuthPostLogin(oidcUser);
+        return ApiResponse.<UserDTO>builder()
+                .status(HttpStatus.OK.value())
+                .data(userDTO)
+                .build();
+    }
+
+    @GetMapping("/failure")
+    public ApiResponse<String> loginFailure() {
+        return ApiResponse.<String>builder()
+                .status(HttpStatus.UNAUTHORIZED.value())
+                .data("Login failed")
+                .build();
+    }
+
 }

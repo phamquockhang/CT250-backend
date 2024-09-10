@@ -1,6 +1,7 @@
 package com.dvk.ct250backend.domain.auth.entity;
 
 import com.dvk.ct250backend.domain.auth.enums.GenderEnum;
+import com.dvk.ct250backend.domain.auth.enums.Provider;
 import com.dvk.ct250backend.domain.common.entity.BaseEntity;
 import com.dvk.ct250backend.domain.country.entity.Country;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -51,6 +52,9 @@ public class User extends BaseEntity implements UserDetails {
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
+
+    @Enumerated(EnumType.STRING)
+    private Provider provider;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

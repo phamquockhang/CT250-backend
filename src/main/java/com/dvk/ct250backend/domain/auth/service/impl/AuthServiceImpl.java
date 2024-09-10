@@ -21,6 +21,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.stereotype.Service;
@@ -129,5 +130,37 @@ public class AuthServiceImpl implements AuthService {
         refreshTokenCookie.setMaxAge(0);
 
         response.addCookie(refreshTokenCookie);
+    }
+
+    @Override
+    public UserDTO processOAuthPostLogin(OidcUser oidcUser) {
+        String email = oidcUser.getEmail();
+        String name = oidcUser.getFullName();
+
+        Optional<User> existingUser = userRepository.findByEmail(email);
+        User user;
+        if (existingUser.isPresent()) {
+            user = existingUser.get();
+        } else {
+            user = new User();
+            user.setEmail(email);
+            user.setFirstName(name.split(" ")[0]);
+            user.setLastName(name.split(" ").length > 1 ? name.split(" ")[1] : "");
+            user.setPassword("");
+
+            Optional<Role> role = roleRepository.findByRoleName("USER");
+            if (role.isEmpty()) {
+                role = Optional.of(new Role());
+                role.get().setRoleName("USER");
+                role.get().setIsActive(true);
+                role.get().setDescription("User role");
+                role = Optional.of(roleRepository.save(role.get()));
+            }
+
+            user.setRole(role.get());
+            user = userRepository.save(user);
+        }
+
+        return userMapper.toUserDTO(user);
     }
 }
