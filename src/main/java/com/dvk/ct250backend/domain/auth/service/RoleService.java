@@ -1,7 +1,6 @@
 package com.dvk.ct250backend.domain.auth.service;
 
 import com.dvk.ct250backend.app.dto.PaginationDTO;
-
 import com.dvk.ct250backend.app.exception.IdInValidException;
 import com.dvk.ct250backend.domain.auth.dto.RoleDTO;
 import com.dvk.ct250backend.domain.auth.entity.Role;

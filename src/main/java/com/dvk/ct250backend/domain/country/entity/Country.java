@@ -1,7 +1,10 @@
 package com.dvk.ct250backend.domain.country.entity;
 
 import com.dvk.ct250backend.domain.auth.entity.User;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

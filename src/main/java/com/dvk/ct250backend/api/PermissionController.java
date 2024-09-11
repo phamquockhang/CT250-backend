@@ -5,7 +5,6 @@ import com.dvk.ct250backend.app.dto.response.ApiResponse;
 import com.dvk.ct250backend.app.exception.IdInValidException;
 import com.dvk.ct250backend.domain.auth.dto.PermissionDTO;
 import com.dvk.ct250backend.domain.auth.entity.Permission;
-import com.dvk.ct250backend.domain.auth.entity.User;
 import com.dvk.ct250backend.domain.auth.service.PermissionService;
 import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
