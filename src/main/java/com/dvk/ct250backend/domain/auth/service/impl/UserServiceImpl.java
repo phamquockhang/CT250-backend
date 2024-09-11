@@ -71,9 +71,9 @@ public class UserServiceImpl implements UserService {
         if (userDTO.getCountryId() == null) {
             throw new IdInValidException("Country ID must be provided.");
         }
-        if (userDTO.getRoleId() == null) {
-            throw new IdInValidException("Role ID must be provided.");
-        }
+//        if (userDTO.getRoleId() == null) {
+//            throw new IdInValidException("Role ID must be provided.");
+//        }
     }
 
     @Override
@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
 
         PaginationDTO paginationDTO = new PaginationDTO();
         paginationDTO.setMeta(meta);
-        paginationDTO.setResult(pageUser.getContent().stream().map(userMapper::toUserDTOWithNullCheck).collect(Collectors.toList()));
+        paginationDTO.setResult(pageUser.getContent().stream().map(userMapper::toUserDTO).collect(Collectors.toList()));
 
         return paginationDTO;
     }

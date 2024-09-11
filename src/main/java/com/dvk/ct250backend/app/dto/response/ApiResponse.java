@@ -13,6 +13,6 @@ import lombok.experimental.FieldDefaults;
 public class ApiResponse<T> {
     int status;
     String error;
-    Object message;
+    String message;
     T data;
 }

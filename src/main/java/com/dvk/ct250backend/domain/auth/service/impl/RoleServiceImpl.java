@@ -29,7 +29,7 @@ public class RoleServiceImpl implements RoleService {
     PermissionRepository permissionRepository;
 
     @Override
-    public PaginationDTO getAllRoles(Specification<Role> spec, Pageable pageable) {
+    public PaginationDTO<List<RoleDTO>> getAllRoles(Specification<Role> spec, Pageable pageable) {
         Page<Role> pageRole = roleRepository.findAll(spec, pageable);
         PaginationDTO.Meta meta = new PaginationDTO.Meta();
         meta.setPage(pageable.getPageNumber() + 1);
@@ -37,7 +37,7 @@ public class RoleServiceImpl implements RoleService {
         meta.setPages(pageRole.getTotalPages());
         meta.setTotal(pageRole.getTotalElements());
 
-        PaginationDTO paginationDTO = new PaginationDTO();
+        PaginationDTO<List<RoleDTO>> paginationDTO = new PaginationDTO<>();
         paginationDTO.setMeta(meta);
         paginationDTO.setResult(pageRole.getContent().stream().map(roleMapper::toRoleDTO).collect(Collectors.toList()));
 
@@ -65,7 +65,7 @@ public class RoleServiceImpl implements RoleService {
             throw new IdInValidException("Role ID " + roleDTO.getRoleId() + " is invalid.");
         }
 
-        setPermissions(roleDTO);
+//        setPermissions(roleDTO);
 
         Role role = roleMapper.toRole(roleDTO);
         role = roleRepository.save(role);
@@ -74,20 +74,20 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleDTO createRole(RoleDTO roleDTO) throws IdInValidException {
-        setPermissions(roleDTO);
+//        setPermissions(roleDTO);
 
         Role role = roleMapper.toRole(roleDTO);
         role = roleRepository.save(role);
         return roleMapper.toRoleDTO(role);
     }
 
-    private void setPermissions(RoleDTO roleDTO) {
-        if (roleDTO.getPermissions() != null) {
-            List<Long> reqPermissions = roleDTO.getPermissions()
-                    .stream().map(Permission::getPermissionId)
-                    .collect(Collectors.toList());
-            List<Permission> dbPermissions = permissionRepository.findByPermissionIdIn(reqPermissions);
-            roleDTO.setPermissions(dbPermissions);
-        }
-    }
+//    private void setPermissions(RoleDTO roleDTO) {
+//        if (roleDTO.getPermissions() != null) {
+//            List<Long> reqPermissions = roleDTO.getPermissions()
+//                    .stream().map(Permission::getPermissionId)
+//                    .collect(Collectors.toList());
+//            List<Permission> dbPermissions = permissionRepository.findByPermissionIdIn(reqPermissions);
+//            roleDTO.setPermissions(dbPermissions);
+//        }
+//    }
 }

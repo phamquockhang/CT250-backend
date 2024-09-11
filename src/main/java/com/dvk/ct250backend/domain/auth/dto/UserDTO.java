@@ -40,6 +40,5 @@ public class UserDTO extends BaseDTO {
     @NotNull(message = "Date of birth is required")
     Date dateOfBirth;
 
-    @NotNull(message = "Role ID is required")
-    Integer roleId;
+    RoleDTO role;
 }

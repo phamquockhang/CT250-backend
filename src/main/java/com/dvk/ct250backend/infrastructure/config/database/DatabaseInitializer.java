@@ -82,7 +82,7 @@ public class DatabaseInitializer implements CommandLineRunner {
         }
 
         if (countUsers == 0) {
-            LocalDate dateOfBirth = LocalDate.of(1999, 1, 1);
+            LocalDate dateOfBirth = LocalDate.of(1999, 5, 6);
             User adminUser = new User();
             adminUser.setEmail("admin@gmail.com");
             adminUser.setGender(GenderEnum.MALE);
