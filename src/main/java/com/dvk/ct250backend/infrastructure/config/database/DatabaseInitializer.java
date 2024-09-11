@@ -38,10 +38,21 @@ public class DatabaseInitializer implements CommandLineRunner {
             ArrayList<Permission> arr = new ArrayList<>();
 
             arr.add(new Permission("Create a user", "/api/v1/users", "POST", "USERS"));
-            arr.add(new Permission("Update a user", "/api/v1/users", "PUT", "USERS"));
+            arr.add(new Permission("Update a user", "/api/v1/users/{id}", "PUT", "USERS"));
             arr.add(new Permission("Delete a user", "/api/v1/users/{id}", "DELETE", "USERS"));
             arr.add(new Permission("Get a user by id", "/api/v1/users/{id}", "GET", "USERS"));
             arr.add(new Permission("Get users with pagination", "/api/v1/users", "GET", "USERS"));
+            arr.add(new Permission("Create a role", "/api/v1/roles", "POST", "ROLES"));
+            arr.add(new Permission("Update a role", "/api/v1/roles/{id}", "PUT", "ROLES"));
+            arr.add(new Permission("Delete a role", "/api/v1/roles/{id}", "DELETE", "ROLES"));
+            arr.add(new Permission("Get a role by id", "/api/v1/roles/{id}", "GET", "ROLES"));
+            arr.add(new Permission("Get roles with pagination", "/api/v1/roles", "GET", "ROLES"));
+            arr.add(new Permission("Create a permission", "/api/v1/permissions", "POST", "PERMISSIONS"));
+            arr.add(new Permission("Update a permission", "/api/v1/permissions/{id}", "PUT", "PERMISSIONS"));
+            arr.add(new Permission("Delete a permission", "/api/v1/permissions/{id}", "DELETE", "PERMISSIONS"));
+            arr.add(new Permission("Get a permission by id", "/api/v1/permissions/{id}", "GET", "PERMISSIONS"));
+            arr.add(new Permission("Get permissions with pagination", "/api/v1/permissions", "GET", "PERMISSIONS"));
+
             this.permissionRepository.saveAll(arr);
         }
 
@@ -69,9 +80,7 @@ public class DatabaseInitializer implements CommandLineRunner {
             adminUser.setIdentityNumber(null);
             adminUser.setDateOfBirth(null);
             Optional<Role> adminRole = this.roleRepository.findByRoleName("ADMIN");
-            if (adminRole.isPresent()) {
-                adminUser.setRole(adminRole.get());
-            }
+            adminRole.ifPresent(adminUser::setRole);
 
             this.userRepository.save(adminUser);
         }
