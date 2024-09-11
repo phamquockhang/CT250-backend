@@ -7,12 +7,17 @@ import com.dvk.ct250backend.domain.auth.enums.GenderEnum;
 import com.dvk.ct250backend.domain.auth.repository.PermissionRepository;
 import com.dvk.ct250backend.domain.auth.repository.RoleRepository;
 import com.dvk.ct250backend.domain.auth.repository.UserRepository;
+import com.dvk.ct250backend.domain.country.entity.Country;
+import com.dvk.ct250backend.domain.country.repository.CountryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +30,7 @@ public class DatabaseInitializer implements CommandLineRunner {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CountryRepository countryRepository;
 
 
     @Override
@@ -33,6 +39,13 @@ public class DatabaseInitializer implements CommandLineRunner {
         long countPermissions = this.permissionRepository.count();
         long countRoles = this.roleRepository.count();
         long countUsers = this.userRepository.count();
+        long countCountries = this.countryRepository.count();
+
+        if (countCountries == 0){
+            ArrayList<Country> arr = new ArrayList<>();
+            arr.add(Country.builder().countryId(1).countryName("Vietnam").countryCode(84).build());
+            countryRepository.saveAll(arr);
+        }
 
         if (countPermissions == 0) {
             ArrayList<Permission> arr = new ArrayList<>();
@@ -69,6 +82,7 @@ public class DatabaseInitializer implements CommandLineRunner {
         }
 
         if (countUsers == 0) {
+            LocalDate dateOfBirth = LocalDate.of(1999, 1, 1);
             User adminUser = new User();
             adminUser.setEmail("admin@gmail.com");
             adminUser.setGender(GenderEnum.MALE);
@@ -76,11 +90,12 @@ public class DatabaseInitializer implements CommandLineRunner {
             adminUser.setFirstName("I am");
             adminUser.setLastName("ADMIN");
             adminUser.setPhoneNumber("0123456789");
-            adminUser.setCountry(null);
-            adminUser.setIdentityNumber(null);
-            adminUser.setDateOfBirth(null);
+            adminUser.setIdentityNumber("123456789000");
+            adminUser.setDateOfBirth(Date.from(dateOfBirth.atStartOfDay(ZoneId.systemDefault()).toInstant()));
             Optional<Role> adminRole = this.roleRepository.findByRoleName("ADMIN");
             adminRole.ifPresent(adminUser::setRole);
+            Optional<Country> country = this.countryRepository.findByCountryName("Vietnam");
+            country.ifPresent(adminUser::setCountry);
 
             this.userRepository.save(adminUser);
         }
