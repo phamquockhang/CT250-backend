@@ -1,6 +1,6 @@
 package com.dvk.ct250backend.api;
 
-import com.dvk.ct250backend.app.dto.Pagination;
+import com.dvk.ct250backend.app.dto.Page;
 import com.dvk.ct250backend.app.dto.response.ApiResponse;
 import com.dvk.ct250backend.app.exception.IdInValidException;
 import com.dvk.ct250backend.domain.auth.dto.RoleDTO;
@@ -11,7 +11,6 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -24,10 +23,10 @@ public class RoleController {
     RoleService roleService;
 
     @GetMapping
-    public ApiResponse<Pagination<RoleDTO>> getAllRole(@Filter Specification<Role> spec,
-                                              @RequestParam(defaultValue = "1") int page,
-                                              @RequestParam(defaultValue = "10") int pageSize) {
-        return ApiResponse.<Pagination<RoleDTO>>builder()
+    public ApiResponse<Page<RoleDTO>> getAllRole(@Filter Specification<Role> spec,
+                                                 @RequestParam(defaultValue = "1") int page,
+                                                 @RequestParam(defaultValue = "10") int pageSize) {
+        return ApiResponse.<Page<RoleDTO>>builder()
                 .status(HttpStatus.OK.value())
                 .data(roleService.getAllRoles(spec, page, pageSize))
                 .build();

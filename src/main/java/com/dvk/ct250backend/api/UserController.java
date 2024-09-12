@@ -1,6 +1,6 @@
 package com.dvk.ct250backend.api;
 
-import com.dvk.ct250backend.app.dto.Pagination;
+import com.dvk.ct250backend.app.dto.Page;
 import com.dvk.ct250backend.app.dto.response.ApiResponse;
 import com.dvk.ct250backend.app.exception.IdInValidException;
 import com.dvk.ct250backend.domain.auth.dto.UserDTO;
@@ -9,7 +9,6 @@ import com.dvk.ct250backend.domain.auth.service.UserService;
 import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -34,12 +33,12 @@ public class UserController {
     }
 
     @GetMapping
-    public ApiResponse<Pagination<UserDTO>> getAllUser(
+    public ApiResponse<Page<UserDTO>> getAllUser(
             @Filter Specification<User> spec,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int pageSize) {
-        Pagination<UserDTO> users = userService.getAllUsers(spec, page, pageSize);
-        return ApiResponse.<Pagination<UserDTO>>builder()
+        Page<UserDTO> users = userService.getAllUsers(spec, page, pageSize);
+        return ApiResponse.<Page<UserDTO>>builder()
                 .status(HttpStatus.OK.value())
                 .data(users)
                 .build();

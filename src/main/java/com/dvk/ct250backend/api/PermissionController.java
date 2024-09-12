@@ -1,6 +1,6 @@
 package com.dvk.ct250backend.api;
 
-import com.dvk.ct250backend.app.dto.Pagination;
+import com.dvk.ct250backend.app.dto.Page;
 import com.dvk.ct250backend.app.dto.response.ApiResponse;
 import com.dvk.ct250backend.app.exception.IdInValidException;
 import com.dvk.ct250backend.domain.auth.dto.PermissionDTO;
@@ -10,7 +10,6 @@ import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -23,11 +22,11 @@ public class PermissionController {
     PermissionService permissionService;
 
     @GetMapping
-    public ApiResponse<Pagination<PermissionDTO>> getAllPermission(
+    public ApiResponse<Page<PermissionDTO>> getAllPermission(
             @Filter Specification<Permission> spec,
             @RequestParam (defaultValue = "1") int page,
             @RequestParam (defaultValue = "10") int pageSize) {
-        return ApiResponse.<Pagination<PermissionDTO>>builder()
+        return ApiResponse.<Page<PermissionDTO>>builder()
                 .status(HttpStatus.OK.value())
                 .data(permissionService.getAllPermissions(spec, page, pageSize))
                 .build();

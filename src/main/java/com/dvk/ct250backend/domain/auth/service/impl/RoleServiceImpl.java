@@ -1,23 +1,20 @@
 package com.dvk.ct250backend.domain.auth.service.impl;
 
 import com.dvk.ct250backend.app.dto.Meta;
-import com.dvk.ct250backend.app.dto.Pagination;
+import com.dvk.ct250backend.app.dto.Page;
 import com.dvk.ct250backend.app.exception.IdInValidException;
 import com.dvk.ct250backend.domain.auth.dto.RoleDTO;
 import com.dvk.ct250backend.domain.auth.entity.Role;
 import com.dvk.ct250backend.domain.auth.mapper.RoleMapper;
-import com.dvk.ct250backend.domain.auth.repository.PermissionRepository;
 import com.dvk.ct250backend.domain.auth.repository.RoleRepository;
 import com.dvk.ct250backend.domain.auth.service.RoleService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,9 +25,9 @@ public class RoleServiceImpl implements RoleService {
     RoleMapper roleMapper;
 
     @Override
-    public Pagination<RoleDTO> getAllRoles(Specification<Role> spec, int page, int pageSize) {
+    public Page<RoleDTO> getAllRoles(Specification<Role> spec, int page, int pageSize) {
         Pageable pageable = Pageable.ofSize(pageSize).withPage(page - 1);
-        Page<Role> pageRole = roleRepository.findAll(spec, pageable);
+        org.springframework.data.domain.Page<Role> pageRole = roleRepository.findAll(spec, pageable);
         Meta meta = Meta.builder()
                 .page(pageRole.getNumber() + 1)
                 .pageSize(pageRole.getSize())
@@ -38,9 +35,9 @@ public class RoleServiceImpl implements RoleService {
                 .total(pageRole.getTotalElements())
                 .build();
 
-        return Pagination.<RoleDTO>builder()
+        return Page.<RoleDTO>builder()
                 .meta(meta)
-                .result(pageRole.getContent().stream().map(roleMapper::toRoleDTO).collect(Collectors.toList()))
+                .content(pageRole.getContent().stream().map(roleMapper::toRoleDTO).collect(Collectors.toList()))
                 .build();
     }
 

@@ -1,7 +1,7 @@
 package com.dvk.ct250backend.domain.auth.service.impl;
 
 import com.dvk.ct250backend.app.dto.Meta;
-import com.dvk.ct250backend.app.dto.Pagination;
+import com.dvk.ct250backend.app.dto.Page;
 import com.dvk.ct250backend.app.exception.IdInValidException;
 import com.dvk.ct250backend.domain.auth.dto.UserDTO;
 import com.dvk.ct250backend.domain.auth.entity.User;
@@ -13,7 +13,6 @@ import com.dvk.ct250backend.domain.country.service.CountryService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -78,9 +77,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Pagination<UserDTO> getAllUsers(Specification<User> spec, int page, int pageSize) {
+    public Page<UserDTO> getAllUsers(Specification<User> spec, int page, int pageSize) {
         Pageable pageable = Pageable.ofSize(pageSize).withPage(page - 1);
-        Page<User> userPage = userRepository.findAll(spec, pageable);
+        org.springframework.data.domain.Page<User> userPage = userRepository.findAll(spec, pageable);
         Meta meta = Meta.builder()
                 .page(pageable.getPageNumber() + 1)
                 .pageSize(pageable.getPageSize())
@@ -88,9 +87,9 @@ public class UserServiceImpl implements UserService {
                 .total(userPage.getTotalElements())
                 .build();
 
-        return Pagination.<UserDTO>builder()
+        return Page.<UserDTO>builder()
                 .meta(meta)
-                .result(userPage.getContent().stream()
+                .content(userPage.getContent().stream()
                         .map(userMapper::toUserDTO)
                         .collect(Collectors.toList()))
                 .build();
