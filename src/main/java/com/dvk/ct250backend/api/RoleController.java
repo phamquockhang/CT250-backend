@@ -1,6 +1,6 @@
 package com.dvk.ct250backend.api;
 
-import com.dvk.ct250backend.app.dto.PaginationDTO;
+import com.dvk.ct250backend.app.dto.Pagination;
 import com.dvk.ct250backend.app.dto.response.ApiResponse;
 import com.dvk.ct250backend.app.exception.IdInValidException;
 import com.dvk.ct250backend.domain.auth.dto.RoleDTO;
@@ -24,11 +24,12 @@ public class RoleController {
     RoleService roleService;
 
     @GetMapping
-    public ApiResponse<PaginationDTO> getAllRole(@Filter Specification<Role> spec, Pageable pageable) {
-        PaginationDTO roles = roleService.getAllRoles(spec, pageable);
-        return ApiResponse.<PaginationDTO>builder()
+    public ApiResponse<Pagination<RoleDTO>> getAllRole(@Filter Specification<Role> spec,
+                                              @RequestParam(defaultValue = "1") int page,
+                                              @RequestParam(defaultValue = "10") int pageSize) {
+        return ApiResponse.<Pagination<RoleDTO>>builder()
                 .status(HttpStatus.OK.value())
-                .data(roles)
+                .data(roleService.getAllRoles(spec, page, pageSize))
                 .build();
     }
 

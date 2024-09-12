@@ -1,6 +1,6 @@
 package com.dvk.ct250backend.api;
 
-import com.dvk.ct250backend.app.dto.PaginationDTO;
+import com.dvk.ct250backend.app.dto.Pagination;
 import com.dvk.ct250backend.app.dto.response.ApiResponse;
 import com.dvk.ct250backend.app.exception.IdInValidException;
 import com.dvk.ct250backend.domain.auth.dto.PermissionDTO;
@@ -23,13 +23,13 @@ public class PermissionController {
     PermissionService permissionService;
 
     @GetMapping
-    public ApiResponse<PaginationDTO> getAllPermission(
+    public ApiResponse<Pagination<PermissionDTO>> getAllPermission(
             @Filter Specification<Permission> spec,
-            Pageable pageable) {
-        PaginationDTO permissions = permissionService.getAllPermissions(spec, pageable);
-        return ApiResponse.<PaginationDTO>builder()
+            @RequestParam (defaultValue = "1") int page,
+            @RequestParam (defaultValue = "10") int pageSize) {
+        return ApiResponse.<Pagination<PermissionDTO>>builder()
                 .status(HttpStatus.OK.value())
-                .data(permissions)
+                .data(permissionService.getAllPermissions(spec, page, pageSize))
                 .build();
     }
 

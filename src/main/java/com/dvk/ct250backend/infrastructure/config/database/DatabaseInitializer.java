@@ -72,26 +72,31 @@ public class DatabaseInitializer implements CommandLineRunner {
         if (countRoles == 0) {
            List<Permission> allPermissions = this.permissionRepository.findAll();
 
-            Role adminRole = new Role();
-            adminRole.setRoleName("ADMIN");
-            adminRole.setDescription("Admin thì full permissions");
-            adminRole.setIsActive(true);
-            adminRole.setPermissions(allPermissions);
+            Role adminRole = Role.builder()
+                    .roleName("ADMIN")
+                    .description("Admin thì full permissions")
+                    .active(true)
+                    .permissions(allPermissions)
+                    .build();
 
             this.roleRepository.save(adminRole);
         }
 
         if (countUsers == 0) {
             LocalDate dateOfBirth = LocalDate.of(1999, 5, 6);
-            User adminUser = new User();
-            adminUser.setEmail("admin@gmail.com");
-            adminUser.setGender(GenderEnum.MALE);
-            adminUser.setPassword(this.passwordEncoder.encode("123456"));
-            adminUser.setFirstName("I am");
-            adminUser.setLastName("ADMIN");
-            adminUser.setPhoneNumber("0123456789");
-            adminUser.setIdentityNumber("123456789000");
-            adminUser.setDateOfBirth(Date.from(dateOfBirth.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+
+            User adminUser = User.builder()
+                    .email("admin@gmail.com")
+                    .gender(GenderEnum.MALE)
+                    .password(this.passwordEncoder.encode("123456"))
+                    .firstName("I am")
+                    .lastName("ADMIN")
+                    .phoneNumber("0123456789")
+                    .identityNumber("123456789000")
+                    .dateOfBirth(Date.from(dateOfBirth.atStartOfDay(ZoneId.systemDefault()).toInstant()))
+                    .active(true)
+                    .build();
+
             Optional<Role> adminRole = this.roleRepository.findByRoleName("ADMIN");
             adminRole.ifPresent(adminUser::setRole);
             Optional<Country> country = this.countryRepository.findByCountryName("Vietnam");

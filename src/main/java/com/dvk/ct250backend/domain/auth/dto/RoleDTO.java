@@ -24,7 +24,7 @@ public class RoleDTO {
     String roleName;
     @NotBlank(message = "Description is required")
     String description;
-    Boolean isActive;
+    boolean active;
 
     List<PermissionDTO> permissions = new ArrayList<>();
 

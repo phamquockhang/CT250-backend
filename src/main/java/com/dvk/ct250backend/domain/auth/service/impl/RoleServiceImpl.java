@@ -1,9 +1,9 @@
 package com.dvk.ct250backend.domain.auth.service.impl;
 
-import com.dvk.ct250backend.app.dto.PaginationDTO;
+import com.dvk.ct250backend.app.dto.Meta;
+import com.dvk.ct250backend.app.dto.Pagination;
 import com.dvk.ct250backend.app.exception.IdInValidException;
 import com.dvk.ct250backend.domain.auth.dto.RoleDTO;
-import com.dvk.ct250backend.domain.auth.entity.Permission;
 import com.dvk.ct250backend.domain.auth.entity.Role;
 import com.dvk.ct250backend.domain.auth.mapper.RoleMapper;
 import com.dvk.ct250backend.domain.auth.repository.PermissionRepository;
@@ -26,22 +26,22 @@ import java.util.stream.Collectors;
 public class RoleServiceImpl implements RoleService {
     RoleRepository roleRepository;
     RoleMapper roleMapper;
-    PermissionRepository permissionRepository;
 
     @Override
-    public PaginationDTO<List<RoleDTO>> getAllRoles(Specification<Role> spec, Pageable pageable) {
+    public Pagination<RoleDTO> getAllRoles(Specification<Role> spec, int page, int pageSize) {
+        Pageable pageable = Pageable.ofSize(pageSize).withPage(page - 1);
         Page<Role> pageRole = roleRepository.findAll(spec, pageable);
-        PaginationDTO.Meta meta = new PaginationDTO.Meta();
-        meta.setPage(pageable.getPageNumber() + 1);
-        meta.setPageSize(pageable.getPageSize());
-        meta.setPages(pageRole.getTotalPages());
-        meta.setTotal(pageRole.getTotalElements());
+        Meta meta = Meta.builder()
+                .page(pageRole.getNumber() + 1)
+                .pageSize(pageRole.getSize())
+                .pages(pageRole.getTotalPages())
+                .total(pageRole.getTotalElements())
+                .build();
 
-        PaginationDTO<List<RoleDTO>> paginationDTO = new PaginationDTO<>();
-        paginationDTO.setMeta(meta);
-        paginationDTO.setResult(pageRole.getContent().stream().map(roleMapper::toRoleDTO).collect(Collectors.toList()));
-
-        return paginationDTO;
+        return Pagination.<RoleDTO>builder()
+                .meta(meta)
+                .result(pageRole.getContent().stream().map(roleMapper::toRoleDTO).collect(Collectors.toList()))
+                .build();
     }
 
     @Override

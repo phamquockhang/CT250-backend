@@ -28,7 +28,7 @@ public class Role extends BaseEntity implements GrantedAuthority {
     @NotBlank(message = "Role name is required")
     String roleName;
     String description;
-    Boolean isActive;
+    boolean active;
 
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
     List<User> users;

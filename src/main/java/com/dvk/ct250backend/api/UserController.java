@@ -1,6 +1,6 @@
 package com.dvk.ct250backend.api;
 
-import com.dvk.ct250backend.app.dto.PaginationDTO;
+import com.dvk.ct250backend.app.dto.Pagination;
 import com.dvk.ct250backend.app.dto.response.ApiResponse;
 import com.dvk.ct250backend.app.exception.IdInValidException;
 import com.dvk.ct250backend.domain.auth.dto.UserDTO;
@@ -34,11 +34,12 @@ public class UserController {
     }
 
     @GetMapping
-    public ApiResponse<PaginationDTO> getAllUser(
+    public ApiResponse<Pagination<UserDTO>> getAllUser(
             @Filter Specification<User> spec,
-            Pageable pageable) {
-        PaginationDTO users = userService.getAllUsers(spec, pageable);
-        return ApiResponse.<PaginationDTO>builder()
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int pageSize) {
+        Pagination<UserDTO> users = userService.getAllUsers(spec, page, pageSize);
+        return ApiResponse.<Pagination<UserDTO>>builder()
                 .status(HttpStatus.OK.value())
                 .data(users)
                 .build();

@@ -53,7 +53,7 @@ public class AuthServiceImpl implements AuthService {
         if (role.isEmpty()) {
             role = Optional.of(new Role());
             role.get().setRoleName("USER");
-            role.get().setIsActive(true);
+            role.get().setActive(true);
             role.get().setDescription("User role");
             role = Optional.of(roleRepository.save(role.get()));
         }

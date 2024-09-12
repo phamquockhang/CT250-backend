@@ -36,6 +36,7 @@ public class UserDTO extends BaseDTO {
     @NotNull(message = "Country ID is required")
     Integer countryId;
 
+    boolean active;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     @NotNull(message = "Date of birth is required")
     Date dateOfBirth;
