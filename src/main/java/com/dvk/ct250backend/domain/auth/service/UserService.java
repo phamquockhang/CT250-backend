@@ -14,4 +14,5 @@ public interface UserService {
     Page<UserDTO> getUsers(Specification<User> spec, int page, int pageSize);
     void deleteUser(UUID id) throws IdInValidException;
     UserDTO updateUser(UserDTO userDTO) throws IdInValidException;
+    UserDTO getLoggedInUser();
 }

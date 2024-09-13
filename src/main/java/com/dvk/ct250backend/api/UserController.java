@@ -36,10 +36,17 @@ public class UserController {
             @Filter Specification<User> spec,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int pageSize) {
-        Page<UserDTO> users = userService.getUsers(spec, page, pageSize);
         return ApiResponse.<Page<UserDTO>>builder()
                 .status(HttpStatus.OK.value())
                 .payload(userService.getUsers(spec, page, pageSize))
+                .build();
+    }
+
+    @GetMapping("/logged-in")
+    public ApiResponse<UserDTO> getLoggedInUser() {
+        return ApiResponse.<UserDTO>builder()
+                .status(HttpStatus.OK.value())
+                .payload(userService.getLoggedInUser())
                 .build();
     }
 

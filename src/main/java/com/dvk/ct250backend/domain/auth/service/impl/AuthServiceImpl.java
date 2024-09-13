@@ -85,7 +85,6 @@ public class AuthServiceImpl implements AuthService {
         response.addCookie(refreshTokenCookie);
         return AuthResponse.builder()
                 .accessToken(accessToken)
-                .user(userMapper.toUserDTO(user))
                 .build();
     }
 
@@ -98,7 +97,6 @@ public class AuthServiceImpl implements AuthService {
 
         return AuthResponse.builder()
                 .accessToken(jwtUtils.generateAccessToken(user))
-                .user(userMapper.toUserDTO(user))
                 .build();
     }
 

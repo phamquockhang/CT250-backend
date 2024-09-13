@@ -13,7 +13,5 @@ import java.util.UUID;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AuthResponse {
-
     String accessToken;
-    UserDTO user;
 }
