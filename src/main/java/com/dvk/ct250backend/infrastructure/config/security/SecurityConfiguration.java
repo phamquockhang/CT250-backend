@@ -51,11 +51,11 @@ public class SecurityConfiguration {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(corsConfig -> corsConfig.configurationSource(request -> {
-                    var config = new CorsConfiguration();
+                    CorsConfiguration config = new CorsConfiguration();
                     config.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:5000"));
                     config.setAllowedMethods(Collections.singletonList("*"));
                     config.setAllowCredentials(true);
-                    config.setAllowedHeaders(List.of("Authorization"));
+                    config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
                     config.setMaxAge(3600L);
                     return config;
                 }))
