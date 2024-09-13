@@ -11,7 +11,7 @@ import java.util.UUID;
 public interface UserService {
     UserDTO createUser(UserDTO userDTO) throws IdInValidException;
     UserDTO getUserById(UUID id) throws IdInValidException;
-    Page<UserDTO> getAllUsers(Specification<User> spec, int page, int pageSize);
+    Page<UserDTO> getUsers(Specification<User> spec, int page, int pageSize);
     void deleteUser(UUID id) throws IdInValidException;
     UserDTO updateUser(UserDTO userDTO) throws IdInValidException;
 }

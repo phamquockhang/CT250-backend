@@ -25,7 +25,7 @@ public class CountryController {
     public ApiResponse<List<CountryDTO>> getCountries() {
         return ApiResponse.<List<CountryDTO>>builder()
                 .status(HttpStatus.OK.value())
-                .data(countryService.getCountries())
+                .payload(countryService.getCountries())
                 .build();
     }
 }

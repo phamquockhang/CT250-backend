@@ -28,7 +28,7 @@ public class PermissionController {
             @RequestParam (defaultValue = "10") int pageSize) {
         return ApiResponse.<Page<PermissionDTO>>builder()
                 .status(HttpStatus.OK.value())
-                .data(permissionService.getAllPermissions(spec, page, pageSize))
+                .payload(permissionService.getAllPermissions(spec, page, pageSize))
                 .build();
     }
 
@@ -36,7 +36,7 @@ public class PermissionController {
     public ApiResponse<PermissionDTO> createPermission(@Valid @RequestBody PermissionDTO permissionDTO) throws IdInValidException {
         return ApiResponse.<PermissionDTO>builder()
                 .status(HttpStatus.CREATED.value())
-                .data(permissionService.createPermission(permissionDTO))
+                .payload(permissionService.createPermission(permissionDTO))
                 .build();
     }
 
@@ -52,7 +52,7 @@ public class PermissionController {
     public ApiResponse<PermissionDTO> updatePermission(@Valid @RequestBody PermissionDTO permissionDTO) throws IdInValidException {
         return ApiResponse.<PermissionDTO>builder()
                 .status(HttpStatus.OK.value())
-                .data(permissionService.updatePermission(permissionDTO))
+                .payload(permissionService.updatePermission(permissionDTO))
                 .build();
     }
 }

@@ -28,7 +28,7 @@ public class RoleController {
                                                  @RequestParam(defaultValue = "10") int pageSize) {
         return ApiResponse.<Page<RoleDTO>>builder()
                 .status(HttpStatus.OK.value())
-                .data(roleService.getAllRoles(spec, page, pageSize))
+                .payload(roleService.getAllRoles(spec, page, pageSize))
                 .build();
     }
 
@@ -38,7 +38,7 @@ public class RoleController {
     public ApiResponse<RoleDTO> create(@Valid @RequestBody RoleDTO role) throws IdInValidException {
         return ApiResponse.<RoleDTO>builder()
                 .status(HttpStatus.CREATED.value())
-                .data(roleService.createRole(role))
+                .payload(roleService.createRole(role))
                 .build();
     }
 
@@ -46,7 +46,7 @@ public class RoleController {
     public ApiResponse<RoleDTO> getRole(@PathVariable("id") Long id) throws IdInValidException {
         return ApiResponse.<RoleDTO>builder()
                 .status(HttpStatus.OK.value())
-                .data(roleService.getRoleById(id))
+                .payload(roleService.getRoleById(id))
                 .build();
     }
 
@@ -62,7 +62,7 @@ public class RoleController {
     public ApiResponse<RoleDTO> updateRole(@Valid @RequestBody RoleDTO role) throws IdInValidException {
         return ApiResponse.<RoleDTO>builder()
                 .status(HttpStatus.OK.value())
-                .data(roleService.updateRole(role))
+                .payload(roleService.updateRole(role))
                 .build();
     }
 

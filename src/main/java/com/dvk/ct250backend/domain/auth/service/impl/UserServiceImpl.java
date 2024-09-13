@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<UserDTO> getAllUsers(Specification<User> spec, int page, int pageSize) {
+    public Page<UserDTO> getUsers(Specification<User> spec, int page, int pageSize) {
         Pageable pageable = Pageable.ofSize(pageSize).withPage(page - 1);
         org.springframework.data.domain.Page<User> userPage = userRepository.findAll(spec, pageable);
         Meta meta = Meta.builder()

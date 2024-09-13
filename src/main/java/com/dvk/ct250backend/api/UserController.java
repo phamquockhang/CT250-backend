@@ -25,10 +25,9 @@ public class UserController {
 
     @PostMapping
     public ApiResponse<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) throws Exception {
-        UserDTO createdUser = userService.createUser(userDTO);
         return ApiResponse.<UserDTO>builder()
                 .status(HttpStatus.CREATED.value())
-                .data(createdUser)
+                .payload(userService.createUser(userDTO))
                 .build();
     }
 
@@ -37,19 +36,18 @@ public class UserController {
             @Filter Specification<User> spec,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int pageSize) {
-        Page<UserDTO> users = userService.getAllUsers(spec, page, pageSize);
+        Page<UserDTO> users = userService.getUsers(spec, page, pageSize);
         return ApiResponse.<Page<UserDTO>>builder()
                 .status(HttpStatus.OK.value())
-                .data(users)
+                .payload(userService.getUsers(spec, page, pageSize))
                 .build();
     }
 
     @GetMapping("/{id}")
     public ApiResponse<UserDTO> getUserById(@PathVariable("id") UUID id) throws IdInValidException {
-        UserDTO userDTO = userService.getUserById(id);
         return ApiResponse.<UserDTO>builder()
                 .status(HttpStatus.OK.value())
-                .data(userDTO)
+                .payload(userService.getUserById(id))
                 .build();
     }
 
@@ -63,10 +61,9 @@ public class UserController {
 
     @PutMapping
     public ApiResponse<UserDTO> updateUser(@RequestBody UserDTO user) throws IdInValidException {
-        UserDTO updatedUserDTO = userService.updateUser(user);
         return ApiResponse.<UserDTO>builder()
                 .status(HttpStatus.OK.value())
-                .data(updatedUserDTO)
+                .payload(userService.updateUser(user))
                 .build();
     }
 
