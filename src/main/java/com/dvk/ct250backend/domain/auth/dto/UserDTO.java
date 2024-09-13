@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.UUID;
 
@@ -42,4 +43,7 @@ public class UserDTO extends BaseDTO {
     Date dateOfBirth;
 
     RoleDTO role;
+
+    Timestamp createdAt;
+    Timestamp updatedAt;
 }
