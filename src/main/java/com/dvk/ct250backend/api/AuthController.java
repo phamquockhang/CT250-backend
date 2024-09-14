@@ -11,9 +11,9 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,7 +28,7 @@ public class AuthController {
     public ApiResponse<UserDTO> register(@RequestBody UserDTO userDTO) throws IdInValidException {
         return ApiResponse.<UserDTO>builder()
                 .status(HttpStatus.CREATED.value())
-                .data(authService.register(userDTO))
+                .payload(authService.register(userDTO))
                 .build();
     }
 
@@ -37,7 +37,7 @@ public class AuthController {
                                            HttpServletResponse response) {
         return ApiResponse.<AuthResponse>builder()
                 .status(HttpStatus.OK.value())
-                .data(authService.login(authRequest, response))
+                .payload(authService.login(authRequest, response))
                 .build();
     }
 
@@ -45,7 +45,7 @@ public class AuthController {
     public ApiResponse<AuthResponse> refreshAccessToken(@CookieValue("refresh_token") String refreshToken) {
         return ApiResponse.<AuthResponse>builder()
                 .status(HttpStatus.OK.value())
-                .data(authService.refreshAccessToken(refreshToken))
+                .payload(authService.refreshAccessToken(refreshToken))
                 .build();
     }
 
@@ -56,4 +56,24 @@ public class AuthController {
                 .status(HttpStatus.OK.value())
                 .build();
     }
+
+    @GetMapping("/success")
+    public ApiResponse<UserDTO> loginSuccess(@AuthenticationPrincipal OidcUser oidcUser) {
+        UserDTO userDTO = authService.processOAuthPostLogin(oidcUser);
+        return ApiResponse.<UserDTO>builder()
+                .status(HttpStatus.OK.value())
+                .payload(userDTO)
+                .build();
+    }
+
+    @GetMapping("/failure")
+    public ApiResponse<String> loginFailure() {
+        return ApiResponse.<String>builder()
+                .status(HttpStatus.UNAUTHORIZED.value())
+                .payload("Login failed")
+                .build();
+    }
+
+
+
 }

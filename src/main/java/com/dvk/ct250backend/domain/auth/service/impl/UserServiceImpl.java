@@ -1,9 +1,11 @@
 package com.dvk.ct250backend.domain.auth.service.impl;
 
-import com.dvk.ct250backend.app.dto.PaginationDTO;
+import com.dvk.ct250backend.app.dto.Meta;
+import com.dvk.ct250backend.app.dto.Page;
 import com.dvk.ct250backend.app.exception.IdInValidException;
 import com.dvk.ct250backend.domain.auth.dto.UserDTO;
 import com.dvk.ct250backend.domain.auth.entity.User;
+import com.dvk.ct250backend.domain.auth.enums.Provider;
 import com.dvk.ct250backend.domain.auth.mapper.UserMapper;
 import com.dvk.ct250backend.domain.auth.repository.UserRepository;
 import com.dvk.ct250backend.domain.auth.service.UserService;
@@ -12,14 +14,16 @@ import com.dvk.ct250backend.domain.country.service.CountryService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -71,25 +75,39 @@ public class UserServiceImpl implements UserService {
         if (userDTO.getCountryId() == null) {
             throw new IdInValidException("Country ID must be provided.");
         }
-        if (userDTO.getRoleId() == null) {
-            throw new IdInValidException("Role ID must be provided.");
-        }
+//        if (userDTO.getRoleId() == null) {
+//            throw new IdInValidException("Role ID must be provided.");
+//        }
     }
 
     @Override
-    public PaginationDTO getAllUsers(Specification<User> spec, Pageable pageable) {
-        Page<User> pageUser = userRepository.findAll(spec, pageable);
-        PaginationDTO.Meta meta = new PaginationDTO.Meta();
-        meta.setPage(pageable.getPageNumber() + 1);
-        meta.setPageSize(pageable.getPageSize());
-        meta.setPages(pageUser.getTotalPages());
-        meta.setTotal(pageUser.getTotalElements());
+    public Page<UserDTO> getUsers(Specification<User> spec, int page, int pageSize) {
+        Pageable pageable = Pageable.ofSize(pageSize).withPage(page - 1);
+        org.springframework.data.domain.Page<User> userPage = userRepository.findAll(spec, pageable);
+        Meta meta = Meta.builder()
+                .page(pageable.getPageNumber() + 1)
+                .pageSize(pageable.getPageSize())
+                .pages(userPage.getTotalPages())
+                .total(userPage.getTotalElements())
+                .build();
 
-        PaginationDTO paginationDTO = new PaginationDTO();
-        paginationDTO.setMeta(meta);
-        paginationDTO.setResult(pageUser.getContent().stream().map(userMapper::toUserDTOWithNullCheck).collect(Collectors.toList()));
+        return Page.<UserDTO>builder()
+                .meta(meta)
+                .content(userPage.getContent().stream()
+                        .map(userMapper::toUserDTO)
+                        .collect(Collectors.toList()))
+                .build();
+    }
 
-        return paginationDTO;
+    @Override
+    public UserDTO getLoggedInUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            User user = userRepository.findByEmail(authentication.getName())
+                    .orElseThrow(() -> new IllegalArgumentException("User not found: " + authentication.getName()));
+            return userMapper.toUserDTO(user);
+        }
+        return null;
     }
 
     @Override
@@ -118,5 +136,18 @@ public class UserServiceImpl implements UserService {
             user.setCountry(country);
         }
         return userMapper.toUserDTO(userRepository.save(user));
+    }
+
+    public void processOAuthPostLogin(String email) {
+        Optional<User> existUser = userRepository.findByEmail(email);
+
+        if (existUser.isEmpty()) {
+            User newUser = new User();
+            newUser.setEmail(email);
+            newUser.setProvider(Provider.GOOGLE);
+            //newUser.setEnabled(true);
+
+            userRepository.save(newUser);
+        }
     }
 }

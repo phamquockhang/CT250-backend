@@ -6,30 +6,26 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {RoleMapper.class})
 public interface UserMapper {
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "countryId", source = "country.countryId")
-    @Mapping(target = "userId", source = "userId")
-    @Mapping(target = "roleId", source = "role.roleId")
     UserDTO toUserDTO(User user);
 
     @Mapping(target = "country.countryId", source = "countryId")
-    @Mapping(target = "userId", source = "userId")
-    @Mapping(target = "role.roleId", source = "roleId")
     User toUser(UserDTO userDTO);
 
     @Mapping(target = "password", ignore = true)
     void updateUserFromDTO(UserDTO userDTO, @MappingTarget User user);
 
-    default UserDTO toUserDTOWithNullCheck(User user) {
-        UserDTO userDTO = toUserDTO(user);
-        if (user.getCountry() == null) {
-            userDTO.setCountryId(null);
-        }
-        if (user.getRole() == null) {
-            userDTO.setRoleId(null);
-        }
-        return userDTO;
-    }
+//    default UserDTO toUserDTOWithNullCheck(User user) {
+//        UserDTO userDTO = toUserDTO(user);
+//        if (user.getCountry() == null) {
+//            userDTO.setCountryId(null);
+//        }
+//        if (user.getRole() == null) {
+//            userDTO.setRoleId(null);
+//        }
+//        return userDTO;
+//    }
 }

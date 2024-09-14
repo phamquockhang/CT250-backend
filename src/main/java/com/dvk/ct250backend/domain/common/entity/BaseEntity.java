@@ -37,15 +37,15 @@ public class BaseEntity {
     String updatedBy;
 
 
-    @PrePersist
-    public void handleBeforeCreate() {
-        this.createdBy = new AuditAwareImpl().getCurrentAuditor().orElse("");
-        this.createdAt = Timestamp.from(Instant.now());
-    }
-
-    @PreUpdate
-    public void handleBeforeUpdate() {
-        this.updatedBy = new AuditAwareImpl().getCurrentAuditor().orElse("");
-        this.updatedAt = Timestamp.from(Instant.now());
-    }
+//    @PrePersist
+//    public void handleBeforeCreate() {
+//        this.createdBy = new AuditAwareImpl().getCurrentAuditor().orElse("");
+//        this.createdAt = Timestamp.from(Instant.now());
+//    }
+//
+//    @PreUpdate
+//    public void handleBeforeUpdate() {
+//        this.updatedBy = new AuditAwareImpl().getCurrentAuditor().orElse("");
+//        this.updatedAt = Timestamp.from(Instant.now());
+//    }
 }

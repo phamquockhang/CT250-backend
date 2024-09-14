@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,13 +18,16 @@ import java.util.List;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RoleDTO extends BaseDTO {
+public class RoleDTO {
     Integer roleId;
     @NotBlank(message = "Role name is required")
     String roleName;
     @NotBlank(message = "Description is required")
     String description;
-    Boolean isActive;
+    boolean active;
 
-    List<Permission> permissions = new ArrayList<>();
+    List<PermissionDTO> permissions = new ArrayList<>();
+
+    Timestamp createdAt;
+    Timestamp updatedAt;
 }
