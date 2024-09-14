@@ -1,13 +1,11 @@
 package com.dvk.ct250backend.domain.auth.dto;
 
-import com.dvk.ct250backend.domain.auth.entity.Permission;
-import com.dvk.ct250backend.domain.common.dto.BaseDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +26,6 @@ public class RoleDTO {
 
     List<PermissionDTO> permissions = new ArrayList<>();
 
-    Timestamp createdAt;
-    Timestamp updatedAt;
+    LocalDateTime createdAt;
+    LocalDateTime updatedAt;
 }

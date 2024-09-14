@@ -1,8 +1,6 @@
 package com.dvk.ct250backend.domain.auth.entity;
 
 import com.dvk.ct250backend.domain.common.entity.BaseEntity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
