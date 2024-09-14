@@ -9,6 +9,7 @@ import com.dvk.ct250backend.infrastructure.audit.AuditAwareImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
@@ -25,8 +26,9 @@ public class CustomPermissionInterceptor implements HandlerInterceptor {
     @Override
     @Transactional
     public boolean preHandle(
-            HttpServletRequest request,
-            HttpServletResponse response, Object handler)
+            @NonNull HttpServletRequest request,
+            @NonNull HttpServletResponse response,
+            @NonNull Object handler)
             throws Exception {
 
         String path = (String) request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);

@@ -16,6 +16,7 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Country {
     @Id
+    @GeneratedValue
     Integer countryId;
     String countryName;
     Integer countryCode;

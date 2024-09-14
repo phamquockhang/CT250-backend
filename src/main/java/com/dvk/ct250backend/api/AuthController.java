@@ -11,7 +11,6 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -30,7 +29,7 @@ public class AuthController {
     public ApiResponse<UserDTO> register(@RequestBody UserDTO userDTO) throws IdInValidException {
         return ApiResponse.<UserDTO>builder()
                 .status(HttpStatus.CREATED.value())
-                .data(authService.register(userDTO))
+                .payload(authService.register(userDTO))
                 .build();
     }
 
@@ -39,7 +38,7 @@ public class AuthController {
                                            HttpServletResponse response) {
         return ApiResponse.<AuthResponse>builder()
                 .status(HttpStatus.OK.value())
-                .data(authService.login(authRequest, response))
+                .payload(authService.login(authRequest, response))
                 .build();
     }
 
@@ -47,7 +46,7 @@ public class AuthController {
     public ApiResponse<AuthResponse> refreshAccessToken(@CookieValue("refresh_token") String refreshToken) {
         return ApiResponse.<AuthResponse>builder()
                 .status(HttpStatus.OK.value())
-                .data(authService.refreshAccessToken(refreshToken))
+                .payload(authService.refreshAccessToken(refreshToken))
                 .build();
     }
 

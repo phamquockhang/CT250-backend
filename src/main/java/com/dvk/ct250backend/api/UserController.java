@@ -1,6 +1,6 @@
 package com.dvk.ct250backend.api;
 
-import com.dvk.ct250backend.app.dto.PaginationDTO;
+import com.dvk.ct250backend.app.dto.Page;
 import com.dvk.ct250backend.app.dto.response.ApiResponse;
 import com.dvk.ct250backend.app.exception.IdInValidException;
 import com.dvk.ct250backend.domain.auth.dto.UserDTO;
@@ -9,7 +9,6 @@ import com.dvk.ct250backend.domain.auth.service.UserService;
 import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -26,30 +25,36 @@ public class UserController {
 
     @PostMapping
     public ApiResponse<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) throws Exception {
-        UserDTO createdUser = userService.createUser(userDTO);
         return ApiResponse.<UserDTO>builder()
                 .status(HttpStatus.CREATED.value())
-                .data(createdUser)
+                .payload(userService.createUser(userDTO))
                 .build();
     }
 
     @GetMapping
-    public ApiResponse<PaginationDTO> getAllUser(
+    public ApiResponse<Page<UserDTO>> getAllUser(
             @Filter Specification<User> spec,
-            Pageable pageable) {
-        PaginationDTO users = userService.getAllUsers(spec, pageable);
-        return ApiResponse.<PaginationDTO>builder()
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int pageSize) {
+        return ApiResponse.<Page<UserDTO>>builder()
                 .status(HttpStatus.OK.value())
-                .data(users)
+                .payload(userService.getUsers(spec, page, pageSize))
+                .build();
+    }
+
+    @GetMapping("/logged-in")
+    public ApiResponse<UserDTO> getLoggedInUser() {
+        return ApiResponse.<UserDTO>builder()
+                .status(HttpStatus.OK.value())
+                .payload(userService.getLoggedInUser())
                 .build();
     }
 
     @GetMapping("/{id}")
     public ApiResponse<UserDTO> getUserById(@PathVariable("id") UUID id) throws IdInValidException {
-        UserDTO userDTO = userService.getUserById(id);
         return ApiResponse.<UserDTO>builder()
                 .status(HttpStatus.OK.value())
-                .data(userDTO)
+                .payload(userService.getUserById(id))
                 .build();
     }
 
@@ -63,10 +68,9 @@ public class UserController {
 
     @PutMapping
     public ApiResponse<UserDTO> updateUser(@RequestBody UserDTO user) throws IdInValidException {
-        UserDTO updatedUserDTO = userService.updateUser(user);
         return ApiResponse.<UserDTO>builder()
                 .status(HttpStatus.OK.value())
-                .data(updatedUserDTO)
+                .payload(userService.updateUser(user))
                 .build();
     }
 

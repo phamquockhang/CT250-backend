@@ -1,17 +1,15 @@
 package com.dvk.ct250backend.api;
 
-import com.dvk.ct250backend.app.dto.PaginationDTO;
+import com.dvk.ct250backend.app.dto.Page;
 import com.dvk.ct250backend.app.dto.response.ApiResponse;
 import com.dvk.ct250backend.app.exception.IdInValidException;
 import com.dvk.ct250backend.domain.auth.dto.PermissionDTO;
 import com.dvk.ct250backend.domain.auth.entity.Permission;
-import com.dvk.ct250backend.domain.auth.entity.User;
 import com.dvk.ct250backend.domain.auth.service.PermissionService;
 import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +22,13 @@ public class PermissionController {
     PermissionService permissionService;
 
     @GetMapping
-    public ApiResponse<PaginationDTO> getAllPermission(
+    public ApiResponse<Page<PermissionDTO>> getAllPermission(
             @Filter Specification<Permission> spec,
-            Pageable pageable) {
-        PaginationDTO permissions = permissionService.getAllPermissions(spec, pageable);
-        return ApiResponse.<PaginationDTO>builder()
+            @RequestParam (defaultValue = "1") int page,
+            @RequestParam (defaultValue = "10") int pageSize) {
+        return ApiResponse.<Page<PermissionDTO>>builder()
                 .status(HttpStatus.OK.value())
-                .data(permissions)
+                .payload(permissionService.getAllPermissions(spec, page, pageSize))
                 .build();
     }
 
@@ -38,7 +36,7 @@ public class PermissionController {
     public ApiResponse<PermissionDTO> createPermission(@Valid @RequestBody PermissionDTO permissionDTO) throws IdInValidException {
         return ApiResponse.<PermissionDTO>builder()
                 .status(HttpStatus.CREATED.value())
-                .data(permissionService.createPermission(permissionDTO))
+                .payload(permissionService.createPermission(permissionDTO))
                 .build();
     }
 
@@ -54,7 +52,7 @@ public class PermissionController {
     public ApiResponse<PermissionDTO> updatePermission(@Valid @RequestBody PermissionDTO permissionDTO) throws IdInValidException {
         return ApiResponse.<PermissionDTO>builder()
                 .status(HttpStatus.OK.value())
-                .data(permissionService.updatePermission(permissionDTO))
+                .payload(permissionService.updatePermission(permissionDTO))
                 .build();
     }
 }

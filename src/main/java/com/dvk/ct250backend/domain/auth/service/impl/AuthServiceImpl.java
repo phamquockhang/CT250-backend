@@ -54,7 +54,7 @@ public class AuthServiceImpl implements AuthService {
         if (role.isEmpty()) {
             role = Optional.of(new Role());
             role.get().setRoleName("USER");
-            role.get().setIsActive(true);
+            role.get().setActive(true);
             role.get().setDescription("User role");
             role = Optional.of(roleRepository.save(role.get()));
         }
@@ -71,13 +71,6 @@ public class AuthServiceImpl implements AuthService {
 
         User user = userRepository.findByEmail(authRequest.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        AuthResponse.UserLogin userLogin = new AuthResponse.UserLogin(
-                user.getUserId(),
-                user.getEmail(),
-                user.getFirstName(),
-                user.getLastName(),
-                user.getRole()
-        );
         String accessToken = jwtUtils.generateAccessToken(user);
         String refreshToken = jwtUtils.generateRefreshToken(user);
 
@@ -93,7 +86,6 @@ public class AuthServiceImpl implements AuthService {
         response.addCookie(refreshTokenCookie);
         return AuthResponse.builder()
                 .accessToken(accessToken)
-                .user(userLogin)
                 .build();
     }
 
@@ -103,16 +95,9 @@ public class AuthServiceImpl implements AuthService {
         String username = jwtUtils.getUsername(jwtRefreshToken);
         User user = userRepository.findByEmail(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        AuthResponse.UserLogin userLogin = new AuthResponse.UserLogin(
-                user.getUserId(),
-                user.getEmail(),
-                user.getFirstName(),
-                user.getLastName(),
-                user.getRole()
-        );
+
         return AuthResponse.builder()
                 .accessToken(jwtUtils.generateAccessToken(user))
-                .user(userLogin)
                 .build();
     }
 

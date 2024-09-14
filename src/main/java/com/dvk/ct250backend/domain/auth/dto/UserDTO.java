@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.UUID;
 
@@ -36,10 +37,13 @@ public class UserDTO extends BaseDTO {
     @NotNull(message = "Country ID is required")
     Integer countryId;
 
+    boolean active;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     @NotNull(message = "Date of birth is required")
     Date dateOfBirth;
 
-    @NotNull(message = "Role ID is required")
-    Integer roleId;
+    RoleDTO role;
+
+    Timestamp createdAt;
+    Timestamp updatedAt;
 }
