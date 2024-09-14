@@ -146,7 +146,6 @@ public class SecurityConfiguration {
 
     private final RSAKeyRecord rsaKeyRecord;
     private final JwtAuthFilter jwtAuthFilter;
-    private final CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -170,20 +169,12 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/v1/auth/**", "/api/v1/countries", "/oauth2/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .oauth2Login(oauth2 -> oauth2
-                        .loginPage("/login")
-                        .userInfoEndpoint(userInfo -> userInfo
-                            .userService(customOAuth2UserService))
-                        .successHandler((request, response, authentication) -> {
-                            CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
-                            // Implement your logic here
-                            response.sendRedirect("/list");
-                        }))
+                .oauth2Login(Customizer.withDefaults())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults())
                         .authenticationEntryPoint(customAuthenticationEntryPoint))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-               // .formLogin(AbstractHttpConfigurer::disable).
-                .formLogin(Customizer.withDefaults());
+//                .formLogin(Customizer.withDefaults());
+                .formLogin(AbstractHttpConfigurer::disable);
 
         return http.build();
     }
@@ -215,21 +206,5 @@ public class SecurityConfiguration {
         return authConfig.getAuthenticationManager();
     }
 
-    @Bean
-    public ClientRegistrationRepository clientRegistrationRepository() {
-        ClientRegistration googleClientRegistration = ClientRegistration.withRegistrationId("google")
-                .clientId("792577760982-cgvb3ejpau2batlehel1p118v1edvirb.apps.googleusercontent.com")
-                .clientSecret("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")
-                .scope("openid", "profile", "email")
-                .authorizationUri("https://accounts.google.com/o/oauth2/auth")
-                .tokenUri("https://oauth2.googleapis.com/token")
-                .userInfoUri("https://www.googleapis.com/oauth2/v3/userinfo")
-                .userNameAttributeName("sub")
-                .clientName("Google")
-                .redirectUri("{baseUrl}/login/oauth2/code/{registrationId}")
-                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .build();
 
-        return new InMemoryClientRegistrationRepository(googleClientRegistration);
-    }
 }
