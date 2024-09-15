@@ -25,13 +25,13 @@ public class RoleController {
     @GetMapping
     public ApiResponse<Page<RoleDTO>> getAllRole(@Filter Specification<Role> spec,
                                                  @RequestParam(defaultValue = "1") int page,
-                                                 @RequestParam(defaultValue = "10") int pageSize) {
+                                                 @RequestParam(defaultValue = "10") int pageSize,
+                                                 @RequestParam(required = false) String sort) {
         return ApiResponse.<Page<RoleDTO>>builder()
                 .status(HttpStatus.OK.value())
-                .payload(roleService.getAllRoles(spec, page, pageSize))
+                .payload(roleService.getAllRoles(spec, page, pageSize, sort))
                 .build();
     }
-
 
 
     @PostMapping

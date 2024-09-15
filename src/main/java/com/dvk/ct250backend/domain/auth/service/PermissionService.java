@@ -7,7 +7,7 @@ import com.dvk.ct250backend.domain.auth.entity.Permission;
 import org.springframework.data.jpa.domain.Specification;
 
 public interface PermissionService {
-    Page<PermissionDTO> getAllPermissions(Specification<Permission> spec, int page, int pageSize);
+    Page<PermissionDTO> getAllPermissions(Specification<Permission> spec, int page, int pageSize, String sort);
     PermissionDTO createPermission(PermissionDTO permissionDTO) throws IdInValidException;
     void deletePermission(Long id) throws IdInValidException;
     PermissionDTO updatePermission(PermissionDTO permissionDTO) throws IdInValidException;

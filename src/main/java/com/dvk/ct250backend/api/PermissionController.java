@@ -25,10 +25,11 @@ public class PermissionController {
     public ApiResponse<Page<PermissionDTO>> getAllPermission(
             @Filter Specification<Permission> spec,
             @RequestParam (defaultValue = "1") int page,
-            @RequestParam (defaultValue = "10") int pageSize) {
+            @RequestParam (defaultValue = "10") int pageSize,
+            @RequestParam (required = false) String sort){
         return ApiResponse.<Page<PermissionDTO>>builder()
                 .status(HttpStatus.OK.value())
-                .payload(permissionService.getAllPermissions(spec, page, pageSize))
+                .payload(permissionService.getAllPermissions(spec, page, pageSize, sort))
                 .build();
     }
 

@@ -8,13 +8,19 @@ import com.dvk.ct250backend.domain.auth.entity.Permission;
 import com.dvk.ct250backend.domain.auth.mapper.PermissionMapper;
 import com.dvk.ct250backend.domain.auth.repository.PermissionRepository;
 import com.dvk.ct250backend.domain.auth.service.PermissionService;
+import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,10 +29,12 @@ public class PermissionServiceImpl implements PermissionService {
 
     PermissionRepository permissionRepository;
     PermissionMapper permissionMapper;
+    RequestParamUtils requestParamUtils;
 
     @Override
-    public Page<PermissionDTO> getAllPermissions(Specification<Permission> spec, int page, int pageSize) {
-        Pageable pageable = Pageable.ofSize(pageSize).withPage(page - 1);
+    public Page<PermissionDTO> getAllPermissions(Specification<Permission> spec, int page, int pageSize, String sort) {
+        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(sort);
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortOrders));
         org.springframework.data.domain.Page<Permission> permissionPage = permissionRepository.findAll(spec, pageable);
         Meta meta = Meta.builder()
                 .page(pageable.getPageNumber() + 1)

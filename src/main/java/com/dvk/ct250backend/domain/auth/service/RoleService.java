@@ -8,7 +8,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 public interface RoleService {
     RoleDTO createRole (RoleDTO roleDTO) throws IdInValidException;
-    Page<RoleDTO> getAllRoles(Specification<Role> spec, int page, int pageSize);
+    Page<RoleDTO> getAllRoles(Specification<Role> spec, int page, int pageSize, String sort);
     RoleDTO getRoleById(Long id) throws IdInValidException;
     void deleteRole(Long id) throws IdInValidException;
     RoleDTO updateRole(RoleDTO roleDTO) throws IdInValidException;
