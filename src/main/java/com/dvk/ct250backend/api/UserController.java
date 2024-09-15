@@ -35,10 +35,11 @@ public class UserController {
     public ApiResponse<Page<UserDTO>> getAllUser(
             @Filter Specification<User> spec,
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int pageSize) {
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(required = false) String sort) {
         return ApiResponse.<Page<UserDTO>>builder()
                 .status(HttpStatus.OK.value())
-                .payload(userService.getUsers(spec, page, pageSize))
+                .payload(userService.getUsers(spec, page, pageSize, sort))
                 .build();
     }
 

@@ -8,13 +8,18 @@ import com.dvk.ct250backend.domain.auth.entity.Role;
 import com.dvk.ct250backend.domain.auth.mapper.RoleMapper;
 import com.dvk.ct250backend.domain.auth.repository.RoleRepository;
 import com.dvk.ct250backend.domain.auth.service.RoleService;
+import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,10 +28,12 @@ import java.util.stream.Collectors;
 public class RoleServiceImpl implements RoleService {
     RoleRepository roleRepository;
     RoleMapper roleMapper;
+    RequestParamUtils requestParamUtils;
 
     @Override
-    public Page<RoleDTO> getAllRoles(Specification<Role> spec, int page, int pageSize) {
-        Pageable pageable = Pageable.ofSize(pageSize).withPage(page - 1);
+    public Page<RoleDTO> getAllRoles(Specification<Role> spec, int page, int pageSize, String sort) {
+        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(sort);
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortOrders));
         org.springframework.data.domain.Page<Role> pageRole = roleRepository.findAll(spec, pageable);
         Meta meta = Meta.builder()
                 .page(pageRole.getNumber() + 1)

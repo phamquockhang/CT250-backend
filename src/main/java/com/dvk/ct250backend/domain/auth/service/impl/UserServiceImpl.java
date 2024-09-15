@@ -11,10 +11,13 @@ import com.dvk.ct250backend.domain.auth.repository.UserRepository;
 import com.dvk.ct250backend.domain.auth.service.UserService;
 import com.dvk.ct250backend.domain.country.entity.Country;
 import com.dvk.ct250backend.domain.country.service.CountryService;
+import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,6 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -32,10 +36,12 @@ import java.util.stream.Collectors;
 @FieldDefaults(level = AccessLevel.PACKAGE, makeFinal = true)
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
-    private final UserMapper userMapper;
-    private final PasswordEncoder passwordEncoder;
-    private final CountryService countryService;
+    UserRepository userRepository;
+    UserMapper userMapper;
+    PasswordEncoder passwordEncoder;
+    CountryService countryService;
+    RequestParamUtils requestParamUtils;
+
 
     @Override
     @Transactional
@@ -81,8 +87,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<UserDTO> getUsers(Specification<User> spec, int page, int pageSize) {
-        Pageable pageable = Pageable.ofSize(pageSize).withPage(page - 1);
+    public Page<UserDTO> getUsers(Specification<User> spec, int page, int pageSize, String sort) {
+        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(sort);
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortOrders));
         org.springframework.data.domain.Page<User> userPage = userRepository.findAll(spec, pageable);
         Meta meta = Meta.builder()
                 .page(pageable.getPageNumber() + 1)
