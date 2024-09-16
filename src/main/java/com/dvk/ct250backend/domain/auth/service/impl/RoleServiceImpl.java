@@ -1,7 +1,7 @@
 package com.dvk.ct250backend.domain.auth.service.impl;
 
-import com.dvk.ct250backend.app.dto.Meta;
-import com.dvk.ct250backend.app.dto.Page;
+import com.dvk.ct250backend.app.dto.response.Meta;
+import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.IdInValidException;
 import com.dvk.ct250backend.domain.auth.dto.RoleDTO;
 import com.dvk.ct250backend.domain.auth.entity.Role;
@@ -17,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.stream.Collectors;

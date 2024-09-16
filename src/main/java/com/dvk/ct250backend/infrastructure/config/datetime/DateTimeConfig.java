@@ -6,9 +6,6 @@ import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-
 @Configuration
 public class DateTimeConfig implements WebMvcConfigurer {
     @Override

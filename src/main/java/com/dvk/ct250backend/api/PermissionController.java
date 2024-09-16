@@ -1,18 +1,17 @@
 package com.dvk.ct250backend.api;
 
-import com.dvk.ct250backend.app.dto.Page;
 import com.dvk.ct250backend.app.dto.response.ApiResponse;
+import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.IdInValidException;
 import com.dvk.ct250backend.domain.auth.dto.PermissionDTO;
-import com.dvk.ct250backend.domain.auth.entity.Permission;
 import com.dvk.ct250backend.domain.auth.service.PermissionService;
-import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/permissions")
@@ -23,13 +22,11 @@ public class PermissionController {
 
     @GetMapping
     public ApiResponse<Page<PermissionDTO>> getAllPermission(
-            @Filter Specification<Permission> spec,
-            @RequestParam (defaultValue = "1") int page,
-            @RequestParam (defaultValue = "10") int pageSize,
-            @RequestParam (required = false) String sort){
+            @RequestParam Map<String, String> params
+    ){
         return ApiResponse.<Page<PermissionDTO>>builder()
                 .status(HttpStatus.OK.value())
-                .payload(permissionService.getAllPermissions(spec, page, pageSize, sort))
+                .payload(permissionService.getAllPermissions(params))
                 .build();
     }
 
