@@ -92,13 +92,10 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public PermissionDTO updatePermission(PermissionDTO permissionDTO) throws IdInValidException {
-        Permission permission = permissionMapper.toPermission(permissionDTO);
-        Permission permissionDB = findPermissionById(permission.getPermissionId());
-
-        updatePermissionDetails(permissionDB, permissionDTO);
-        permissionDB = permissionRepository.save(permissionDB);
-        return permissionMapper.toPermissionDTO(permissionDB);
+    public PermissionDTO updatePermission(Long id, PermissionDTO permissionDTO) throws IdInValidException {
+        Permission permission = findPermissionById(id);
+        permissionMapper.updatePermissionFromDTO(permission, permissionDTO);
+        return permissionMapper.toPermissionDTO(permissionRepository.save(permission));
     }
 
 

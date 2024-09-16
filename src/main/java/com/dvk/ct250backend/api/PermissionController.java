@@ -46,11 +46,11 @@ public class PermissionController {
                 .build();
     }
 
-    @PutMapping
-    public ApiResponse<PermissionDTO> updatePermission(@Valid @RequestBody PermissionDTO permissionDTO) throws IdInValidException {
+    @PutMapping({"/{id}"})
+    public ApiResponse<PermissionDTO> updatePermission(@PathVariable("id") Long id ,@Valid @RequestBody PermissionDTO permissionDTO) throws IdInValidException {
         return ApiResponse.<PermissionDTO>builder()
                 .status(HttpStatus.OK.value())
-                .payload(permissionService.updatePermission(permissionDTO))
+                .payload(permissionService.updatePermission(id, permissionDTO))
                 .build();
     }
 }

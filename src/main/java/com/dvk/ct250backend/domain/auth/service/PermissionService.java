@@ -10,6 +10,6 @@ public interface PermissionService {
     Page<PermissionDTO> getAllPermissions(Map<String, String> params);
     PermissionDTO createPermission(PermissionDTO permissionDTO) throws IdInValidException;
     void deletePermission(Long id) throws IdInValidException;
-    PermissionDTO updatePermission(PermissionDTO permissionDTO) throws IdInValidException;
+    PermissionDTO updatePermission(Long id, PermissionDTO permissionDTO) throws IdInValidException;
 
 }
