@@ -15,6 +15,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public class CustomPermissionInterceptor implements HandlerInterceptor {
@@ -38,9 +39,9 @@ public class CustomPermissionInterceptor implements HandlerInterceptor {
 
         String email = auditAware.getCurrentAuditor().orElse("");
         if (!email.isEmpty()) {
-            User user = userRepository.findUserByEmail(email);
-            if (user != null) {
-                checkPermissions(user, path, httpMethod);
+            Optional<User> user = userRepository.findUserByEmail(email);
+            if (user.isPresent()) {
+                checkPermissions(user.orElse(null), path, httpMethod);
             }
         }
 

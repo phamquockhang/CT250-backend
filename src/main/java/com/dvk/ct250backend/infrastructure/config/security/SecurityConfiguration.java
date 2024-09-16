@@ -162,7 +162,7 @@ public class SecurityConfiguration {
                     return config;
                 }))
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/api/v1/auth/**", "/api/v1/countries", "/oauth2/**").permitAll()
+                        .requestMatchers("/","/api/v1/auth/**", "/api/v1/countries", "/oauth2/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2Login(Customizer.withDefaults())
