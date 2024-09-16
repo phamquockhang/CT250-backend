@@ -2,7 +2,7 @@ package com.dvk.ct250backend.domain.auth.service.impl;
 
 import com.dvk.ct250backend.app.dto.response.Meta;
 import com.dvk.ct250backend.app.dto.response.Page;
-import com.dvk.ct250backend.app.exception.IdInValidException;
+import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.auth.dto.RoleDTO;
 import com.dvk.ct250backend.domain.auth.entity.Role;
 import com.dvk.ct250backend.domain.auth.mapper.RoleMapper;
@@ -48,24 +48,24 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public RoleDTO getRoleById(Long id) throws IdInValidException {
+    public RoleDTO getRoleById(Long id) throws ResourceNotFoundException {
         return roleRepository.findById(id)
                 .map(roleMapper::toRoleDTO)
-                .orElseThrow(() -> new IdInValidException("Role ID " + id + " is invalid."));
+                .orElseThrow(() -> new ResourceNotFoundException("Role ID " + id + " is invalid."));
     }
 
     @Override
-    public void deleteRole(Long id) throws IdInValidException {
+    public void deleteRole(Long id) throws ResourceNotFoundException {
         if (!roleRepository.existsRoleByRoleId(id)) {
-            throw new IdInValidException("Role ID " + id + " is invalid.");
+            throw new ResourceNotFoundException("Role ID " + id + " is invalid.");
         }
         roleRepository.deleteById(id);
     }
 
     @Override
-    public RoleDTO updateRole(RoleDTO roleDTO) throws IdInValidException {
+    public RoleDTO updateRole(RoleDTO roleDTO) throws ResourceNotFoundException {
         if (!roleRepository.existsRoleByRoleId(Long.valueOf(roleDTO.getRoleId()))) {
-            throw new IdInValidException("Role ID " + roleDTO.getRoleId() + " is invalid.");
+            throw new ResourceNotFoundException("Role ID " + roleDTO.getRoleId() + " is invalid.");
         }
 
 //        setPermissions(roleDTO);
@@ -76,7 +76,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public RoleDTO createRole(RoleDTO roleDTO) throws IdInValidException {
+    public RoleDTO createRole(RoleDTO roleDTO) throws ResourceNotFoundException {
 //        setPermissions(roleDTO);
 
         Role role = roleMapper.toRole(roleDTO);

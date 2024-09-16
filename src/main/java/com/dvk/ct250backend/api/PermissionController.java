@@ -2,7 +2,7 @@ package com.dvk.ct250backend.api;
 
 import com.dvk.ct250backend.app.dto.response.ApiResponse;
 import com.dvk.ct250backend.app.dto.response.Page;
-import com.dvk.ct250backend.app.exception.IdInValidException;
+import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.auth.dto.PermissionDTO;
 import com.dvk.ct250backend.domain.auth.service.PermissionService;
 import jakarta.validation.Valid;
@@ -31,7 +31,7 @@ public class PermissionController {
     }
 
     @PostMapping
-    public ApiResponse<PermissionDTO> createPermission(@Valid @RequestBody PermissionDTO permissionDTO) throws IdInValidException {
+    public ApiResponse<PermissionDTO> createPermission(@Valid @RequestBody PermissionDTO permissionDTO) throws ResourceNotFoundException {
         return ApiResponse.<PermissionDTO>builder()
                 .status(HttpStatus.CREATED.value())
                 .payload(permissionService.createPermission(permissionDTO))
@@ -39,7 +39,7 @@ public class PermissionController {
     }
 
     @DeleteMapping("/{id}")
-    public ApiResponse<Void> deletePermission(@PathVariable("id") Long id) throws IdInValidException {
+    public ApiResponse<Void> deletePermission(@PathVariable("id") Long id) throws ResourceNotFoundException {
         permissionService.deletePermission(id);
         return ApiResponse.<Void>builder()
                 .status(HttpStatus.OK.value())
@@ -47,7 +47,7 @@ public class PermissionController {
     }
 
     @PutMapping({"/{id}"})
-    public ApiResponse<PermissionDTO> updatePermission(@PathVariable("id") Long id ,@Valid @RequestBody PermissionDTO permissionDTO) throws IdInValidException {
+    public ApiResponse<PermissionDTO> updatePermission(@PathVariable("id") Long id ,@Valid @RequestBody PermissionDTO permissionDTO) throws ResourceNotFoundException {
         return ApiResponse.<PermissionDTO>builder()
                 .status(HttpStatus.OK.value())
                 .payload(permissionService.updatePermission(id, permissionDTO))

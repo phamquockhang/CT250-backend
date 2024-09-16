@@ -2,7 +2,7 @@ package com.dvk.ct250backend.api;
 
 import com.dvk.ct250backend.app.dto.response.ApiResponse;
 import com.dvk.ct250backend.app.dto.response.Page;
-import com.dvk.ct250backend.app.exception.IdInValidException;
+import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.auth.dto.UserDTO;
 import com.dvk.ct250backend.domain.auth.entity.User;
 import com.dvk.ct250backend.domain.auth.service.UserService;
@@ -52,7 +52,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ApiResponse<UserDTO> getUserById(@PathVariable("id") UUID id) throws IdInValidException {
+    public ApiResponse<UserDTO> getUserById(@PathVariable("id") UUID id) throws ResourceNotFoundException {
         return ApiResponse.<UserDTO>builder()
                 .status(HttpStatus.OK.value())
                 .payload(userService.getUserById(id))
@@ -60,7 +60,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ApiResponse<Void> deleteUser(@PathVariable("id") UUID id) throws IdInValidException {
+    public ApiResponse<Void> deleteUser(@PathVariable("id") UUID id) throws ResourceNotFoundException {
         userService.deleteUser(id);
         return ApiResponse.<Void>builder()
                 .status(HttpStatus.OK.value())
@@ -68,7 +68,7 @@ public class UserController {
     }
 
     @PutMapping
-    public ApiResponse<UserDTO> updateUser(@RequestBody UserDTO user) throws IdInValidException {
+    public ApiResponse<UserDTO> updateUser(@RequestBody UserDTO user) throws ResourceNotFoundException {
         return ApiResponse.<UserDTO>builder()
                 .status(HttpStatus.OK.value())
                 .payload(userService.updateUser(user))

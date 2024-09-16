@@ -1,6 +1,6 @@
 package com.dvk.ct250backend.domain.auth.service.impl;
 
-import com.dvk.ct250backend.app.exception.IdInValidException;
+import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.auth.dto.UserDTO;
 import com.dvk.ct250backend.domain.auth.dto.request.AuthRequest;
 import com.dvk.ct250backend.domain.auth.dto.response.AuthResponse;
@@ -42,10 +42,10 @@ public class AuthServiceImpl implements AuthService {
     AuditAwareImpl auditAware;
 
     @Override
-    public UserDTO register(UserDTO userDTO) throws IdInValidException {
+    public UserDTO register(UserDTO userDTO) throws ResourceNotFoundException {
         boolean isEmailExist = this.userRepository.existsByEmail(userDTO.getEmail());
         if (isEmailExist) {
-            throw new IdInValidException("Email " + userDTO.getEmail() + " already exists, please use another email.");
+            throw new ResourceNotFoundException("Email " + userDTO.getEmail() + " already exists, please use another email.");
         }
         User user = userMapper.toUser(userDTO);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -102,11 +102,11 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void logout(HttpServletResponse response) throws IdInValidException {
+    public void logout(HttpServletResponse response) throws ResourceNotFoundException {
         String email = auditAware.getCurrentAuditor().orElse("");
 
         if (email.isEmpty()) {
-            throw new IdInValidException("Access Token not valid");
+            throw new ResourceNotFoundException("Access Token not valid");
         }
         SecurityContextHolder.clearContext();
         Cookie refreshTokenCookie = new Cookie("refresh_token", null);

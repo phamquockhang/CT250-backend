@@ -3,7 +3,7 @@ package com.dvk.ct250backend.domain.auth.service.impl;
 import com.dvk.ct250backend.app.dto.request.SearchCriteria;
 import com.dvk.ct250backend.app.dto.response.Meta;
 import com.dvk.ct250backend.app.dto.response.Page;
-import com.dvk.ct250backend.app.exception.IdInValidException;
+import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.auth.dto.PermissionDTO;
 import com.dvk.ct250backend.domain.auth.entity.Permission;
 import com.dvk.ct250backend.domain.auth.mapper.PermissionMapper;
@@ -76,9 +76,9 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     @Transactional
-    public PermissionDTO createPermission(PermissionDTO permissionDTO) throws IdInValidException {
+    public PermissionDTO createPermission(PermissionDTO permissionDTO) throws ResourceNotFoundException {
         if (permissionRepository.existsByModuleAndApiPathAndMethod(permissionDTO.getModule(), permissionDTO.getApiPath(), permissionDTO.getMethod())) {
-            throw new IdInValidException("Permission already exists");
+            throw new ResourceNotFoundException("Permission already exists");
         }
         Permission permission = permissionMapper.toPermission(permissionDTO);
         permission = permissionRepository.save(permission);
@@ -86,27 +86,23 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public void deletePermission(Long id) throws IdInValidException {
+    public void deletePermission(Long id) throws ResourceNotFoundException {
         Permission permission = findPermissionById(id);
         permissionRepository.delete(permission);
     }
 
     @Override
-    public PermissionDTO updatePermission(Long id, PermissionDTO permissionDTO) throws IdInValidException {
+    public PermissionDTO updatePermission(Long id, PermissionDTO permissionDTO) throws ResourceNotFoundException {
         Permission permission = findPermissionById(id);
         permissionMapper.updatePermissionFromDTO(permission, permissionDTO);
         return permissionMapper.toPermissionDTO(permissionRepository.save(permission));
     }
 
 
-    private Permission findPermissionById(Long id) throws IdInValidException {
+    private Permission findPermissionById(Long id) throws ResourceNotFoundException {
         return permissionRepository.findById(id)
-                .orElseThrow(() -> new IdInValidException("Permission ID " + id + " is invalid."));
+                .orElseThrow(() -> new ResourceNotFoundException("Not found permission with id: " + id));
     }
 
-    private void updatePermissionDetails(Permission permissionDB, PermissionDTO permissionDTO) {
-        if (!permissionDB.getName().equals(permissionDTO.getName())) {
-            permissionDB.setName(permissionDTO.getName());
-        }
-    }
+
 }

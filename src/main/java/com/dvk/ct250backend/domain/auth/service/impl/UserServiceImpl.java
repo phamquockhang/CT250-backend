@@ -2,7 +2,7 @@ package com.dvk.ct250backend.domain.auth.service.impl;
 
 import com.dvk.ct250backend.app.dto.response.Meta;
 import com.dvk.ct250backend.app.dto.response.Page;
-import com.dvk.ct250backend.app.exception.IdInValidException;
+import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.auth.dto.UserDTO;
 import com.dvk.ct250backend.domain.auth.entity.User;
 import com.dvk.ct250backend.domain.auth.enums.Provider;
@@ -45,16 +45,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserDTO createUser(UserDTO userDTO) throws IdInValidException {
+    public UserDTO createUser(UserDTO userDTO) throws ResourceNotFoundException {
         validateUserDetails(userDTO);
         User user = userMapper.toUser(userDTO);
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         return userMapper.toUserDTO(userRepository.save(user));
     }
 
-    private void validateUserDetails(UserDTO userDTO) throws IdInValidException {
+    private void validateUserDetails(UserDTO userDTO) throws ResourceNotFoundException {
         if (userRepository.existsByEmail(userDTO.getEmail())) {
-            throw new IdInValidException("Email " + userDTO.getEmail() + " already exists, please use a different email.");
+            throw new ResourceNotFoundException("Email " + userDTO.getEmail() + " already exists, please use a different email.");
         }
 
         Map<String, String> requiredFields = Map.of(
@@ -68,18 +68,18 @@ public class UserServiceImpl implements UserService {
         requiredFields.forEach((field, value) -> {
             if (value == null || value.isEmpty()) {
                 try {
-                    throw new IdInValidException(field + " must be provided.");
-                } catch (IdInValidException e) {
+                    throw new ResourceNotFoundException(field + " must be provided.");
+                } catch (ResourceNotFoundException e) {
                     throw new RuntimeException(e);
                 }
             }
         });
 
         if (userDTO.getDateOfBirth() == null) {
-            throw new IdInValidException("Date of birth must be provided.");
+            throw new ResourceNotFoundException("Date of birth must be provided.");
         }
         if (userDTO.getCountryId() == null) {
-            throw new IdInValidException("Country ID must be provided.");
+            throw new ResourceNotFoundException("Country ID must be provided.");
         }
 //        if (userDTO.getRoleId() == null) {
 //            throw new IdInValidException("Role ID must be provided.");
@@ -125,21 +125,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(UUID id) throws IdInValidException {
+    public void deleteUser(UUID id) throws ResourceNotFoundException {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new IdInValidException("User ID " + id + " is invalid."));
+                .orElseThrow(() -> new ResourceNotFoundException("User ID " + id + " is invalid."));
         userRepository.delete(user);
     }
 
     @Override
     @Transactional
-    public UserDTO updateUser(UserDTO userDTO) throws IdInValidException {
+    public UserDTO updateUser(UserDTO userDTO) throws ResourceNotFoundException {
         User user = userRepository.findById(userDTO.getUserId())
-                .orElseThrow(() -> new IdInValidException("User ID " + userDTO.getUserId() + " is invalid."));
+                .orElseThrow(() -> new ResourceNotFoundException("User ID " + userDTO.getUserId() + " is invalid."));
         userMapper.updateUserFromDTO(userDTO, user);
         if (userDTO.getCountryId() != null) {
             Country country = countryService.findById(userDTO.getCountryId())
-                    .orElseThrow(() -> new IdInValidException("Country ID " + userDTO.getCountryId() + " is invalid.") );
+                    .orElseThrow(() -> new ResourceNotFoundException("Country ID " + userDTO.getCountryId() + " is invalid.") );
             user.setCountry(country);
         }
         return userMapper.toUserDTO(userRepository.save(user));
