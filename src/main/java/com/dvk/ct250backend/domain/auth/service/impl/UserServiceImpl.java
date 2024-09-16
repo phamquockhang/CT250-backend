@@ -5,7 +5,6 @@ import com.dvk.ct250backend.app.dto.Page;
 import com.dvk.ct250backend.app.exception.IdInValidException;
 import com.dvk.ct250backend.domain.auth.dto.UserDTO;
 import com.dvk.ct250backend.domain.auth.entity.User;
-import com.dvk.ct250backend.domain.auth.enums.Provider;
 import com.dvk.ct250backend.domain.auth.mapper.UserMapper;
 import com.dvk.ct250backend.domain.auth.repository.UserRepository;
 import com.dvk.ct250backend.domain.auth.service.UserService;
