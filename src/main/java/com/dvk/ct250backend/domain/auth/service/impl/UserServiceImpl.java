@@ -143,17 +143,4 @@ public class UserServiceImpl implements UserService {
         }
         return userMapper.toUserDTO(userRepository.save(user));
     }
-
-    public void processOAuthPostLogin(String email) {
-        Optional<User> existUser = userRepository.findByEmail(email);
-
-        if (existUser.isEmpty()) {
-            User newUser = new User();
-            newUser.setEmail(email);
-            newUser.setProvider(Provider.GOOGLE);
-            //newUser.setEnabled(true);
-
-            userRepository.save(newUser);
-        }
-    }
 }
