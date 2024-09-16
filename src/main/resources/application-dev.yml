@@ -17,7 +17,6 @@ spring:
 #              - email
 #              - profile
 
-
   jpa:
     show-sql: true
     properties:
