@@ -40,6 +40,7 @@ public class UserDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     @NotNull(message = "Date of birth is required")
     Date dateOfBirth;
+    String avatar;
 
     RoleDTO role;
 

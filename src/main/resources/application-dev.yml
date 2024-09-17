@@ -1,21 +1,11 @@
 spring:
   datasource:
-    url: jdbc:postgresql://ct250-ttdat-cloud.h.aivencloud.com:23952/ct250?sslmode=require
-    username: avnadmin
-    password: AVNS_AgrUvRlC9rufFI_x5al
-#    url: jdbc:postgresql://localhost:5432/ct250
-#    username: user
-#    password: pass
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            clientId: 792577760982-cgvb3ejpau2batlehel1p118v1edvirb.apps.googleusercontent.com
-            clientSecret: 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
-#            scope:
-#              - email
-#              - profile
+#    url: jdbc:postgresql://ct250-ttdat-cloud.h.aivencloud.com:23952/ct250?sslmode=require
+#    username: avnadmin
+#    password: AVNS_AgrUvRlC9rufFI_x5al
+    url: jdbc:postgresql://localhost:5432/ct250
+    username: user
+    password: pass
 
   jpa:
     show-sql: true
@@ -23,7 +13,7 @@ spring:
       hibernate:
         format_sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
   data:
     web:
       pageable:
