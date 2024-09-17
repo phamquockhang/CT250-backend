@@ -1,7 +1,7 @@
 package com.dvk.ct250backend.api;
 
 import com.dvk.ct250backend.app.dto.response.ApiResponse;
-import com.dvk.ct250backend.app.exception.IdInValidException;
+import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.auth.dto.UserDTO;
 import com.dvk.ct250backend.domain.auth.dto.request.AuthRequest;
 import com.dvk.ct250backend.domain.auth.dto.response.AuthResponse;
@@ -26,7 +26,7 @@ public class AuthController {
     AuthService authService;
 
     @PostMapping("/register")
-    public ApiResponse<UserDTO> register(@RequestBody UserDTO userDTO) throws IdInValidException {
+    public ApiResponse<UserDTO> register(@RequestBody UserDTO userDTO) throws ResourceNotFoundException {
         return ApiResponse.<UserDTO>builder()
                 .status(HttpStatus.CREATED.value())
                 .payload(authService.register(userDTO))
@@ -51,7 +51,7 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ApiResponse<Void> logout(HttpServletResponse response) throws IdInValidException {
+    public ApiResponse<Void> logout(HttpServletResponse response) throws ResourceNotFoundException {
         authService.logout(response);
         return ApiResponse.<Void>builder()
                 .status(HttpStatus.OK.value())
