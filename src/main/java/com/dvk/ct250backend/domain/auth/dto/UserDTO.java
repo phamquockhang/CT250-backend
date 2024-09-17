@@ -1,14 +1,13 @@
 package com.dvk.ct250backend.domain.auth.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.UUID;
 
 @Data
@@ -37,9 +36,8 @@ public class UserDTO {
     Integer countryId;
 
     boolean active;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     @NotNull(message = "Date of birth is required")
-    Date dateOfBirth;
+    LocalDate dateOfBirth;
 
     RoleDTO role;
 
