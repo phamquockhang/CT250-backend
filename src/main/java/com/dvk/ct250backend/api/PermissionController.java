@@ -1,18 +1,17 @@
 package com.dvk.ct250backend.api;
 
-import com.dvk.ct250backend.app.dto.Page;
 import com.dvk.ct250backend.app.dto.response.ApiResponse;
-import com.dvk.ct250backend.app.exception.IdInValidException;
+import com.dvk.ct250backend.app.dto.response.Page;
+import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.auth.dto.PermissionDTO;
-import com.dvk.ct250backend.domain.auth.entity.Permission;
 import com.dvk.ct250backend.domain.auth.service.PermissionService;
-import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/permissions")
@@ -23,18 +22,16 @@ public class PermissionController {
 
     @GetMapping
     public ApiResponse<Page<PermissionDTO>> getAllPermission(
-            @Filter Specification<Permission> spec,
-            @RequestParam (defaultValue = "1") int page,
-            @RequestParam (defaultValue = "10") int pageSize,
-            @RequestParam (required = false) String sort){
+            @RequestParam Map<String, String> params
+    ){
         return ApiResponse.<Page<PermissionDTO>>builder()
                 .status(HttpStatus.OK.value())
-                .payload(permissionService.getAllPermissions(spec, page, pageSize, sort))
+                .payload(permissionService.getAllPermissions(params))
                 .build();
     }
 
     @PostMapping
-    public ApiResponse<PermissionDTO> createPermission(@Valid @RequestBody PermissionDTO permissionDTO) throws IdInValidException {
+    public ApiResponse<PermissionDTO> createPermission(@Valid @RequestBody PermissionDTO permissionDTO) throws ResourceNotFoundException {
         return ApiResponse.<PermissionDTO>builder()
                 .status(HttpStatus.CREATED.value())
                 .payload(permissionService.createPermission(permissionDTO))
@@ -42,18 +39,18 @@ public class PermissionController {
     }
 
     @DeleteMapping("/{id}")
-    public ApiResponse<Void> deletePermission(@PathVariable("id") Long id) throws IdInValidException {
+    public ApiResponse<Void> deletePermission(@PathVariable("id") Long id) throws ResourceNotFoundException {
         permissionService.deletePermission(id);
         return ApiResponse.<Void>builder()
                 .status(HttpStatus.OK.value())
                 .build();
     }
 
-    @PutMapping
-    public ApiResponse<PermissionDTO> updatePermission(@Valid @RequestBody PermissionDTO permissionDTO) throws IdInValidException {
+    @PutMapping({"/{id}"})
+    public ApiResponse<PermissionDTO> updatePermission(@PathVariable("id") Long id ,@Valid @RequestBody PermissionDTO permissionDTO) throws ResourceNotFoundException {
         return ApiResponse.<PermissionDTO>builder()
                 .status(HttpStatus.OK.value())
-                .payload(permissionService.updatePermission(permissionDTO))
+                .payload(permissionService.updatePermission(id, permissionDTO))
                 .build();
     }
 }

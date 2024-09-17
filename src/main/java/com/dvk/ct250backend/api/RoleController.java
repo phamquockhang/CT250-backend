@@ -1,8 +1,8 @@
 package com.dvk.ct250backend.api;
 
-import com.dvk.ct250backend.app.dto.Page;
 import com.dvk.ct250backend.app.dto.response.ApiResponse;
-import com.dvk.ct250backend.app.exception.IdInValidException;
+import com.dvk.ct250backend.app.dto.response.Page;
+import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.auth.dto.RoleDTO;
 import com.dvk.ct250backend.domain.auth.entity.Role;
 import com.dvk.ct250backend.domain.auth.service.RoleService;
@@ -35,7 +35,7 @@ public class RoleController {
 
 
     @PostMapping
-    public ApiResponse<RoleDTO> create(@Valid @RequestBody RoleDTO role) throws IdInValidException {
+    public ApiResponse<RoleDTO> create(@Valid @RequestBody RoleDTO role) throws ResourceNotFoundException {
         return ApiResponse.<RoleDTO>builder()
                 .status(HttpStatus.CREATED.value())
                 .payload(roleService.createRole(role))
@@ -43,7 +43,7 @@ public class RoleController {
     }
 
     @GetMapping("/{id}")
-    public ApiResponse<RoleDTO> getRole(@PathVariable("id") Long id) throws IdInValidException {
+    public ApiResponse<RoleDTO> getRole(@PathVariable("id") Long id) throws ResourceNotFoundException {
         return ApiResponse.<RoleDTO>builder()
                 .status(HttpStatus.OK.value())
                 .payload(roleService.getRoleById(id))
@@ -51,7 +51,7 @@ public class RoleController {
     }
 
     @DeleteMapping("/{id}")
-    public ApiResponse<Void> deleteRole(@PathVariable("id") Long id) throws IdInValidException {
+    public ApiResponse<Void> deleteRole(@PathVariable("id") Long id) throws ResourceNotFoundException {
         roleService.deleteRole(id);
         return ApiResponse.<Void>builder()
                 .status(HttpStatus.OK.value())
@@ -59,7 +59,7 @@ public class RoleController {
     }
 
     @PutMapping
-    public ApiResponse<RoleDTO> updateRole(@Valid @RequestBody RoleDTO role) throws IdInValidException {
+    public ApiResponse<RoleDTO> updateRole(@Valid @RequestBody RoleDTO role) throws ResourceNotFoundException {
         return ApiResponse.<RoleDTO>builder()
                 .status(HttpStatus.OK.value())
                 .payload(roleService.updateRole(role))

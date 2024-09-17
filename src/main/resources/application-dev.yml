@@ -4,6 +4,7 @@ spring:
 #    username: avnadmin
 #    password: AVNS_AgrUvRlC9rufFI_x5al
     url: jdbc:postgresql://localhost:5432/ct250
+
     username: user
     password: pass
 

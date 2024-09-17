@@ -28,7 +28,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {
             UsernameNotFoundException.class,
             BadCredentialsException.class,
-            IdInValidException.class,
     })
     public ResponseEntity<ApiResponse<Object>> handleIdException(Exception ex) {
         ApiResponse<Object> res = new ApiResponse<Object>();
@@ -51,14 +50,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
 
-//    @ExceptionHandler(value = {
-//            NoResourceFoundException.class,
-//    })
-//    public ResponseEntity<ApiResponse<Object>> handleNotFoundException(Exception ex) {
-//        ApiResponse<Object> res = new ApiResponse<Object>();
-//        res.setStatus(HttpStatus.NOT_FOUND.value());
-//        res.setError(ex.getMessage());
-//        res.setMessage("404 Not Found. URL may not exist...");
-//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
-//    }
+    @ExceptionHandler(value = {
+            ResourceNotFoundException.class,
+    })
+    public ResponseEntity<ApiResponse<Object>> handleNotFoundException(Exception ex) {
+        ApiResponse<Object> res = new ApiResponse<Object>();
+        res.setStatus(HttpStatus.NOT_FOUND.value());
+        res.setError(ex.getMessage());
+        res.setMessage("NOT FOUND");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
+    }
 }

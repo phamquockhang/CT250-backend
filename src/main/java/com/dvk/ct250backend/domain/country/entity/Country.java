@@ -16,7 +16,8 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Country {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "country_id_seq")
+    @SequenceGenerator(name = "country_id_seq", sequenceName = "countries_seq", allocationSize = 1)
     Integer countryId;
     String countryName;
     Integer countryCode;

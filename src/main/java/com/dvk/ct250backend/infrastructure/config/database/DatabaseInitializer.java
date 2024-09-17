@@ -15,9 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -94,7 +92,7 @@ public class DatabaseInitializer implements CommandLineRunner {
                     .lastName("ADMIN")
                     .phoneNumber("0123456789")
                     .identityNumber("123456789000")
-                    .dateOfBirth(Date.from(dateOfBirth.atStartOfDay(ZoneId.systemDefault()).toInstant()))
+                    .dateOfBirth(LocalDate.of(2000, 5, 3))
                     .active(true)
                     .build();
 
