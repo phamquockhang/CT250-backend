@@ -5,7 +5,6 @@ import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.auth.dto.UserDTO;
 import com.dvk.ct250backend.domain.auth.entity.User;
-import com.dvk.ct250backend.domain.auth.enums.Provider;
 import com.dvk.ct250backend.domain.auth.mapper.UserMapper;
 import com.dvk.ct250backend.domain.auth.repository.UserRepository;
 import com.dvk.ct250backend.domain.auth.service.UserService;
@@ -143,18 +142,5 @@ public class UserServiceImpl implements UserService {
             user.setCountry(country);
         }
         return userMapper.toUserDTO(userRepository.save(user));
-    }
-
-    public void processOAuthPostLogin(String email) {
-        Optional<User> existUser = userRepository.findByEmail(email);
-
-        if (existUser.isEmpty()) {
-            User newUser = new User();
-            newUser.setEmail(email);
-            newUser.setProvider(Provider.GOOGLE);
-            //newUser.setEnabled(true);
-
-            userRepository.save(newUser);
-        }
     }
 }

@@ -4,9 +4,11 @@ import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.auth.dto.UserDTO;
 import com.dvk.ct250backend.domain.auth.dto.request.AuthRequest;
 import com.dvk.ct250backend.domain.auth.dto.response.AuthResponse;
+import com.dvk.ct250backend.domain.auth.entity.Permission;
 import com.dvk.ct250backend.domain.auth.entity.Role;
 import com.dvk.ct250backend.domain.auth.entity.User;
 import com.dvk.ct250backend.domain.auth.mapper.UserMapper;
+import com.dvk.ct250backend.domain.auth.repository.PermissionRepository;
 import com.dvk.ct250backend.domain.auth.repository.RoleRepository;
 import com.dvk.ct250backend.domain.auth.repository.UserRepository;
 import com.dvk.ct250backend.domain.auth.service.AuthService;
@@ -25,7 +27,9 @@ import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @Service
@@ -40,8 +44,10 @@ public class AuthServiceImpl implements AuthService {
     JwtUtils jwtUtils;
     JwtDecoder jwtDecoder;
     AuditAwareImpl auditAware;
+    PermissionRepository permissionRepository;
 
     @Override
+    @Transactional
     public UserDTO register(UserDTO userDTO) throws ResourceNotFoundException {
         boolean isEmailExist = this.userRepository.existsByEmail(userDTO.getEmail());
         if (isEmailExist) {
@@ -49,14 +55,24 @@ public class AuthServiceImpl implements AuthService {
         }
         User user = userMapper.toUser(userDTO);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
+        user.setActive(true);
         Optional<Role> role = roleRepository.findByRoleName("USER");
         if (role.isEmpty()) {
             role = Optional.of(new Role());
             role.get().setRoleName("USER");
             role.get().setActive(true);
             role.get().setDescription("User role");
+
+            Optional<Permission> permission = permissionRepository.findById(5L);
+            if (permission.isPresent()) {
+                role.get().setPermissions(Collections.singletonList(permission.get()));
+            } else {
+                role.get().setPermissions(Collections.emptyList());
+            }
             role = Optional.of(roleRepository.save(role.get()));
+
+
+
         }
 
         user.setRole(role.get());
