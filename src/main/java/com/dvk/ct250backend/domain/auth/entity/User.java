@@ -52,6 +52,8 @@ public class User extends BaseEntity implements UserDetails {
 
     boolean active;
 
+    String avatar;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(role);

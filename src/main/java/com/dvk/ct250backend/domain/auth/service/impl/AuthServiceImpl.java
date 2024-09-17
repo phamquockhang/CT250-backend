@@ -71,10 +71,7 @@ public class AuthServiceImpl implements AuthService {
             }
             role = Optional.of(roleRepository.save(role.get()));
 
-
-
         }
-
         user.setRole(role.get());
         return userMapper.toUserDTO(userRepository.save(user));
     }

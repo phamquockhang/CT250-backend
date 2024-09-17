@@ -135,6 +135,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import java.util.Collections;
 import java.util.List;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 @EnableMethodSecurity
 @RequiredArgsConstructor
@@ -165,8 +167,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/","/api/v1/auth/**", "/api/v1/countries", "/oauth2/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .oauth2Login(Customizer.withDefaults())
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults())
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults())
                         .authenticationEntryPoint(customAuthenticationEntryPoint))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin(AbstractHttpConfigurer::disable);

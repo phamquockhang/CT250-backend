@@ -16,6 +16,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
@@ -75,5 +77,14 @@ public class AuthController {
     }
 
 
+    @GetMapping("/profile")
+    public OidcUser getUserProfile(@AuthenticationPrincipal OidcUser oidcUser) {
+        return oidcUser;
+    }
+
+    @GetMapping("/user")
+    public Principal getUser(Principal principal) {
+        return principal;
+    }
 
 }
