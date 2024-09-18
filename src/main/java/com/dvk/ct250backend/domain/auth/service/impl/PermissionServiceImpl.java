@@ -34,7 +34,7 @@ public class PermissionServiceImpl implements PermissionService {
     RequestParamUtils requestParamUtils;
 
     @Override
-    public Page<PermissionDTO> getAllPermissions(Map<String, String> params) {
+    public Page<PermissionDTO> getPermissions(Map<String, String> params) {
         int page = Integer.parseInt(params.getOrDefault("page", "1"));
         int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
 
@@ -72,6 +72,12 @@ public class PermissionServiceImpl implements PermissionService {
         }
 
         return spec;
+    }
+
+    public List<PermissionDTO> getAllPermissions() {
+        return permissionRepository.findAll().stream()
+                .map(permissionMapper::toPermissionDTO)
+                .toList();
     }
 
     @Override

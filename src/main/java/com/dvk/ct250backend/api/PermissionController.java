@@ -11,6 +11,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -21,12 +22,20 @@ public class PermissionController {
     PermissionService permissionService;
 
     @GetMapping
-    public ApiResponse<Page<PermissionDTO>> getAllPermission(
+    public ApiResponse<Page<PermissionDTO>> getPermissions(
             @RequestParam Map<String, String> params
     ){
         return ApiResponse.<Page<PermissionDTO>>builder()
                 .status(HttpStatus.OK.value())
-                .payload(permissionService.getAllPermissions(params))
+                .payload(permissionService.getPermissions(params))
+                .build();
+    }
+
+    @GetMapping("/all")
+    public ApiResponse<List<PermissionDTO>> getAllPermissions(){
+        return ApiResponse.<List<PermissionDTO>>builder()
+                .status(HttpStatus.OK.value())
+                .payload(permissionService.getAllPermissions())
                 .build();
     }
 

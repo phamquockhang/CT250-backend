@@ -8,17 +8,13 @@ import com.dvk.ct250backend.domain.auth.entity.Role;
 import com.dvk.ct250backend.domain.auth.mapper.RoleMapper;
 import com.dvk.ct250backend.domain.auth.repository.RoleRepository;
 import com.dvk.ct250backend.domain.auth.service.RoleService;
-import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -78,20 +74,8 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleDTO createRole(RoleDTO roleDTO) throws ResourceNotFoundException {
-//        setPermissions(roleDTO);
-
-        Role role = roleMapper.toRole(roleDTO);
-        role = roleRepository.save(role);
-        return roleMapper.toRoleDTO(role);
+        Role newRole = roleRepository.save(roleMapper.toRole(roleDTO));
+        return roleMapper.toRoleDTO(newRole);
     }
 
-//    private void setPermissions(RoleDTO roleDTO) {
-//        if (roleDTO.getPermissions() != null) {
-//            List<Long> reqPermissions = roleDTO.getPermissions()
-//                    .stream().map(Permission::getPermissionId)
-//                    .collect(Collectors.toList());
-//            List<Permission> dbPermissions = permissionRepository.findByPermissionIdIn(reqPermissions);
-//            roleDTO.setPermissions(dbPermissions);
-//        }
-//    }
 }
