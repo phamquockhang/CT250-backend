@@ -16,16 +16,5 @@ public interface UserMapper {
     User toUser(UserDTO userDTO);
 
     @Mapping(target = "password", ignore = true)
-    void updateUserFromDTO(UserDTO userDTO, @MappingTarget User user);
-
-//    default UserDTO toUserDTOWithNullCheck(User user) {
-//        UserDTO userDTO = toUserDTO(user);
-//        if (user.getCountry() == null) {
-//            userDTO.setCountryId(null);
-//        }
-//        if (user.getRole() == null) {
-//            userDTO.setRoleId(null);
-//        }
-//        return userDTO;
-//    }
+    void updateUserFromDTO(@MappingTarget User user, UserDTO userDTO);
 }

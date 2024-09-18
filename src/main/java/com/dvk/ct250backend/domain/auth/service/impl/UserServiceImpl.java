@@ -134,7 +134,7 @@ public class UserServiceImpl implements UserService {
     public UserDTO updateUser(UserDTO userDTO) throws ResourceNotFoundException {
         User user = userRepository.findById(userDTO.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("User ID " + userDTO.getUserId() + " is invalid."));
-        userMapper.updateUserFromDTO(userDTO, user);
+        userMapper.updateUserFromDTO(user, userDTO);
         if (userDTO.getCountryId() != null) {
             Country country = countryService.findById(userDTO.getCountryId())
                     .orElseThrow(() -> new ResourceNotFoundException("Country ID " + userDTO.getCountryId() + " is invalid.") );

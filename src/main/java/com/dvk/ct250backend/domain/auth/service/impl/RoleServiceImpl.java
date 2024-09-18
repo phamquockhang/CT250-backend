@@ -60,16 +60,11 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public RoleDTO updateRole(RoleDTO roleDTO) throws ResourceNotFoundException {
-        if (!roleRepository.existsRoleByRoleId(Long.valueOf(roleDTO.getRoleId()))) {
-            throw new ResourceNotFoundException("Role ID " + roleDTO.getRoleId() + " is invalid.");
-        }
-
-//        setPermissions(roleDTO);
-
-        Role role = roleMapper.toRole(roleDTO);
-        role = roleRepository.save(role);
-        return roleMapper.toRoleDTO(role);
+    public RoleDTO updateRole(Long id, RoleDTO roleDTO) throws ResourceNotFoundException {
+        Role roleToUpdate = roleRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found role with ID " + id));
+        roleMapper.updateRoleFromDTO(roleToUpdate, roleDTO);
+        return roleMapper.toRoleDTO(roleRepository.save(roleToUpdate));
     }
 
     @Override

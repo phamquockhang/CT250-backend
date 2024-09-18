@@ -31,10 +31,10 @@ public class RoleController {
 
 
     @PostMapping
-    public ApiResponse<RoleDTO> create(@Valid @RequestBody RoleDTO role) throws ResourceNotFoundException {
+    public ApiResponse<RoleDTO> create(@Valid @RequestBody RoleDTO roleDTO) throws ResourceNotFoundException {
         return ApiResponse.<RoleDTO>builder()
                 .status(HttpStatus.CREATED.value())
-                .payload(roleService.createRole(role))
+                .payload(roleService.createRole(roleDTO))
                 .build();
     }
 
@@ -54,11 +54,11 @@ public class RoleController {
                 .build();
     }
 
-    @PutMapping
-    public ApiResponse<RoleDTO> updateRole(@Valid @RequestBody RoleDTO role) throws ResourceNotFoundException {
+    @PutMapping({"/{id}"})
+    public ApiResponse<RoleDTO> updateRole(@PathVariable Long id,@Valid @RequestBody RoleDTO roleDTO) throws ResourceNotFoundException {
         return ApiResponse.<RoleDTO>builder()
                 .status(HttpStatus.OK.value())
-                .payload(roleService.updateRole(role))
+                .payload(roleService.updateRole(id, roleDTO))
                 .build();
     }
 

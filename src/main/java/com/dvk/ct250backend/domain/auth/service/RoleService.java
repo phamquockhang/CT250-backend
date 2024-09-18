@@ -11,5 +11,5 @@ public interface RoleService {
     Page<RoleDTO> getAllRoles(Map<String, String> params);
     RoleDTO getRoleById(Long id) throws ResourceNotFoundException;
     void deleteRole(Long id) throws ResourceNotFoundException;
-    RoleDTO updateRole(RoleDTO roleDTO) throws ResourceNotFoundException;
+    RoleDTO updateRole(Long id, RoleDTO roleDTO) throws ResourceNotFoundException;
 }

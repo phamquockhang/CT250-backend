@@ -99,9 +99,9 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public PermissionDTO updatePermission(Long id, PermissionDTO permissionDTO) throws ResourceNotFoundException {
-        Permission permission = findPermissionById(id);
-        permissionMapper.updatePermissionFromDTO(permission, permissionDTO);
-        return permissionMapper.toPermissionDTO(permissionRepository.save(permission));
+        Permission permissionToUpdate = findPermissionById(id);
+        permissionMapper.updatePermissionFromDTO(permissionToUpdate, permissionDTO);
+        return permissionMapper.toPermissionDTO(permissionRepository.save(permissionToUpdate));
     }
 
 
