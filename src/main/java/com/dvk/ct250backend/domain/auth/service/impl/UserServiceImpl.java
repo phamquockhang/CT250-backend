@@ -4,6 +4,7 @@ import com.dvk.ct250backend.app.dto.response.Meta;
 import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.auth.dto.UserDTO;
+import com.dvk.ct250backend.domain.auth.entity.Role;
 import com.dvk.ct250backend.domain.auth.entity.User;
 import com.dvk.ct250backend.domain.auth.mapper.UserMapper;
 import com.dvk.ct250backend.domain.auth.repository.UserRepository;
@@ -36,7 +37,6 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
-    CountryService countryService;
     RequestParamUtils requestParamUtils;
 
 
@@ -130,10 +130,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserDTO updateUser(UserDTO userDTO) throws ResourceNotFoundException {
-        User user = userRepository.findById(userDTO.getUserId())
-                .orElseThrow(() -> new ResourceNotFoundException("User ID " + userDTO.getUserId() + " is invalid."));
+    public UserDTO updateUser(UUID id,UserDTO userDTO) throws ResourceNotFoundException {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found user with ID: " + id));
         userMapper.updateUserFromDTO(user, userDTO);
+        user.setRole(Role.builder().roleId(userDTO.getRole().getRoleId()).build());
         return userMapper.toUserDTO(userRepository.save(user));
     }
 }

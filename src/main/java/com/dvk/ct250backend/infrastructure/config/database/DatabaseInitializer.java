@@ -91,7 +91,7 @@ public class DatabaseInitializer implements CommandLineRunner {
                     .password(this.passwordEncoder.encode("123456"))
                     .firstName("I am")
                     .lastName("ADMIN")
-                    .phoneNumber("0123456789")
+                    .phoneNumber("0963243443")
                     .identityNumber("123456789000")
                     .dateOfBirth(LocalDate.of(2000, 5, 3))
                     .active(true)
