@@ -11,16 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @SpringBootApplication
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
 @EnableConfigurationProperties(RSAKeyRecord.class)
-//public class Ct250BackendApplication {
-//
-//    public static void main(String[] args) {
-//        SpringApplication.run(Ct250BackendApplication.class, args);
-//    }
-//
-//}
-
 public class Ct250BackendApplication extends SpringBootServletInitializer {
-
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(Ct250BackendApplication.class);

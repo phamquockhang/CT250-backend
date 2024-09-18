@@ -56,7 +56,7 @@ public class SecurityConfiguration {
                     config.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:5000"));
                     config.setAllowedMethods(Collections.singletonList("*"));
                     config.setAllowCredentials(true);
-                    config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
+                    config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept", "siteUrl"));
                     config.setMaxAge(3600L);
                     return config;
                 }))
