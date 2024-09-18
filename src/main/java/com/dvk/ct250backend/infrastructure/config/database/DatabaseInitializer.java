@@ -41,7 +41,7 @@ public class DatabaseInitializer implements CommandLineRunner {
 
         if (countCountries == 0){
             ArrayList<Country> arr = new ArrayList<>();
-            arr.add(Country.builder().countryId(1).countryName("Vietnam").countryCode(84).build());
+            arr.add(Country.builder().countryId(1).countryName("Việt Nam").countryCode(84).build());
             countryRepository.saveAll(arr);
         }
 
@@ -59,6 +59,7 @@ public class DatabaseInitializer implements CommandLineRunner {
             arr.add(new Permission("Delete a role", "/api/v1/roles/{id}", "DELETE", "ROLES"));
             arr.add(new Permission("Get a role by id", "/api/v1/roles/{id}", "GET", "ROLES"));
             arr.add(new Permission("Get roles with pagination", "/api/v1/roles", "GET", "ROLES"));
+            arr.add(new Permission("Get all roles", "/api/v1/roles/all", "GET", "ROLES"));
             arr.add(new Permission("Create a permission", "/api/v1/permissions", "POST", "PERMISSIONS"));
             arr.add(new Permission("Update a permission", "/api/v1/permissions/{id}", "PUT", "PERMISSIONS"));
             arr.add(new Permission("Delete a permission", "/api/v1/permissions/{id}", "DELETE", "PERMISSIONS"));
@@ -83,7 +84,6 @@ public class DatabaseInitializer implements CommandLineRunner {
         }
 
         if (countUsers == 0) {
-            LocalDate dateOfBirth = LocalDate.of(1999, 5, 6);
 
             User adminUser = User.builder()
                     .email("admin@gmail.com")
@@ -99,7 +99,7 @@ public class DatabaseInitializer implements CommandLineRunner {
 
             Optional<Role> adminRole = this.roleRepository.findByRoleName("ADMIN");
             adminRole.ifPresent(adminUser::setRole);
-            Optional<Country> country = this.countryRepository.findByCountryName("Vietnam");
+            Optional<Country> country = this.countryRepository.findByCountryName("Việt Nam");
             country.ifPresent(adminUser::setCountry);
 
             this.userRepository.save(adminUser);

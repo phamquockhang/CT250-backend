@@ -12,6 +12,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -22,10 +23,18 @@ public class RoleController {
     RoleService roleService;
 
     @GetMapping
-    public ApiResponse<Page<RoleDTO>> getAllRole(@RequestParam Map<String, String> params) {
+    public ApiResponse<Page<RoleDTO>> getRole(@RequestParam Map<String, String> params) {
         return ApiResponse.<Page<RoleDTO>>builder()
                 .status(HttpStatus.OK.value())
-                .payload(roleService.getAllRoles(params))
+                .payload(roleService.getRoles(params))
+                .build();
+    }
+
+    @GetMapping("/all")
+    public ApiResponse<List<RoleDTO>> getAllRoles() {
+        return ApiResponse.<List<RoleDTO>>builder()
+                .status(HttpStatus.OK.value())
+                .payload(roleService.getAllRoles())
                 .build();
     }
 

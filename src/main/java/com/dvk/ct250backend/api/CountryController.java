@@ -21,11 +21,11 @@ public class CountryController {
 
     CountryService countryService;
 
-    @GetMapping
-    public ApiResponse<List<CountryDTO>> getCountries() {
+    @GetMapping("/all")
+    public ApiResponse<List<CountryDTO>> getAllCountries() {
         return ApiResponse.<List<CountryDTO>>builder()
                 .status(HttpStatus.OK.value())
-                .payload(countryService.getCountries())
+                .payload(countryService.getAllCountries())
                 .build();
     }
 }

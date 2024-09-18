@@ -19,7 +19,6 @@ public class RoleDTO {
     Integer roleId;
     @NotBlank(message = "Role name is required")
     String roleName;
-    @NotBlank(message = "Description is required")
     String description;
     boolean active;
 

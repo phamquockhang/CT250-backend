@@ -8,7 +8,6 @@ import com.dvk.ct250backend.domain.auth.entity.User;
 import com.dvk.ct250backend.domain.auth.mapper.UserMapper;
 import com.dvk.ct250backend.domain.auth.repository.UserRepository;
 import com.dvk.ct250backend.domain.auth.service.UserService;
-import com.dvk.ct250backend.domain.country.entity.Country;
 import com.dvk.ct250backend.domain.country.service.CountryService;
 import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
 import lombok.AccessLevel;
@@ -44,7 +43,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDTO createUser(UserDTO userDTO) throws ResourceNotFoundException {
-        validateUserDetails(userDTO);
+//        validateUserDetails(userDTO);
         User user = userMapper.toUser(userDTO);
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         return userMapper.toUserDTO(userRepository.save(user));
@@ -76,9 +75,9 @@ public class UserServiceImpl implements UserService {
         if (userDTO.getDateOfBirth() == null) {
             throw new ResourceNotFoundException("Date of birth must be provided.");
         }
-        if (userDTO.getCountryId() == null) {
-            throw new ResourceNotFoundException("Country ID must be provided.");
-        }
+//        if (userDTO.getCountryId() == null) {
+//            throw new ResourceNotFoundException("Country ID must be provided.");
+//        }
 //        if (userDTO.getRoleId() == null) {
 //            throw new IdInValidException("Role ID must be provided.");
 //        }
@@ -135,11 +134,6 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(userDTO.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("User ID " + userDTO.getUserId() + " is invalid."));
         userMapper.updateUserFromDTO(user, userDTO);
-        if (userDTO.getCountryId() != null) {
-            Country country = countryService.findById(userDTO.getCountryId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Country ID " + userDTO.getCountryId() + " is invalid.") );
-            user.setCountry(country);
-        }
         return userMapper.toUserDTO(userRepository.save(user));
     }
 }

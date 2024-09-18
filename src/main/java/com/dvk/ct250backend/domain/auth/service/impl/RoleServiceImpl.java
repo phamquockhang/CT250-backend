@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -26,7 +27,7 @@ public class RoleServiceImpl implements RoleService {
     RoleMapper roleMapper;
 
     @Override
-    public Page<RoleDTO> getAllRoles(Map<String, String> params) {
+    public Page<RoleDTO> getRoles(Map<String, String> params) {
         int page = Integer.parseInt(params.getOrDefault("page", "1"));
         int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
         Pageable pageable = PageRequest.of(page - 1, pageSize);
@@ -42,6 +43,12 @@ public class RoleServiceImpl implements RoleService {
                 .meta(meta)
                 .content(pageRole.getContent().stream().map(roleMapper::toRoleDTO).collect(Collectors.toList()))
                 .build();
+    }
+
+    public List<RoleDTO> getAllRoles() {
+        List<Role> roles = roleRepository.findAll();
+        return roles.stream().map(roleMapper::toRoleDTO).collect(Collectors.toList());
+
     }
 
     @Override
