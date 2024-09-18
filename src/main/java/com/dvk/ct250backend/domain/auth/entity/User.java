@@ -30,8 +30,12 @@ public class User extends BaseEntity implements UserDetails {
     String password;
     String firstName;
     String lastName;
+    String avatar;
 
     LocalDate dateOfBirth;
+
+    @Column(unique = true)
+    String verificationToken;
 
     @Column(name = "identity_number", unique = true, length = 20)
     String identityNumber;
@@ -52,8 +56,6 @@ public class User extends BaseEntity implements UserDetails {
 
     boolean active;
 
-    String avatar;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(role);
@@ -62,5 +64,10 @@ public class User extends BaseEntity implements UserDetails {
     @Override
     public String getUsername() {
         return email;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return active;
     }
 }

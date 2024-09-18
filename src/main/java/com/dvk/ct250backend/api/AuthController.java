@@ -5,7 +5,11 @@ import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.auth.dto.UserDTO;
 import com.dvk.ct250backend.domain.auth.dto.request.AuthRequest;
 import com.dvk.ct250backend.domain.auth.dto.response.AuthResponse;
+import com.dvk.ct250backend.domain.auth.entity.User;
+import com.dvk.ct250backend.domain.auth.mapper.UserMapper;
+import com.dvk.ct250backend.domain.auth.repository.UserRepository;
 import com.dvk.ct250backend.domain.auth.service.AuthService;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -16,6 +20,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 
 @RestController
@@ -25,14 +30,34 @@ import java.security.Principal;
 public class AuthController {
 
     AuthService authService;
+    UserMapper userMapper;
+
+//    @PostMapping("/register")
+//    public ApiResponse<UserDTO> register(@RequestBody UserDTO userDTO) throws ResourceNotFoundException {
+//        return ApiResponse.<UserDTO>builder()
+//                .status(HttpStatus.CREATED.value())
+//                .payload(authService.register(userDTO))
+//                .build();
+//    }
 
     @PostMapping("/register")
-    public ApiResponse<UserDTO> register(@RequestBody UserDTO userDTO) throws ResourceNotFoundException {
+    public ApiResponse<UserDTO> register(@RequestBody UserDTO userDTO, @RequestHeader("siteUrl") String siteUrl) throws ResourceNotFoundException, MessagingException, UnsupportedEncodingException {
         return ApiResponse.<UserDTO>builder()
                 .status(HttpStatus.CREATED.value())
-                .payload(authService.register(userDTO))
+                .payload(authService.register(userDTO, siteUrl))
                 .build();
     }
+
+    @GetMapping("/verify")
+    public ApiResponse<UserDTO> verifyUser(@RequestParam("token") String token) throws ResourceNotFoundException {
+        UserDTO userDTO = authService.verifyUser(token);
+
+        return ApiResponse.<UserDTO>builder()
+                .status(HttpStatus.OK.value())
+                .payload(userDTO)
+                .build();
+    }
+
 
     @PostMapping("/login")
     public ApiResponse<AuthResponse> login(@Valid @RequestBody AuthRequest authRequest,
@@ -68,6 +93,8 @@ public class AuthController {
                 .build();
     }
 
+
+
     @GetMapping("/failure")
     public ApiResponse<String> loginFailure() {
         return ApiResponse.<String>builder()
@@ -76,15 +103,5 @@ public class AuthController {
                 .build();
     }
 
-
-    @GetMapping("/profile")
-    public OidcUser getUserProfile(@AuthenticationPrincipal OidcUser oidcUser) {
-        return oidcUser;
-    }
-
-    @GetMapping("/user")
-    public Principal getUser(Principal principal) {
-        return principal;
-    }
 
 }

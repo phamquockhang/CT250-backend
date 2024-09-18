@@ -14,11 +14,15 @@ import com.dvk.ct250backend.domain.auth.repository.UserRepository;
 import com.dvk.ct250backend.domain.auth.service.AuthService;
 import com.dvk.ct250backend.infrastructure.audit.AuditAwareImpl;
 import com.dvk.ct250backend.infrastructure.utils.JwtUtils;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,8 +33,10 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -45,17 +51,22 @@ public class AuthServiceImpl implements AuthService {
     JwtDecoder jwtDecoder;
     AuditAwareImpl auditAware;
     PermissionRepository permissionRepository;
+    JavaMailSender mailSender;
+
 
     @Override
     @Transactional
-    public UserDTO register(UserDTO userDTO) throws ResourceNotFoundException {
+    public UserDTO register(UserDTO userDTO, String siteUrl) throws ResourceNotFoundException, MessagingException, UnsupportedEncodingException {
         boolean isEmailExist = this.userRepository.existsByEmail(userDTO.getEmail());
         if (isEmailExist) {
             throw new ResourceNotFoundException("Email " + userDTO.getEmail() + " already exists, please use another email.");
         }
         User user = userMapper.toUser(userDTO);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setActive(true);
+        user.setActive(false);
+        user.setVerificationToken(UUID.randomUUID().toString());
+
+        sendVerificationEmail(user,siteUrl);
         Optional<Role> role = roleRepository.findByRoleName("USER");
         if (role.isEmpty()) {
             role = Optional.of(new Role());
@@ -73,7 +84,48 @@ public class AuthServiceImpl implements AuthService {
 
         }
         user.setRole(role.get());
+
         return userMapper.toUserDTO(userRepository.save(user));
+    }
+
+    private void sendVerificationEmail(User user, String siteURL)
+            throws MessagingException, UnsupportedEncodingException {
+        String toAddress = user.getEmail();
+        String fromAddress = "davikaairways1109@gmail.com";
+        String senderName = "DAVIKA AIRWAYS";
+        String subject = "Please verify your registration";
+        String content = "Dear [[name]],<br>"
+                + "Please click the link below to verify your registration:<br>"
+                + "<h3><a href=\"[[URL]]\" target=\"_self\">VERIFY</a></h3>"
+                + "Thank you,<br>"
+                + "Your company name.";
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        helper.setFrom(fromAddress, senderName);
+        helper.setTo(toAddress);
+        helper.setSubject(subject);
+
+        content = content.replace("[[name]]", user.getFirstName());
+        String verifyURL = siteURL + "/verify?token=" + user.getVerificationToken();
+
+        content = content.replace("[[URL]]", verifyURL);
+
+        helper.setText(content, true);
+
+        mailSender.send(message);
+    }
+
+    public UserDTO verifyUser(String token) throws ResourceNotFoundException {
+        User user = userRepository.findByVerificationToken(token)
+                .orElseThrow(() -> new ResourceNotFoundException("Invalid verification token"));
+
+        user.setActive(true);
+        user.setVerificationToken(null);
+        User updatedUser = userRepository.save(user);
+
+        return userMapper.toUserDTO(updatedUser);
     }
 
     @Override
