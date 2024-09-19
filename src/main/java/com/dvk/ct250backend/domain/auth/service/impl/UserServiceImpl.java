@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public UserDTO updateUser(UUID id,UserDTO userDTO) throws ResourceNotFoundException {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found user with ID: " + id));
