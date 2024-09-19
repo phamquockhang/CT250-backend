@@ -22,6 +22,6 @@ public class Country {
     String countryName;
     Integer countryCode;
 
-    @OneToMany(mappedBy = "country")
+    @OneToMany(mappedBy = "country", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     Set<User> users;
 }

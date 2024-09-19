@@ -14,6 +14,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -67,6 +68,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional
     public RoleDTO updateRole(Long id, RoleDTO roleDTO) throws ResourceNotFoundException {
         Role roleToUpdate = roleRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found role with ID " + id));
@@ -75,6 +77,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional
     public RoleDTO createRole(RoleDTO roleDTO) throws ResourceNotFoundException {
         Role newRole = roleRepository.save(roleMapper.toRole(roleDTO));
         return roleMapper.toRoleDTO(newRole);

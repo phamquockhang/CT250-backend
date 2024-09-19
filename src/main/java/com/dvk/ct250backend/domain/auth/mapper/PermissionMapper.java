@@ -5,7 +5,7 @@ import com.dvk.ct250backend.domain.auth.entity.Permission;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {RoleMapper.class})
 public interface PermissionMapper {
     PermissionDTO toPermissionDTO(Permission permission);
     Permission toPermission(PermissionDTO permissionDTO);

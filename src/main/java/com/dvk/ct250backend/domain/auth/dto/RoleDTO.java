@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -22,7 +23,7 @@ public class RoleDTO {
     String description;
     boolean active;
 
-    List<PermissionDTO> permissions;
+    List<PermissionDTO> permissions = new ArrayList<>();
 
     LocalDateTime createdAt;
     LocalDateTime updatedAt;

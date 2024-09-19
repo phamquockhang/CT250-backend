@@ -15,5 +15,6 @@ public interface UserMapper {
     User toUser(UserDTO userDTO);
 
     @Mapping(target = "password", ignore = true)
+    @Mapping(target ="role.active", ignore = true)
     void updateUserFromDTO(@MappingTarget User user, UserDTO userDTO);
 }

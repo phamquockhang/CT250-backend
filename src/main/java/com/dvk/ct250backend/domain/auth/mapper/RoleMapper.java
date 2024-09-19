@@ -9,5 +9,6 @@ import org.mapstruct.MappingTarget;
 public interface RoleMapper {
     RoleDTO toRoleDTO(Role role);
     Role toRole(RoleDTO roleDTO);
+
     void updateRoleFromDTO(@MappingTarget Role role, RoleDTO roleDTO);
 }
