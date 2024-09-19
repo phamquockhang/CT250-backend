@@ -24,7 +24,6 @@ public class Role extends BaseEntity implements GrantedAuthority {
     @SequenceGenerator(name = "role_id_seq", sequenceName = "roles_seq", allocationSize = 1)
     Long roleId;
 
-    @NotBlank(message = "Role name is required")
     String roleName;
     String description;
     boolean active;

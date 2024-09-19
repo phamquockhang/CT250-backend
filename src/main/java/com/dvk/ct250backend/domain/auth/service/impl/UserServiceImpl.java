@@ -129,12 +129,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public UserDTO updateUser(UUID id,UserDTO userDTO) throws ResourceNotFoundException {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found user with ID: " + id));
         userMapper.updateUserFromDTO(user, userDTO);
-        user.setRole(Role.builder().roleId(userDTO.getRole().getRoleId()).build());
         return userMapper.toUserDTO(userRepository.save(user));
     }
 }
