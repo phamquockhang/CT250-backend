@@ -6,7 +6,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -17,14 +16,13 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RoleDTO {
-    Integer roleId;
+    Long roleId;
     @NotBlank(message = "Role name is required")
     String roleName;
-    @NotBlank(message = "Description is required")
     String description;
     boolean active;
 
-    List<PermissionDTO> permissions = new ArrayList<>();
+    List<PermissionDTO> permissions;
 
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
