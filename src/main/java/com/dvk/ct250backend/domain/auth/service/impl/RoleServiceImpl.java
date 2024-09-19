@@ -8,17 +8,16 @@ import com.dvk.ct250backend.domain.auth.entity.Role;
 import com.dvk.ct250backend.domain.auth.mapper.RoleMapper;
 import com.dvk.ct250backend.domain.auth.repository.RoleRepository;
 import com.dvk.ct250backend.domain.auth.service.RoleService;
-import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,13 +26,13 @@ import java.util.stream.Collectors;
 public class RoleServiceImpl implements RoleService {
     RoleRepository roleRepository;
     RoleMapper roleMapper;
-    RequestParamUtils requestParamUtils;
 
     @Override
-    public Page<RoleDTO> getAllRoles(Specification<Role> spec, int page, int pageSize, String sort) {
-        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(sort);
-        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortOrders));
-        org.springframework.data.domain.Page<Role> pageRole = roleRepository.findAll(spec, pageable);
+    public Page<RoleDTO> getRoles(Map<String, String> params) {
+        int page = Integer.parseInt(params.getOrDefault("page", "1"));
+        int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
+        Pageable pageable = PageRequest.of(page - 1, pageSize);
+        org.springframework.data.domain.Page<Role> pageRole = roleRepository.findAll(pageable);
         Meta meta = Meta.builder()
                 .page(pageRole.getNumber() + 1)
                 .pageSize(pageRole.getSize())
@@ -47,11 +46,17 @@ public class RoleServiceImpl implements RoleService {
                 .build();
     }
 
+    public List<RoleDTO> getAllRoles() {
+        List<Role> roles = roleRepository.findAll();
+        return roles.stream().map(roleMapper::toRoleDTO).collect(Collectors.toList());
+
+    }
+
     @Override
     public RoleDTO getRoleById(Long id) throws ResourceNotFoundException {
         return roleRepository.findById(id)
                 .map(roleMapper::toRoleDTO)
-                .orElseThrow(() -> new ResourceNotFoundException("Role ID " + id + " is invalid."));
+                .orElseThrow(() -> new ResourceNotFoundException("Not found role with ID " + id));
     }
 
     @Override
@@ -63,34 +68,19 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public RoleDTO updateRole(RoleDTO roleDTO) throws ResourceNotFoundException {
-        if (!roleRepository.existsRoleByRoleId(Long.valueOf(roleDTO.getRoleId()))) {
-            throw new ResourceNotFoundException("Role ID " + roleDTO.getRoleId() + " is invalid.");
-        }
-
-//        setPermissions(roleDTO);
-
-        Role role = roleMapper.toRole(roleDTO);
-        role = roleRepository.save(role);
-        return roleMapper.toRoleDTO(role);
+    @Transactional
+    public RoleDTO updateRole(Long id, RoleDTO roleDTO) throws ResourceNotFoundException {
+        Role roleToUpdate = roleRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Not found role with ID " + id));
+        roleMapper.updateRoleFromDTO(roleToUpdate, roleDTO);
+        return roleMapper.toRoleDTO(roleRepository.save(roleToUpdate));
     }
 
     @Override
+    @Transactional
     public RoleDTO createRole(RoleDTO roleDTO) throws ResourceNotFoundException {
-//        setPermissions(roleDTO);
-
-        Role role = roleMapper.toRole(roleDTO);
-        role = roleRepository.save(role);
-        return roleMapper.toRoleDTO(role);
+        Role newRole = roleRepository.save(roleMapper.toRole(roleDTO));
+        return roleMapper.toRoleDTO(newRole);
     }
 
-//    private void setPermissions(RoleDTO roleDTO) {
-//        if (roleDTO.getPermissions() != null) {
-//            List<Long> reqPermissions = roleDTO.getPermissions()
-//                    .stream().map(Permission::getPermissionId)
-//                    .collect(Collectors.toList());
-//            List<Permission> dbPermissions = permissionRepository.findByPermissionIdIn(reqPermissions);
-//            roleDTO.setPermissions(dbPermissions);
-//        }
-//    }
 }

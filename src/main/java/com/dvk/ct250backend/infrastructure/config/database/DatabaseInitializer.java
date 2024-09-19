@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class DatabaseInitializer implements CommandLineRunner {
 
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
         System.out.println(">>> START INIT DATABASE");
         long countPermissions = this.permissionRepository.count();
@@ -41,7 +43,7 @@ public class DatabaseInitializer implements CommandLineRunner {
 
         if (countCountries == 0){
             ArrayList<Country> arr = new ArrayList<>();
-            arr.add(Country.builder().countryId(1).countryName("Vietnam").countryCode(84).build());
+            arr.add(Country.builder().countryId(1).countryName("Việt Nam").countryCode(84).build());
             countryRepository.saveAll(arr);
         }
 
@@ -59,11 +61,13 @@ public class DatabaseInitializer implements CommandLineRunner {
             arr.add(new Permission("Delete a role", "/api/v1/roles/{id}", "DELETE", "ROLES"));
             arr.add(new Permission("Get a role by id", "/api/v1/roles/{id}", "GET", "ROLES"));
             arr.add(new Permission("Get roles with pagination", "/api/v1/roles", "GET", "ROLES"));
+            arr.add(new Permission("Get all roles", "/api/v1/roles/all", "GET", "ROLES"));
             arr.add(new Permission("Create a permission", "/api/v1/permissions", "POST", "PERMISSIONS"));
             arr.add(new Permission("Update a permission", "/api/v1/permissions/{id}", "PUT", "PERMISSIONS"));
             arr.add(new Permission("Delete a permission", "/api/v1/permissions/{id}", "DELETE", "PERMISSIONS"));
             arr.add(new Permission("Get a permission by id", "/api/v1/permissions/{id}", "GET", "PERMISSIONS"));
             arr.add(new Permission("Get permissions with pagination", "/api/v1/permissions", "GET", "PERMISSIONS"));
+            arr.add(new Permission("Get all permissions", "/api/v1/permissions/all", "GET", "PERMISSIONS"));
 
             this.permissionRepository.saveAll(arr);
         }
@@ -82,7 +86,6 @@ public class DatabaseInitializer implements CommandLineRunner {
         }
 
         if (countUsers == 0) {
-            LocalDate dateOfBirth = LocalDate.of(1999, 5, 6);
 
             User adminUser = User.builder()
                     .email("admin@gmail.com")
@@ -90,7 +93,7 @@ public class DatabaseInitializer implements CommandLineRunner {
                     .password(this.passwordEncoder.encode("123456"))
                     .firstName("I am")
                     .lastName("ADMIN")
-                    .phoneNumber("0123456789")
+                    .phoneNumber("0963243443")
                     .identityNumber("123456789000")
                     .dateOfBirth(LocalDate.of(2000, 5, 3))
                     .active(true)
@@ -98,7 +101,7 @@ public class DatabaseInitializer implements CommandLineRunner {
 
             Optional<Role> adminRole = this.roleRepository.findByRoleName("ADMIN");
             adminRole.ifPresent(adminUser::setRole);
-            Optional<Country> country = this.countryRepository.findByCountryName("Vietnam");
+            Optional<Country> country = this.countryRepository.findByCountryName("Việt Nam");
             country.ifPresent(adminUser::setCountry);
 
             this.userRepository.save(adminUser);

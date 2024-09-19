@@ -67,11 +67,11 @@ public class UserController {
                 .build();
     }
 
-    @PutMapping
-    public ApiResponse<UserDTO> updateUser(@RequestBody UserDTO user) throws ResourceNotFoundException {
+    @PutMapping("{id}")
+    public ApiResponse<UserDTO> updateUser(@PathVariable UUID id,@RequestBody UserDTO user) throws ResourceNotFoundException {
         return ApiResponse.<UserDTO>builder()
                 .status(HttpStatus.OK.value())
-                .payload(userService.updateUser(user))
+                .payload(userService.updateUser(id, user))
                 .build();
     }
 

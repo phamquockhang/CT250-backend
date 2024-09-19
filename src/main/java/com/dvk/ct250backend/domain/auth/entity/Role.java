@@ -24,16 +24,15 @@ public class Role extends BaseEntity implements GrantedAuthority {
     @SequenceGenerator(name = "role_id_seq", sequenceName = "roles_seq", allocationSize = 1)
     Long roleId;
 
-    @NotBlank(message = "Role name is required")
     String roleName;
     String description;
     boolean active;
 
-    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     List<User> users;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "permission_role", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "permission_id"))
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "permission_role", joinColumns = @JoinColumn(name = "role_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "permission_id", nullable = false))
     List<Permission> permissions;
 
     @Override

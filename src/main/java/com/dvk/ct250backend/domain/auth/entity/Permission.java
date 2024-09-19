@@ -1,7 +1,6 @@
 package com.dvk.ct250backend.domain.auth.entity;
 
 import com.dvk.ct250backend.domain.common.entity.BaseEntity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -27,9 +26,8 @@ public class Permission extends BaseEntity {
     String method;
     String module;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "permissions")
-    @JsonIgnore
-    private List<Role> roles;
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "permissions", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    List<Role> roles;
 
     public Permission(String name, String apiPath, String method, String module) {
         this.name = name;

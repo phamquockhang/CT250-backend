@@ -38,8 +38,6 @@ public class UserDTO {
     boolean active;
     @NotNull(message = "Date of birth is required")
     String avatar;
-    String verificationToken;
-
     LocalDate dateOfBirth;
 
     RoleDTO role;

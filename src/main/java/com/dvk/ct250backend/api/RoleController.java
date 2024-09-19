@@ -4,16 +4,16 @@ import com.dvk.ct250backend.app.dto.response.ApiResponse;
 import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.auth.dto.RoleDTO;
-import com.dvk.ct250backend.domain.auth.entity.Role;
 import com.dvk.ct250backend.domain.auth.service.RoleService;
-import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/roles")
@@ -23,22 +23,27 @@ public class RoleController {
     RoleService roleService;
 
     @GetMapping
-    public ApiResponse<Page<RoleDTO>> getAllRole(@Filter Specification<Role> spec,
-                                                 @RequestParam(defaultValue = "1") int page,
-                                                 @RequestParam(defaultValue = "10") int pageSize,
-                                                 @RequestParam(required = false) String sort) {
+    public ApiResponse<Page<RoleDTO>> getRole(@RequestParam Map<String, String> params) {
         return ApiResponse.<Page<RoleDTO>>builder()
                 .status(HttpStatus.OK.value())
-                .payload(roleService.getAllRoles(spec, page, pageSize, sort))
+                .payload(roleService.getRoles(params))
+                .build();
+    }
+
+    @GetMapping("/all")
+    public ApiResponse<List<RoleDTO>> getAllRoles() {
+        return ApiResponse.<List<RoleDTO>>builder()
+                .status(HttpStatus.OK.value())
+                .payload(roleService.getAllRoles())
                 .build();
     }
 
 
     @PostMapping
-    public ApiResponse<RoleDTO> create(@Valid @RequestBody RoleDTO role) throws ResourceNotFoundException {
+    public ApiResponse<RoleDTO> create(@Valid @RequestBody RoleDTO roleDTO) throws ResourceNotFoundException {
         return ApiResponse.<RoleDTO>builder()
                 .status(HttpStatus.CREATED.value())
-                .payload(roleService.createRole(role))
+                .payload(roleService.createRole(roleDTO))
                 .build();
     }
 
@@ -58,11 +63,11 @@ public class RoleController {
                 .build();
     }
 
-    @PutMapping
-    public ApiResponse<RoleDTO> updateRole(@Valid @RequestBody RoleDTO role) throws ResourceNotFoundException {
+    @PutMapping({"/{id}"})
+    public ApiResponse<RoleDTO> updateRole(@PathVariable Long id,@Valid @RequestBody RoleDTO roleDTO) throws ResourceNotFoundException {
         return ApiResponse.<RoleDTO>builder()
                 .status(HttpStatus.OK.value())
-                .payload(roleService.updateRole(role))
+                .payload(roleService.updateRole(id, roleDTO))
                 .build();
     }
 

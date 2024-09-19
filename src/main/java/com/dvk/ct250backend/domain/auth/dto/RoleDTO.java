@@ -17,10 +17,9 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RoleDTO {
-    Integer roleId;
+    Long roleId;
     @NotBlank(message = "Role name is required")
     String roleName;
-    @NotBlank(message = "Description is required")
     String description;
     boolean active;
 
