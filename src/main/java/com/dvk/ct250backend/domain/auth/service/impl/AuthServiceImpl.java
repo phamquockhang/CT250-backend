@@ -97,11 +97,26 @@ public class AuthServiceImpl implements AuthService {
         String fromAddress = "davikaairways1109@gmail.com";
         String senderName = "DAVIKA AIRWAYS";
         String subject = "Please verify your registration";
-        String content = "Dear [[name]],<br>"
-                + "Please click the link below to verify your registration:<br>"
-                + "<h3><a href=\"[[URL]]\" target=\"_self\">VERIFY</a></h3>"
+        String content =
+                "Dear [[name]],<br>"
+                + "Thank you for registering with DaViKa Airways!<br><br>"
+
+                + "We need a little more information to complete your registration, including a confirmation of your email address.<br><br>"
+
+                + "Please click the link below to verify your registration:"
+                + "<div>" +
+                        "<a " +
+                            "href=\"[[URL]]\" " +
+                            "target=\"_self\" " +
+
+                        ">" +
+                            "<button \"style=\\\"background-color:blue;color:white;padding:20px 40px;text-decoration:none;\\\"\">" +
+                                "Verify" +
+                            "</button>" +
+                        "</a>" +
+                "</div>"
                 + "Thank you,<br>"
-                + "Your company name.";
+                + "DaViKa Airways!!!";
 
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
