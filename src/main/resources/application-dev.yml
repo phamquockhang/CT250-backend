@@ -14,10 +14,24 @@ spring:
         format_sql: true
     hibernate:
       ddl-auto: create-drop
+
   data:
     web:
       pageable:
         one-indexed-parameters: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: davikaairways1109@gmail.com
+    password: zfxjbsfmcwpcebte
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 application:
   security:
     rsa:

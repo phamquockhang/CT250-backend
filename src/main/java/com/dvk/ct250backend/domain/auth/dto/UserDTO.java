@@ -1,6 +1,5 @@
 package com.dvk.ct250backend.domain.auth.dto;
 
-import com.dvk.ct250backend.domain.country.dto.CountryDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -34,12 +33,11 @@ public class UserDTO {
     @NotBlank(message = "Phone number is required")
     String phoneNumber;
     @NotNull(message = "Country ID is required")
-    CountryDTO country;
+    Integer countryId;
 
     boolean active;
-
-    String avatar;
     @NotNull(message = "Date of birth is required")
+    String avatar;
     LocalDate dateOfBirth;
 
     RoleDTO role;
