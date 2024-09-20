@@ -23,7 +23,7 @@ public class RoleDTO {
     String description;
     boolean active;
 
-    List<PermissionDTO> permissions = new ArrayList<>();
+    List<PermissionDTO> permissions;
 
     LocalDateTime createdAt;
     LocalDateTime updatedAt;

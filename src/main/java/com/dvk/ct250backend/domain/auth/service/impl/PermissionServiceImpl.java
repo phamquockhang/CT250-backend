@@ -86,9 +86,8 @@ public class PermissionServiceImpl implements PermissionService {
         if (permissionRepository.existsByModuleAndApiPathAndMethod(permissionDTO.getModule(), permissionDTO.getApiPath(), permissionDTO.getMethod())) {
             throw new ResourceNotFoundException("Permission already exists");
         }
-        Permission permission = permissionMapper.toPermission(permissionDTO);
-        permission = permissionRepository.save(permission);
-        return permissionMapper.toPermissionDTO(permission);
+        Permission newPermission = permissionRepository.save(permissionMapper.toPermission(permissionDTO));
+        return permissionMapper.toPermissionDTO(newPermission);
     }
 
     @Override

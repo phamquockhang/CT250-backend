@@ -37,7 +37,6 @@ public class UserDTO {
     CountryDTO country;
 
     boolean active;
-    @NotNull(message = "Date of birth is required")
     String avatar;
     LocalDate dateOfBirth;
 
