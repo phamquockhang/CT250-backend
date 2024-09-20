@@ -49,50 +49,16 @@ public class UserServiceImpl implements UserService {
     @PersistenceContext
     EntityManager entityManager;
     RoleRepository roleRepository;
+    PermissionMapper permissionMapper;
 
 
     @Override
     @Transactional
     public UserDTO createUser(UserDTO userDTO) throws ResourceNotFoundException {
-//        validateUserDetails(userDTO);
         User user = userMapper.toUser(userDTO);
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         return userMapper.toUserDTO(userRepository.save(user));
     }
-
-//    private void validateUserDetails(UserDTO userDTO) throws ResourceNotFoundException {
-//        if (userRepository.existsByEmail(userDTO.getEmail())) {
-//            throw new ResourceNotFoundException("Email " + userDTO.getEmail() + " already exists, please use a different email.");
-//        }
-//
-//        Map<String, String> requiredFields = Map.of(
-//            "First name", userDTO.getFirstName(),
-//            "Last name", userDTO.getLastName(),
-//            "Gender", userDTO.getGender(),
-//            "Identity number", userDTO.getIdentityNumber(),
-//            "Phone number", userDTO.getPhoneNumber()
-//        );
-//
-//        requiredFields.forEach((field, value) -> {
-//            if (value == null || value.isEmpty()) {
-//                try {
-//                    throw new ResourceNotFoundException(field + " must be provided.");
-//                } catch (ResourceNotFoundException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//        });
-//
-//        if (userDTO.getDateOfBirth() == null) {
-//            throw new ResourceNotFoundException("Date of birth must be provided.");
-//        }
-//        if (userDTO.getCountryId() == null) {
-//            throw new ResourceNotFoundException("Country ID must be provided.");
-//        }
-//        if (userDTO.getRoleId() == null) {
-//            throw new IdInValidException("Role ID must be provided.");
-//        }
-//    }
 
     @Override
     public Page<UserDTO> getUsers(Specification<User> spec, int page, int pageSize, String sort) {
@@ -144,18 +110,7 @@ public class UserServiceImpl implements UserService {
     public UserDTO updateUser(UUID id, UserDTO userDTO) throws ResourceNotFoundException {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User ID " + id + " is invalid."));
-        user.setFirstName(userDTO.getFirstName());
-        user.setLastName(userDTO.getLastName());
-        user.setAvatar(userDTO.getAvatar());
-        user.setDateOfBirth(userDTO.getDateOfBirth());
-        user.setIdentityNumber(userDTO.getIdentityNumber());
-        user.setGender(GenderEnum.valueOf(userDTO.getGender()));
-        user.setPhoneNumber(userDTO.getPhoneNumber());
-        user.setCountry(Country.builder().countryId(userDTO.getCountry().getCountryId()).build());
-        user.setRole(Role.builder().roleId(userDTO.getRole().getRoleId()).build());
-        user.setEmail(userDTO.getEmail());
-        user.setActive(userDTO.isActive());
-
-        return userMapper.toUserDTO(user);
+        userMapper.updateUserFromDTO(userDTO, user);
+        return userMapper.toUserDTO(userRepository.save(user));
     }
 }
