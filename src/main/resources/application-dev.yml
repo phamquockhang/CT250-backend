@@ -1,0 +1,39 @@
+spring:
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://ct250-ttdat-cloud.h.aivencloud.com:23952/ct250?sslmode=require}
+    username: ${DATABASE_USERNAME:avnadmin}
+    password: ${DATABASE_PASSWORD:AVNS_AgrUvRlC9rufFI_x5al}
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: create-drop
+
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: davikaairways1109@gmail.com
+    password: zfxjbsfmcwpcebte
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+application:
+  security:
+    rsa:
+      rsa-public-key: classpath:certs/public-key.pem
+      rsa-private-key: classpath:certs/private-key.pem
+    jwt:
+      access-token-validity-in-seconds: 604800 # 1 days
+      refresh-token-validity-in-seconds: 604800 #7 days
