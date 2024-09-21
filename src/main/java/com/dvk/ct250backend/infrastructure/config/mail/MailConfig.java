@@ -1,5 +1,5 @@
 // src/main/java/com/dvk/ct250backend/infrastructure/config/MailConfig.java
-package com.dvk.ct250backend.infrastructure.config;
+package com.dvk.ct250backend.infrastructure.config.mail;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
