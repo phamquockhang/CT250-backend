@@ -3,6 +3,7 @@ spring:
     url: ${DATABASE_URL:jdbc:postgresql://ct250-ttdat-cloud.h.aivencloud.com:23952/ct250?sslmode=require}
     username: ${DATABASE_USERNAME:avnadmin}
     password: ${DATABASE_PASSWORD:AVNS_AgrUvRlC9rufFI_x5al}
+
   jpa:
     show-sql: true
     properties:
