@@ -90,5 +90,36 @@ public class AuthController {
                 .build();
     }
 
+    @PostMapping("/forgot-password")
+    public ApiResponse<String> forgotPassword(@RequestParam String email, @RequestParam String siteUrl) {
+        try {
+            authService.forgotPassword(email, siteUrl);
+            return ApiResponse.<String>builder()
+                    .status(HttpStatus.OK.value())
+                    .payload("Password reset link has been sent to your email.")
+                    .build();
+        } catch (Exception e) {
+            return ApiResponse.<String>builder()
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .payload(e.getMessage())
+                    .build();
+        }
+    }
+
+    @PostMapping("/reset-password")
+    public ApiResponse<String> resetPassword(@RequestParam String token, @RequestParam String newPassword) {
+        try {
+            authService.resetPassword(token, newPassword);
+            return ApiResponse.<String>builder()
+                    .status(HttpStatus.OK.value())
+                    .payload("Password has been reset successfully.")
+                    .build();
+        } catch (Exception e) {
+            return ApiResponse.<String>builder()
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .payload(e.getMessage())
+                    .build();
+        }
+    }
 
 }
