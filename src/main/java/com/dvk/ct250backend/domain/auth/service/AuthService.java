@@ -17,4 +17,6 @@ public interface AuthService {
     void logout(HttpServletResponse httpServletResponse) throws ResourceNotFoundException;
     UserDTO processOAuthPostLogin(OidcUser oidcUser);
     UserDTO verifyUser(String token) throws ResourceNotFoundException;
+    void forgotPassword(String email, String siteUrl) throws ResourceNotFoundException, MessagingException, UnsupportedEncodingException;
+    void resetPassword(String token, String newPassword) throws ResourceNotFoundException;
 }

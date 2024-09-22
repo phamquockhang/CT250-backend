@@ -35,6 +35,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.UUID;
@@ -184,5 +185,34 @@ public class AuthServiceImpl implements AuthService {
         }
 
         return userMapper.toUserDTO(user);
+    }
+
+    @Override
+    public void forgotPassword(String email, String siteUrl) throws ResourceNotFoundException, MessagingException, UnsupportedEncodingException {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Email not found"));
+
+        String token = UUID.randomUUID().toString();
+        user.setVerificationToken(token);
+        user.setTokenExpiryDate(LocalDateTime.now().plusHours(2)); // 2 tiếng hết hạn
+        userRepository.save(user);
+
+        String resetPasswordLink = siteUrl + "/reset-password?token=" + token;
+        emailService.sendPasswordResetEmail(user, resetPasswordLink);
+    }
+
+    @Override
+    public void resetPassword(String token, String newPassword) throws ResourceNotFoundException {
+        User user = userRepository.findByVerificationToken(token)
+                .orElseThrow(() -> new ResourceNotFoundException("Invalid token"));
+
+        if (user.getTokenExpiryDate().isBefore(LocalDateTime.now())) {
+            throw new ResourceNotFoundException("Token has expired");
+        }
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        user.setVerificationToken(null);
+        user.setTokenExpiryDate(null);
+        userRepository.save(user);
     }
 }
