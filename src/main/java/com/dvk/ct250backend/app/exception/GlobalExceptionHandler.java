@@ -28,6 +28,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {
             UsernameNotFoundException.class,
             BadCredentialsException.class,
+            DuplicateResourceException.class,
     })
     public ResponseEntity<ApiResponse<Object>> handleIdException(Exception ex) {
         ApiResponse<Object> res = new ApiResponse<Object>();

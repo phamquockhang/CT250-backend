@@ -43,7 +43,7 @@ public class DatabaseInitializer implements CommandLineRunner {
 
         if (countCountries == 0){
             ArrayList<Country> arr = new ArrayList<>();
-            arr.add(Country.builder().countryId(1).countryName("Việt Nam").countryCode(84).build());
+            arr.add(Country.builder().countryId(235).countryName("Việt Nam").countryCode(84).iso2Code("VN").iso3Code("VNM").build());
             countryRepository.saveAll(arr);
         }
 
