@@ -122,4 +122,13 @@ public class AuthController {
         }
     }
 
+
+    @GetMapping("/verify-reset-token")
+    public ApiResponse<Void> verifyResetToken(@RequestParam String token) throws ResourceNotFoundException {
+        authService.verifyResetToken(token);
+        return ApiResponse.<Void>builder()
+                .status(HttpStatus.OK.value())
+                .build();
+    }
+
 }

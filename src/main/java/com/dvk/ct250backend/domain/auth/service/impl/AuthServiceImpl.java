@@ -217,4 +217,14 @@ public class AuthServiceImpl implements AuthService {
         user.setTokenExpiryDate(null);
         userRepository.save(user);
     }
+
+    @Override
+    public void verifyResetToken(String token) throws ResourceNotFoundException {
+        User user = userRepository.findByVerificationToken(token)
+                .orElseThrow(() -> new ResourceNotFoundException("Invalid token"));
+
+        if (user.getTokenExpiryDate().isBefore(LocalDateTime.now())) {
+            throw new ResourceNotFoundException("Token has expired");
+        }
+    }
 }
