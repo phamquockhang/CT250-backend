@@ -11,10 +11,13 @@ import com.dvk.ct250backend.domain.country.entity.Country;
 import com.dvk.ct250backend.domain.country.repository.CountryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.sql.DataSource;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +33,7 @@ public class DatabaseInitializer implements CommandLineRunner {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final CountryRepository countryRepository;
+    private final DataSource dataSource;
 
 
     @Override
@@ -42,9 +46,12 @@ public class DatabaseInitializer implements CommandLineRunner {
         long countCountries = this.countryRepository.count();
 
         if (countCountries == 0){
-            ArrayList<Country> arr = new ArrayList<>();
-            arr.add(Country.builder().countryId(235).countryName("Việt Nam").countryCode(84).iso2Code("VN").iso3Code("VNM").build());
-            countryRepository.saveAll(arr);
+            ResourceDatabasePopulator resourceDatabasePopulator =
+                    new ResourceDatabasePopulator(false,
+                            false,
+                            "UTF-8",
+                            new ClassPathResource("/sql/countries.sql"));
+            resourceDatabasePopulator.execute(dataSource);
         }
 
         if (countPermissions == 0) {
