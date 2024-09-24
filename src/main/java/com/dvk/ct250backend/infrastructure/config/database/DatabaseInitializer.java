@@ -108,7 +108,7 @@ public class DatabaseInitializer implements CommandLineRunner {
 
             Optional<Role> adminRole = this.roleRepository.findByRoleName("ADMIN");
             adminRole.ifPresent(adminUser::setRole);
-            Optional<Country> country = this.countryRepository.findByCountryName("Việt Nam");
+            Optional<Country> country = this.countryRepository.findByCountryName("Vietnam");
             country.ifPresent(adminUser::setCountry);
 
             this.userRepository.save(adminUser);

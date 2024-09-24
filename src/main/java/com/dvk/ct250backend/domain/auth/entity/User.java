@@ -50,11 +50,11 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "phone_number", length = 20)
     String phoneNumber;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "country_id")
     Country country;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
     Role role;
 
