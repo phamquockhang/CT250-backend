@@ -9,6 +9,7 @@ import com.dvk.ct250backend.domain.auth.repository.RoleRepository;
 import com.dvk.ct250backend.domain.auth.repository.UserRepository;
 import com.dvk.ct250backend.domain.country.entity.Country;
 import com.dvk.ct250backend.domain.country.repository.CountryRepository;
+import com.dvk.ct250backend.domain.flight.repository.AirportRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.ClassPathResource;
@@ -33,6 +34,7 @@ public class DatabaseInitializer implements CommandLineRunner {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final CountryRepository countryRepository;
+    private final AirportRepository airportRepository;
     private final DataSource dataSource;
 
 
@@ -44,13 +46,22 @@ public class DatabaseInitializer implements CommandLineRunner {
         long countRoles = this.roleRepository.count();
         long countUsers = this.userRepository.count();
         long countCountries = this.countryRepository.count();
-
+        long countAirports = this.airportRepository.count();
         if (countCountries == 0){
             ResourceDatabasePopulator resourceDatabasePopulator =
                     new ResourceDatabasePopulator(false,
                             false,
                             "UTF-8",
                             new ClassPathResource("/sql/countries.sql"));
+            resourceDatabasePopulator.execute(dataSource);
+        }
+
+        if (countAirports == 0){
+            ResourceDatabasePopulator resourceDatabasePopulator =
+                    new ResourceDatabasePopulator(false,
+                            false,
+                            "UTF-8",
+                            new ClassPathResource("/sql/airports.sql"));
             resourceDatabasePopulator.execute(dataSource);
         }
 
