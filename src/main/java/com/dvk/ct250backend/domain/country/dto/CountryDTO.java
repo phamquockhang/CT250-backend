@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.io.Serializable;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -16,4 +18,6 @@ public class CountryDTO {
     Integer countryCode;
     String iso2Code;
     String iso3Code;
+
+
 }
