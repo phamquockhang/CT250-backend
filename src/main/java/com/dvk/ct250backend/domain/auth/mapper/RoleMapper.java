@@ -3,7 +3,6 @@ package com.dvk.ct250backend.domain.auth.mapper;
 import com.dvk.ct250backend.domain.auth.dto.RoleDTO;
 import com.dvk.ct250backend.domain.auth.entity.Role;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring", uses = {PermissionMapper.class})

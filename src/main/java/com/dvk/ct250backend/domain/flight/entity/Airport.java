@@ -14,6 +14,7 @@ import lombok.experimental.FieldDefaults;
 @Table(name = "airports")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Airport {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "airport_id_seq")
     @SequenceGenerator(name = "airport_id_seq", sequenceName = "airports_seq", allocationSize = 1)

@@ -8,6 +8,7 @@ import com.dvk.ct250backend.domain.country.service.CountryService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class CountryServiceImpl implements CountryService {
     CountryMapper countryMapper;
 
     @Override
+    @Cacheable(value = "countries")
     public List<CountryDTO> getAllCountries() {
         List<Country> countries = countryRepository.findAll();
         return countries.stream()
