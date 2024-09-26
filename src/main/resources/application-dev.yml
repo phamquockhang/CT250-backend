@@ -3,10 +3,6 @@ spring:
     url: ${DATABASE_URL:jdbc:postgresql://ct250-ttdat-cloud.h.aivencloud.com:23952/ct250?sslmode=require}
     username: ${DATABASE_USERNAME:avnadmin}
     password: ${DATABASE_PASSWORD:AVNS_AgrUvRlC9rufFI_x5al}
-
-
-
-
   jpa:
     show-sql: true
     properties:
@@ -20,9 +16,9 @@ spring:
       pageable:
         one-indexed-parameters: true
     redis:
-      host: localhost
-      port: 6379
-      password: ""
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:""}
 
   mail:
     host: smtp.gmail.com
