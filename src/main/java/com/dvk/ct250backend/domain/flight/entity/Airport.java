@@ -21,7 +21,8 @@ public class Airport {
     Integer airportId;
     String airportName;
     String airportCode;
-    String city;
+    String cityName;
+    String cityCode;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id")

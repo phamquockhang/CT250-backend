@@ -243,7 +243,7 @@ values (93, 1, 'Afghanistan', 'AF', 'AFG'),
 
 
 -- COUNTRY
-insert into public.airports(airport_id, airport_name, airport_code, city, country_id)
+insert into public.airports(airport_id, airport_name, airport_code, city_name, country_id)
 values (1, 'Chhatrapati Shivaji International Airport', 'BOM', 'Mumbai', 95),
        (2, 'Indira Gandhi International Airport', 'DEL', 'New Delhi', 95),
        (3, 'Cochin International Airport', 'COK', 'Kochi', 95),
@@ -404,3 +404,70 @@ INSERT INTO public.users (user_id, email, gender, first_name, last_name, passwor
 VALUES ('0fdd7d74-6f3a-4011-96fa-c0e7f06b065f', 'admin@gmail.com', 'MALE', 'I am', 'ADMIN',
         '$2a$10$MEo.Zw55GDOEVwKtOnJ/TuKNrWVAjluxnWqH96ecqAKUwkFwAVkra', '0963243443', '123456789000', 1, true,
         '1999-01-01', 235);
+
+
+--MODEL
+INSERT INTO public.models (model_id,model_name, manufacturer, max_distance, velocity, number_of_seats, overall_length, wingspan, height)
+VALUES
+    (1,'Boeing 787', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76),
+    (2,'Airbus A350', 'Airbus', 14350, 901, 323, 66.89, 64.75, 17.05),
+    (3,'Airbus A320 NEO', 'Airbus', 6300, 1005, 186, 37.57, 35.8, 11.76),
+    (4,'Airbus A321', 'Airbus', 5600, 950, 184, 44.51, 34.1, 11.76),
+    (5,'Boeing 737 MAX 8', 'Boeing', 6570, 842, 178, 39.5, 35.9, 12.3),
+    (6,'Airbus A330-300', 'Airbus', 11650, 910, 277, 63.69, 60.3, 16.79),
+    (7,'Boeing 747-8', 'Boeing', 14815, 988, 410, 76.3, 68.4, 19.4),
+    (8,'Airbus A220-300', 'Airbus', 6111, 871, 160, 38.7, 35.4, 11.5),
+    (9,'Boeing 767-300ER', 'Boeing', 11000, 850, 218, 54.94, 47.57, 15.75),
+    (10,'Airbus A310-300', 'Airbus', 9300, 780, 280, 46.66, 43.66, 15.85),
+    (11,'Boeing 757-200', 'Boeing', 5500, 850, 200, 38.06, 38.06, 13.56),
+    (12,'Boeing 787-9', 'Boeing', 14100, 926, 296, 63.0, 60.0, 17.0),
+    (13,'Airbus A350-1000', 'Airbus', 16400, 910, 410, 73.0, 64.75, 16.0),
+    (14,'Embraer E190', 'Embraer', 5000, 850, 100, 36.24, 28.7, 10.52);
+
+
+--AIRPLANE
+INSERT INTO public.airplanes (airplane_id, model_id)
+VALUES
+    (1, 1),  -- Boeing 787
+    (2, 2),  -- Airbus A350
+    (3, 3),  -- Airbus A320 NEO
+    (4, 4),  -- Airbus A321
+    (5, 5),  -- Boeing 737 MAX 8
+    (6, 6),  -- Airbus A330-300
+    (7, 7),  -- Boeing 747-8
+    (8, 8),  -- Airbus A220-300
+    (9, 9),  -- Boeing 767-300ER
+    (10, 10), -- Airbus A310-300
+    (11, 11), -- Boeing 757-200
+    (12, 12), -- Boeing 787-9
+    (13, 13), -- Airbus A350-1000
+    (14, 14), -- Embraer E190
+    (15, 1),  -- Boeing 787
+    (16, 2),  -- Airbus A350
+    (17, 3),  -- Airbus A320 NEO
+    (18, 4),  -- Airbus A321
+    (19, 5),  -- Boeing 737 MAX 8
+    (20, 6),  -- Airbus A330-300
+    (21, 7),  -- Boeing 747-8
+    (22, 8),  -- Airbus A220-300
+    (23, 9),  -- Boeing 767-300ER
+    (24, 10), -- Airbus A310-300
+    (25, 11), -- Boeing 757-200
+    (26, 12), -- Boeing 787-9
+    (27, 13), -- Airbus A350-1000
+    (28, 14), -- Embraer E190
+    (29, 1),  -- Boeing 787
+    (30, 2),  -- Airbus A350
+    (31, 3),  -- Airbus A320 NEO
+    (32, 4),  -- Airbus A321
+    (33, 5),  -- Boeing 737 MAX 8
+    (34, 6),  -- Airbus A330-300
+    (35, 7),  -- Boeing 747-8
+    (36, 8),  -- Airbus A220-300
+    (37, 9),  -- Boeing 767-300ER
+    (38, 10), -- Airbus A310-300
+    (39, 11), -- Boeing 757-200
+    (40, 12); -- Boeing 787-9
+
+
+

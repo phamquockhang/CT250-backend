@@ -4,7 +4,9 @@ import com.dvk.ct250backend.domain.auth.repository.PermissionRepository;
 import com.dvk.ct250backend.domain.auth.repository.RoleRepository;
 import com.dvk.ct250backend.domain.auth.repository.UserRepository;
 import com.dvk.ct250backend.domain.country.repository.CountryRepository;
+import com.dvk.ct250backend.domain.flight.repository.AirplaneRepository;
 import com.dvk.ct250backend.domain.flight.repository.AirportRepository;
+import com.dvk.ct250backend.domain.flight.repository.ModelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.ClassPathResource;
@@ -24,6 +26,8 @@ public class DatabaseInitializer implements CommandLineRunner {
     private final UserRepository userRepository;
     private final CountryRepository countryRepository;
     private final AirportRepository airportRepository;
+    private final AirplaneRepository airplaneRepository;
+    private final ModelRepository modelRepository;
     private final DataSource dataSource;
 
 
@@ -36,7 +40,9 @@ public class DatabaseInitializer implements CommandLineRunner {
         long countUsers = this.userRepository.count();
         long countCountries = this.countryRepository.count();
         long countAirports = this.airportRepository.count();
-        if (countCountries == 0 || countAirports == 0 || countPermissions == 0 || countRoles == 0 || countUsers == 0) {
+        long countAirplanes = this.airplaneRepository.count();
+        long countModels = this.modelRepository.count();
+        if (countCountries == 0 || countAirports == 0 || countPermissions == 0 || countRoles == 0 || countUsers == 0 || countAirplanes == 0 || countModels == 0) {
             ResourceDatabasePopulator resourceDatabasePopulator =
                     new ResourceDatabasePopulator(false,
                             false,
