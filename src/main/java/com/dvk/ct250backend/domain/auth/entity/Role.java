@@ -20,7 +20,7 @@ import java.util.List;
 public class Role extends BaseEntity implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_id_seq")
-    @SequenceGenerator(name = "role_id_seq", sequenceName = "roles_seq", allocationSize = 1, initialValue = 1)
+    @SequenceGenerator(name = "role_id_seq", sequenceName = "roles_seq", allocationSize = 1)
     Long roleId;
 
     String roleName;

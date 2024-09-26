@@ -18,7 +18,7 @@ import java.util.List;
 public class Permission extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "permission_id_seq")
-    @SequenceGenerator(name = "permission_id_seq", sequenceName = "permissions_seq", allocationSize = 1, initialValue = 1)
+    @SequenceGenerator(name = "permission_id_seq", sequenceName = "permissions_seq", allocationSize = 1)
     Long permissionId;
 
     String name;
@@ -28,12 +28,5 @@ public class Permission extends BaseEntity {
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "permissions", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     List<Role> roles;
-
-    public Permission(String name, String apiPath, String method, String module) {
-        this.name = name;
-        this.apiPath = apiPath;
-        this.method = method;
-        this.module = module;
-    }
 
 }
