@@ -35,20 +35,12 @@ public class DatabaseInitializer implements CommandLineRunner {
     @Transactional
     public void run(String... args) throws Exception {
         System.out.println(">>> START INIT DATABASE");
-        long countPermissions = this.permissionRepository.count();
-        long countRoles = this.roleRepository.count();
-        long countUsers = this.userRepository.count();
-        long countCountries = this.countryRepository.count();
-        long countAirports = this.airportRepository.count();
-        long countAirplanes = this.airplaneRepository.count();
-        long countModels = this.modelRepository.count();
-        if (countCountries == 0 || countAirports == 0 || countPermissions == 0 || countRoles == 0 || countUsers == 0 || countAirplanes == 0 || countModels == 0) {
-            ResourceDatabasePopulator resourceDatabasePopulator =
-                    new ResourceDatabasePopulator(false,
-                            false,
-                            "UTF-8",
-                            new ClassPathResource("/sql/db-init.sql"));
-            resourceDatabasePopulator.execute(dataSource);
-        }
+        ResourceDatabasePopulator resourceDatabasePopulator =
+                new ResourceDatabasePopulator(false,
+                        false,
+                        "UTF-8",
+                        new ClassPathResource("/sql/db-init.sql"));
+        resourceDatabasePopulator.execute(dataSource);
+
     }
 }

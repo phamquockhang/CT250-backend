@@ -21,6 +21,7 @@ public class Role extends BaseEntity implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_id_seq")
     @SequenceGenerator(name = "role_id_seq", sequenceName = "roles_seq", allocationSize = 1)
+    @Column(name = "role_id", columnDefinition = "BIGINT default nextval('roles_seq')")
     Long roleId;
 
     String roleName;
