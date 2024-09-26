@@ -1,4 +1,4 @@
-package com.dvk.ct250backend.infrastructure.config.database;
+package com.dvk.ct250backend.infrastructure.config.specification;
 
 import com.dvk.ct250backend.app.dto.request.SearchCriteria;
 import com.dvk.ct250backend.domain.auth.entity.Permission;

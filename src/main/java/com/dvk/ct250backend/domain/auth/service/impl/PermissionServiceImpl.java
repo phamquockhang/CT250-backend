@@ -9,7 +9,7 @@ import com.dvk.ct250backend.domain.auth.entity.Permission;
 import com.dvk.ct250backend.domain.auth.mapper.PermissionMapper;
 import com.dvk.ct250backend.domain.auth.repository.PermissionRepository;
 import com.dvk.ct250backend.domain.auth.service.PermissionService;
-import com.dvk.ct250backend.infrastructure.config.database.PermissionSpecification;
+import com.dvk.ct250backend.infrastructure.config.specification.PermissionSpecification;
 import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

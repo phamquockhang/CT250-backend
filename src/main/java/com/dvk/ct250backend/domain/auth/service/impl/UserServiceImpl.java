@@ -5,14 +5,11 @@ import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.auth.dto.UserDTO;
 import com.dvk.ct250backend.domain.auth.entity.User;
-import com.dvk.ct250backend.domain.auth.mapper.PermissionMapper;
 import com.dvk.ct250backend.domain.auth.mapper.UserMapper;
-import com.dvk.ct250backend.domain.auth.repository.RoleRepository;
+
 import com.dvk.ct250backend.domain.auth.repository.UserRepository;
 import com.dvk.ct250backend.domain.auth.service.UserService;
 import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -39,15 +36,11 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
     RequestParamUtils requestParamUtils;
-    @PersistenceContext
-    EntityManager entityManager;
-    RoleRepository roleRepository;
-    PermissionMapper permissionMapper;
 
 
     @Override
     @Transactional
-    public UserDTO createUser(UserDTO userDTO) throws ResourceNotFoundException {
+    public UserDTO createUser(UserDTO userDTO) {
         User user = userMapper.toUser(userDTO);
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         return userMapper.toUserDTO(userRepository.save(user));
@@ -82,13 +75,6 @@ public class UserServiceImpl implements UserService {
             return userMapper.toUserDTO(user);
         }
         return null;
-    }
-
-    @Override
-    public UserDTO getUserById(UUID id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("User ID " + id + " is invalid."));
-        return userMapper.toUserDTO(user);
     }
 
     @Override

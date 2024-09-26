@@ -1,15 +1,19 @@
 package com.dvk.ct250backend.api;
 
 import com.dvk.ct250backend.app.dto.response.ApiResponse;
+import com.dvk.ct250backend.app.dto.response.Page;
+import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.flight.dto.AirportDTO;
-import com.dvk.ct250backend.domain.flight.service.impl.AirportService;
+import com.dvk.ct250backend.domain.flight.entity.Airport;
+import com.dvk.ct250backend.domain.flight.service.AirportService;
+import com.turkraft.springfilter.boot.Filter;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,13 +22,43 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AirportController {
+
     AirportService airportService;
 
-    @GetMapping("/all")
-    public ApiResponse<List<AirportDTO>> getAllAirports() {
-        return ApiResponse.<List<AirportDTO>>builder()
+    @GetMapping
+    public ApiResponse<Page<AirportDTO>> getAllAirport(
+            @Filter Specification<Airport> spec,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(required = false) String sort
+    ) {
+        return ApiResponse.<Page<AirportDTO>>builder()
                 .status(HttpStatus.OK.value())
-                .payload(airportService.getAllAirports())
+                .payload(airportService.getAllAirport(spec, page, pageSize, sort))
+                .build();
+    }
+
+    @PostMapping
+    public ApiResponse<AirportDTO> createAirport(@Valid @RequestBody AirportDTO airportDTO) {
+        return ApiResponse.<AirportDTO>builder()
+                .status(HttpStatus.CREATED.value())
+                .payload(airportService.createAirport(airportDTO))
+                .build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ApiResponse<Void> deleteAirport(@PathVariable("id") Integer id) throws ResourceNotFoundException {
+        airportService.deleteAirport(id);
+        return ApiResponse.<Void>builder()
+                .status(HttpStatus.OK.value())
+                .build();
+    }
+
+    @PutMapping("/{id}")
+    public ApiResponse<AirportDTO> updateAirport(@PathVariable("id") Integer id, @Valid @RequestBody AirportDTO airportDTO) throws ResourceNotFoundException {
+        return ApiResponse.<AirportDTO>builder()
+                .status(HttpStatus.OK.value())
+                .payload(airportService.updateAirport(id, airportDTO))
                 .build();
     }
 }

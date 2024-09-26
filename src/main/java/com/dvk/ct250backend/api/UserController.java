@@ -51,14 +51,6 @@ public class UserController {
                 .build();
     }
 
-    @GetMapping("/{id}")
-    public ApiResponse<UserDTO> getUserById(@PathVariable("id") UUID id) throws ResourceNotFoundException {
-        return ApiResponse.<UserDTO>builder()
-                .status(HttpStatus.OK.value())
-                .payload(userService.getUserById(id))
-                .build();
-    }
-
     @DeleteMapping("/{id}")
     public ApiResponse<Void> deleteUser(@PathVariable("id") UUID id) throws ResourceNotFoundException {
         userService.deleteUser(id);

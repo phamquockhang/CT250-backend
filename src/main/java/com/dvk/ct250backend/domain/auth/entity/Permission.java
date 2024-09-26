@@ -19,7 +19,6 @@ public class Permission extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "permission_id_seq")
     @SequenceGenerator(name = "permission_id_seq", sequenceName = "permissions_seq", allocationSize = 1)
-            @Column(name = "permission_id", columnDefinition = "BIGINT default nextval('permissions_seq')")
     Long permissionId;
 
     String name;

@@ -16,7 +16,6 @@ public class Model {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "model_id_seq")
     @SequenceGenerator(name = "model_id_seq", sequenceName = "models_seq", allocationSize = 1)
-    @Column(name = "model_id", columnDefinition = "BIGINT default nextval('models_seq')")
     Integer modelId;         // ID duy nhất của model
 
     String modelName; // Tên mô hình máy bay

@@ -17,7 +17,6 @@ public class Airplane {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "airplane_id_seq")
     @SequenceGenerator(name = "airplane_id_seq", sequenceName = "airplanes_seq", allocationSize = 1)
-    @Column(name = "airplane_id", columnDefinition = "BIGINT default nextval('airplanes_seq')")
     Integer airplaneId;
 
     @ManyToOne(fetch = FetchType.LAZY)
