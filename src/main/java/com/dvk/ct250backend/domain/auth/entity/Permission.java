@@ -18,7 +18,7 @@ import java.util.List;
 public class Permission extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "permission_id_seq")
-    @SequenceGenerator(name = "permission_id_seq", sequenceName = "permissions_seq", allocationSize = 1)
+    @SequenceGenerator(name = "permission_id_seq", sequenceName = "permissions_seq", allocationSize = 1, initialValue = 1)
     Long permissionId;
 
     String name;

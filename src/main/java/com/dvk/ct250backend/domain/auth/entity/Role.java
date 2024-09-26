@@ -20,7 +20,7 @@ import java.util.List;
 public class Role extends BaseEntity implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_id_seq")
-    @SequenceGenerator(name = "role_id_seq", sequenceName = "roles_seq", allocationSize = 1)
+    @SequenceGenerator(name = "role_id_seq", sequenceName = "roles_seq", allocationSize = 1, initialValue = 1)
     Long roleId;
 
     String roleName;
@@ -30,8 +30,8 @@ public class Role extends BaseEntity implements GrantedAuthority {
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
     List<User> users;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "permission_role", joinColumns = @JoinColumn(name = "role_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "permission_id", nullable = false))
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "permission_role", joinColumns = @JoinColumn(name = "role_id", nullable = true), inverseJoinColumns = @JoinColumn(name = "permission_id", nullable = true))
     List<Permission> permissions;
 
     @Override
