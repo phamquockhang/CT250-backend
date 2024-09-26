@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/v1/airports")
@@ -21,7 +20,7 @@ import java.util.Set;
 public class AirportController {
     AirportService airportService;
 
-    @GetMapping
+    @GetMapping("/all")
     public ApiResponse<List<AirportDTO>> getAllAirports() {
         return ApiResponse.<List<AirportDTO>>builder()
                 .status(HttpStatus.OK.value())
