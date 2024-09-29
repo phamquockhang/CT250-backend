@@ -3,6 +3,7 @@ package com.dvk.ct250backend.domain.flight.service.impl;
 import com.dvk.ct250backend.app.dto.response.Meta;
 import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
+import com.dvk.ct250backend.domain.auth.entity.User;
 import com.dvk.ct250backend.domain.flight.dto.AirportDTO;
 import com.dvk.ct250backend.domain.flight.entity.Airport;
 import com.dvk.ct250backend.domain.flight.mapper.AirportMapper;
@@ -12,6 +13,7 @@ import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -35,7 +37,7 @@ public class AirportServiceImpl implements AirportService {
 
 
     @Override
-//    @Cacheable(value = "airports")
+    @Cacheable(value = "airports")
     public Page<AirportDTO> getAirports(Map<String, String> params) {
         int page = Integer.parseInt(params.getOrDefault("page", "1"));
         int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
@@ -73,22 +75,32 @@ public class AirportServiceImpl implements AirportService {
 
     @Override
     @Transactional
+    @CacheEvict(value = "airports", allEntries = true)
     public AirportDTO createAirport(AirportDTO airportDTO) {
         Airport airport = airportMapper.toAirport(airportDTO);
         return airportMapper.toAirportDTO(airportRepository.save(airport));
     }
 
     @Override
+    @CacheEvict(value = "airports", allEntries = true)
     public void deleteAirport(Integer id) throws ResourceNotFoundException {
         Airport airport = airportRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Airport not found"));
         airportRepository.delete(airport);
     }
 
     @Override
+    @CacheEvict(value = "airports", allEntries = true)
     public AirportDTO updateAirport(Integer id, AirportDTO airportDTO) throws ResourceNotFoundException {
         Airport airport = airportRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Airport not found"));
         airportMapper.updateAirportFromDTO(airport, airportDTO);
         return airportMapper.toAirportDTO(airportRepository.save(airport));
+    }
+
+    @Override
+    public List<AirportDTO> getAirports() {
+        return airportRepository.findAll().stream()
+                .map(airportMapper::toAirportDTO)
+                .collect(Collectors.toList());
     }
 
 

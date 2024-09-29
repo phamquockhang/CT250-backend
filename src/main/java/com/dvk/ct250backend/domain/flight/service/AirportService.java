@@ -5,7 +5,6 @@ import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.flight.dto.AirportDTO;
 import com.dvk.ct250backend.domain.flight.entity.Airport;
 import org.springframework.data.jpa.domain.Specification;
-
 import java.util.Map;
 
 

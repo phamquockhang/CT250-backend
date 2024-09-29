@@ -60,4 +60,12 @@ public class AirportController {
                 .payload(airportService.updateAirport(id, airportDTO))
                 .build();
     }
+
+    @GetMapping("/all")
+    public ApiResponse<List<AirportDTO>> getAllAirports() {
+        return ApiResponse.<List<AirportDTO>>builder()
+                .status(HttpStatus.OK.value())
+                .payload(airportService.getAirports())
+                .build();
+    }
 }
