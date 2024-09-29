@@ -4,14 +4,11 @@ import com.dvk.ct250backend.app.dto.response.ApiResponse;
 import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.flight.dto.AirportDTO;
-import com.dvk.ct250backend.domain.flight.entity.Airport;
 import com.dvk.ct250backend.domain.flight.service.AirportService;
-import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,7 +62,7 @@ public class AirportController {
     public ApiResponse<List<AirportDTO>> getAllAirports() {
         return ApiResponse.<List<AirportDTO>>builder()
                 .status(HttpStatus.OK.value())
-                .payload(airportService.getAirports())
+                .payload(airportService.getAllAirports())
                 .build();
     }
 }

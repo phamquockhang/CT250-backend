@@ -4,27 +4,21 @@ import com.dvk.ct250backend.app.dto.response.Meta;
 import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.auth.dto.UserDTO;
-import com.dvk.ct250backend.domain.auth.entity.Role;
 import com.dvk.ct250backend.domain.auth.entity.User;
 import com.dvk.ct250backend.domain.auth.mapper.UserMapper;
-
 import com.dvk.ct250backend.domain.auth.repository.UserRepository;
 import com.dvk.ct250backend.domain.auth.service.UserService;
-import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;

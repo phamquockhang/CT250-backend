@@ -4,12 +4,9 @@ import com.dvk.ct250backend.app.dto.response.ApiResponse;
 import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.auth.dto.UserDTO;
-import com.dvk.ct250backend.domain.auth.entity.User;
 import com.dvk.ct250backend.domain.auth.service.UserService;
-import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

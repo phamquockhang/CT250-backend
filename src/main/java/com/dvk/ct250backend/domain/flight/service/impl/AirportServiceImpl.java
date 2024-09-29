@@ -3,7 +3,6 @@ package com.dvk.ct250backend.domain.flight.service.impl;
 import com.dvk.ct250backend.app.dto.response.Meta;
 import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
-import com.dvk.ct250backend.domain.auth.entity.User;
 import com.dvk.ct250backend.domain.flight.dto.AirportDTO;
 import com.dvk.ct250backend.domain.flight.entity.Airport;
 import com.dvk.ct250backend.domain.flight.mapper.AirportMapper;
@@ -97,7 +96,7 @@ public class AirportServiceImpl implements AirportService {
     }
 
     @Override
-    public List<AirportDTO> getAirports() {
+    public List<AirportDTO> getAllAirports() {
         return airportRepository.findAll().stream()
                 .map(airportMapper::toAirportDTO)
                 .collect(Collectors.toList());
