@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/airports")
@@ -26,17 +27,15 @@ public class AirportController {
     AirportService airportService;
 
     @GetMapping
-    public ApiResponse<Page<AirportDTO>> getAllAirport(
-            @Filter Specification<Airport> spec,
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int pageSize,
-            @RequestParam(required = false) String sort
-    ) {
+    public ApiResponse<Page<AirportDTO>> getAirports(
+            @RequestParam Map<String, String> params
+            ) {
         return ApiResponse.<Page<AirportDTO>>builder()
                 .status(HttpStatus.OK.value())
-                .payload(airportService.getAllAirport(spec, page, pageSize, sort))
+                .payload(airportService.getAirports(params))
                 .build();
     }
+
 
     @PostMapping
     public ApiResponse<AirportDTO> createAirport(@Valid @RequestBody AirportDTO airportDTO) {

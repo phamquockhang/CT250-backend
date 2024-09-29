@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,8 +36,11 @@ public class AirportServiceImpl implements AirportService {
 
     @Override
     @Cacheable(value = "airports")
-    public Page<AirportDTO> getAllAirport(Specification<Airport> spec, int page, int pageSize, String sort) {
-        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(sort);
+    public Page<AirportDTO> getAirports(Map<String, String> params) {
+        int page = Integer.parseInt(params.getOrDefault("page", "1"));
+        int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
+        Specification<Airport> spec = getAirportSpec(params);
+        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params.getOrDefault("sort", ""));
         Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortOrders));
         org.springframework.data.domain.Page<Airport> airportPage = airportRepository.findAll(spec, pageable);
         Meta meta = Meta.builder()
@@ -51,6 +55,20 @@ public class AirportServiceImpl implements AirportService {
                         .map(airportMapper::toAirportDTO)
                         .collect(Collectors.toList()))
                 .build();
+    }
+
+    private Specification<Airport> getAirportSpec(Map<String, String> params) {
+        Specification<Airport> spec = Specification.where(null);
+        if(params.containsKey("query")){
+            String searchValue = params.get("query");
+            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.or(
+                    criteriaBuilder.like(criteriaBuilder.lower(root.get("airportName")), "%" + searchValue.toLowerCase() + "%"),
+                    criteriaBuilder.like(root.get("airportCode"), "%" + params.get("query").toUpperCase() + "%"),
+                    criteriaBuilder.like(criteriaBuilder.lower(root.get("cityName")), "%" + searchValue.toLowerCase() + "%"),
+                    criteriaBuilder.like(root.get("cityCode"), "%" + params.get("query").toUpperCase() + "%")
+            ));
+        }
+        return spec;
     }
 
     @Override
