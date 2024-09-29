@@ -370,7 +370,12 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Get all airports', '/api/v1/airports/all', 'GET', 'AIRPORTS'),
        ('Create an airport', '/api/v1/airports', 'POST', 'AIRPORTS'),
         ('Delete an airport', '/api/v1/airports/{id}', 'DELETE', 'AIRPORTS'),
-        ('Update an airport', '/api/v1/airports/{id}', 'PUT', 'AIRPORTS');
+        ('Update an airport', '/api/v1/airports/{id}', 'PUT', 'AIRPORTS'),
+       ('Get airplanes with pagination', '/api/v1/airplanes', 'GET', 'AIRPLANES'),
+       ('Get all airplanes ', '/api/v1/airplanes/all', 'GET', 'AIRPLANES'),
+       ('Create an airplane', '/api/v1/airplanes', 'POST', 'AIRPLANES'),
+       ('Delete an airplane', '/api/v1/airplanes/{id}', 'DELETE', 'AIRPLANES'),
+       ('Update an airplane', '/api/v1/airplanes/{id}', 'PUT', 'AIRPLANES');
 
 
 
@@ -401,7 +406,12 @@ VALUES (1, 1),
        (20,1),
         (21,1),
         (22,1),
-        (23,1);
+        (23,1),
+        (24,1),
+        (25,1),
+        (26,1),
+        (27,1),
+        (28,1);
 
 
 --USER
@@ -412,65 +422,50 @@ VALUES (gen_random_uuid(), 'admin@gmail.com', 'MALE', 'I am', 'ADMIN',
         '1999-01-01', 235);
 
 --MODEL
-INSERT INTO public.models (model_name, manufacturer, max_distance, velocity, number_of_seats, overall_length,
-                           wingspan, height)
-VALUES ('Boeing 787', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76),
-       ('Airbus A350', 'Airbus', 14350, 901, 323, 66.89, 64.75, 17.05),
-       ('Airbus A320 NEO', 'Airbus', 6300, 1005, 186, 37.57, 35.8, 11.76),
-       ('Airbus A321', 'Airbus', 5600, 950, 184, 44.51, 34.1, 11.76),
-       ('Boeing 737 MAX 8', 'Boeing', 6570, 842, 178, 39.5, 35.9, 12.3),
-       ('Airbus A330-300', 'Airbus', 11650, 910, 277, 63.69, 60.3, 16.79),
-       ('Boeing 747-8', 'Boeing', 14815, 988, 410, 76.3, 68.4, 19.4),
-       ('Airbus A220-300', 'Airbus', 6111, 871, 160, 38.7, 35.4, 11.5),
-       ('Boeing 767-300ER', 'Boeing', 11000, 850, 218, 54.94, 47.57, 15.75),
-       ('Airbus A310-300', 'Airbus', 9300, 780, 280, 46.66, 43.66, 15.85),
-       ('Boeing 757-200', 'Boeing', 5500, 850, 200, 38.06, 38.06, 13.56),
-       ('Boeing 787-9', 'Boeing', 14100, 926, 296, 63.0, 60.0, 17.0),
-       ('Airbus A350-1000', 'Airbus', 16400, 910, 410, 73.0, 64.75, 16.0),
-       ('Embraer E190', 'Embraer', 5000, 850, 100, 36.24, 28.7, 10.52);
-
-
---AIRPLANE
-INSERT INTO public.airplanes (model_id)
-VALUES (1),  -- Boeing 787
-       (2),  -- Airbus A350
-       (3),  -- Airbus A320 NEO
-       (4),  -- Airbus A321
-       (5),  -- Boeing 737 MAX 8
-       (6),  -- Airbus A330-300
-       (7),  -- Boeing 747-8
-       (8),  -- Airbus A220-300
-       (9),  -- Boeing 767-300ER
-       (10), -- Airbus A310-300
-       (11), -- Boeing 757-200
-       (12), -- Boeing 787-9
-       (13), -- Airbus A350-1000
-       (14), -- Embraer E190
-       (1),  -- Boeing 787
-       (2),  -- Airbus A350
-       (3),  -- Airbus A320 NEO
-       (4),  -- Airbus A321
-       (5),  -- Boeing 737 MAX 8
-       (6),  -- Airbus A330-300
-       (7),  -- Boeing 747-8
-       (8),  -- Airbus A220-300
-       (9),  -- Boeing 767-300ER
-       (10), -- Airbus A310-300
-       (11), -- Boeing 757-200
-       (12), -- Boeing 787-9
-       (13), -- Airbus A350-1000
-       (14), -- Embraer E190
-       (1),  -- Boeing 787
-       (2),  -- Airbus A350
-       (3),  -- Airbus A320 NEO
-       (4),  -- Airbus A321
-       (5),  -- Boeing 737 MAX 8
-       (6),  -- Airbus A330-300
-       (7),  -- Boeing 747-8
-       (8),  -- Airbus A220-300
-       (9),  -- Boeing 767-300ER
-       (10), -- Airbus A310-300
-       (11), -- Boeing 757-200
-       (12); -- Boeing 787-9
-
-
+INSERT INTO public.airplanes (model_name, manufacturer, max_distance, velocity, number_of_seats, overall_length,
+                           wingspan, height, in_use, status)
+VALUES ('Boeing 787', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76, TRUE, 'active'),
+       ('Airbus A350', 'Airbus', 14350, 901, 323, 66.89, 64.75, 17.05, TRUE, 'active'),
+       ('Airbus A320 NEO', 'Airbus', 6300, 1005, 186, 37.57, 35.8, 11.76, FALSE, 'maintenance'),
+       ('Airbus A321', 'Airbus', 5600, 950, 184, 44.51, 34.1, 11.76, TRUE, 'active'),
+       ('Boeing 737 MAX 8', 'Boeing', 6570, 842, 178, 39.5, 35.9, 12.3, TRUE, 'retired'),
+       ('Airbus A330-300', 'Airbus', 11650, 910, 277, 63.69, 60.3, 16.79, FALSE, 'maintenance'),
+       ('Boeing 747-8', 'Boeing', 14815, 988, 410, 76.3, 68.4, 19.4, TRUE, 'active'),
+       ('Airbus A220-300', 'Airbus', 6111, 871, 160, 38.7, 35.4, 11.5, TRUE, 'retired'),
+       ('Boeing 767-300ER', 'Boeing', 11000, 850, 218, 54.94, 47.57, 15.75, TRUE, 'active'),
+       ('Airbus A310-300', 'Airbus', 9300, 780, 280, 46.66, 43.66, 15.85, FALSE, 'maintenance'),
+       ('Boeing 757-200', 'Boeing', 5500, 850, 200, 38.06, 38.06, 13.56, TRUE, 'active'),
+       ('Boeing 787-9', 'Boeing', 14100, 926, 296, 63.0, 60.0, 17.0, TRUE, 'active'),
+       ('Airbus A350-1000', 'Airbus', 16400, 910, 410, 73.0, 64.75, 16.0, TRUE, 'active'),
+       ('Embraer E190', 'Embraer', 5000, 850, 100, 36.24, 28.7, 10.52, TRUE, 'active'),
+       ('Boeing 777-300ER', 'Boeing', 13650, 905, 396, 73.9, 64.8, 18.6, TRUE, 'active'),
+       ('Airbus A320', 'Airbus', 6100, 828, 180, 37.57, 35.8, 11.76, FALSE, 'retired'),
+       ('Boeing 737-900', 'Boeing', 5950, 876, 220, 42.1, 35.8, 12.3, TRUE, 'active'),
+       ('Bombardier CRJ900', 'Bombardier', 2950, 850, 90, 36.4, 24.9, 7.5, FALSE, 'maintenance'),
+       ('Embraer E175', 'Embraer', 3700, 890, 88, 31.68, 28.7, 9.95, TRUE, 'active'),
+       ('Boeing 727', 'Boeing', 4000, 965, 149, 40.6, 32.9, 10.4, TRUE, 'retired'),
+       ('Airbus A319', 'Airbus', 6850, 828, 144, 33.84, 34.1, 11.76, FALSE, 'maintenance'),
+       ('Boeing 787-10', 'Boeing', 11915, 903, 318, 68.3, 60.1, 18.0, TRUE, 'active'),
+       ('Airbus A340-600', 'Airbus', 14630, 903, 380, 75.3, 63.45, 17.2, TRUE, 'active'),
+       ('Boeing 727-200', 'Boeing', 4500, 965, 189, 46.7, 32.9, 10.4, FALSE, 'retired'),
+       ('Comac C919', 'Comac', 4075, 834, 158, 38.9, 35.4, 11.5, TRUE, 'active'),
+       ('Bombardier Q400', 'Bombardier', 2500, 667, 78, 32.8, 28.4, 8.3, TRUE, 'active'),
+       ('Airbus A380', 'Airbus', 15200, 1020, 555, 72.7, 79.8, 24.1, FALSE, 'retired'),
+       ('Boeing 737-800', 'Boeing', 5430, 842, 189, 39.5, 35.8, 12.5, TRUE, 'active'),
+       ('Embraer E170', 'Embraer', 4000, 820, 76, 29.9, 26.0, 9.85, FALSE, 'maintenance'),
+       ('Airbus A310-200', 'Airbus', 8700, 800, 280, 46.66, 43.66, 15.85, FALSE, 'retired'),
+       ('Boeing 737 MAX 9', 'Boeing', 6570, 842, 220, 42.16, 35.92, 12.3, TRUE, 'active'),
+       ('Airbus A340-300', 'Airbus', 13800, 871, 295, 63.66, 60.3, 16.91, FALSE, 'maintenance'),
+       ('Boeing 737-400', 'Boeing', 3750, 852, 188, 36.45, 28.9, 11.1, TRUE, 'retired'),
+       ('Airbus A380-800', 'Airbus', 15200, 1020, 544, 72.7, 79.8, 24.1, TRUE, 'active'),
+       ('Boeing 777-200LR', 'Boeing', 15400, 905, 317, 63.73, 60.9, 18.5, TRUE, 'active'),
+       ('Airbus A321neo', 'Airbus', 7400, 931, 244, 44.51, 35.8, 12.1, TRUE, 'active'),
+       ('Boeing 737 MAX 10', 'Boeing', 6110, 842, 230, 43.8, 35.9, 12.3, FALSE, 'maintenance'),
+       ('Airbus A340-500', 'Airbus', 16020, 912, 372, 63.66, 60.3, 17.2, TRUE, 'active'),
+       ('Boeing 747-400', 'Boeing', 13450, 988, 416, 70.6, 64.9, 19.4, FALSE, 'retired'),
+       ('Airbus A321LR', 'Airbus', 7400, 931, 206, 44.51, 35.8, 12.1, TRUE, 'active'),
+       ('Embraer E195', 'Embraer', 4819, 870, 124, 38.7, 35.5, 12.0, FALSE, 'maintenance'),
+       ('Boeing 777-9', 'Boeing', 13940, 905, 426, 76.5, 71.8, 19.7, TRUE, 'active'),
+       ('Airbus A330-900neo', 'Airbus', 13450, 930, 287, 63.7, 64.0, 16.8, TRUE, 'active'),
+       ('Comac ARJ21', 'Comac', 2225, 825, 90, 33.46, 27.28, 8.44, TRUE, 'active'),
+       ('Boeing 787-8', 'Boeing', 13620, 912, 242, 62.8, 60.1, 16.9, TRUE, 'active');
