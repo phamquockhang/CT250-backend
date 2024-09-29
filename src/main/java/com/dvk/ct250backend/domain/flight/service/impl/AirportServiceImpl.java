@@ -35,7 +35,7 @@ public class AirportServiceImpl implements AirportService {
 
 
     @Override
-    @Cacheable(value = "airports")
+//    @Cacheable(value = "airports")
     public Page<AirportDTO> getAirports(Map<String, String> params) {
         int page = Integer.parseInt(params.getOrDefault("page", "1"));
         int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
