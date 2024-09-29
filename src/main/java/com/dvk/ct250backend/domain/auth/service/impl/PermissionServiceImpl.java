@@ -9,7 +9,6 @@ import com.dvk.ct250backend.domain.auth.entity.Permission;
 import com.dvk.ct250backend.domain.auth.mapper.PermissionMapper;
 import com.dvk.ct250backend.domain.auth.repository.PermissionRepository;
 import com.dvk.ct250backend.domain.auth.service.PermissionService;
-import com.dvk.ct250backend.infrastructure.config.specification.PermissionSpecification;
 import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -62,13 +61,15 @@ public class PermissionServiceImpl implements PermissionService {
         List<SearchCriteria> moduleCriteria = requestParamUtils.getSearchCriteria(params, "module");
         List<List<SearchCriteria>> allCriteria = List.of(methodCriteria, moduleCriteria);
         for (List<SearchCriteria> criteriaList : allCriteria) {
-           if(!criteriaList.isEmpty()){
-               Specification<Permission> criteriaSpec = Specification.where(null);
-               for (SearchCriteria criteria: criteriaList){
-                   criteriaSpec = criteriaSpec.or(new PermissionSpecification(criteria));
-               }
+            if (!criteriaList.isEmpty()) {
+                Specification<Permission> criteriaSpec = Specification.where(null);
+                for (SearchCriteria criteria : criteriaList) {
+                    criteriaSpec = criteriaSpec.or(((root, query, criteriaBuilder) ->
+                            criteriaBuilder.equal(root.get(criteria.getKey()), criteria.getValue())));
+
+                }
                 spec = spec.and(criteriaSpec);
-           }
+            }
         }
 
         return spec;

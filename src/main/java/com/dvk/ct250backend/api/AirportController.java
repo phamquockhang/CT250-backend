@@ -27,14 +27,15 @@ public class AirportController {
     AirportService airportService;
 
     @GetMapping
-    public ApiResponse<Page<AirportDTO>> getAllAirportWithPagination(
-          @RequestParam Map<String, String> params
-    ) {
+    public ApiResponse<Page<AirportDTO>> getAirports(
+            @RequestParam Map<String, String> params
+            ) {
         return ApiResponse.<Page<AirportDTO>>builder()
                 .status(HttpStatus.OK.value())
-                .payload(airportService.getAllAirport(params))
+                .payload(airportService.getAirports(params))
                 .build();
     }
+
 
     @PostMapping
     public ApiResponse<AirportDTO> createAirport(@Valid @RequestBody AirportDTO airportDTO) {
