@@ -13,6 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -33,13 +34,10 @@ public class UserController {
 
     @GetMapping
     public ApiResponse<Page<UserDTO>> getAllUser(
-            @Filter Specification<User> spec,
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int pageSize,
-            @RequestParam(required = false) String sort) {
+            @RequestParam Map<String, String> params) {
         return ApiResponse.<Page<UserDTO>>builder()
                 .status(HttpStatus.OK.value())
-                .payload(userService.getUsers(spec, page, pageSize, sort))
+                .payload(userService.getUsers(params))
                 .build();
     }
 
@@ -64,6 +62,14 @@ public class UserController {
         return ApiResponse.<UserDTO>builder()
                 .status(HttpStatus.OK.value())
                 .payload(userService.updateUser(id, user))
+                .build();
+    }
+
+    @GetMapping("/{id}")
+    public ApiResponse<UserDTO> getUserById(@PathVariable("id") UUID id) throws ResourceNotFoundException {
+        return ApiResponse.<UserDTO>builder()
+                .status(HttpStatus.OK.value())
+                .payload(userService.getUserById(id))
                 .build();
     }
 

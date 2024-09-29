@@ -351,6 +351,7 @@ INSERT INTO public.permissions (name, api_path, method, module)
 VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Update a user', '/api/v1/users/{id}', 'PUT', 'USERS'),
        ('Delete a user', '/api/v1/users/{id}', 'DELETE', 'USERS'),
+         ('Get a user by id', '/api/v1/users/{id}', 'GET', 'USERS'),
        ('Get logged in user', '/api/v1/users/logged-in', 'GET', 'USERS'),
        ('Get users with pagination', '/api/v1/users', 'GET', 'USERS'),
        ('Create a role', '/api/v1/roles', 'POST', 'ROLES'),
@@ -366,6 +367,7 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Get permissions with pagination', '/api/v1/permissions', 'GET', 'PERMISSIONS'),
        ('Get all permissions', '/api/v1/permissions/all', 'GET', 'PERMISSIONS'),
        ('Get airports with pagination', '/api/v1/airports', 'GET', 'AIRPORTS'),
+       ('Get all airports', '/api/v1/airports/all', 'GET', 'AIRPORTS'),
        ('Create an airport', '/api/v1/airports', 'POST', 'AIRPORTS'),
         ('Delete an airport', '/api/v1/airports/{id}', 'DELETE', 'AIRPORTS'),
         ('Update an airport', '/api/v1/airports/{id}', 'PUT', 'AIRPORTS');
@@ -397,7 +399,9 @@ VALUES (1, 1),
        (18, 1),
        (19, 1),
        (20,1),
-        (21,1);
+        (21,1),
+        (22,1),
+        (23,1);
 
 
 --USER
