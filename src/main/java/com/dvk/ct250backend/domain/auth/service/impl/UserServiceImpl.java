@@ -4,6 +4,7 @@ import com.dvk.ct250backend.app.dto.response.Meta;
 import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.auth.dto.UserDTO;
+import com.dvk.ct250backend.domain.auth.entity.Role;
 import com.dvk.ct250backend.domain.auth.entity.User;
 import com.dvk.ct250backend.domain.auth.mapper.UserMapper;
 
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -35,7 +37,6 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
-    RequestParamUtils requestParamUtils;
 
 
     @Override
@@ -47,10 +48,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<UserDTO> getUsers(Specification<User> spec, int page, int pageSize, String sort) {
-        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(sort);
-        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortOrders));
-        org.springframework.data.domain.Page<User> userPage = userRepository.findAll(spec, pageable);
+    public Page<UserDTO> getUsers(Map<String, String> params) {
+        int page = Integer.parseInt(params.getOrDefault("page", "1"));
+        int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
+        Pageable pageable = PageRequest.of(page - 1, pageSize);
+        org.springframework.data.domain.Page<User> userPage = userRepository.findAll(pageable);
         Meta meta = Meta.builder()
                 .page(pageable.getPageNumber() + 1)
                 .pageSize(pageable.getPageSize())
@@ -91,5 +93,12 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("User ID " + id + " is invalid."));
         userMapper.updateUserFromDTO(userDTO, user);
         return userMapper.toUserDTO(userRepository.save(user));
+    }
+
+    @Override
+    public UserDTO getUserById(UUID id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User ID " + id + " is invalid."));
+        return userMapper.toUserDTO(user);
     }
 }

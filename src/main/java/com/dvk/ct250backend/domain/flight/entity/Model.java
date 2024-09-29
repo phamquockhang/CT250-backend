@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
@@ -28,5 +30,8 @@ public class Model {
     Double overallLength; // Chiều dài tổng thể (m)
     Double wingspan; // Sải cánh (m)
     Double height; // Chiều cao (m)
+
+    @OneToMany(mappedBy = "model", fetch = FetchType.LAZY)
+    List<Airplane> airplanes;
 
 }
