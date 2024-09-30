@@ -34,13 +34,13 @@ ALTER TABLE public.roles
     ALTER COLUMN role_id SET DEFAULT nextval('roles_seq');
 
 
---MODEL
-DROP SEQUENCE IF EXISTS models_seq;
-CREATE SEQUENCE models_seq
-    START WITH 1
-    INCREMENT BY 1;
-ALTER TABLE public.models
-    ALTER COLUMN model_id SET DEFAULT nextval('models_seq');
+-- --MODEL
+-- DROP SEQUENCE IF EXISTS models_seq;
+-- CREATE SEQUENCE models_seq
+--     START WITH 1
+--     INCREMENT BY 1;
+-- ALTER TABLE public.models
+--     ALTER COLUMN model_id SET DEFAULT nextval('models_seq');
 
 
 --AIRPLANE
