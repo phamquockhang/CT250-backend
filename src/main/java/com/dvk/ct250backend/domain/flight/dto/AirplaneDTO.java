@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -42,5 +44,10 @@ public class AirplaneDTO {
     String status; // Trạng thái máy bay
 
     boolean inUse; // Đang sử dụng hay không
+
+    LocalDateTime createdAt;
+    LocalDateTime updatedAt;
+    String createdBy;
+    String updatedBy;
 
 }
