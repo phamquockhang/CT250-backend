@@ -376,7 +376,11 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Create an airplane', '/api/v1/airplanes', 'POST', 'AIRPLANES'),
        ('Delete an airplane', '/api/v1/airplanes/{id}', 'DELETE', 'AIRPLANES'),
        ('Update an airplane', '/api/v1/airplanes/{id}', 'PUT', 'AIRPLANES'),
-       ('Get all routes', '/api/v1/routes/all', 'GET', 'ROUTES');
+       ('Get all routes', '/api/v1/routes/all', 'GET', 'ROUTES'),
+       ('Get routes with pagination', '/api/v1/routes', 'GET', 'ROUTES'),
+       ('Create a route', '/api/v1/routes', 'POST', 'ROUTES'),
+       ('Delete a route', '/api/v1/routes/{id}', 'DELETE', 'ROUTES'),
+       ('Update a route', '/api/v1/routes/{id}', 'PUT', 'ROUTES');
 
 
 
@@ -413,7 +417,12 @@ VALUES (1, 1),
         (26,1),
         (27,1),
         (28,1),
-        (29,1);
+        (29,1),
+        (30,1),
+        (31, 1),
+        (32, 1),
+        (33, 1);
+
 
 
 --USER
