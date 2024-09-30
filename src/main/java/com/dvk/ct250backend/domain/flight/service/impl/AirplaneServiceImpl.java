@@ -5,6 +5,7 @@ import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.flight.dto.AirplaneDTO;
 import com.dvk.ct250backend.domain.flight.entity.Airplane;
+import com.dvk.ct250backend.domain.flight.entity.Airport;
 import com.dvk.ct250backend.domain.flight.mapper.AirplaneMapper;
 import com.dvk.ct250backend.domain.flight.repository.AirplaneRepository;
 import com.dvk.ct250backend.domain.flight.service.AirplaneService;
@@ -15,6 +16,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 
@@ -78,10 +80,7 @@ public class AirplaneServiceImpl implements AirplaneService {
 //        if(params.containsKey("query")){
 //            String searchValue = params.get("query");
 //            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.or(
-//                    criteriaBuilder.like(criteriaBuilder.lower(root.get("airportName")), "%" + searchValue.toLowerCase() + "%"),
-//                    criteriaBuilder.like(root.get("airportCode"), "%" + params.get("query").toUpperCase() + "%"),
-//                    criteriaBuilder.like(criteriaBuilder.lower(root.get("cityName")), "%" + searchValue.toLowerCase() + "%"),
-//                    criteriaBuilder.like(root.get("cityCode"), "%" + params.get("query").toUpperCase() + "%")
+//                    criteriaBuilder.like(criteriaBuilder.lower(root.get("modelName")), "%" + searchValue.toLowerCase() + "%").
 //            ));
 //        }
 //        return spec;

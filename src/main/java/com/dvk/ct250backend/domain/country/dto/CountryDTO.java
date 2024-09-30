@@ -17,5 +17,4 @@ public class CountryDTO {
     String iso2Code;
     String iso3Code;
 
-
 }
