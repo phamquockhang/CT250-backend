@@ -244,59 +244,59 @@ values (93, 'Afghanistan', 'AF', 'AFG'),
 
 -- AIRPORT
 insert into public.airports(airport_name, airport_code, city_name, city_code, country_id)
-values ('Chhatrapati Shivaji International Airport', 'BOM', 'Mumbai', 'BOM', 95),
-       ('Indira Gandhi International Airport', 'DEL', 'New Delhi', 'DEL', 95),
-       ('Cochin International Airport', 'COK', 'Kochi', 'COK', 95),
-       ('Sardar Vallabhbhai Patel International Airport', 'AMD', 'Ahmedabad', 'AMD', 95),
-       ('Tiruchirappalli International Airport', 'TRZ', 'Tiruchirappalli', 'TRZ', 95),
-       ('Tokyo International Airport - Haneda Airport', 'HND', 'Tokyo (Haneda)', 'HND', 105),
-       ('Kansai International Airport', 'KIX', 'Osaka', 'KIX', 105),
-       ('Narita International Airport', 'NRT', 'Tokyo (Narita)', 'NRT', 105),
-       ('Chubu Centrair International Airport', 'NGO', 'Nagoya', 'NGO', 105),
-       ('Fukuoka International Airport', 'FUK', 'Fukuoka', 'FUK', 105),
-       ('Gimhae International Airport', 'PUS', 'Busan', 'PUS', 200),
-       ('Daegu International Airport', 'TAE', 'Daegu', 'TAE', 200),
-       ('Incheon International Airport', 'ICN', 'Incheon', 'ICN', 200),
-       ('Kaohsiung International Airport', 'KHH', 'Kaohsiung', 'KHH', 211),
-       ('Taiwan Taoyuan International Airport', 'TPE', 'Taipei', 'TPE', 211),
+values ('Chhatrapati Shivaji INTERNATIONAL Airport', 'BOM', 'Mumbai', 'BOM', 95),
+       ('Indira Gandhi INTERNATIONAL Airport', 'DEL', 'New Delhi', 'DEL', 95),
+       ('Cochin INTERNATIONAL Airport', 'COK', 'Kochi', 'COK', 95),
+       ('Sardar Vallabhbhai Patel INTERNATIONAL Airport', 'AMD', 'Ahmedabad', 'AMD', 95),
+       ('Tiruchirappalli INTERNATIONAL Airport', 'TRZ', 'Tiruchirappalli', 'TRZ', 95),
+       ('Tokyo INTERNATIONAL Airport - Haneda Airport', 'HND', 'Tokyo (Haneda)', 'HND', 105),
+       ('Kansai INTERNATIONAL Airport', 'KIX', 'Osaka', 'KIX', 105),
+       ('Narita INTERNATIONAL Airport', 'NRT', 'Tokyo (Narita)', 'NRT', 105),
+       ('Chubu Centrair INTERNATIONAL Airport', 'NGO', 'Nagoya', 'NGO', 105),
+       ('Fukuoka INTERNATIONAL Airport', 'FUK', 'Fukuoka', 'FUK', 105),
+       ('Gimhae INTERNATIONAL Airport', 'PUS', 'Busan', 'PUS', 200),
+       ('Daegu INTERNATIONAL Airport', 'TAE', 'Daegu', 'TAE', 200),
+       ('Incheon INTERNATIONAL Airport', 'ICN', 'Incheon', 'ICN', 200),
+       ('Kaohsiung INTERNATIONAL Airport', 'KHH', 'Kaohsiung', 'KHH', 211),
+       ('Taiwan Taoyuan INTERNATIONAL Airport', 'TPE', 'Taipei', 'TPE', 211),
        ('Tainan Airport', 'TNN', 'Tainan', 'TNN', 211),
-       ('Taichung International Airport', 'RMQ', 'Taichung', 'RMQ', 211),
-       ('Kuala Lumpur International Airport (KLIA)', 'KUL', 'Kuala Lumpur', 'KUL', 127),
-       ('Changi International Airport', 'SIN', 'Singapore', 'SIN', 193),
-       ('Soekarno-Hatta International Airport', 'CGK', 'Jakarta', 'CGK', 196),
-       ('Ngurah Rai International Airport (Denpasar)', 'DPS', 'Bali', 'DPS', 196),
-       ('Siem Reap–Angkor International Airport', 'SAI', 'Siem Reap', 'SAI', 36),
-       ('Yangon International Airport', 'RGN', 'Yangon', 'RGN', 144),
-       ('Almaty International Airport', 'ALA', 'Almaty', 'ALA', 108),
-       ('Nursultan Nazarbayev International Airport', 'NQZ', 'Astana', 'NQZ', 108),
-       ('Vostosny International Airport', 'TAS', 'Tashkent', 'TAS', 231),
+       ('Taichung INTERNATIONAL Airport', 'RMQ', 'Taichung', 'RMQ', 211),
+       ('Kuala Lumpur INTERNATIONAL Airport (KLIA)', 'KUL', 'Kuala Lumpur', 'KUL', 127),
+       ('Changi INTERNATIONAL Airport', 'SIN', 'Singapore', 'SIN', 193),
+       ('Soekarno-Hatta INTERNATIONAL Airport', 'CGK', 'Jakarta', 'CGK', 196),
+       ('Ngurah Rai INTERNATIONAL Airport (Denpasar)', 'DPS', 'Bali', 'DPS', 196),
+       ('Siem Reap–Angkor INTERNATIONAL Airport', 'SAI', 'Siem Reap', 'SAI', 36),
+       ('Yangon INTERNATIONAL Airport', 'RGN', 'Yangon', 'RGN', 144),
+       ('Almaty INTERNATIONAL Airport', 'ALA', 'Almaty', 'ALA', 108),
+       ('Nursultan Nazarbayev INTERNATIONAL Airport', 'NQZ', 'Astana', 'NQZ', 108),
+       ('Vostosny INTERNATIONAL Airport', 'TAS', 'Tashkent', 'TAS', 231),
        ('Melbourne Tullamarine Airport', 'MEL', 'Melbourne', 'MEL', 13),
-       ('Perth International Airport', 'PER', 'Perth', 'PER', 13),
-       ('Brisbane International Airport', 'BNE', 'Brisbane', 'BNE', 13),
+       ('Perth INTERNATIONAL Airport', 'PER', 'Perth', 'PER', 13),
+       ('Brisbane INTERNATIONAL Airport', 'BNE', 'Brisbane', 'BNE', 13),
        ('Kingsford Smith Airport', 'SYD', 'Sydney', 'SYD', 13),
        ('Suvarnabhumi Airport', 'BKK', 'Bangkok', 'BKK', 214),
-       ('Chiang Mai International Airport', 'CNX', 'Chiang Mai', 'CNX', 214),
-       ('Chiang Rai International Airport', 'CEI', 'Chiang Rai', 'CEI', 214),
-       ('Hat Yai International Airport', 'HDY', 'Hat Yai', 'HDY', 214),
+       ('Chiang Mai INTERNATIONAL Airport', 'CNX', 'Chiang Mai', 'CNX', 214),
+       ('Chiang Rai INTERNATIONAL Airport', 'CEI', 'Chiang Rai', 'CEI', 214),
+       ('Hat Yai INTERNATIONAL Airport', 'HDY', 'Hat Yai', 'HDY', 214),
        ('Khon Kaen Airport', 'KKC', 'Khon Kaen', 'KKC', 214),
-       ('Krabi International Airport', 'KBV', 'Krabi', 'KBV', 214),
+       ('Krabi INTERNATIONAL Airport', 'KBV', 'Krabi', 'KBV', 214),
        ('Nakhon Si Thammarat Airport', 'NST', 'Nakhon Si Thammarat', 'NST', 214),
-       ('Phuket International Airport', 'HKT', 'Phuket', 'HKT', 214),
-       ('Surat Thani International Airport', 'URT', 'Surat Thani', 'URT', 214),
+       ('Phuket INTERNATIONAL Airport', 'HKT', 'Phuket', 'HKT', 214),
+       ('Surat Thani INTERNATIONAL Airport', 'URT', 'Surat Thani', 'URT', 214),
        ('Ubon Ratchathani Airport', 'UBP', 'Ubon Ratchathani', 'UBP', 214),
-       ('Udon Thani International Airport', 'UTH', 'Udon Thani', 'UTH', 214),
-       ('U-Tapao–Rayong–Pattaya International Airport', 'UTP', 'Rayong', 'UTP', 214),
-       ('Tan Son Nhat International Airport', 'SGN', 'Ho Chi Minh City', 'SGN', 235),
-       ('Noi Bai International Airport', 'HAN', 'Hanoi City', 'HAN', 235),
-       ('Da Nang International Airport', 'DAD', 'Da Nang', 'DAD', 235),
-       ('Phu Quoc International Airport', 'PQC', 'Phu Quoc', 'PQC', 235),
-       ('Cam Ranh International Airport', 'CXR', 'Nha Trang', 'CXR', 235),
-       ('Can Tho International Airport', 'VCA', 'Can Tho', 'VCA', 235),
-       ('Lien Khuong International Airport', 'DLI', 'Da Lat', 'DLI', 235),
-       ('Cat Bi International Airport', 'HPH', 'Hai Phong', 'HPH', 235),
-       ('Phu Bai International Airport', 'HUI', 'Hue', 'HUI', 235),
-       ('Van Don International Airport', 'VDO', 'Quang Ninh', 'VDO', 235),
-       ('Vinh International Airport', 'VII', 'Nghe An', 'VII', 235),
+       ('Udon Thani INTERNATIONAL Airport', 'UTH', 'Udon Thani', 'UTH', 214),
+       ('U-Tapao–Rayong–Pattaya INTERNATIONAL Airport', 'UTP', 'Rayong', 'UTP', 214),
+       ('Tan Son Nhat INTERNATIONAL Airport', 'SGN', 'Ho Chi Minh City', 'SGN', 235),
+       ('Noi Bai INTERNATIONAL Airport', 'HAN', 'Hanoi City', 'HAN', 235),
+       ('Da Nang INTERNATIONAL Airport', 'DAD', 'Da Nang', 'DAD', 235),
+       ('Phu Quoc INTERNATIONAL Airport', 'PQC', 'Phu Quoc', 'PQC', 235),
+       ('Cam Ranh INTERNATIONAL Airport', 'CXR', 'Nha Trang', 'CXR', 235),
+       ('Can Tho INTERNATIONAL Airport', 'VCA', 'Can Tho', 'VCA', 235),
+       ('Lien Khuong INTERNATIONAL Airport', 'DLI', 'Da Lat', 'DLI', 235),
+       ('Cat Bi INTERNATIONAL Airport', 'HPH', 'Hai Phong', 'HPH', 235),
+       ('Phu Bai INTERNATIONAL Airport', 'HUI', 'Hue', 'HUI', 235),
+       ('Van Don INTERNATIONAL Airport', 'VDO', 'Quang Ninh', 'VDO', 235),
+       ('Vinh INTERNATIONAL Airport', 'VII', 'Nghe An', 'VII', 235),
        ('Buon Ma Thuot Airport', 'BMV', 'Dak Lak', 'BMV', 235),
        ('Chu Lai Airport', 'VCL', 'Chu Lai', 'VCL', 235),
        ('Dong Hoi Airport', 'VDH', 'Quang Binh', 'VDH', 235),
@@ -304,45 +304,45 @@ values ('Chhatrapati Shivaji International Airport', 'BOM', 'Mumbai', 'BOM', 95)
        ('Pleiku Airport', 'PXU', 'Gia Lai', 'PXU', 235),
        ('Tho Xuan Airport', 'THD', 'Thanh Hoa', 'THD', 235),
        ('Tuy Hoa Airport', 'TBB', 'Phu Yen', 'TBB', 235),
-       ('Hong Kong International Airport', 'HKG', 'Hong Kong', 'HKG', 92),
-       ('Macau International Airport', 'MFM', 'Macao', 'MFM', 123),
-       ('Hefei Xinqiao International Airport', 'HFE', 'Hefei', 'HFE', 44),
-       ('Haikou Meilan International Airport', 'HAK', 'Haikou', 'HAK', 44),
+       ('Hong Kong INTERNATIONAL Airport', 'HKG', 'Hong Kong', 'HKG', 92),
+       ('Macau INTERNATIONAL Airport', 'MFM', 'Macao', 'MFM', 123),
+       ('Hefei Xinqiao INTERNATIONAL Airport', 'HFE', 'Hefei', 'HFE', 44),
+       ('Haikou Meilan INTERNATIONAL Airport', 'HAK', 'Haikou', 'HAK', 44),
        ('Baotou Airport', 'BAV', 'Baotou', 'BAV', 44),
-       ('Harbin Taiping International Airport', 'HRB', 'Harbin', 'HRB', 44),
-       ('Changsha Huanghua International Airport', 'CSX', 'Changsha', 'CSX', 44),
-       ('Kunming Changshui International Airport', 'KMG', 'Kunming', 'KMG', 44),
-       ('Dalian Zhoushuizi International Airport', 'DLC', 'Dalian', 'DLC', 44),
-       ('Jinan Yaoqiang International Airport', 'TNA', 'Jinan', 'TNA', 44),
-       ('Hangzhou Xiaoshan International Airport', 'HGH', 'Hangzhou', 'HGH', 44),
-       ('Yinchuan Hedong International Airport', 'INC', 'Hedong', 'INC', 44),
-       ('Baita Hohhot Baita International Airport', 'HET', 'Hohhot', 'HET', 44),
-       ('Lanzhou Zhongchuan International Airport', 'LHW', 'Lanzhou Zhongchuan', 'LHW', 44),
-       ('Nanjing Lukou International Airport', 'NKG', 'Nanjing', 'NKG', 44),
-       ('Nantong Xingdong International Airport', 'NTG', 'Nantong', 'NTG', 44),
-       ('Nanchang Changbei International Airport', 'KHN', 'Nanchang', 'KHN', 44),
+       ('Harbin Taiping INTERNATIONAL Airport', 'HRB', 'Harbin', 'HRB', 44),
+       ('Changsha Huanghua INTERNATIONAL Airport', 'CSX', 'Changsha', 'CSX', 44),
+       ('Kunming Changshui INTERNATIONAL Airport', 'KMG', 'Kunming', 'KMG', 44),
+       ('Dalian Zhoushuizi INTERNATIONAL Airport', 'DLC', 'Dalian', 'DLC', 44),
+       ('Jinan Yaoqiang INTERNATIONAL Airport', 'TNA', 'Jinan', 'TNA', 44),
+       ('Hangzhou Xiaoshan INTERNATIONAL Airport', 'HGH', 'Hangzhou', 'HGH', 44),
+       ('Yinchuan Hedong INTERNATIONAL Airport', 'INC', 'Hedong', 'INC', 44),
+       ('Baita Hohhot Baita INTERNATIONAL Airport', 'HET', 'Hohhot', 'HET', 44),
+       ('Lanzhou Zhongchuan INTERNATIONAL Airport', 'LHW', 'Lanzhou Zhongchuan', 'LHW', 44),
+       ('Nanjing Lukou INTERNATIONAL Airport', 'NKG', 'Nanjing', 'NKG', 44),
+       ('Nantong Xingdong INTERNATIONAL Airport', 'NTG', 'Nantong', 'NTG', 44),
+       ('Nanchang Changbei INTERNATIONAL Airport', 'KHN', 'Nanchang', 'KHN', 44),
        ('Dongsheng Airport', 'DSN', 'Ordos', 'DSN', 44),
        ('Yiwu Airport', 'YIW', 'Yiwu', 'YIW', 44),
-       ('Nanning Wuxu International Airport', 'NNG', 'Nanning', 'NNG', 44),
-       ('Ningbo Lishe International Airport', 'NGB', 'Ningbo', 'NGB', 44),
-       ('Fuzhou Changle International Airport', 'FOC', 'Fuzhou', 'FOC', 44),
-       ('Qingdao Liuting International Airport', 'TAO', 'Qingdao', 'TAO', 44),
+       ('Nanning Wuxu INTERNATIONAL Airport', 'NNG', 'Nanning', 'NNG', 44),
+       ('Ningbo Lishe INTERNATIONAL Airport', 'NGB', 'Ningbo', 'NGB', 44),
+       ('Fuzhou Changle INTERNATIONAL Airport', 'FOC', 'Fuzhou', 'FOC', 44),
+       ('Qingdao Liuting INTERNATIONAL Airport', 'TAO', 'Qingdao', 'TAO', 44),
        ('Guiyang Longdongbao Airport', 'KWE', 'Guiyang', 'KWE', 44),
-       ('Xi''an Xianyang International Airport', 'XIY', 'Xi''an', 'SIA', 44),
-       ('Shijiazhuang Zhengding International Airport', 'SJW', 'Shijiazhuang', 'SJW', 44),
-       ('Taiyuan Wusu International Airport', 'TYN', 'Taiyuan', 'TYN', 44),
-       ('Chengdu Shuangliu International Airport', 'CTU', 'Chengdu', 'CTU', 44),
-       ('Shenyang Taoxian International Airport', 'SHE', 'Shenyang', 'SHE', 44),
-       ('Tianjin Binhai International Airport', 'TSN', 'Tianjin', 'TSN', 44),
+       ('Xi''an Xianyang INTERNATIONAL Airport', 'XIY', 'Xi''an', 'SIA', 44),
+       ('Shijiazhuang Zhengding INTERNATIONAL Airport', 'SJW', 'Shijiazhuang', 'SJW', 44),
+       ('Taiyuan Wusu INTERNATIONAL Airport', 'TYN', 'Taiyuan', 'TYN', 44),
+       ('Chengdu Shuangliu INTERNATIONAL Airport', 'CTU', 'Chengdu', 'CTU', 44),
+       ('Shenyang Taoxian INTERNATIONAL Airport', 'SHE', 'Shenyang', 'SHE', 44),
+       ('Tianjin Binhai INTERNATIONAL Airport', 'TSN', 'Tianjin', 'TSN', 44),
        ('Changzhou Benniu Airport', 'CZX', 'Changzhou', 'CZX', 44),
-       ('Shanghai Pudong International Airport', 'PVG', 'Shanghai', 'SHA', 44),
-       ('Zhengzhou Xinzheng International Airport', 'CGO', 'Zhengzhou', 'CGO', 44),
-       ('Chongqing Jiangbei International Airport', 'CKG', 'Chongqing', 'CKG', 44),
+       ('Shanghai Pudong INTERNATIONAL Airport', 'PVG', 'Shanghai', 'SHA', 44),
+       ('Zhengzhou Xinzheng INTERNATIONAL Airport', 'CGO', 'Zhengzhou', 'CGO', 44),
+       ('Chongqing Jiangbei INTERNATIONAL Airport', 'CKG', 'Chongqing', 'CKG', 44),
        ('Zhangjiajie Hehua Airport', 'DYG', 'Zhangjiajie', 'DYG', 44),
-       ('Changchun Longjia International Airport', 'CGQ', 'Changchun', 'CGQ', 44),
-       ('Quanzhou Jinjiang International Airport', 'JJN', 'Quanzhou', 'JJN', 44),
-       ('Sunan Shuofang International Airport', 'WUX', 'Wuxi', 'WUX', 44),
-       ('Wuhan Tianhe International Airport', 'WUH', 'Wuhan', 'WUH', 44),
+       ('Changchun Longjia INTERNATIONAL Airport', 'CGQ', 'Changchun', 'CGQ', 44),
+       ('Quanzhou Jinjiang INTERNATIONAL Airport', 'JJN', 'Quanzhou', 'JJN', 44),
+       ('Sunan Shuofang INTERNATIONAL Airport', 'WUX', 'Wuxi', 'WUX', 44),
+       ('Wuhan Tianhe INTERNATIONAL Airport', 'WUH', 'Wuhan', 'WUH', 44),
        ('Xuzhou Guanyin Airport', 'XUZ', 'Xuzhou', 'XUZ', 44);
 
 
@@ -375,7 +375,12 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Get all airplanes ', '/api/v1/airplanes/all', 'GET', 'AIRPLANES'),
        ('Create an airplane', '/api/v1/airplanes', 'POST', 'AIRPLANES'),
        ('Delete an airplane', '/api/v1/airplanes/{id}', 'DELETE', 'AIRPLANES'),
-       ('Update an airplane', '/api/v1/airplanes/{id}', 'PUT', 'AIRPLANES');
+       ('Update an airplane', '/api/v1/airplanes/{id}', 'PUT', 'AIRPLANES'),
+       ('Get all routes', '/api/v1/routes/all', 'GET', 'ROUTES'),
+       ('Get routes with pagination', '/api/v1/routes', 'GET', 'ROUTES'),
+       ('Create a route', '/api/v1/routes', 'POST', 'ROUTES'),
+       ('Delete a route', '/api/v1/routes/{id}', 'DELETE', 'ROUTES'),
+       ('Update a route', '/api/v1/routes/{id}', 'PUT', 'ROUTES');
 
 
 
@@ -411,7 +416,13 @@ VALUES (1, 1),
         (25,1),
         (26,1),
         (27,1),
-        (28,1);
+        (28,1),
+        (29,1),
+        (30,1),
+        (31, 1),
+        (32, 1),
+        (33, 1);
+
 
 
 --USER
@@ -469,3 +480,84 @@ VALUES ('Boeing 787', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76, TRUE, 'ACT
        ('Airbus A330-900neo', 'Airbus', 13450, 930, 287, 63.7, 64.0, 16.8, TRUE, 'ACTIVE'),
        ('Comac ARJ21', 'Comac', 2225, 825, 90, 33.46, 27.28, 8.44, TRUE, 'ACTIVE'),
        ('Boeing 787-8', 'Boeing', 13620, 912, 242, 62.8, 60.1, 16.9, TRUE, 'ACTIVE');
+
+
+INSERT INTO public.routes (destination_airport_id, arrival_airport_id, duration, route_type)
+VALUES
+    (44, 15, '2 hours 30 minutes', 'INTERNATIONAL'),  -- HAN đến TPE (Đài Bắc)
+    (44, 61, '1 hour 45 minutes', 'INTERNATIONAL'),  -- HAN đến HKG (Hồng Kông)
+    (44, 82, '3 hours', 'INTERNATIONAL'),  -- HAN đến FOC (Phúc Kiến)
+    (44, 18, '2 hours 15 minutes', 'INTERNATIONAL'),  -- HAN đến KUL (Kuala Lumpur)
+    (44, 19, '2 hours 50 minutes', 'INTERNATIONAL'),  -- HAN đến SIN (Singapore)
+    (44, 31, '3 hours 30 minutes', 'INTERNATIONAL'),  -- HAN đến BKK (Bangkok)
+    (44, 13, '4 hours', 'INTERNATIONAL'),  -- HAN đến ICN (Seoul)
+    (44, 8, '3 hours 45 minutes', 'INTERNATIONAL'),  -- HAN đến NRT (Tokyo)
+
+    -- Chuyến bay quốc tế từ Sài Gòn
+    (43, 15, '2 hours 20 minutes', 'INTERNATIONAL'),  -- SGN đến TPE
+    (43, 61, '1 hour 30 minutes', 'INTERNATIONAL'),  -- SGN đến HKG
+    (43, 82, '2 hours 50 minutes', 'INTERNATIONAL'),  -- SGN đến FOC
+    (43, 18, '3 hours', 'INTERNATIONAL'),  -- SGN đến KUL
+    (43, 19, '2 hours 40 minutes', 'INTERNATIONAL'),  -- SGN đến SIN
+    (43, 31, '3 hours 30 minutes', 'INTERNATIONAL'),  -- SGN đến BKK
+    (43, 13, '4 hours 10 minutes', 'INTERNATIONAL'),  -- SGN đến ICN
+    (43, 8, '4 hours', 'INTERNATIONAL'),  -- SGN đến NRT
+
+    -- Chuyến bay quốc tế từ Đà Nẵng
+    (45, 15, '2 hours 50 minutes', 'INTERNATIONAL'),  -- DAD đến TPE
+    (45, 61, '2 hours 20 minutes', 'INTERNATIONAL'),  -- DAD đến HKG
+    (45, 82, '3 hours', 'INTERNATIONAL'),  -- DAD đến KUL
+    (45, 31, '3 hours 10 minutes', 'INTERNATIONAL'),  -- DAD đến BKK
+    (45, 13, '4 hours', 'INTERNATIONAL'),  -- DAD đến ICN
+
+    -- Chuyến bay quốc tế từ Cam Ranh
+    (47, 15, '2 hours 30 minutes', 'INTERNATIONAL'),  -- CXR đến TPE
+    (47, 61, '1 hour 50 minutes', 'INTERNATIONAL'),  -- CXR đến HKG
+    (47, 18, '2 hours 40 minutes', 'INTERNATIONAL'),  -- CXR đến KUL
+    (47, 13, '3 hours 15 minutes', 'INTERNATIONAL'),  -- CXR đến ICN
+
+    -- Chuyến bay quốc tế từ Phú Quốc
+    (46, 15, '2 hours 40 minutes', 'INTERNATIONAL'),  -- PQC đến TPE
+    (46, 61, '1 hour 55 minutes', 'INTERNATIONAL'),  -- PQC đến HKG
+    (46, 18, '2 hours 50 minutes', 'INTERNATIONAL'),  -- PQC đến KUL
+    (46, 13, '2 hours 45 minutes', 'INTERNATIONAL'),
+    -- Thanh Hóa đến các sân bay khác
+    (59, 44, '2 hours', 'DOMESTIC'),  -- THD đến HAN
+    (59, 43, '2 hours 30 minutes', 'DOMESTIC'),  -- THD đến SGN
+    (59, 45, '1 hour 30 minutes', 'DOMESTIC'),  -- THD đến DAD
+    (59, 47, '1 hour 45 minutes', 'DOMESTIC'),  -- THD đến CXR
+    (59, 46, '2 hours', 'DOMESTIC'),  -- THD đến PQC
+    (59, 51, '1 hour 45 minutes', 'DOMESTIC'),  -- THD đến HUI
+    (59, 53, '1 hour 10 minutes', 'DOMESTIC'),  -- THD đến VII
+
+    -- Vinh đến các sân bay khác
+    (53, 44, '1 hour 30 minutes', 'DOMESTIC'),  -- VII đến HAN
+    (53, 43, '1 hour 50 minutes', 'DOMESTIC'),  -- VII đến SGN
+    (53, 45, '1 hour 10 minutes', 'DOMESTIC'),  -- VII đến DAD
+    (53, 47, '1 hour 20 minutes', 'DOMESTIC'),  -- VII đến CXR
+    (53, 46, '1 hour 30 minutes', 'DOMESTIC'),  -- VII đến PQC
+    (53, 51, '1 hour 15 minutes', 'DOMESTIC'),  -- VII đến HUI
+    (53, 59, '1 hour', 'DOMESTIC'),  -- VII đến THD
+    (53, 50, '1 hour 5 minutes', 'DOMESTIC'),  -- VII đến HPH
+
+    -- Hải Phòng đến các sân bay khác
+    (50, 44, '1 hour 45 minutes', 'DOMESTIC'),  -- HPH đến HAN
+    (50, 43, '1 hour 30 minutes', 'DOMESTIC'),  -- HPH đến SGN
+    (50, 45, '1 hour', 'DOMESTIC'),  -- HPH đến DAD
+    (50, 47, '1 hour 20 minutes', 'DOMESTIC'),  -- HPH đến CXR
+    (50, 46, '1 hour 40 minutes', 'DOMESTIC'),  -- HPH đến PQC
+    (50, 51, '1 hour 30 minutes', 'DOMESTIC'),  -- HPH đến HUI
+    (50, 59, '1 hour 25 minutes', 'DOMESTIC'),  -- HPH đến THD
+    (50, 53, '1 hour 5 minutes', 'DOMESTIC'),  -- HPH đến VII
+    (50, 49, '1 hour 15 minutes', 'DOMESTIC'),  -- HPH đến DLI
+
+    -- Đà Lạt đến các sân bay khác
+    (49, 44, '1 hour 50 minutes', 'DOMESTIC'),  -- DLI đến HAN
+    (49, 43, '2 hours 10 minutes', 'DOMESTIC'),  -- DLI đến SGN
+    (49, 45, '1 hour 30 minutes', 'DOMESTIC'),  -- DLI đến DAD
+    (49, 47, '1 hour 50 minutes', 'DOMESTIC'),  -- DLI đến CXR
+    (49, 46, '1 hour 20 minutes', 'DOMESTIC'),  -- DLI đến PQC
+    (49, 51, '1 hour 25 minutes', 'DOMESTIC'),  -- DLI đến HUI
+    (49, 59, '1 hour 40 minutes', 'DOMESTIC'),  -- DLI đến THD
+    (49, 53, '1 hour 20 minutes', 'DOMESTIC'),  -- DLI đến VII
+    (49, 50, '1 hour 10 minutes', 'DOMESTIC');  -- DLI đến HPH

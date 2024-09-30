@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @Builder
@@ -29,5 +31,11 @@ public class Airport extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id")
     Country country;
+
+    @OneToMany(mappedBy = "destinationAirport")
+    Set<Route> destinationRoutes;
+
+    @OneToMany(mappedBy = "arrivalAirport")
+    Set<Route> arrivalRoutes;
 
 }

@@ -33,16 +33,6 @@ CREATE SEQUENCE roles_seq
 ALTER TABLE public.roles
     ALTER COLUMN role_id SET DEFAULT nextval('roles_seq');
 
-
--- --MODEL
--- DROP SEQUENCE IF EXISTS models_seq;
--- CREATE SEQUENCE models_seq
---     START WITH 1
---     INCREMENT BY 1;
--- ALTER TABLE public.models
---     ALTER COLUMN model_id SET DEFAULT nextval('models_seq');
-
-
 --AIRPLANE
 DROP SEQUENCE IF EXISTS airplanes_seq;
 CREATE SEQUENCE airplanes_seq
@@ -50,3 +40,13 @@ CREATE SEQUENCE airplanes_seq
     INCREMENT BY 1;
 ALTER TABLE public.airplanes
     ALTER COLUMN airplane_id SET DEFAULT nextval('airplanes_seq');
+
+-- --ROUTE
+DROP SEQUENCE IF EXISTS routes_seq;
+CREATE SEQUENCE routes_seq
+    START WITH 1
+    INCREMENT BY 1;
+ALTER TABLE public.routes
+    ALTER COLUMN route_id SET DEFAULT nextval('routes_seq');
+
+

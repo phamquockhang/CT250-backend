@@ -5,6 +5,7 @@ import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.flight.dto.AirplaneDTO;
 import com.dvk.ct250backend.domain.flight.entity.Airplane;
+import com.dvk.ct250backend.domain.flight.entity.Airport;
 import com.dvk.ct250backend.domain.flight.mapper.AirplaneMapper;
 import com.dvk.ct250backend.domain.flight.repository.AirplaneRepository;
 import com.dvk.ct250backend.domain.flight.service.AirplaneService;
@@ -15,6 +16,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 
@@ -55,10 +57,10 @@ public class AirplaneServiceImpl implements AirplaneService {
     public Page<AirplaneDTO> getAirplanes(Map<String, String> params) {
         int page = Integer.parseInt(params.getOrDefault("page", "1"));
         int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
-      //  Specification<Airplane> spec = getAirplaneSpec(params);
+       Specification<Airplane> spec = getAirplaneSpec(params);
         List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params.getOrDefault("sort", ""));
         Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortOrders));
-        org.springframework.data.domain.Page<Airplane> airplanePage = airplaneRepository.findAll( pageable);
+        org.springframework.data.domain.Page<Airplane> airplanePage = airplaneRepository.findAll(spec ,pageable);
         Meta meta = Meta.builder()
                 .page(pageable.getPageNumber() + 1)
                 .pageSize(pageable.getPageSize())
@@ -73,19 +75,17 @@ public class AirplaneServiceImpl implements AirplaneService {
                 .build();
     }
 
-//    private Specification<Airplane> getAirplaneSpec(Map<String, String> params) {
-//        Specification<Airport> spec = Specification.where(null);
-//        if(params.containsKey("query")){
-//            String searchValue = params.get("query");
-//            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.or(
-//                    criteriaBuilder.like(criteriaBuilder.lower(root.get("airportName")), "%" + searchValue.toLowerCase() + "%"),
-//                    criteriaBuilder.like(root.get("airportCode"), "%" + params.get("query").toUpperCase() + "%"),
-//                    criteriaBuilder.like(criteriaBuilder.lower(root.get("cityName")), "%" + searchValue.toLowerCase() + "%"),
-//                    criteriaBuilder.like(root.get("cityCode"), "%" + params.get("query").toUpperCase() + "%")
-//            ));
-//        }
-//        return spec;
-//    }
+    private Specification<Airplane> getAirplaneSpec(Map<String, String> params) {
+        Specification<Airplane> spec = Specification.where(null);
+        if(params.containsKey("query")){
+            String searchValue = params.get("query");
+            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.or(
+                    criteriaBuilder.like(criteriaBuilder.lower(root.get("modelName")), "%" + searchValue.toLowerCase() + "%")
+            ));
+        }
+        
+        return spec;
+    }
 
     @Override
     public List<AirplaneDTO> getAllAirplane() {

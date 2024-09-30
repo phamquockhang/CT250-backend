@@ -34,11 +34,4 @@ public class Country {
     @OneToMany(mappedBy = "country", fetch = FetchType.LAZY)
     Set<Airport> airports;
 
-//    public Country(Integer countryId, String countryName, Integer countryCode , String iso2Code, String iso3Code) {
-//        this.countryId = countryId;
-//        this.iso2Code = iso2Code;
-//        this.iso3Code = iso3Code;
-//        this.countryName = countryName;
-//        this.countryCode = countryCode;
-//    }
 }
