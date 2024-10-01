@@ -23,8 +23,8 @@ public class Route extends BaseEntity {
     Integer routeId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "destination_airport_id")
-    Airport destinationAirport;
+    @JoinColumn(name = "departure_airport_id")
+    Airport departureAirport;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "arrival_airport_id")

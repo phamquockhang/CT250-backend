@@ -1,6 +1,5 @@
 package com.dvk.ct250backend.infrastructure.config.permission;
 
-import com.dvk.ct250backend.app.exception.PermissionException;
 import com.dvk.ct250backend.domain.auth.entity.Permission;
 import com.dvk.ct250backend.domain.auth.entity.Role;
 import com.dvk.ct250backend.domain.auth.entity.User;
@@ -10,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
@@ -29,8 +29,7 @@ public class CustomPermissionInterceptor implements HandlerInterceptor {
     public boolean preHandle(
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
-            @NonNull Object handler)
-            throws Exception {
+            @NonNull Object handler) {
 
         String path = (String) request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);
         String requestURI = request.getRequestURI();
@@ -55,7 +54,7 @@ public class CustomPermissionInterceptor implements HandlerInterceptor {
         System.out.println(">>> requestURI= " + requestURI);
     }
 
-    private void checkPermissions(User user, String path, String httpMethod) throws PermissionException {
+    private void checkPermissions(User user, String path, String httpMethod) throws AccessDeniedException {
         Role role = user.getRole();
         if (role != null) {
             List<Permission> permissions = role.getPermissions();
@@ -63,10 +62,10 @@ public class CustomPermissionInterceptor implements HandlerInterceptor {
                     && item.getMethod().equals(httpMethod));
 
             if (!isAllow) {
-                throw new PermissionException("You do not have permission to access this endpoint.");
+                throw new AccessDeniedException("You do not have permission to access endpoint: " + path);
             }
         } else {
-            throw new PermissionException("You do not have permission to access this endpoint.");
+            throw new AccessDeniedException("You do not have permission to access endpoint: " + path);
         }
     }
 }

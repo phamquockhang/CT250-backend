@@ -37,7 +37,7 @@ public class PermissionServiceImpl implements PermissionService {
         int page = Integer.parseInt(params.getOrDefault("page", "1"));
         int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
 
-        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params.getOrDefault("sort", ""));
+        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params);
         Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortOrders));
         Specification<Permission> spec = getPermissionSpec(params);
         org.springframework.data.domain.Page<Permission> permissionPage = permissionRepository.findAll(spec, pageable);
@@ -59,19 +59,17 @@ public class PermissionServiceImpl implements PermissionService {
         Specification<Permission> spec = Specification.where(null);
         List<SearchCriteria> methodCriteria = requestParamUtils.getSearchCriteria(params, "method");
         List<SearchCriteria> moduleCriteria = requestParamUtils.getSearchCriteria(params, "module");
-        List<List<SearchCriteria>> allCriteria = List.of(methodCriteria, moduleCriteria);
-        for (List<SearchCriteria> criteriaList : allCriteria) {
-            if (!criteriaList.isEmpty()) {
-                Specification<Permission> criteriaSpec = Specification.where(null);
-                for (SearchCriteria criteria : criteriaList) {
-                    criteriaSpec = criteriaSpec.or(((root, query, criteriaBuilder) ->
-                            criteriaBuilder.equal(root.get(criteria.getKey()), criteria.getValue())));
-
-                }
-                spec = spec.and(criteriaSpec);
-            }
+        Specification<Permission> methodSpec = Specification.where(null);
+        for (SearchCriteria criteria : methodCriteria) {
+            methodSpec = methodSpec.or(((root, query, criteriaBuilder) ->
+                    criteriaBuilder.equal(root.get("method"), criteria.getValue())));
         }
-
+        Specification<Permission> moduleSpec = Specification.where(null);
+        for (SearchCriteria criteria : moduleCriteria) {
+            moduleSpec = moduleSpec.or(((root, query, criteriaBuilder) ->
+                    criteriaBuilder.equal(root.get("module"), criteria.getValue())));
+        }
+        spec = spec.and(methodSpec).and(moduleSpec);
         return spec;
     }
 
