@@ -15,12 +15,12 @@ import java.io.IOException;
 import java.util.Optional;
 
 @Component
-public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public class DavikaAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     private final AuthenticationEntryPoint delegate = new BearerTokenAuthenticationEntryPoint();
     private final ObjectMapper mapper;
 
-    public CustomAuthenticationEntryPoint(ObjectMapper mapper) {
+    public DavikaAuthenticationEntryPoint(ObjectMapper mapper) {
         this.mapper = mapper;
     }
 
@@ -29,18 +29,15 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
                          AuthenticationException authException) throws IOException, ServletException {
         delegate.commence(request, response, authException);
         response.setContentType("application/json;charset=UTF-8");
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
 
-        var res = new ApiResponse<Object>();
+        ApiResponse<Object> res = new ApiResponse<>();
         res.setStatus(HttpStatus.UNAUTHORIZED.value());
-        res.setError(getErrorMessage(authException));
-        res.setMessage("Invalid token (expired, incorrect format, or JWT not provided in header)...");
+        res.setError(HttpStatus.UNAUTHORIZED.getReasonPhrase());
+        res.setMessage(authException.getMessage());
 
         mapper.writeValue(response.getWriter(), res);
+
     }
 
-    private String getErrorMessage(AuthenticationException authException) {
-        return Optional.ofNullable(authException.getCause())
-                .map(Throwable::getMessage)
-                .orElse(authException.getMessage());
-    }
 }

@@ -1,6 +1,5 @@
 package com.dvk.ct250backend.domain.auth.service.impl;
 
-import com.dvk.ct250backend.app.exception.DuplicateResourceException;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.auth.dto.UserDTO;
 import com.dvk.ct250backend.domain.auth.dto.request.AuthRequest;
@@ -22,6 +21,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -59,8 +59,7 @@ public class AuthServiceImpl implements AuthService {
     public UserDTO register(UserDTO userDTO, String siteUrl) throws MessagingException, UnsupportedEncodingException {
         boolean isEmailExist = this.userRepository.existsByEmail(userDTO.getEmail());
         if (isEmailExist) {
-           // throw new ResourceNotFoundException("Email " + userDTO.getEmail() + " already exists, please use another email.");
-            throw new DuplicateResourceException("Email " + userDTO.getEmail() + " already exists, please use another email.");
+            throw new DataIntegrityViolationException("Email " + userDTO.getEmail() + " already exists, please use another email.");
         }
         User user = userMapper.toUser(userDTO);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
