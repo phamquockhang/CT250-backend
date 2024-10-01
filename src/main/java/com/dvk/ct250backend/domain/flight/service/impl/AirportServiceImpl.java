@@ -40,6 +40,7 @@ public class AirportServiceImpl implements AirportService {
     public Page<AirportDTO> getAirports(Map<String, String> params) {
         int page = Integer.parseInt(params.getOrDefault("page", "1"));
         int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
+
         Specification<Airport> spec = getAirportSpec(params);
         List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params.getOrDefault("sort", ""));
         Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortOrders));
@@ -96,6 +97,7 @@ public class AirportServiceImpl implements AirportService {
     }
 
     @Override
+    @Cacheable(value = "airports")
     public List<AirportDTO> getAllAirports() {
         return airportRepository.findAll().stream()
                 .map(airportMapper::toAirportDTO)
