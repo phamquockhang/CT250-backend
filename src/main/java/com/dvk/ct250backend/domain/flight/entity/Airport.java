@@ -32,8 +32,8 @@ public class Airport extends BaseEntity {
     @JoinColumn(name = "country_id")
     Country country;
 
-    @OneToMany(mappedBy = "destinationAirport")
-    Set<Route> destinationRoutes;
+    @OneToMany(mappedBy = "departureAirport")
+    Set<Route> departureRoutes;
 
     @OneToMany(mappedBy = "arrivalAirport")
     Set<Route> arrivalRoutes;

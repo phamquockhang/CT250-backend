@@ -13,8 +13,8 @@ import lombok.experimental.FieldDefaults;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RouteDTO {
     Integer routeId;
-    @NotBlank(message = "Destination airport is required")
-    AirportDTO destinationAirport;
+    @NotBlank(message = "Departure airport is required")
+    AirportDTO departureAirport;
 
     @NotBlank(message = "Arrival airport is required")
     AirportDTO arrivalAirport;
