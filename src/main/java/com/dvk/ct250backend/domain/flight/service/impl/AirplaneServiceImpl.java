@@ -1,11 +1,11 @@
 package com.dvk.ct250backend.domain.flight.service.impl;
 
+import com.dvk.ct250backend.app.dto.request.SearchCriteria;
 import com.dvk.ct250backend.app.dto.response.Meta;
 import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.flight.dto.AirplaneDTO;
 import com.dvk.ct250backend.domain.flight.entity.Airplane;
-import com.dvk.ct250backend.domain.flight.entity.Airport;
 import com.dvk.ct250backend.domain.flight.mapper.AirplaneMapper;
 import com.dvk.ct250backend.domain.flight.repository.AirplaneRepository;
 import com.dvk.ct250backend.domain.flight.service.AirplaneService;
@@ -18,7 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
 
 import java.util.List;
 import java.util.Map;
@@ -58,7 +57,7 @@ public class AirplaneServiceImpl implements AirplaneService {
         int page = Integer.parseInt(params.getOrDefault("page", "1"));
         int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
        Specification<Airplane> spec = getAirplaneSpec(params);
-        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params.getOrDefault("sort", ""));
+        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params);
         Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortOrders));
         org.springframework.data.domain.Page<Airplane> airplanePage = airplaneRepository.findAll(spec ,pageable);
         Meta meta = Meta.builder()
@@ -77,12 +76,25 @@ public class AirplaneServiceImpl implements AirplaneService {
 
     private Specification<Airplane> getAirplaneSpec(Map<String, String> params) {
         Specification<Airplane> spec = Specification.where(null);
+        List<SearchCriteria> inUseCriteria = requestParamUtils.getSearchCriteria(params, "inUse");
+        List<SearchCriteria> statusCriteria = requestParamUtils.getSearchCriteria(params, "status");
         if(params.containsKey("query")){
             String searchValue = params.get("query");
             spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.or(
                     criteriaBuilder.like(criteriaBuilder.lower(root.get("modelName")), "%" + searchValue.toLowerCase() + "%")
             ));
         }
+        Specification<Airplane> inUseSpec = Specification.where(null);
+        for (SearchCriteria criteria : inUseCriteria) {
+            inUseSpec = inUseSpec.or(((root, query, criteriaBuilder) ->
+                    criteriaBuilder.equal(root.get("inUse"), Boolean.parseBoolean((String) criteria.getValue()))));
+        }
+        Specification<Airplane> statusSpec = Specification.where(null);
+        for (SearchCriteria criteria : statusCriteria) {
+            statusSpec = statusSpec.or(((root, query, criteriaBuilder) ->
+                    criteriaBuilder.equal(root.get("status"), criteria.getValue())));
+        }
+        spec = spec.and(inUseSpec).and(statusSpec);
         
         return spec;
     }

@@ -11,15 +11,12 @@ import java.util.Map;
 @Component
 public class RequestParamUtils {
 
-    public List<Sort.Order> toSortOrders(String sortParams) {
-        if(sortParams == null || sortParams.isEmpty()) {
-            return new ArrayList<>();
-        }
-        String[] sortArr = sortParams.split(";");
+    public List<Sort.Order> toSortOrders(Map<String, String> params) {
         List<Sort.Order> sortOrders = new ArrayList<>();
-        for (String s : sortArr) {
-            String[] sortStr = s.split(",");
-            Sort.Order order = new Sort.Order(Sort.Direction.fromString(sortStr[1]), sortStr[0]);
+        String sortBy = params.get("sortBy");
+        String direction = params.get("direction");
+        if(sortBy != null && !sortBy.isEmpty()) {
+            Sort.Order order = new Sort.Order(Sort.Direction.fromString(direction), sortBy);
             sortOrders.add(order);
         }
         return sortOrders;

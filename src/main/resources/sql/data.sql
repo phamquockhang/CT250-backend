@@ -400,7 +400,7 @@ VALUES (1, 1),
        (9, 1),
        (10, 1),
        (11, 1),
-       (12, 1),
+--        (12, 1),
        (13, 1),
        (14, 1),
        (15, 1),
@@ -482,7 +482,7 @@ VALUES ('Boeing 787', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76, TRUE, 'ACT
        ('Boeing 787-8', 'Boeing', 13620, 912, 242, 62.8, 60.1, 16.9, TRUE, 'ACTIVE');
 
 
-INSERT INTO public.routes (destination_airport_id, arrival_airport_id, duration, route_type)
+INSERT INTO public.routes (departure_airport_id, arrival_airport_id, duration, route_type)
 VALUES
     (44, 15, '2 hours 30 minutes', 'INTERNATIONAL'),  -- HAN đến TPE (Đài Bắc)
     (44, 61, '1 hour 45 minutes', 'INTERNATIONAL'),  -- HAN đến HKG (Hồng Kông)

@@ -3,10 +3,7 @@ package com.dvk.ct250backend.domain.flight.service.impl;
 import com.dvk.ct250backend.app.dto.response.Meta;
 import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
-import com.dvk.ct250backend.domain.auth.repository.RoleRepository;
-import com.dvk.ct250backend.domain.flight.dto.AirplaneDTO;
 import com.dvk.ct250backend.domain.flight.dto.RouteDTO;
-import com.dvk.ct250backend.domain.flight.entity.Airplane;
 import com.dvk.ct250backend.domain.flight.entity.Route;
 import com.dvk.ct250backend.domain.flight.mapper.RouteMapper;
 import com.dvk.ct250backend.domain.flight.repository.RouteRepository;
@@ -56,7 +53,7 @@ public class RouteServiceImpl implements RouteService {
         int page = Integer.parseInt(params.getOrDefault("page", "1"));
         int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
         //  Specification<Airplane> spec = getAirplaneSpec(params);
-        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params.getOrDefault("sort", ""));
+        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params);
         Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortOrders));
         org.springframework.data.domain.Page<Route> routePage = routeRepository.findAll( pageable);
         Meta meta = Meta.builder()
