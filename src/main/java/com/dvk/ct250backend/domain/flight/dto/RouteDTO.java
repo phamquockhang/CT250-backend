@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Builder
@@ -22,4 +24,7 @@ public class RouteDTO {
 
     @NotBlank(message = "Route type is required")
     String routeType;
+
+    LocalDateTime createdAt;
+    LocalDateTime updatedAt;
 }
