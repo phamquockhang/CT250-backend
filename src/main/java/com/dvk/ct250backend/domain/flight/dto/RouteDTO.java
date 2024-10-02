@@ -20,9 +20,6 @@ public class RouteDTO {
     @NotBlank(message = "Arrival airport is required")
     AirportDTO arrivalAirport;
 
-    @NotBlank(message = "Duration is required")
-    String duration;
-
     @NotBlank(message = "Route type is required")
     String routeType;
 }

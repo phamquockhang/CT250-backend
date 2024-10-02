@@ -30,8 +30,6 @@ public class Route extends BaseEntity {
     @JoinColumn(name = "arrival_airport_id")
     Airport arrivalAirport;
 
-    String duration;
-
     @Enumerated(EnumType.STRING)
     RouteTypeEnum routeType;
 

@@ -483,85 +483,85 @@ VALUES ('Boeing 787', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76, TRUE, 'ACT
        ('Boeing 787-8', 'Boeing', 13620, 912, 242, 62.8, 60.1, 16.9, TRUE, 'ACTIVE');
 
 
-INSERT INTO public.routes (departure_airport_id, arrival_airport_id, duration, route_type)
+INSERT INTO public.routes (departure_airport_id, arrival_airport_id,  route_type)
 VALUES
-    (44, 15, '2 hours 30 minutes', 'INTERNATIONAL'),  -- HAN đến TPE (Đài Bắc)
-    (44, 61, '1 hour 45 minutes', 'INTERNATIONAL'),  -- HAN đến HKG (Hồng Kông)
-    (44, 82, '3 hours', 'INTERNATIONAL'),  -- HAN đến FOC (Phúc Kiến)
-    (44, 18, '2 hours 15 minutes', 'INTERNATIONAL'),  -- HAN đến KUL (Kuala Lumpur)
-    (44, 19, '2 hours 50 minutes', 'INTERNATIONAL'),  -- HAN đến SIN (Singapore)
-    (44, 31, '3 hours 30 minutes', 'INTERNATIONAL'),  -- HAN đến BKK (Bangkok)
-    (44, 13, '4 hours', 'INTERNATIONAL'),  -- HAN đến ICN (Seoul)
-    (44, 8, '3 hours 45 minutes', 'INTERNATIONAL'),  -- HAN đến NRT (Tokyo)
+    (44, 15, 'INTERNATIONAL'),  -- HAN đến TPE (Đài Bắc)
+    (44, 61,  'INTERNATIONAL'),  -- HAN đến HKG (Hồng Kông)
+    (44, 82,  'INTERNATIONAL'),  -- HAN đến FOC (Phúc Kiến)
+    (44, 18,  'INTERNATIONAL'),  -- HAN đến KUL (Kuala Lumpur)
+    (44, 19,  'INTERNATIONAL'),  -- HAN đến SIN (Singapore)
+    (44, 31,  'INTERNATIONAL'),  -- HAN đến BKK (Bangkok)
+    (44, 13,  'INTERNATIONAL'),  -- HAN đến ICN (Seoul)
+    (44, 8,  'INTERNATIONAL'),  -- HAN đến NRT (Tokyo)
 
     -- Chuyến bay quốc tế từ Sài Gòn
-    (43, 15, '2 hours 20 minutes', 'INTERNATIONAL'),  -- SGN đến TPE
-    (43, 61, '1 hour 30 minutes', 'INTERNATIONAL'),  -- SGN đến HKG
-    (43, 82, '2 hours 50 minutes', 'INTERNATIONAL'),  -- SGN đến FOC
-    (43, 18, '3 hours', 'INTERNATIONAL'),  -- SGN đến KUL
-    (43, 19, '2 hours 40 minutes', 'INTERNATIONAL'),  -- SGN đến SIN
-    (43, 31, '3 hours 30 minutes', 'INTERNATIONAL'),  -- SGN đến BKK
-    (43, 13, '4 hours 10 minutes', 'INTERNATIONAL'),  -- SGN đến ICN
-    (43, 8, '4 hours', 'INTERNATIONAL'),  -- SGN đến NRT
+    (43, 15,  'INTERNATIONAL'),  -- SGN đến TPE
+    (43, 61,  'INTERNATIONAL'),  -- SGN đến HKG
+    (43, 82,  'INTERNATIONAL'),  -- SGN đến FOC
+    (43, 18,  'INTERNATIONAL'),  -- SGN đến KUL
+    (43, 19,  'INTERNATIONAL'),  -- SGN đến SIN
+    (43, 31,  'INTERNATIONAL'),  -- SGN đến BKK
+    (43, 13, 'INTERNATIONAL'),  -- SGN đến ICN
+    (43, 8,  'INTERNATIONAL'),  -- SGN đến NRT
 
     -- Chuyến bay quốc tế từ Đà Nẵng
-    (45, 15, '2 hours 50 minutes', 'INTERNATIONAL'),  -- DAD đến TPE
-    (45, 61, '2 hours 20 minutes', 'INTERNATIONAL'),  -- DAD đến HKG
-    (45, 82, '3 hours', 'INTERNATIONAL'),  -- DAD đến KUL
-    (45, 31, '3 hours 10 minutes', 'INTERNATIONAL'),  -- DAD đến BKK
-    (45, 13, '4 hours', 'INTERNATIONAL'),  -- DAD đến ICN
+    (45, 15, 'INTERNATIONAL'),  -- DAD đến TPE
+    (45, 61,  'INTERNATIONAL'),  -- DAD đến HKG
+    (45, 82,  'INTERNATIONAL'),  -- DAD đến KUL
+    (45, 31, 'INTERNATIONAL'),  -- DAD đến BKK
+    (45, 13,  'INTERNATIONAL'),  -- DAD đến ICN
 
     -- Chuyến bay quốc tế từ Cam Ranh
-    (47, 15, '2 hours 30 minutes', 'INTERNATIONAL'),  -- CXR đến TPE
-    (47, 61, '1 hour 50 minutes', 'INTERNATIONAL'),  -- CXR đến HKG
-    (47, 18, '2 hours 40 minutes', 'INTERNATIONAL'),  -- CXR đến KUL
-    (47, 13, '3 hours 15 minutes', 'INTERNATIONAL'),  -- CXR đến ICN
+    (47, 15,  'INTERNATIONAL'),  -- CXR đến TPE
+    (47, 61, 'INTERNATIONAL'),  -- CXR đến HKG
+    (47, 18,  'INTERNATIONAL'),  -- CXR đến KUL
+    (47, 13, 'INTERNATIONAL'),  -- CXR đến ICN
 
     -- Chuyến bay quốc tế từ Phú Quốc
-    (46, 15, '2 hours 40 minutes', 'INTERNATIONAL'),  -- PQC đến TPE
-    (46, 61, '1 hour 55 minutes', 'INTERNATIONAL'),  -- PQC đến HKG
-    (46, 18, '2 hours 50 minutes', 'INTERNATIONAL'),  -- PQC đến KUL
-    (46, 13, '2 hours 45 minutes', 'INTERNATIONAL'),
+    (46, 15, 'INTERNATIONAL'),  -- PQC đến TPE
+    (46, 61,  'INTERNATIONAL'),  -- PQC đến HKG
+    (46, 18,  'INTERNATIONAL'),  -- PQC đến KUL
+    (46, 13,  'INTERNATIONAL'),
     -- Thanh Hóa đến các sân bay khác
-    (59, 44, '2 hours', 'DOMESTIC'),  -- THD đến HAN
-    (59, 43, '2 hours 30 minutes', 'DOMESTIC'),  -- THD đến SGN
-    (59, 45, '1 hour 30 minutes', 'DOMESTIC'),  -- THD đến DAD
-    (59, 47, '1 hour 45 minutes', 'DOMESTIC'),  -- THD đến CXR
-    (59, 46, '2 hours', 'DOMESTIC'),  -- THD đến PQC
-    (59, 51, '1 hour 45 minutes', 'DOMESTIC'),  -- THD đến HUI
-    (59, 53, '1 hour 10 minutes', 'DOMESTIC'),  -- THD đến VII
+    (59, 44, 'DOMESTIC'),  -- THD đến HAN
+    (59, 43,  'DOMESTIC'),  -- THD đến SGN
+    (59, 45,  'DOMESTIC'),  -- THD đến DAD
+    (59, 47,  'DOMESTIC'),  -- THD đến CXR
+    (59, 46, 'DOMESTIC'),  -- THD đến PQC
+    (59, 51,  'DOMESTIC'),  -- THD đến HUI
+    (59, 53, 'DOMESTIC'),  -- THD đến VII
 
     -- Vinh đến các sân bay khác
-    (53, 44, '1 hour 30 minutes', 'DOMESTIC'),  -- VII đến HAN
-    (53, 43, '1 hour 50 minutes', 'DOMESTIC'),  -- VII đến SGN
-    (53, 45, '1 hour 10 minutes', 'DOMESTIC'),  -- VII đến DAD
-    (53, 47, '1 hour 20 minutes', 'DOMESTIC'),  -- VII đến CXR
-    (53, 46, '1 hour 30 minutes', 'DOMESTIC'),  -- VII đến PQC
-    (53, 51, '1 hour 15 minutes', 'DOMESTIC'),  -- VII đến HUI
-    (53, 59, '1 hour', 'DOMESTIC'),  -- VII đến THD
-    (53, 50, '1 hour 5 minutes', 'DOMESTIC'),  -- VII đến HPH
+    (53, 44,  'DOMESTIC'),  -- VII đến HAN
+    (53, 43,  'DOMESTIC'),  -- VII đến SGN
+    (53, 45,  'DOMESTIC'),  -- VII đến DAD
+    (53, 47,  'DOMESTIC'),  -- VII đến CXR
+    (53, 46,  'DOMESTIC'),  -- VII đến PQC
+    (53, 51,  'DOMESTIC'),  -- VII đến HUI
+    (53, 59,  'DOMESTIC'),  -- VII đến THD
+    (53, 50,  'DOMESTIC'),  -- VII đến HPH
 
     -- Hải Phòng đến các sân bay khác
-    (50, 44, '1 hour 45 minutes', 'DOMESTIC'),  -- HPH đến HAN
-    (50, 43, '1 hour 30 minutes', 'DOMESTIC'),  -- HPH đến SGN
-    (50, 45, '1 hour', 'DOMESTIC'),  -- HPH đến DAD
-    (50, 47, '1 hour 20 minutes', 'DOMESTIC'),  -- HPH đến CXR
-    (50, 46, '1 hour 40 minutes', 'DOMESTIC'),  -- HPH đến PQC
-    (50, 51, '1 hour 30 minutes', 'DOMESTIC'),  -- HPH đến HUI
-    (50, 59, '1 hour 25 minutes', 'DOMESTIC'),  -- HPH đến THD
-    (50, 53, '1 hour 5 minutes', 'DOMESTIC'),  -- HPH đến VII
-    (50, 49, '1 hour 15 minutes', 'DOMESTIC'),  -- HPH đến DLI
+    (50, 44,  'DOMESTIC'),  -- HPH đến HAN
+    (50, 43,  'DOMESTIC'),  -- HPH đến SGN
+    (50, 45,  'DOMESTIC'),  -- HPH đến DAD
+    (50, 47,  'DOMESTIC'),  -- HPH đến CXR
+    (50, 46,  'DOMESTIC'),  -- HPH đến PQC
+    (50, 51,  'DOMESTIC'),  -- HPH đến HUI
+    (50, 59,  'DOMESTIC'),  -- HPH đến THD
+    (50, 53,  'DOMESTIC'),  -- HPH đến VII
+    (50, 49,  'DOMESTIC'),  -- HPH đến DLI
 
     -- Đà Lạt đến các sân bay khác
-    (49, 44, '1 hour 50 minutes', 'DOMESTIC'),  -- DLI đến HAN
-    (49, 43, '2 hours 10 minutes', 'DOMESTIC'),  -- DLI đến SGN
-    (49, 45, '1 hour 30 minutes', 'DOMESTIC'),  -- DLI đến DAD
-    (49, 47, '1 hour 50 minutes', 'DOMESTIC'),  -- DLI đến CXR
-    (49, 46, '1 hour 20 minutes', 'DOMESTIC'),  -- DLI đến PQC
-    (49, 51, '1 hour 25 minutes', 'DOMESTIC'),  -- DLI đến HUI
-    (49, 59, '1 hour 40 minutes', 'DOMESTIC'),  -- DLI đến THD
-    (49, 53, '1 hour 20 minutes', 'DOMESTIC'),  -- DLI đến VII
-    (49, 50, '1 hour 10 minutes', 'DOMESTIC');  -- DLI đến HPH
+    (49, 44,  'DOMESTIC'),  -- DLI đến HAN
+    (49, 43,  'DOMESTIC'),  -- DLI đến SGN
+    (49, 45,  'DOMESTIC'),  -- DLI đến DAD
+    (49, 47, 'DOMESTIC'),  -- DLI đến CXR
+    (49, 46,  'DOMESTIC'),  -- DLI đến PQC
+    (49, 51,  'DOMESTIC'),  -- DLI đến HUI
+    (49, 59, 'DOMESTIC'),  -- DLI đến THD
+    (49, 53,  'DOMESTIC'),  -- DLI đến VII
+    (49, 50,  'DOMESTIC');  -- DLI đến HPH
 
 
 --FLIGHT

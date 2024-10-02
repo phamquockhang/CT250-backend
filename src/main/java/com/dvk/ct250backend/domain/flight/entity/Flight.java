@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.sql.Timestamp;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -41,5 +42,17 @@ public class Flight extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "airplane_id", nullable = false)
     Airplane airplane;
+
+    @Transient
+    public String getFlightDuration() {
+        if (departureDateTime != null && arrivalDateTime != null) {
+            Duration duration = Duration.between(departureDateTime, arrivalDateTime);
+            long hours = duration.toHours();
+            long minutes = duration.toMinutes() % 60;
+            return String.format("%d hours %d minutes", hours, minutes);
+        }
+        return null;
+    }
+
 
 }

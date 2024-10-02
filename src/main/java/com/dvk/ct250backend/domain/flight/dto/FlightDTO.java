@@ -32,6 +32,8 @@ public class FlightDTO {
     @NotBlank(message = "Arrival date time is required")
     LocalDateTime arrivalDateTime;
 
+    String flightDuration;
+
     RouteDTO route;
 
     @NotBlank()
@@ -42,4 +44,6 @@ public class FlightDTO {
 
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
+
+
 }
