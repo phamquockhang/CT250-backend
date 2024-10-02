@@ -19,15 +19,12 @@ public class BookingFlights {
     @SequenceGenerator(name = "booking_flight_id_seq", sequenceName = "booking_flights_seq", allocationSize = 1)
     Integer bookingFlightId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "itinerary_id")
-    Itinerary itinerary;
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "flight_id")
+//    Flight flight;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "flight_id")
-    Flight flight;
-
-    Double totalTicketPrice;
-    Double taxesAndFees;
-    Double serviceFees;
+    @JoinColumn(name = "booking_id")
+    Booking booking;
 }

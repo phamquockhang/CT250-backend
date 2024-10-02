@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @Builder
@@ -34,4 +36,9 @@ public class Airplane extends BaseEntity {
     AirplaneStatusEnum status; // Trạng thái máy bay
 
     boolean inUse; // Đang sử dụng hay không
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "airplane", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    Set<Flight> flights; // Danh sách các chuyến bay
+
+
 }

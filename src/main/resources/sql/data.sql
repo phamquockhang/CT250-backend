@@ -380,8 +380,8 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Get routes with pagination', '/api/v1/routes', 'GET', 'ROUTES'),
        ('Create a route', '/api/v1/routes', 'POST', 'ROUTES'),
        ('Delete a route', '/api/v1/routes/{id}', 'DELETE', 'ROUTES'),
-       ('Update a route', '/api/v1/routes/{id}', 'PUT', 'ROUTES');
-
+       ('Update a route', '/api/v1/routes/{id}', 'PUT', 'ROUTES'),
+       ('Get all flights', '/api/v1/flights/all', 'GET', 'FLIGHTS');
 
 
 --ROLE
@@ -400,7 +400,7 @@ VALUES (1, 1),
        (9, 1),
        (10, 1),
        (11, 1),
---        (12, 1),
+      (12, 1),
        (13, 1),
        (14, 1),
        (15, 1),
@@ -421,7 +421,8 @@ VALUES (1, 1),
         (30,1),
         (31, 1),
         (32, 1),
-        (33, 1);
+        (33, 1),
+        (34 , 1);
 
 
 
@@ -561,3 +562,26 @@ VALUES
     (49, 59, '1 hour 40 minutes', 'DOMESTIC'),  -- DLI đến THD
     (49, 53, '1 hour 20 minutes', 'DOMESTIC'),  -- DLI đến VII
     (49, 50, '1 hour 10 minutes', 'DOMESTIC');  -- DLI đến HPH
+
+
+--FLIGHT
+INSERT INTO public.flights (flight_name, departure_date_time, arrival_date_time, route_id, airplane_id)
+VALUES
+    ('VN100', '2024-10-20 08:00:00', '2024-10-20 10:30:00', 1, 1),  -- HAN đến TPE bằng Boeing 787
+    ('VN101', '2024-10-21 09:15:00', '2024-10-21 11:00:00', 2, 1),  -- HAN đến HKG bằng Boeing 787
+    ('VN102', '2024-10-22 13:00:00', '2024-10-22 16:00:00', 3, 2),  -- HAN đến FOC bằng Airbus A350
+    ('VN103', '2024-10-23 14:30:00', '2024-10-23 16:45:00', 4, 3),  -- HAN đến KUL bằng Airbus A320 NEO
+    ('VN104', '2024-10-24 16:00:00', '2024-10-24 18:50:00', 5, 4);  -- HAN đến SIN bằng Airbus A321
+
+
+--FLIGHT PRICING
+INSERT INTO public.flight_pricing (ticket_price, seat_class_name, flight_id, valid_from, valid_to)
+VALUES
+    (700000, 'ECO', 1, '2024-10-01', '2024-12-31'),  -- Giá vé Eco cho chuyến bay VN100
+    (850000, 'ECO', 1, '2024-10-01', '2024-12-31'),  -- Giá vé Eco cho chuyến bay VN100
+    (1200000, 'BUSINESS', 2, '2024-10-01', '2024-12-31'),  -- Giá vé Business cho chuyến bay VN101
+    (1500000, 'BUSINESS', 2, '2024-10-01', '2024-12-31'),  -- Giá vé Business cho chuyến bay VN101
+    (750000, 'ECO', 3, '2024-10-01', '2024-12-31'),  -- Giá vé Eco cho chuyến bay VN102
+    (900000, 'ECO', 3, '2024-10-01', '2024-12-31'),  -- Giá vé Eco cho chuyến bay VN102
+    (1300000, 'BUSINESS', 4, '2024-10-01', '2024-12-31'),  -- Giá vé Business cho chuyến bay VN103
+    (1600000, 'BUSINESS', 4, '2024-10-01', '2024-12-31');  -- Giá vé Business cho chuyến bay VN103
