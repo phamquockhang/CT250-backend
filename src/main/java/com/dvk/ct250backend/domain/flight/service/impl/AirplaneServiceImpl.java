@@ -111,6 +111,8 @@ public class AirplaneServiceImpl implements AirplaneService {
     @Override
     @Cacheable(value = "airplanes")
     public List<AirplaneDTO> getAllAirplane() {
-       return airplaneRepository.findAll().stream().map(airplaneMapper::toAirplaneDTO).collect(Collectors.toList());
+       return airplaneRepository.findAll().stream()
+               .map(airplaneMapper::toAirplaneDTO)
+               .collect(Collectors.toList());
     }
 }

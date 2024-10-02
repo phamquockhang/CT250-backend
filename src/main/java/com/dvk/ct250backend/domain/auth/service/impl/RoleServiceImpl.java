@@ -42,7 +42,9 @@ public class RoleServiceImpl implements RoleService {
 
         return Page.<RoleDTO>builder()
                 .meta(meta)
-                .content(pageRole.getContent().stream().map(roleMapper::toRoleDTO).collect(Collectors.toList()))
+                .content(pageRole.getContent().stream()
+                        .map(roleMapper::toRoleDTO)
+                        .collect(Collectors.toList()))
                 .build();
     }
 

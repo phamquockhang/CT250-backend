@@ -84,6 +84,6 @@ public class RouteServiceImpl implements RouteService {
     public List<RouteDTO> getAllRoutes() {
         return routeRepository.findAll().stream()
                 .map(routeMapper::toRouteDTO)
-                .toList();
+                .collect(Collectors.toList());
     }
 }
