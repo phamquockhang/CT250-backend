@@ -85,7 +85,6 @@ public class AirplaneServiceImpl implements AirplaneService {
 
     private Specification<Airplane> getAirplaneSpec(Map<String, String> params) {
         Specification<Airplane> spec = Specification.where(null);
-        List<SearchCriteria> inUseCriteria = requestParamUtils.getSearchCriteria(params, "inUse");
         List<SearchCriteria> statusCriteria = requestParamUtils.getSearchCriteria(params, "status");
         if(params.containsKey("query")){
             String searchValue = params.get("query");
@@ -94,10 +93,6 @@ public class AirplaneServiceImpl implements AirplaneService {
             ));
         }
         Specification<Airplane> inUseSpec = Specification.where(null);
-        for (SearchCriteria criteria : inUseCriteria) {
-            inUseSpec = inUseSpec.or(((root, query, criteriaBuilder) ->
-                    criteriaBuilder.equal(root.get("inUse"), Boolean.parseBoolean((String) criteria.getValue()))));
-        }
         Specification<Airplane> statusSpec = Specification.where(null);
         for (SearchCriteria criteria : statusCriteria) {
             statusSpec = statusSpec.or(((root, query, criteriaBuilder) ->

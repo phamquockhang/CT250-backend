@@ -1,6 +1,7 @@
 package com.dvk.ct250backend.domain.flight.entity;
 
 import com.dvk.ct250backend.domain.common.entity.BaseEntity;
+import com.dvk.ct250backend.domain.flight.enums.FlightStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -42,6 +43,9 @@ public class Flight extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "airplane_id", nullable = false)
     Airplane airplane;
+
+    @Enumerated(EnumType.STRING)
+    FlightStatusEnum flightStatus;
 
     @Transient
     public String getFlightDuration() {

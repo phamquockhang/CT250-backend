@@ -41,10 +41,7 @@ public class AirplaneDTO {
     @NotBlank(message = "Height is required")
     Double height;
 
-
     String status; // Trạng thái máy bay
-
-    boolean inUse; // Đang sử dụng hay không
 
     LocalDateTime createdAt;
     LocalDateTime updatedAt;

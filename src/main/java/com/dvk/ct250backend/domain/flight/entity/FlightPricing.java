@@ -36,5 +36,4 @@ public class FlightPricing extends BaseEntity {
 
     @Column(name = "valid_to")
     LocalDate validTo;
-
 }

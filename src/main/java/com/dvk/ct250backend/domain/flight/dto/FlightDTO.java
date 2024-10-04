@@ -34,6 +34,8 @@ public class FlightDTO {
 
     String flightDuration;
 
+    String flightStatus;
+
     RouteDTO route;
 
     @NotBlank()

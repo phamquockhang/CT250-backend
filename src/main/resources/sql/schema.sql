@@ -65,8 +65,8 @@ CREATE SEQUENCE flights_seq
     INCREMENT BY 1;
 ALTER TABLE public.flights
     ALTER COLUMN flight_id SET DEFAULT nextval('flights_seq'),
-ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
-
+ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP,
+ALTER COLUMN flight_status SET DEFAULT 'SCHEDULED';
 
 -- FLIGHT-PRICING
 DROP SEQUENCE IF EXISTS flight_pricing_seq;
@@ -76,3 +76,4 @@ CREATE SEQUENCE flight_pricing_seq
 ALTER TABLE public.flight_pricing
     ALTER COLUMN flight_pricing_id SET DEFAULT nextval('flight_pricing_seq'),
 ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
