@@ -23,9 +23,9 @@ public class FlightPricing extends BaseEntity {
 
     Double ticketPrice;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "seat_id")
-    Seat seat;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "seat_id")
+//    Seat seat;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "flight_id")

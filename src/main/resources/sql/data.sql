@@ -650,17 +650,12 @@ VALUES
 -- Giả định rằng flight_id từ bảng flight là 1, 2, 3, ...
 -- Giả định rằng seat_id từ bảng seat là 1, 2, 3, ...
 
-INSERT INTO flight_pricing (ticket_price, seat_id, flight_id, valid_from, valid_to)
+INSERT INTO flight_pricing (ticket_price,  flight_id, valid_from, valid_to)
 VALUES
-    (199.99, 1, 1, '2024-10-01', '2024-12-31'),  -- Giá vé cho ghế 1 trên chuyến bay 1
-    (299.99, 2, 1, '2024-10-01', '2024-12-31'),  -- Giá vé cho ghế 2 trên chuyến bay 1
-    (149.99, 3, 2, '2024-10-01', '2024-11-30'),  -- Giá vé cho ghế 3 trên chuyến bay 2
-    (249.99, 4, 2, '2024-10-01', '2024-11-30'),  -- Giá vé cho ghế 4 trên chuyến bay 2
-    (349.99, 5, 3, '2024-11-01', '2024-12-31'),  -- Giá vé cho ghế 5 trên chuyến bay 3
-    (199.99, 6, 3, '2024-11-01', '2024-12-31'),  -- Giá vé cho ghế 6 trên chuyến bay 3
-    (129.99, 7, 1, '2024-12-01', '2024-12-31'),  -- Giá vé cho ghế 7 trên chuyến bay 1
-    (220.00, 8, 1, '2024-12-01', '2024-12-31'),  -- Giá vé cho ghế 8 trên chuyến bay 1
-    (270.00, 9, 2, '2024-12-01', '2024-12-31'),  -- Giá vé cho ghế 9 trên chuyến bay 2
-    (180.00, 10, 2, '2024-12-01', '2024-12-31');  -- Giá vé cho ghế 10 trên chuyến bay 2
-
+    (199.99, 1,  '2024-10-01', '2024-12-31'),  -- Giá vé cho ghế 1 trên chuyến bay 1
+    (299.99, 2,  '2024-10-01', '2024-12-31'),  -- Giá vé cho ghế 2 trên chuyến bay 1
+    (149.99, 3,  '2024-10-01', '2024-11-30'),  -- Giá vé cho ghế 3 trên chuyến bay 2
+    (249.99, 4,  '2024-10-01', '2024-11-30'),  -- Giá vé cho ghế 4 trên chuyến bay 2
+    (349.99, 5,  '2024-11-01', '2024-12-31'),  -- Giá vé cho ghế 5 trên chuyến bay 3
+    (199.99, 6,  '2024-11-01', '2024-12-31');  -- Giá vé cho ghế 6 trên chuyến bay 3
 

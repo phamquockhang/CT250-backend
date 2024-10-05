@@ -22,7 +22,6 @@ public class SeatAvailability {
     Integer totalSeats;
     Integer bookedSeats;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "flight_id")
     Flight flight;
@@ -33,7 +32,6 @@ public class SeatAvailability {
 
     @Enumerated(EnumType.STRING)
    SeatAvailabilityStatus status;
-
 
    String position;
 
