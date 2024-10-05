@@ -29,4 +29,6 @@ public class FlightController {
                 .payload(flightService.getAllFlights())
                 .build();
     }
+
+
 }
