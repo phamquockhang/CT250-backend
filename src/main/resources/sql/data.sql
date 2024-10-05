@@ -580,24 +580,87 @@ VALUES
     (49, 50,  'DOMESTIC');  -- DLI đến HPH
 
 
---FLIGHT
-INSERT INTO public.flights (flight_name, departure_date_time, arrival_date_time, route_id, airplane_id)
+-- SEAT
+INSERT INTO seats (seat_class, seat_code, airplane_id)
 VALUES
-    ('VN100', '2024-10-20 08:00:00', '2024-10-20 10:30:00', 1, 1),  -- HAN đến TPE bằng Boeing 787
-    ('VN101', '2024-10-21 09:15:00', '2024-10-21 11:00:00', 2, 1),  -- HAN đến HKG bằng Boeing 787
-    ('VN102', '2024-10-22 13:00:00', '2024-10-22 16:00:00', 3, 2),  -- HAN đến FOC bằng Airbus A350
-    ('VN103', '2024-10-23 14:30:00', '2024-10-23 16:45:00', 4, 3),  -- HAN đến KUL bằng Airbus A320 NEO
-    ('VN104', '2024-10-24 16:00:00', '2024-10-24 18:50:00', 5, 4);  -- HAN đến SIN bằng Airbus A321
+-- Airplane 1
+('BUSINESS', '1A', 1),
+('BUSINESS', '1B', 1),
+('BUSINESS', '1C', 1),
+('BUSINESS', '2A', 1),
+('ECONOMY', '10A', 1),
+('ECONOMY', '10B', 1),
+('ECONOMY', '10C', 1),
+('ECONOMY', '11A', 1),
+('ECONOMY', '11B', 1),
+('ECONOMY', '11C', 1),
+
+-- Airplane 2
+('BUSINESS', '1A', 2),
+('BUSINESS', '1B', 2),
+('BUSINESS', '1C', 2),
+('BUSINESS', '2A', 2),
+('ECONOMY', '12A', 2),
+('ECONOMY', '12B', 2),
+('ECONOMY', '12C', 2),
+('ECONOMY', '13A', 2),
+('ECONOMY', '13B', 2),
+('ECONOMY', '13C', 2),
+
+-- Airplane 3
+('BUSINESS', '1A', 3),
+('BUSINESS', '1B', 3),
+('BUSINESS', '2A', 3),
+('BUSINESS', '2B', 3),
+('ECONOMY', '14A', 3),
+('ECONOMY', '14B', 3),
+('ECONOMY', '15A', 3),
+('ECONOMY', '15B', 3),
+('ECONOMY', '15C', 3),
+('ECONOMY', '16A', 3);
+
+-- FLIGHT
+INSERT INTO flights (flight_name, departure_date_time, arrival_date_time, route_id, airplane_id, flight_status)
+VALUES
+    ('VN123', '2024-10-01 10:00:00', '2024-10-01 12:30:00', 1, 1, 'SCHEDULED'),
+    ('VN456', '2024-10-01 15:00:00', '2024-10-01 17:00:00', 2, 2, 'SCHEDULED'),
+    ('VN789', '2024-10-02 09:00:00', '2024-10-02 11:30:00', 3, 1, 'SCHEDULED'),
+    ('VN101', '2024-10-02 14:00:00', '2024-10-02 16:45:00', 1, 3, 'DELAYED'),
+    ('VN112', '2024-10-03 08:00:00', '2024-10-03 10:15:00', 2, 1, 'SCHEDULED'),
+    ('VN113', '2024-10-03 11:30:00', '2024-10-03 14:00:00', 3, 2, 'CANCELLED');
 
 
---FLIGHT PRICING
-INSERT INTO public.flight_pricing (ticket_price, seat_class_name, flight_id, valid_from, valid_to)
+
+-- SEAT-AVALABILITY
+INSERT INTO seat_availability (total_seats, booked_seats, flight_id, seat_id, status, position)
 VALUES
-    (700000, 'ECO', 1, '2024-10-01', '2024-12-31'),  -- Giá vé Eco cho chuyến bay VN100
-    (850000, 'ECO', 1, '2024-10-01', '2024-12-31'),  -- Giá vé Eco cho chuyến bay VN100
-    (1200000, 'BUSINESS', 2, '2024-10-01', '2024-12-31'),  -- Giá vé Business cho chuyến bay VN101
-    (1500000, 'BUSINESS', 2, '2024-10-01', '2024-12-31'),  -- Giá vé Business cho chuyến bay VN101
-    (750000, 'ECO', 3, '2024-10-01', '2024-12-31'),  -- Giá vé Eco cho chuyến bay VN102
-    (900000, 'ECO', 3, '2024-10-01', '2024-12-31'),  -- Giá vé Eco cho chuyến bay VN102
-    (1300000, 'BUSINESS', 4, '2024-10-01', '2024-12-31'),  -- Giá vé Business cho chuyến bay VN103
-    (1600000, 'BUSINESS', 4, '2024-10-01', '2024-12-31');  -- Giá vé Business cho chuyến bay VN103
+    (200, 50, 1, 1, 'AVAILABLE', '1A'),
+    (200, 75, 1, 2, 'AVAILABLE', '1B'),
+    (150, 60, 2, 3, 'BOOKED', '2A'),
+    (150, 20, 2, 4, 'AVAILABLE', '2B'),
+    (100, 0, 3, 5, 'AVAILABLE', '3A'),
+    (100, 10, 3, 6, 'BOOKED', '3B'),
+    (180, 90, 1, 7, 'AVAILABLE', '1C'),
+    (180, 130, 1, 8, 'BOOKED', '1D'),
+    (120, 50, 2, 9, 'AVAILABLE', '2C'),
+    (120, 100, 2, 10, 'BOOKED', '2D');
+
+-- FLIGHT-PRICING
+-- Giả định rằng bạn đã có các giá trị cho bảng flight và seat
+-- Giả định rằng flight_id từ bảng flight là 1, 2, 3, ...
+-- Giả định rằng seat_id từ bảng seat là 1, 2, 3, ...
+
+INSERT INTO flight_pricing (ticket_price, seat_id, flight_id, valid_from, valid_to)
+VALUES
+    (199.99, 1, 1, '2024-10-01', '2024-12-31'),  -- Giá vé cho ghế 1 trên chuyến bay 1
+    (299.99, 2, 1, '2024-10-01', '2024-12-31'),  -- Giá vé cho ghế 2 trên chuyến bay 1
+    (149.99, 3, 2, '2024-10-01', '2024-11-30'),  -- Giá vé cho ghế 3 trên chuyến bay 2
+    (249.99, 4, 2, '2024-10-01', '2024-11-30'),  -- Giá vé cho ghế 4 trên chuyến bay 2
+    (349.99, 5, 3, '2024-11-01', '2024-12-31'),  -- Giá vé cho ghế 5 trên chuyến bay 3
+    (199.99, 6, 3, '2024-11-01', '2024-12-31'),  -- Giá vé cho ghế 6 trên chuyến bay 3
+    (129.99, 7, 1, '2024-12-01', '2024-12-31'),  -- Giá vé cho ghế 7 trên chuyến bay 1
+    (220.00, 8, 1, '2024-12-01', '2024-12-31'),  -- Giá vé cho ghế 8 trên chuyến bay 1
+    (270.00, 9, 2, '2024-12-01', '2024-12-31'),  -- Giá vé cho ghế 9 trên chuyến bay 2
+    (180.00, 10, 2, '2024-12-01', '2024-12-31');  -- Giá vé cho ghế 10 trên chuyến bay 2
+
+

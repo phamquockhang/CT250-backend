@@ -39,4 +39,7 @@ public class Airplane extends BaseEntity {
     Set<Flight> flights; // Danh sách các chuyến bay
 
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "airplane", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    Set<Seat> seats; // Danh sách các ghế trên máy bay
+
 }

@@ -6,11 +6,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -44,6 +42,9 @@ public class Flight extends BaseEntity {
     @JoinColumn(name = "airplane_id", nullable = false)
     Airplane airplane;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "flight", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    List<SeatAvailability> seatAvailability;
+
     @Enumerated(EnumType.STRING)
     FlightStatusEnum flightStatus;
 
@@ -57,6 +58,5 @@ public class Flight extends BaseEntity {
         }
         return null;
     }
-
 
 }
