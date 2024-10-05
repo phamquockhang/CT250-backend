@@ -4,6 +4,7 @@ import com.dvk.ct250backend.app.dto.response.ApiResponse;
 import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.auth.dto.UserDTO;
+import com.dvk.ct250backend.domain.auth.dto.request.ChangePasswordRequest;
 import com.dvk.ct250backend.domain.auth.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -70,5 +71,12 @@ public class UserController {
                 .build();
     }
 
+    @PutMapping("/{id}/change-password")
+    public ApiResponse<Void> changePassword(@PathVariable UUID id, @Valid @RequestBody ChangePasswordRequest changePasswordRequest) throws ResourceNotFoundException {
+        userService.changePassword(id, changePasswordRequest);
+        return ApiResponse.<Void>builder()
+                .status(HttpStatus.OK.value())
+                .build();
+    }
 
 }

@@ -1,10 +1,6 @@
 package com.dvk.ct250backend.domain.flight.dto;
 
-import com.dvk.ct250backend.domain.flight.entity.Flight;
-import com.dvk.ct250backend.domain.flight.entity.Seat;
-import com.dvk.ct250backend.domain.flight.enums.SeatAvailabilityStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
