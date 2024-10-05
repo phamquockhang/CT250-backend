@@ -367,9 +367,10 @@ INSERT INTO public.permissions (name, api_path, method, module)
 VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Update a user', '/api/v1/users/{id}', 'PUT', 'USERS'),
        ('Delete a user', '/api/v1/users/{id}', 'DELETE', 'USERS'),
-         ('Get a user by id', '/api/v1/users/{id}', 'GET', 'USERS'),
+        ('Get a user by id', '/api/v1/users/{id}', 'GET', 'USERS'),
        ('Get logged in user', '/api/v1/users/logged-in', 'GET', 'USERS'),
        ('Get users with pagination', '/api/v1/users', 'GET', 'USERS'),
+       ('Change password for logged in user', '/api/v1/users/{id}/change-password', 'PUT', 'USERS'),
        ('Create a role', '/api/v1/roles', 'POST', 'ROLES'),
        ('Update a role', '/api/v1/roles/{id}', 'PUT', 'ROLES'),
        ('Delete a role', '/api/v1/roles/{id}', 'DELETE', 'ROLES'),
@@ -438,7 +439,8 @@ VALUES (1, 1),
         (31, 1),
         (32, 1),
         (33, 1),
-        (34 , 1);
+        (34 , 1),
+        (35, 1);
 
 
 
