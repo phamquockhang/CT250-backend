@@ -244,8 +244,8 @@ values (93, 'Afghanistan', 'AF', 'AFG'),
 
 -- AIRPORT (17 countries)
 insert into public.airports(airport_name, airport_code, city_name, city_code, country_id)
-values ('Tan Son Nhat INTERNATIONAL Airport', 'SGN', 'Ho Chi Minh City', 'SGN', 235),
-       ('Noi Bai INTERNATIONAL Airport', 'HAN', 'Hanoi City', 'HAN', 235),
+values ('Tan Son Nhat INTERNATIONAL Airport', 'SGN', 'Ho Chi Minh', 'SGN', 235),
+       ('Noi Bai INTERNATIONAL Airport', 'HAN', 'Ha Noi', 'HAN', 235),
        ('Da Nang INTERNATIONAL Airport', 'DAD', 'Da Nang', 'DAD', 235),
        ('Phu Quoc INTERNATIONAL Airport', 'PQC', 'Phu Quoc', 'PQC', 235),
        ('Cam Ranh INTERNATIONAL Airport', 'CXR', 'Nha Trang', 'CXR', 235),
