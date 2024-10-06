@@ -234,7 +234,7 @@ values (93, 'Afghanistan', 'AF', 'AFG'),
        (678, 'Vanuatu', 'VU', 'VUT'),
        (379, 'Vatican', 'VA', 'VAT'),
        (58, 'Venezuela', 'VE', 'VEN'),
-       (84, 'Vietnam', 'VN', 'VNM'),
+       (84, 'Viet Nam', 'VN', 'VNM'),
        (681, 'Wallis and Futuna', 'WF', 'WLF'),
        (212, 'Western Sahara', 'EH', 'ESH'),
        (967, 'Yemen', 'YE', 'YEM'),
@@ -242,52 +242,10 @@ values (93, 'Afghanistan', 'AF', 'AFG'),
        (263, 'Zimbabwe', 'ZW', 'ZWE');
 
 
--- AIRPORT
+-- AIRPORT (17 countries)
 insert into public.airports(airport_name, airport_code, city_name, city_code, country_id)
-values ('Chhatrapati Shivaji INTERNATIONAL Airport', 'BOM', 'Mumbai', 'BOM', 95),
-       ('Indira Gandhi INTERNATIONAL Airport', 'DEL', 'New Delhi', 'DEL', 95),
-       ('Cochin INTERNATIONAL Airport', 'COK', 'Kochi', 'COK', 95),
-       ('Sardar Vallabhbhai Patel INTERNATIONAL Airport', 'AMD', 'Ahmedabad', 'AMD', 95),
-       ('Tiruchirappalli INTERNATIONAL Airport', 'TRZ', 'Tiruchirappalli', 'TRZ', 95),
-       ('Tokyo INTERNATIONAL Airport - Haneda Airport', 'HND', 'Tokyo (Haneda)', 'HND', 105),
-       ('Kansai INTERNATIONAL Airport', 'KIX', 'Osaka', 'KIX', 105),
-       ('Narita INTERNATIONAL Airport', 'NRT', 'Tokyo (Narita)', 'NRT', 105),
-       ('Chubu Centrair INTERNATIONAL Airport', 'NGO', 'Nagoya', 'NGO', 105),
-       ('Fukuoka INTERNATIONAL Airport', 'FUK', 'Fukuoka', 'FUK', 105),
-       ('Gimhae INTERNATIONAL Airport', 'PUS', 'Busan', 'PUS', 200),
-       ('Daegu INTERNATIONAL Airport', 'TAE', 'Daegu', 'TAE', 200),
-       ('Incheon INTERNATIONAL Airport', 'ICN', 'Incheon', 'ICN', 200),
-       ('Kaohsiung INTERNATIONAL Airport', 'KHH', 'Kaohsiung', 'KHH', 211),
-       ('Taiwan Taoyuan INTERNATIONAL Airport', 'TPE', 'Taipei', 'TPE', 211),
-       ('Tainan Airport', 'TNN', 'Tainan', 'TNN', 211),
-       ('Taichung INTERNATIONAL Airport', 'RMQ', 'Taichung', 'RMQ', 211),
-       ('Kuala Lumpur INTERNATIONAL Airport (KLIA)', 'KUL', 'Kuala Lumpur', 'KUL', 127),
-       ('Changi INTERNATIONAL Airport', 'SIN', 'Singapore', 'SIN', 193),
-       ('Soekarno-Hatta INTERNATIONAL Airport', 'CGK', 'Jakarta', 'CGK', 196),
-       ('Ngurah Rai INTERNATIONAL Airport (Denpasar)', 'DPS', 'Bali', 'DPS', 196),
-       ('Siem Reap–Angkor INTERNATIONAL Airport', 'SAI', 'Siem Reap', 'SAI', 36),
-       ('Yangon INTERNATIONAL Airport', 'RGN', 'Yangon', 'RGN', 144),
-       ('Almaty INTERNATIONAL Airport', 'ALA', 'Almaty', 'ALA', 108),
-       ('Nursultan Nazarbayev INTERNATIONAL Airport', 'NQZ', 'Astana', 'NQZ', 108),
-       ('Vostosny INTERNATIONAL Airport', 'TAS', 'Tashkent', 'TAS', 231),
-       ('Melbourne Tullamarine Airport', 'MEL', 'Melbourne', 'MEL', 13),
-       ('Perth INTERNATIONAL Airport', 'PER', 'Perth', 'PER', 13),
-       ('Brisbane INTERNATIONAL Airport', 'BNE', 'Brisbane', 'BNE', 13),
-       ('Kingsford Smith Airport', 'SYD', 'Sydney', 'SYD', 13),
-       ('Suvarnabhumi Airport', 'BKK', 'Bangkok', 'BKK', 214),
-       ('Chiang Mai INTERNATIONAL Airport', 'CNX', 'Chiang Mai', 'CNX', 214),
-       ('Chiang Rai INTERNATIONAL Airport', 'CEI', 'Chiang Rai', 'CEI', 214),
-       ('Hat Yai INTERNATIONAL Airport', 'HDY', 'Hat Yai', 'HDY', 214),
-       ('Khon Kaen Airport', 'KKC', 'Khon Kaen', 'KKC', 214),
-       ('Krabi INTERNATIONAL Airport', 'KBV', 'Krabi', 'KBV', 214),
-       ('Nakhon Si Thammarat Airport', 'NST', 'Nakhon Si Thammarat', 'NST', 214),
-       ('Phuket INTERNATIONAL Airport', 'HKT', 'Phuket', 'HKT', 214),
-       ('Surat Thani INTERNATIONAL Airport', 'URT', 'Surat Thani', 'URT', 214),
-       ('Ubon Ratchathani Airport', 'UBP', 'Ubon Ratchathani', 'UBP', 214),
-       ('Udon Thani INTERNATIONAL Airport', 'UTH', 'Udon Thani', 'UTH', 214),
-       ('U-Tapao–Rayong–Pattaya INTERNATIONAL Airport', 'UTP', 'Rayong', 'UTP', 214),
-       ('Tan Son Nhat INTERNATIONAL Airport', 'SGN', 'Ho Chi Minh City', 'SGN', 235),
-       ('Noi Bai INTERNATIONAL Airport', 'HAN', 'Hanoi City', 'HAN', 235),
+values ('Tan Son Nhat INTERNATIONAL Airport', 'SGN', 'Ho Chi Minh', 'SGN', 235),
+       ('Noi Bai INTERNATIONAL Airport', 'HAN', 'Ha Noi', 'HAN', 235),
        ('Da Nang INTERNATIONAL Airport', 'DAD', 'Da Nang', 'DAD', 235),
        ('Phu Quoc INTERNATIONAL Airport', 'PQC', 'Phu Quoc', 'PQC', 235),
        ('Cam Ranh INTERNATIONAL Airport', 'CXR', 'Nha Trang', 'CXR', 235),
@@ -304,8 +262,66 @@ values ('Chhatrapati Shivaji INTERNATIONAL Airport', 'BOM', 'Mumbai', 'BOM', 95)
        ('Pleiku Airport', 'PXU', 'Gia Lai', 'PXU', 235),
        ('Tho Xuan Airport', 'THD', 'Thanh Hoa', 'THD', 235),
        ('Tuy Hoa Airport', 'TBB', 'Phu Yen', 'TBB', 235),
+
+       ('Chhatrapati Shivaji INTERNATIONAL Airport', 'BOM', 'Mumbai', 'BOM', 95),
+       ('Indira Gandhi INTERNATIONAL Airport', 'DEL', 'New Delhi', 'DEL', 95),
+       ('Cochin INTERNATIONAL Airport', 'COK', 'Kochi', 'COK', 95),
+       ('Sardar Vallabhbhai Patel INTERNATIONAL Airport', 'AMD', 'Ahmedabad', 'AMD', 95),
+       ('Tiruchirappalli INTERNATIONAL Airport', 'TRZ', 'Tiruchirappalli', 'TRZ', 95),
+
+       ('Tokyo INTERNATIONAL Airport - Haneda Airport', 'HND', 'Tokyo (Haneda)', 'HND', 105),
+       ('Kansai INTERNATIONAL Airport', 'KIX', 'Osaka', 'KIX', 105),
+       ('Narita INTERNATIONAL Airport', 'NRT', 'Tokyo (Narita)', 'NRT', 105),
+       ('Chubu Centrair INTERNATIONAL Airport', 'NGO', 'Nagoya', 'NGO', 105),
+       ('Fukuoka INTERNATIONAL Airport', 'FUK', 'Fukuoka', 'FUK', 105),
+
+       ('Gimhae INTERNATIONAL Airport', 'PUS', 'Busan', 'PUS', 200),
+       ('Daegu INTERNATIONAL Airport', 'TAE', 'Daegu', 'TAE', 200),
+       ('Incheon INTERNATIONAL Airport', 'ICN', 'Incheon', 'ICN', 200),
+
+       ('Kaohsiung INTERNATIONAL Airport', 'KHH', 'Kaohsiung', 'KHH', 211),
+       ('Taiwan Taoyuan INTERNATIONAL Airport', 'TPE', 'Taipei', 'TPE', 211),
+       ('Tainan Airport', 'TNN', 'Tainan', 'TNN', 211),
+       ('Taichung INTERNATIONAL Airport', 'RMQ', 'Taichung', 'RMQ', 211),
+
+       ('Kuala Lumpur INTERNATIONAL Airport (KLIA)', 'KUL', 'Kuala Lumpur', 'KUL', 127),
+
+       ('Changi INTERNATIONAL Airport', 'SIN', 'Singapore', 'SIN', 193),
+
+       ('Soekarno-Hatta INTERNATIONAL Airport', 'CGK', 'Jakarta', 'CGK', 196),
+       ('Ngurah Rai INTERNATIONAL Airport (Denpasar)', 'DPS', 'Bali', 'DPS', 196),
+
+       ('Siem Reap–Angkor INTERNATIONAL Airport', 'SAI', 'Siem Reap', 'SAI', 36),
+
+       ('Yangon INTERNATIONAL Airport', 'RGN', 'Yangon', 'RGN', 144),
+
+       ('Almaty INTERNATIONAL Airport', 'ALA', 'Almaty', 'ALA', 108),
+       ('Nursultan Nazarbayev INTERNATIONAL Airport', 'NQZ', 'Astana', 'NQZ', 108),
+
+       ('Vostosny INTERNATIONAL Airport', 'TAS', 'Tashkent', 'TAS', 231),
+
+       ('Melbourne Tullamarine Airport', 'MEL', 'Melbourne', 'MEL', 13),
+       ('Perth INTERNATIONAL Airport', 'PER', 'Perth', 'PER', 13),
+       ('Brisbane INTERNATIONAL Airport', 'BNE', 'Brisbane', 'BNE', 13),
+       ('Kingsford Smith Airport', 'SYD', 'Sydney', 'SYD', 13),
+
+       ('Suvarnabhumi Airport', 'BKK', 'Bangkok', 'BKK', 214),
+       ('Chiang Mai INTERNATIONAL Airport', 'CNX', 'Chiang Mai', 'CNX', 214),
+       ('Chiang Rai INTERNATIONAL Airport', 'CEI', 'Chiang Rai', 'CEI', 214),
+       ('Hat Yai INTERNATIONAL Airport', 'HDY', 'Hat Yai', 'HDY', 214),
+       ('Khon Kaen Airport', 'KKC', 'Khon Kaen', 'KKC', 214),
+       ('Krabi INTERNATIONAL Airport', 'KBV', 'Krabi', 'KBV', 214),
+       ('Nakhon Si Thammarat Airport', 'NST', 'Nakhon Si Thammarat', 'NST', 214),
+       ('Phuket INTERNATIONAL Airport', 'HKT', 'Phuket', 'HKT', 214),
+       ('Surat Thani INTERNATIONAL Airport', 'URT', 'Surat Thani', 'URT', 214),
+       ('Ubon Ratchathani Airport', 'UBP', 'Ubon Ratchathani', 'UBP', 214),
+       ('Udon Thani INTERNATIONAL Airport', 'UTH', 'Udon Thani', 'UTH', 214),
+       ('U-Tapao–Rayong–Pattaya INTERNATIONAL Airport', 'UTP', 'Rayong', 'UTP', 214),
+
        ('Hong Kong INTERNATIONAL Airport', 'HKG', 'Hong Kong', 'HKG', 92),
+
        ('Macau INTERNATIONAL Airport', 'MFM', 'Macao', 'MFM', 123),
+
        ('Hefei Xinqiao INTERNATIONAL Airport', 'HFE', 'Hefei', 'HFE', 44),
        ('Haikou Meilan INTERNATIONAL Airport', 'HAK', 'Haikou', 'HAK', 44),
        ('Baotou Airport', 'BAV', 'Baotou', 'BAV', 44),
@@ -351,9 +367,10 @@ INSERT INTO public.permissions (name, api_path, method, module)
 VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Update a user', '/api/v1/users/{id}', 'PUT', 'USERS'),
        ('Delete a user', '/api/v1/users/{id}', 'DELETE', 'USERS'),
-         ('Get a user by id', '/api/v1/users/{id}', 'GET', 'USERS'),
+        ('Get a user by id', '/api/v1/users/{id}', 'GET', 'USERS'),
        ('Get logged in user', '/api/v1/users/logged-in', 'GET', 'USERS'),
        ('Get users with pagination', '/api/v1/users', 'GET', 'USERS'),
+       ('Change password for logged in user', '/api/v1/users/{id}/change-password', 'PUT', 'USERS'),
        ('Create a role', '/api/v1/roles', 'POST', 'ROLES'),
        ('Update a role', '/api/v1/roles/{id}', 'PUT', 'ROLES'),
        ('Delete a role', '/api/v1/roles/{id}', 'DELETE', 'ROLES'),
@@ -380,8 +397,9 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Get routes with pagination', '/api/v1/routes', 'GET', 'ROUTES'),
        ('Create a route', '/api/v1/routes', 'POST', 'ROUTES'),
        ('Delete a route', '/api/v1/routes/{id}', 'DELETE', 'ROUTES'),
-       ('Update a route', '/api/v1/routes/{id}', 'PUT', 'ROUTES');
-
+       ('Update a route', '/api/v1/routes/{id}', 'PUT', 'ROUTES'),
+       ('Get all flights', '/api/v1/flights/all', 'GET', 'FLIGHTS'),
+       ('Update a flight', '/api/v1/flights/{id}', 'PUT', 'FLIGHTS');
 
 
 --ROLE
@@ -400,7 +418,7 @@ VALUES (1, 1),
        (9, 1),
        (10, 1),
        (11, 1),
---        (12, 1),
+      (12, 1),
        (13, 1),
        (14, 1),
        (15, 1),
@@ -421,7 +439,10 @@ VALUES (1, 1),
         (30,1),
         (31, 1),
         (32, 1),
-        (33, 1);
+        (33, 1),
+        (34 , 1),
+        (35, 1),
+        (36,1);
 
 
 
@@ -434,130 +455,211 @@ VALUES (gen_random_uuid(), 'admin@gmail.com', 'MALE', 'I am', 'ADMIN',
 
 --MODEL
 INSERT INTO public.airplanes (model_name, manufacturer, max_distance, velocity, number_of_seats, overall_length,
-                           wingspan, height, in_use, status)
-VALUES ('Boeing 787', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76, TRUE, 'ACTIVE'),
-       ('Airbus A350', 'Airbus', 14350, 901, 323, 66.89, 64.75, 17.05, TRUE, 'ACTIVE'),
-       ('Airbus A320 NEO', 'Airbus', 6300, 1005, 186, 37.57, 35.8, 11.76, FALSE, 'MAINTENANCE'),
-       ('Airbus A321', 'Airbus', 5600, 950, 184, 44.51, 34.1, 11.76, TRUE, 'ACTIVE'),
-       ('Boeing 737 MAX 8', 'Boeing', 6570, 842, 178, 39.5, 35.9, 12.3, TRUE, 'RETIRED'),
-       ('Airbus A330-300', 'Airbus', 11650, 910, 277, 63.69, 60.3, 16.79, FALSE, 'MAINTENANCE'),
-       ('Boeing 747-8', 'Boeing', 14815, 988, 410, 76.3, 68.4, 19.4, TRUE, 'ACTIVE'),
-       ('Airbus A220-300', 'Airbus', 6111, 871, 160, 38.7, 35.4, 11.5, TRUE, 'RETIRED'),
-       ('Boeing 767-300ER', 'Boeing', 11000, 850, 218, 54.94, 47.57, 15.75, TRUE, 'ACTIVE'),
-       ('Airbus A310-300', 'Airbus', 9300, 780, 280, 46.66, 43.66, 15.85, FALSE, 'MAINTENANCE'),
-       ('Boeing 757-200', 'Boeing', 5500, 850, 200, 38.06, 38.06, 13.56, TRUE, 'ACTIVE'),
-       ('Boeing 787-9', 'Boeing', 14100, 926, 296, 63.0, 60.0, 17.0, TRUE, 'ACTIVE'),
-       ('Airbus A350-1000', 'Airbus', 16400, 910, 410, 73.0, 64.75, 16.0, TRUE, 'ACTIVE'),
-       ('Embraer E190', 'Embraer', 5000, 850, 100, 36.24, 28.7, 10.52, TRUE, 'ACTIVE'),
-       ('Boeing 777-300ER', 'Boeing', 13650, 905, 396, 73.9, 64.8, 18.6, TRUE, 'ACTIVE'),
-       ('Airbus A320', 'Airbus', 6100, 828, 180, 37.57, 35.8, 11.76, FALSE, 'RETIRED'),
-       ('Boeing 737-900', 'Boeing', 5950, 876, 220, 42.1, 35.8, 12.3, TRUE, 'ACTIVE'),
-       ('Bombardier CRJ900', 'Bombardier', 2950, 850, 90, 36.4, 24.9, 7.5, FALSE, 'MAINTENANCE'),
-       ('Embraer E175', 'Embraer', 3700, 890, 88, 31.68, 28.7, 9.95, TRUE, 'ACTIVE'),
-       ('Boeing 727', 'Boeing', 4000, 965, 149, 40.6, 32.9, 10.4, TRUE, 'RETIRED'),
-       ('Airbus A319', 'Airbus', 6850, 828, 144, 33.84, 34.1, 11.76, FALSE, 'MAINTENANCE'),
-       ('Boeing 787-10', 'Boeing', 11915, 903, 318, 68.3, 60.1, 18.0, TRUE, 'ACTIVE'),
-       ('Airbus A340-600', 'Airbus', 14630, 903, 380, 75.3, 63.45, 17.2, TRUE, 'ACTIVE'),
-       ('Boeing 727-200', 'Boeing', 4500, 965, 189, 46.7, 32.9, 10.4, FALSE, 'RETIRED'),
-       ('Comac C919', 'Comac', 4075, 834, 158, 38.9, 35.4, 11.5, TRUE, 'ACTIVE'),
-       ('Bombardier Q400', 'Bombardier', 2500, 667, 78, 32.8, 28.4, 8.3, TRUE, 'ACTIVE'),
-       ('Airbus A380', 'Airbus', 15200, 1020, 555, 72.7, 79.8, 24.1, FALSE, 'RETIRED'),
-       ('Boeing 737-800', 'Boeing', 5430, 842, 189, 39.5, 35.8, 12.5, TRUE, 'ACTIVE'),
-       ('Embraer E170', 'Embraer', 4000, 820, 76, 29.9, 26.0, 9.85, FALSE, 'MAINTENANCE'),
-       ('Airbus A310-200', 'Airbus', 8700, 800, 280, 46.66, 43.66, 15.85, FALSE, 'RETIRED'),
-       ('Boeing 737 MAX 9', 'Boeing', 6570, 842, 220, 42.16, 35.92, 12.3, TRUE, 'ACTIVE'),
-       ('Airbus A340-300', 'Airbus', 13800, 871, 295, 63.66, 60.3, 16.91, FALSE, 'MAINTENANCE'),
-       ('Boeing 737-400', 'Boeing', 3750, 852, 188, 36.45, 28.9, 11.1, TRUE, 'RETIRED'),
-       ('Airbus A380-800', 'Airbus', 15200, 1020, 544, 72.7, 79.8, 24.1, TRUE, 'ACTIVE'),
-       ('Boeing 777-200LR', 'Boeing', 15400, 905, 317, 63.73, 60.9, 18.5, TRUE, 'ACTIVE'),
-       ('Airbus A321neo', 'Airbus', 7400, 931, 244, 44.51, 35.8, 12.1, TRUE, 'ACTIVE'),
-       ('Boeing 737 MAX 10', 'Boeing', 6110, 842, 230, 43.8, 35.9, 12.3, FALSE, 'MAINTENANCE'),
-       ('Airbus A340-500', 'Airbus', 16020, 912, 372, 63.66, 60.3, 17.2, TRUE, 'ACTIVE'),
-       ('Boeing 747-400', 'Boeing', 13450, 988, 416, 70.6, 64.9, 19.4, FALSE, 'RETIRED'),
-       ('Airbus A321LR', 'Airbus', 7400, 931, 206, 44.51, 35.8, 12.1, TRUE, 'ACTIVE'),
-       ('Embraer E195', 'Embraer', 4819, 870, 124, 38.7, 35.5, 12.0, FALSE, 'MAINTENANCE'),
-       ('Boeing 777-9', 'Boeing', 13940, 905, 426, 76.5, 71.8, 19.7, TRUE, 'ACTIVE'),
-       ('Airbus A330-900neo', 'Airbus', 13450, 930, 287, 63.7, 64.0, 16.8, TRUE, 'ACTIVE'),
-       ('Comac ARJ21', 'Comac', 2225, 825, 90, 33.46, 27.28, 8.44, TRUE, 'ACTIVE'),
-       ('Boeing 787-8', 'Boeing', 13620, 912, 242, 62.8, 60.1, 16.9, TRUE, 'ACTIVE');
+                           wingspan, height, status)
+VALUES ('Boeing 787', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76,  'ACTIVE'),
+       ('Airbus A350', 'Airbus', 14350, 901, 323, 66.89, 64.75, 17.05,  'ACTIVE'),
+       ('Airbus A320 NEO', 'Airbus', 6300, 1005, 186, 37.57, 35.8, 11.76,  'MAINTENANCE'),
+       ('Airbus A321', 'Airbus', 5600, 950, 184, 44.51, 34.1, 11.76,  'ACTIVE'),
+       ('Boeing 737 MAX 8', 'Boeing', 6570, 842, 178, 39.5, 35.9, 12.3,  'RETIRED'),
+       ('Airbus A330-300', 'Airbus', 11650, 910, 277, 63.69, 60.3, 16.79,  'MAINTENANCE'),
+       ('Boeing 747-8', 'Boeing', 14815, 988, 410, 76.3, 68.4, 19.4,  'ACTIVE'),
+       ('Airbus A220-300', 'Airbus', 6111, 871, 160, 38.7, 35.4, 11.5,  'RETIRED'),
+       ('Boeing 767-300ER', 'Boeing', 11000, 850, 218, 54.94, 47.57, 15.75,  'ACTIVE'),
+       ('Airbus A310-300', 'Airbus', 9300, 780, 280, 46.66, 43.66, 15.85,  'MAINTENANCE'),
+       ('Boeing 757-200', 'Boeing', 5500, 850, 200, 38.06, 38.06, 13.56,  'ACTIVE'),
+       ('Boeing 787-9', 'Boeing', 14100, 926, 296, 63.0, 60.0, 17.0,  'ACTIVE'),
+       ('Airbus A350-1000', 'Airbus', 16400, 910, 410, 73.0, 64.75, 16.0,  'ACTIVE'),
+       ('Embraer E190', 'Embraer', 5000, 850, 100, 36.24, 28.7, 10.52,  'ACTIVE'),
+       ('Boeing 777-300ER', 'Boeing', 13650, 905, 396, 73.9, 64.8, 18.6,  'ACTIVE'),
+       ('Airbus A320', 'Airbus', 6100, 828, 180, 37.57, 35.8, 11.76,  'RETIRED'),
+       ('Boeing 737-900', 'Boeing', 5950, 876, 220, 42.1, 35.8, 12.3,  'ACTIVE'),
+       ('Bombardier CRJ900', 'Bombardier', 2950, 850, 90, 36.4, 24.9, 7.5,  'MAINTENANCE'),
+       ('Embraer E175', 'Embraer', 3700, 890, 88, 31.68, 28.7, 9.95,  'ACTIVE'),
+       ('Boeing 727', 'Boeing', 4000, 965, 149, 40.6, 32.9, 10.4,  'RETIRED'),
+       ('Airbus A319', 'Airbus', 6850, 828, 144, 33.84, 34.1, 11.76,  'MAINTENANCE'),
+       ('Boeing 787-10', 'Boeing', 11915, 903, 318, 68.3, 60.1, 18.0,  'ACTIVE'),
+       ('Airbus A340-600', 'Airbus', 14630, 903, 380, 75.3, 63.45, 17.2,  'ACTIVE'),
+       ('Boeing 727-200', 'Boeing', 4500, 965, 189, 46.7, 32.9, 10.4,  'RETIRED'),
+       ('Comac C919', 'Comac', 4075, 834, 158, 38.9, 35.4, 11.5,  'ACTIVE'),
+       ('Bombardier Q400', 'Bombardier', 2500, 667, 78, 32.8, 28.4, 8.3,  'ACTIVE'),
+       ('Airbus A380', 'Airbus', 15200, 1020, 555, 72.7, 79.8, 24.1,  'RETIRED'),
+       ('Boeing 737-800', 'Boeing', 5430, 842, 189, 39.5, 35.8, 12.5,  'ACTIVE'),
+       ('Embraer E170', 'Embraer', 4000, 820, 76, 29.9, 26.0, 9.85,  'MAINTENANCE'),
+       ('Airbus A310-200', 'Airbus', 8700, 800, 280, 46.66, 43.66, 15.85,  'RETIRED'),
+       ('Boeing 737 MAX 9', 'Boeing', 6570, 842, 220, 42.16, 35.92, 12.3,  'ACTIVE'),
+       ('Airbus A340-300', 'Airbus', 13800, 871, 295, 63.66, 60.3, 16.91, 'MAINTENANCE'),
+       ('Boeing 737-400', 'Boeing', 3750, 852, 188, 36.45, 28.9, 11.1,  'RETIRED'),
+       ('Airbus A380-800', 'Airbus', 15200, 1020, 544, 72.7, 79.8, 24.1, 'ACTIVE'),
+       ('Boeing 777-200LR', 'Boeing', 15400, 905, 317, 63.73, 60.9, 18.5, 'ACTIVE'),
+       ('Airbus A321neo', 'Airbus', 7400, 931, 244, 44.51, 35.8, 12.1, 'ACTIVE'),
+       ('Boeing 737 MAX 10', 'Boeing', 6110, 842, 230, 43.8, 35.9, 12.3, 'MAINTENANCE'),
+       ('Airbus A340-500', 'Airbus', 16020, 912, 372, 63.66, 60.3, 17.2, 'ACTIVE'),
+       ('Boeing 747-400', 'Boeing', 13450, 988, 416, 70.6, 64.9, 19.4,  'RETIRED'),
+       ('Airbus A321LR', 'Airbus', 7400, 931, 206, 44.51, 35.8, 12.1, 'ACTIVE'),
+       ('Embraer E195', 'Embraer', 4819, 870, 124, 38.7, 35.5, 12.0, 'MAINTENANCE'),
+       ('Boeing 777-9', 'Boeing', 13940, 905, 426, 76.5, 71.8, 19.7, 'ACTIVE'),
+       ('Airbus A330-900neo', 'Airbus', 13450, 930, 287, 63.7, 64.0, 16.8, 'ACTIVE'),
+       ('Comac ARJ21', 'Comac', 2225, 825, 90, 33.46, 27.28, 8.44, 'ACTIVE'),
+       ('Boeing 787-8', 'Boeing', 13620, 912, 242, 62.8, 60.1, 16.9, 'ACTIVE');
 
 
-INSERT INTO public.routes (departure_airport_id, arrival_airport_id, duration, route_type)
+INSERT INTO public.routes (departure_airport_id, arrival_airport_id,  route_type)
 VALUES
-    (44, 15, '2 hours 30 minutes', 'INTERNATIONAL'),  -- HAN đến TPE (Đài Bắc)
-    (44, 61, '1 hour 45 minutes', 'INTERNATIONAL'),  -- HAN đến HKG (Hồng Kông)
-    (44, 82, '3 hours', 'INTERNATIONAL'),  -- HAN đến FOC (Phúc Kiến)
-    (44, 18, '2 hours 15 minutes', 'INTERNATIONAL'),  -- HAN đến KUL (Kuala Lumpur)
-    (44, 19, '2 hours 50 minutes', 'INTERNATIONAL'),  -- HAN đến SIN (Singapore)
-    (44, 31, '3 hours 30 minutes', 'INTERNATIONAL'),  -- HAN đến BKK (Bangkok)
-    (44, 13, '4 hours', 'INTERNATIONAL'),  -- HAN đến ICN (Seoul)
-    (44, 8, '3 hours 45 minutes', 'INTERNATIONAL'),  -- HAN đến NRT (Tokyo)
+    (44, 15, 'INTERNATIONAL'),  -- HAN đến TPE (Đài Bắc)
+    (44, 61,  'INTERNATIONAL'),  -- HAN đến HKG (Hồng Kông)
+    (44, 82,  'INTERNATIONAL'),  -- HAN đến FOC (Phúc Kiến)
+    (44, 18,  'INTERNATIONAL'),  -- HAN đến KUL (Kuala Lumpur)
+    (44, 19,  'INTERNATIONAL'),  -- HAN đến SIN (Singapore)
+    (44, 31,  'INTERNATIONAL'),  -- HAN đến BKK (Bangkok)
+    (44, 13,  'INTERNATIONAL'),  -- HAN đến ICN (Seoul)
+    (44, 8,  'INTERNATIONAL'),  -- HAN đến NRT (Tokyo)
 
     -- Chuyến bay quốc tế từ Sài Gòn
-    (43, 15, '2 hours 20 minutes', 'INTERNATIONAL'),  -- SGN đến TPE
-    (43, 61, '1 hour 30 minutes', 'INTERNATIONAL'),  -- SGN đến HKG
-    (43, 82, '2 hours 50 minutes', 'INTERNATIONAL'),  -- SGN đến FOC
-    (43, 18, '3 hours', 'INTERNATIONAL'),  -- SGN đến KUL
-    (43, 19, '2 hours 40 minutes', 'INTERNATIONAL'),  -- SGN đến SIN
-    (43, 31, '3 hours 30 minutes', 'INTERNATIONAL'),  -- SGN đến BKK
-    (43, 13, '4 hours 10 minutes', 'INTERNATIONAL'),  -- SGN đến ICN
-    (43, 8, '4 hours', 'INTERNATIONAL'),  -- SGN đến NRT
+    (43, 15,  'INTERNATIONAL'),  -- SGN đến TPE
+    (43, 61,  'INTERNATIONAL'),  -- SGN đến HKG
+    (43, 82,  'INTERNATIONAL'),  -- SGN đến FOC
+    (43, 18,  'INTERNATIONAL'),  -- SGN đến KUL
+    (43, 19,  'INTERNATIONAL'),  -- SGN đến SIN
+    (43, 31,  'INTERNATIONAL'),  -- SGN đến BKK
+    (43, 13, 'INTERNATIONAL'),  -- SGN đến ICN
+    (43, 8,  'INTERNATIONAL'),  -- SGN đến NRT
 
     -- Chuyến bay quốc tế từ Đà Nẵng
-    (45, 15, '2 hours 50 minutes', 'INTERNATIONAL'),  -- DAD đến TPE
-    (45, 61, '2 hours 20 minutes', 'INTERNATIONAL'),  -- DAD đến HKG
-    (45, 82, '3 hours', 'INTERNATIONAL'),  -- DAD đến KUL
-    (45, 31, '3 hours 10 minutes', 'INTERNATIONAL'),  -- DAD đến BKK
-    (45, 13, '4 hours', 'INTERNATIONAL'),  -- DAD đến ICN
+    (45, 15, 'INTERNATIONAL'),  -- DAD đến TPE
+    (45, 61,  'INTERNATIONAL'),  -- DAD đến HKG
+    (45, 82,  'INTERNATIONAL'),  -- DAD đến KUL
+    (45, 31, 'INTERNATIONAL'),  -- DAD đến BKK
+    (45, 13,  'INTERNATIONAL'),  -- DAD đến ICN
 
     -- Chuyến bay quốc tế từ Cam Ranh
-    (47, 15, '2 hours 30 minutes', 'INTERNATIONAL'),  -- CXR đến TPE
-    (47, 61, '1 hour 50 minutes', 'INTERNATIONAL'),  -- CXR đến HKG
-    (47, 18, '2 hours 40 minutes', 'INTERNATIONAL'),  -- CXR đến KUL
-    (47, 13, '3 hours 15 minutes', 'INTERNATIONAL'),  -- CXR đến ICN
+    (47, 15,  'INTERNATIONAL'),  -- CXR đến TPE
+    (47, 61, 'INTERNATIONAL'),  -- CXR đến HKG
+    (47, 18,  'INTERNATIONAL'),  -- CXR đến KUL
+    (47, 13, 'INTERNATIONAL'),  -- CXR đến ICN
 
     -- Chuyến bay quốc tế từ Phú Quốc
-    (46, 15, '2 hours 40 minutes', 'INTERNATIONAL'),  -- PQC đến TPE
-    (46, 61, '1 hour 55 minutes', 'INTERNATIONAL'),  -- PQC đến HKG
-    (46, 18, '2 hours 50 minutes', 'INTERNATIONAL'),  -- PQC đến KUL
-    (46, 13, '2 hours 45 minutes', 'INTERNATIONAL'),
+    (46, 15, 'INTERNATIONAL'),  -- PQC đến TPE
+    (46, 61,  'INTERNATIONAL'),  -- PQC đến HKG
+    (46, 18,  'INTERNATIONAL'),  -- PQC đến KUL
+    (46, 13,  'INTERNATIONAL'),
     -- Thanh Hóa đến các sân bay khác
-    (59, 44, '2 hours', 'DOMESTIC'),  -- THD đến HAN
-    (59, 43, '2 hours 30 minutes', 'DOMESTIC'),  -- THD đến SGN
-    (59, 45, '1 hour 30 minutes', 'DOMESTIC'),  -- THD đến DAD
-    (59, 47, '1 hour 45 minutes', 'DOMESTIC'),  -- THD đến CXR
-    (59, 46, '2 hours', 'DOMESTIC'),  -- THD đến PQC
-    (59, 51, '1 hour 45 minutes', 'DOMESTIC'),  -- THD đến HUI
-    (59, 53, '1 hour 10 minutes', 'DOMESTIC'),  -- THD đến VII
+    (59, 44, 'DOMESTIC'),  -- THD đến HAN
+    (59, 43,  'DOMESTIC'),  -- THD đến SGN
+    (59, 45,  'DOMESTIC'),  -- THD đến DAD
+    (59, 47,  'DOMESTIC'),  -- THD đến CXR
+    (59, 46, 'DOMESTIC'),  -- THD đến PQC
+    (59, 51,  'DOMESTIC'),  -- THD đến HUI
+    (59, 53, 'DOMESTIC'),  -- THD đến VII
 
     -- Vinh đến các sân bay khác
-    (53, 44, '1 hour 30 minutes', 'DOMESTIC'),  -- VII đến HAN
-    (53, 43, '1 hour 50 minutes', 'DOMESTIC'),  -- VII đến SGN
-    (53, 45, '1 hour 10 minutes', 'DOMESTIC'),  -- VII đến DAD
-    (53, 47, '1 hour 20 minutes', 'DOMESTIC'),  -- VII đến CXR
-    (53, 46, '1 hour 30 minutes', 'DOMESTIC'),  -- VII đến PQC
-    (53, 51, '1 hour 15 minutes', 'DOMESTIC'),  -- VII đến HUI
-    (53, 59, '1 hour', 'DOMESTIC'),  -- VII đến THD
-    (53, 50, '1 hour 5 minutes', 'DOMESTIC'),  -- VII đến HPH
+    (53, 44,  'DOMESTIC'),  -- VII đến HAN
+    (53, 43,  'DOMESTIC'),  -- VII đến SGN
+    (53, 45,  'DOMESTIC'),  -- VII đến DAD
+    (53, 47,  'DOMESTIC'),  -- VII đến CXR
+    (53, 46,  'DOMESTIC'),  -- VII đến PQC
+    (53, 51,  'DOMESTIC'),  -- VII đến HUI
+    (53, 59,  'DOMESTIC'),  -- VII đến THD
+    (53, 50,  'DOMESTIC'),  -- VII đến HPH
 
     -- Hải Phòng đến các sân bay khác
-    (50, 44, '1 hour 45 minutes', 'DOMESTIC'),  -- HPH đến HAN
-    (50, 43, '1 hour 30 minutes', 'DOMESTIC'),  -- HPH đến SGN
-    (50, 45, '1 hour', 'DOMESTIC'),  -- HPH đến DAD
-    (50, 47, '1 hour 20 minutes', 'DOMESTIC'),  -- HPH đến CXR
-    (50, 46, '1 hour 40 minutes', 'DOMESTIC'),  -- HPH đến PQC
-    (50, 51, '1 hour 30 minutes', 'DOMESTIC'),  -- HPH đến HUI
-    (50, 59, '1 hour 25 minutes', 'DOMESTIC'),  -- HPH đến THD
-    (50, 53, '1 hour 5 minutes', 'DOMESTIC'),  -- HPH đến VII
-    (50, 49, '1 hour 15 minutes', 'DOMESTIC'),  -- HPH đến DLI
+    (50, 44,  'DOMESTIC'),  -- HPH đến HAN
+    (50, 43,  'DOMESTIC'),  -- HPH đến SGN
+    (50, 45,  'DOMESTIC'),  -- HPH đến DAD
+    (50, 47,  'DOMESTIC'),  -- HPH đến CXR
+    (50, 46,  'DOMESTIC'),  -- HPH đến PQC
+    (50, 51,  'DOMESTIC'),  -- HPH đến HUI
+    (50, 59,  'DOMESTIC'),  -- HPH đến THD
+    (50, 53,  'DOMESTIC'),  -- HPH đến VII
+    (50, 49,  'DOMESTIC'),  -- HPH đến DLI
 
     -- Đà Lạt đến các sân bay khác
-    (49, 44, '1 hour 50 minutes', 'DOMESTIC'),  -- DLI đến HAN
-    (49, 43, '2 hours 10 minutes', 'DOMESTIC'),  -- DLI đến SGN
-    (49, 45, '1 hour 30 minutes', 'DOMESTIC'),  -- DLI đến DAD
-    (49, 47, '1 hour 50 minutes', 'DOMESTIC'),  -- DLI đến CXR
-    (49, 46, '1 hour 20 minutes', 'DOMESTIC'),  -- DLI đến PQC
-    (49, 51, '1 hour 25 minutes', 'DOMESTIC'),  -- DLI đến HUI
-    (49, 59, '1 hour 40 minutes', 'DOMESTIC'),  -- DLI đến THD
-    (49, 53, '1 hour 20 minutes', 'DOMESTIC'),  -- DLI đến VII
-    (49, 50, '1 hour 10 minutes', 'DOMESTIC');  -- DLI đến HPH
+    (49, 44,  'DOMESTIC'),  -- DLI đến HAN
+    (49, 43,  'DOMESTIC'),  -- DLI đến SGN
+    (49, 45,  'DOMESTIC'),  -- DLI đến DAD
+    (49, 47, 'DOMESTIC'),  -- DLI đến CXR
+    (49, 46,  'DOMESTIC'),  -- DLI đến PQC
+    (49, 51,  'DOMESTIC'),  -- DLI đến HUI
+    (49, 59, 'DOMESTIC'),  -- DLI đến THD
+    (49, 53,  'DOMESTIC'),  -- DLI đến VII
+    (49, 50,  'DOMESTIC');  -- DLI đến HPH
+
+
+-- SEAT
+INSERT INTO seats (seat_class, seat_code, airplane_id)
+VALUES
+-- Airplane 1
+('BUSINESS', '1A', 1),
+('BUSINESS', '1B', 1),
+('BUSINESS', '1C', 1),
+('BUSINESS', '2A', 1),
+('ECONOMY', '10A', 1),
+('ECONOMY', '10B', 1),
+('ECONOMY', '10C', 1),
+('ECONOMY', '11A', 1),
+('ECONOMY', '11B', 1),
+('ECONOMY', '11C', 1),
+
+-- Airplane 2
+('BUSINESS', '1A', 2),
+('BUSINESS', '1B', 2),
+('BUSINESS', '1C', 2),
+('BUSINESS', '2A', 2),
+('ECONOMY', '12A', 2),
+('ECONOMY', '12B', 2),
+('ECONOMY', '12C', 2),
+('ECONOMY', '13A', 2),
+('ECONOMY', '13B', 2),
+('ECONOMY', '13C', 2),
+
+-- Airplane 3
+('BUSINESS', '1A', 3),
+('BUSINESS', '1B', 3),
+('BUSINESS', '2A', 3),
+('BUSINESS', '2B', 3),
+('ECONOMY', '14A', 3),
+('ECONOMY', '14B', 3),
+('ECONOMY', '15A', 3),
+('ECONOMY', '15B', 3),
+('ECONOMY', '15C', 3),
+('ECONOMY', '16A', 3);
+
+-- FLIGHT
+INSERT INTO flights (flight_name, departure_date_time, arrival_date_time, route_id, airplane_id, flight_status)
+VALUES
+    ('VN123', '2024-10-01 10:00:00', '2024-10-01 12:30:00', 1, 1, 'SCHEDULED'),
+    ('VN456', '2024-10-01 15:00:00', '2024-10-01 17:00:00', 2, 2, 'SCHEDULED'),
+    ('VN789', '2024-10-02 09:00:00', '2024-10-02 11:30:00', 3, 1, 'SCHEDULED'),
+    ('VN101', '2024-10-02 14:00:00', '2024-10-02 16:45:00', 1, 3, 'DELAYED'),
+    ('VN112', '2024-10-03 08:00:00', '2024-10-03 10:15:00', 2, 1, 'SCHEDULED'),
+    ('VN113', '2024-10-03 11:30:00', '2024-10-03 14:00:00', 3, 2, 'CANCELLED');
+
+
+
+-- SEAT-AVALABILITY
+INSERT INTO seat_availability (total_seats, booked_seats, flight_id, seat_id, status, position)
+VALUES
+    (200, 50, 1, 1, 'AVAILABLE', '1A'),
+    (200, 75, 1, 2, 'AVAILABLE', '1B'),
+    (150, 60, 2, 3, 'BOOKED', '2A'),
+    (150, 20, 2, 4, 'AVAILABLE', '2B'),
+    (100, 0, 3, 5, 'AVAILABLE', '3A'),
+    (100, 10, 3, 6, 'BOOKED', '3B'),
+    (180, 90, 1, 7, 'AVAILABLE', '1C'),
+    (180, 130, 1, 8, 'BOOKED', '1D'),
+    (120, 50, 2, 9, 'AVAILABLE', '2C'),
+    (120, 100, 2, 10, 'BOOKED', '2D');
+
+-- FLIGHT-PRICING
+-- Giả định rằng bạn đã có các giá trị cho bảng flight và seat
+-- Giả định rằng flight_id từ bảng flight là 1, 2, 3, ...
+-- Giả định rằng seat_id từ bảng seat là 1, 2, 3, ...
+
+INSERT INTO flight_pricing (ticket_price,  flight_id, valid_from, valid_to)
+VALUES
+    (199.99, 1,  '2024-10-01', '2024-12-31'),  -- Giá vé cho ghế 1 trên chuyến bay 1
+    (299.99, 2,  '2024-10-01', '2024-12-31'),  -- Giá vé cho ghế 2 trên chuyến bay 1
+    (149.99, 3,  '2024-10-01', '2024-11-30'),  -- Giá vé cho ghế 3 trên chuyến bay 2
+    (249.99, 4,  '2024-10-01', '2024-11-30'),  -- Giá vé cho ghế 4 trên chuyến bay 2
+    (349.99, 5,  '2024-11-01', '2024-12-31'),  -- Giá vé cho ghế 5 trên chuyến bay 3
+    (199.99, 6,  '2024-11-01', '2024-12-31');  -- Giá vé cho ghế 6 trên chuyến bay 3
+

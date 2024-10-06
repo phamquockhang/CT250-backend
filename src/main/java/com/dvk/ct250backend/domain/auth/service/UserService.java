@@ -3,6 +3,7 @@ package com.dvk.ct250backend.domain.auth.service;
 import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.auth.dto.UserDTO;
+import com.dvk.ct250backend.domain.auth.dto.request.ChangePasswordRequest;
 
 import java.util.Map;
 import java.util.UUID;
@@ -14,4 +15,5 @@ public interface UserService {
     UserDTO updateUser(UUID id, UserDTO userDTO) throws ResourceNotFoundException;
     UserDTO getLoggedInUser();
     UserDTO getUserById(UUID id) throws ResourceNotFoundException;
+    void changePassword(UUID id, ChangePasswordRequest changePasswordRequest) throws ResourceNotFoundException;
 }

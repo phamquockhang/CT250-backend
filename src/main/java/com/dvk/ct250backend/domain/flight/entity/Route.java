@@ -6,6 +6,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.Duration;
+import java.util.Set;
+
 @Getter
 @Setter
 @Builder
@@ -28,9 +31,10 @@ public class Route extends BaseEntity {
     @JoinColumn(name = "arrival_airport_id")
     Airport arrivalAirport;
 
-    String duration;
-
     @Enumerated(EnumType.STRING)
     RouteTypeEnum routeType;
+
+    @OneToMany(mappedBy = "route", cascade = CascadeType.ALL)
+    Set<Flight> flights;
 
 }

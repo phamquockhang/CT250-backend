@@ -4,18 +4,24 @@ import com.dvk.ct250backend.app.dto.response.Meta;
 import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.flight.dto.RouteDTO;
+import com.dvk.ct250backend.domain.flight.entity.Airport;
 import com.dvk.ct250backend.domain.flight.entity.Route;
 import com.dvk.ct250backend.domain.flight.mapper.RouteMapper;
 import com.dvk.ct250backend.domain.flight.repository.RouteRepository;
 import com.dvk.ct250backend.domain.flight.service.RouteService;
 import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
+import jakarta.persistence.criteria.Join;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -30,18 +36,23 @@ public class RouteServiceImpl implements RouteService {
     RequestParamUtils requestParamUtils;
 
     @Override
+    @Transactional
+    @CacheEvict(value = "routes", allEntries = true)
     public RouteDTO createRoute(RouteDTO RouteDTO) {
         Route route = routeMapper.toRoute(RouteDTO);
         return routeMapper.toRouteDTO(routeRepository.save(route));
     }
 
     @Override
+    @CacheEvict(value = "routes", allEntries = true)
     public void deleteRoute(Integer id) throws ResourceNotFoundException {
         Route route = routeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Route not found"));
         routeRepository.delete(route);
     }
 
     @Override
+    @Transactional
+    @CacheEvict(value = "routes", allEntries = true)
     public RouteDTO updateRoute(Integer id, RouteDTO RouteDTO) throws ResourceNotFoundException {
         Route route = routeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Route not found"));
         routeMapper.updateRouteFromDTO(route, RouteDTO);
@@ -49,13 +60,14 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
+    @Cacheable(value = "routes")
     public Page<RouteDTO> getRoutes(Map<String, String> params) {
         int page = Integer.parseInt(params.getOrDefault("page", "1"));
         int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
-        //  Specification<Airplane> spec = getAirplaneSpec(params);
+        Specification<Route> spec = getRouteSpec(params);
         List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params);
         Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortOrders));
-        org.springframework.data.domain.Page<Route> routePage = routeRepository.findAll( pageable);
+        org.springframework.data.domain.Page<Route> routePage = routeRepository.findAll(spec, pageable);
         Meta meta = Meta.builder()
                 .page(pageable.getPageNumber() + 1)
                 .pageSize(pageable.getPageSize())
@@ -70,10 +82,33 @@ public class RouteServiceImpl implements RouteService {
                 .build();
     }
 
+    private Specification<Route> getRouteSpec(Map<String, String> params) {
+        Specification<Route> spec = Specification.where(null);
+        if (params.containsKey("query")) {
+            String searchValue = params.get("query");
+            spec = spec.and((root, query, criteriaBuilder) -> {
+                        Join<Route, Airport> departureAirport = root.join("departureAirport");
+                        return criteriaBuilder.or(
+                                criteriaBuilder.like(criteriaBuilder.lower(departureAirport.get("airportName")), "%" + searchValue.toLowerCase() + "%"),
+                                criteriaBuilder.like(departureAirport.get("airportCode"), "%" + params.get("query").toUpperCase() + "%"));
+                    }
+
+            );
+            spec = spec.or((root, query, criteriaBuilder) -> {
+                Join<Route, Airport> arrivalAirport = root.join("arrivalAirport");
+                return criteriaBuilder.or(
+                        criteriaBuilder.like(criteriaBuilder.lower(arrivalAirport.get("airportName")), "%" + searchValue.toLowerCase() + "%"),
+                        criteriaBuilder.like(arrivalAirport.get("airportCode"), "%" + params.get("query").toUpperCase() + "%"));
+            });
+        }
+        return spec;
+    }
+
     @Override
+    @Cacheable(value = "routes")
     public List<RouteDTO> getAllRoutes() {
         return routeRepository.findAll().stream()
                 .map(routeMapper::toRouteDTO)
-                .toList();
+                .collect(Collectors.toList());
     }
 }

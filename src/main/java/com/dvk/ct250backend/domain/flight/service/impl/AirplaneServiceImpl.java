@@ -13,11 +13,14 @@ import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -34,18 +37,23 @@ public class AirplaneServiceImpl implements AirplaneService {
     AirplaneMapper airplaneMapper;
 
     @Override
+    @Transactional
+    @CacheEvict(value = "airplanes", allEntries = true)
     public AirplaneDTO createAirplane(AirplaneDTO airplaneDTO) {
         Airplane airplane = airplaneMapper.toAirplane(airplaneDTO);
         return airplaneMapper.toAirplaneDTO(airplaneRepository.save(airplane));
     }
 
     @Override
+    @CacheEvict(value = "airplanes", allEntries = true)
     public void deleteAirplane(Integer id) throws ResourceNotFoundException {
        Airplane airplane = airplaneRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Airplane not found"));
          airplaneRepository.delete(airplane);
     }
 
     @Override
+    @Transactional
+    @CacheEvict(value = "airplanes", allEntries = true)
     public AirplaneDTO updateAirplane(Integer id, AirplaneDTO airplaneDTO) throws ResourceNotFoundException {
         Airplane airplane = airplaneRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Airplane not found"));
         airplaneMapper.updateAirplaneFromDTO(airplane, airplaneDTO);
@@ -53,6 +61,7 @@ public class AirplaneServiceImpl implements AirplaneService {
     }
 
     @Override
+    @Cacheable(value = "airplanes")
     public Page<AirplaneDTO> getAirplanes(Map<String, String> params) {
         int page = Integer.parseInt(params.getOrDefault("page", "1"));
         int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
@@ -76,7 +85,6 @@ public class AirplaneServiceImpl implements AirplaneService {
 
     private Specification<Airplane> getAirplaneSpec(Map<String, String> params) {
         Specification<Airplane> spec = Specification.where(null);
-        List<SearchCriteria> inUseCriteria = requestParamUtils.getSearchCriteria(params, "inUse");
         List<SearchCriteria> statusCriteria = requestParamUtils.getSearchCriteria(params, "status");
         if(params.containsKey("query")){
             String searchValue = params.get("query");
@@ -85,10 +93,6 @@ public class AirplaneServiceImpl implements AirplaneService {
             ));
         }
         Specification<Airplane> inUseSpec = Specification.where(null);
-        for (SearchCriteria criteria : inUseCriteria) {
-            inUseSpec = inUseSpec.or(((root, query, criteriaBuilder) ->
-                    criteriaBuilder.equal(root.get("inUse"), Boolean.parseBoolean((String) criteria.getValue()))));
-        }
         Specification<Airplane> statusSpec = Specification.where(null);
         for (SearchCriteria criteria : statusCriteria) {
             statusSpec = statusSpec.or(((root, query, criteriaBuilder) ->
@@ -100,7 +104,10 @@ public class AirplaneServiceImpl implements AirplaneService {
     }
 
     @Override
+    @Cacheable(value = "airplanes")
     public List<AirplaneDTO> getAllAirplane() {
-       return airplaneRepository.findAll().stream().map(airplaneMapper::toAirplaneDTO).collect(Collectors.toList());
+       return airplaneRepository.findAll().stream()
+               .map(airplaneMapper::toAirplaneDTO)
+               .collect(Collectors.toList());
     }
 }

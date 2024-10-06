@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -51,7 +52,7 @@ public class PermissionServiceImpl implements PermissionService {
                 .meta(meta)
                 .content(permissionPage.getContent().stream()
                         .map(permissionMapper::toPermissionDTO)
-                        .toList())
+                        .collect(Collectors.toList()))
                 .build();
     }
 
