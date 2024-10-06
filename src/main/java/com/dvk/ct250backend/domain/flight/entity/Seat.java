@@ -27,8 +27,6 @@ public class Seat {
 
     String seatCode;
 
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "seat", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-//    List<FlightPricing> flightPricing;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "seat", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     List<SeatAvailability> seatAvailability;

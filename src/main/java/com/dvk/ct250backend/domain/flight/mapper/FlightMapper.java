@@ -8,8 +8,6 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface FlightMapper {
-
-     @Mapping(target = "flightDuration", expression = "java(flight.getFlightDuration())")
      FlightDTO toFlightDTO(Flight flight);
      Flight toFlight(FlightDTO flightDTO);
      void updateFlightFromDTO(@MappingTarget Flight flight, FlightDTO flightDTO);

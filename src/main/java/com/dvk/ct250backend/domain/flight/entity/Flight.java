@@ -52,11 +52,11 @@ public class Flight extends BaseEntity {
     public String getFlightDuration() {
         if (departureDateTime != null && arrivalDateTime != null) {
             Duration duration = Duration.between(departureDateTime, arrivalDateTime);
-            long hours = duration.toHours();
-            long minutes = duration.toMinutes() % 60;
-            return String.format("%d hours %d minutes", hours, minutes);
+            long totalMinutes = duration.toMinutes();
+            return totalMinutes + " minutes";
         }
         return null;
     }
+
 
 }

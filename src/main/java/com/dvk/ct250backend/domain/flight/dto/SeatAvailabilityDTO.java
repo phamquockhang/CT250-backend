@@ -23,4 +23,8 @@ public class SeatAvailabilityDTO {
 
     String position;
 
+    public Integer getAvailableSeats() {
+        return totalSeats != null && bookedSeats != null ? totalSeats - bookedSeats : null;
+    }
+
 }

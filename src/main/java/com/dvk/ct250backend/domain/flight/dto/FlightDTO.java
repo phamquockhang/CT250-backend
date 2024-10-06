@@ -1,18 +1,12 @@
 package com.dvk.ct250backend.domain.flight.dto;
 
-import com.dvk.ct250backend.domain.flight.entity.Airplane;
-import com.dvk.ct250backend.domain.flight.entity.FlightPricing;
-import com.dvk.ct250backend.domain.flight.entity.Route;
-import com.dvk.ct250backend.domain.flight.entity.SeatAvailability;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -32,8 +26,6 @@ public class FlightDTO {
 
     @NotBlank(message = "Arrival date time is required")
     LocalDateTime arrivalDateTime;
-
-    String flightDuration;
 
     String flightStatus;
 

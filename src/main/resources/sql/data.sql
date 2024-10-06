@@ -398,7 +398,8 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Create a route', '/api/v1/routes', 'POST', 'ROUTES'),
        ('Delete a route', '/api/v1/routes/{id}', 'DELETE', 'ROUTES'),
        ('Update a route', '/api/v1/routes/{id}', 'PUT', 'ROUTES'),
-       ('Get all flights', '/api/v1/flights/all', 'GET', 'FLIGHTS');
+       ('Get all flights', '/api/v1/flights/all', 'GET', 'FLIGHTS'),
+       ('Update a flight', '/api/v1/flights/{id}', 'PUT', 'FLIGHTS');
 
 
 --ROLE
@@ -440,7 +441,8 @@ VALUES (1, 1),
         (32, 1),
         (33, 1),
         (34 , 1),
-        (35, 1);
+        (35, 1),
+        (36,1);
 
 
 

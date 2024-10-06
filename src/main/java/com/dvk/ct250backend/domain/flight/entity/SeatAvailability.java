@@ -34,4 +34,5 @@ public class SeatAvailability {
    SeatAvailabilityStatus status;
 
    String position;
+
 }

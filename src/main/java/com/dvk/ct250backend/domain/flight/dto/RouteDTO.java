@@ -25,6 +25,9 @@ public class RouteDTO {
     @NotBlank(message = "Route type is required")
     String routeType;
 
+    @NotBlank(message = "Duration is required")
+    String duration;
+
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
 }
