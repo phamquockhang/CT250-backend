@@ -64,7 +64,6 @@ CREATE SEQUENCE flights_seq
     START WITH 1
     INCREMENT BY 1;
 ALTER TABLE public.flights
-    ALTER COLUMN flight_id SET DEFAULT nextval('flights_seq'),
 ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP,
 ALTER COLUMN flight_status SET DEFAULT 'SCHEDULED';
 

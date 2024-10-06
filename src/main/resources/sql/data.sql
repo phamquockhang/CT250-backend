@@ -624,42 +624,42 @@ VALUES
 ('ECONOMY', '16A', 3);
 
 -- FLIGHT
-INSERT INTO flights (flight_name, departure_date_time, arrival_date_time, route_id, airplane_id, flight_status)
-VALUES
-    ('VN123', '2024-10-01 10:00:00', '2024-10-01 12:30:00', 1, 1, 'SCHEDULED'),
-    ('VN456', '2024-10-01 15:00:00', '2024-10-01 17:00:00', 2, 2, 'SCHEDULED'),
-    ('VN789', '2024-10-02 09:00:00', '2024-10-02 11:30:00', 3, 1, 'SCHEDULED'),
-    ('VN101', '2024-10-02 14:00:00', '2024-10-02 16:45:00', 1, 3, 'DELAYED'),
-    ('VN112', '2024-10-03 08:00:00', '2024-10-03 10:15:00', 2, 1, 'SCHEDULED'),
-    ('VN113', '2024-10-03 11:30:00', '2024-10-03 14:00:00', 3, 2, 'CANCELLED');
+-- INSERT INTO flights (flight_id, departure_date_time, arrival_date_time, route_id, airplane_id, flight_status)
+-- VALUES
+--     ('VN123', '2024-10-01 10:00:00', '2024-10-01 12:30:00', 1, 1, 'SCHEDULED'),
+--     ('VN456', '2024-10-01 15:00:00', '2024-10-01 17:00:00', 2, 2, 'SCHEDULED'),
+--     ('VN789', '2024-10-02 09:00:00', '2024-10-02 11:30:00', 3, 1, 'SCHEDULED'),
+--     ('VN101', '2024-10-02 14:00:00', '2024-10-02 16:45:00', 1, 3, 'DELAYED'),
+--     ('VN112', '2024-10-03 08:00:00', '2024-10-03 10:15:00', 2, 1, 'SCHEDULED'),
+--     ('VN113', '2024-10-03 11:30:00', '2024-10-03 14:00:00', 3, 2, 'CANCELLED');
 
 
 
 -- SEAT-AVALABILITY
-INSERT INTO seat_availability (total_seats, booked_seats, flight_id, seat_id, status, position)
-VALUES
-    (200, 50, 1, 1, 'AVAILABLE', '1A'),
-    (200, 75, 1, 2, 'AVAILABLE', '1B'),
-    (150, 60, 2, 3, 'BOOKED', '2A'),
-    (150, 20, 2, 4, 'AVAILABLE', '2B'),
-    (100, 0, 3, 5, 'AVAILABLE', '3A'),
-    (100, 10, 3, 6, 'BOOKED', '3B'),
-    (180, 90, 1, 7, 'AVAILABLE', '1C'),
-    (180, 130, 1, 8, 'BOOKED', '1D'),
-    (120, 50, 2, 9, 'AVAILABLE', '2C'),
-    (120, 100, 2, 10, 'BOOKED', '2D');
+-- INSERT INTO seat_availability (total_seats, booked_seats, flight_id, seat_id, status, position)
+-- VALUES
+--     (200, 50, 1, 1, 'AVAILABLE', '1A'),
+--     (200, 75, 1, 2, 'AVAILABLE', '1B'),
+--     (150, 60, 2, 3, 'BOOKED', '2A'),
+--     (150, 20, 2, 4, 'AVAILABLE', '2B'),
+--     (100, 0, 3, 5, 'AVAILABLE', '3A'),
+--     (100, 10, 3, 6, 'BOOKED', '3B'),
+--     (180, 90, 1, 7, 'AVAILABLE', '1C'),
+--     (180, 130, 1, 8, 'BOOKED', '1D'),
+--     (120, 50, 2, 9, 'AVAILABLE', '2C'),
+--     (120, 100, 2, 10, 'BOOKED', '2D');
 
 -- FLIGHT-PRICING
 -- Giả định rằng bạn đã có các giá trị cho bảng flight và seat
 -- Giả định rằng flight_id từ bảng flight là 1, 2, 3, ...
 -- Giả định rằng seat_id từ bảng seat là 1, 2, 3, ...
 
-INSERT INTO flight_pricing (ticket_price,  flight_id, valid_from, valid_to)
-VALUES
-    (199.99, 1,  '2024-10-01', '2024-12-31'),  -- Giá vé cho ghế 1 trên chuyến bay 1
-    (299.99, 2,  '2024-10-01', '2024-12-31'),  -- Giá vé cho ghế 2 trên chuyến bay 1
-    (149.99, 3,  '2024-10-01', '2024-11-30'),  -- Giá vé cho ghế 3 trên chuyến bay 2
-    (249.99, 4,  '2024-10-01', '2024-11-30'),  -- Giá vé cho ghế 4 trên chuyến bay 2
-    (349.99, 5,  '2024-11-01', '2024-12-31'),  -- Giá vé cho ghế 5 trên chuyến bay 3
-    (199.99, 6,  '2024-11-01', '2024-12-31');  -- Giá vé cho ghế 6 trên chuyến bay 3
+-- INSERT INTO flight_pricing (ticket_price,  flight_id, valid_from, valid_to)
+-- VALUES
+--     (199.99, 1,  '2024-10-01', '2024-12-31'),  -- Giá vé cho ghế 1 trên chuyến bay 1
+--     (299.99, 2,  '2024-10-01', '2024-12-31'),  -- Giá vé cho ghế 2 trên chuyến bay 1
+--     (149.99, 3,  '2024-10-01', '2024-11-30'),  -- Giá vé cho ghế 3 trên chuyến bay 2
+--     (249.99, 4,  '2024-10-01', '2024-11-30'),  -- Giá vé cho ghế 4 trên chuyến bay 2
+--     (349.99, 5,  '2024-11-01', '2024-12-31'),  -- Giá vé cho ghế 5 trên chuyến bay 3
+--     (199.99, 6,  '2024-11-01', '2024-12-31');  -- Giá vé cho ghế 6 trên chuyến bay 3
 
