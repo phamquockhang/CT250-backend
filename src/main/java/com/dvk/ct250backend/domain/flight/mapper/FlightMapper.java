@@ -3,7 +3,6 @@ package com.dvk.ct250backend.domain.flight.mapper;
 import com.dvk.ct250backend.domain.flight.dto.FlightDTO;
 import com.dvk.ct250backend.domain.flight.entity.Flight;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
