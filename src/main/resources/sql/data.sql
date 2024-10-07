@@ -393,6 +393,8 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Create an airplane', '/api/v1/airplanes', 'POST', 'AIRPLANES'),
        ('Delete an airplane', '/api/v1/airplanes/{id}', 'DELETE', 'AIRPLANES'),
        ('Update an airplane', '/api/v1/airplanes/{id}', 'PUT', 'AIRPLANES'),
+       ('Get all models', '/api/v1/models/all', 'GET', 'MODELS'),
+       ('Create a model', '/api/v1/models', 'POST', 'MODELS'),
        ('Get all routes', '/api/v1/routes/all', 'GET', 'ROUTES'),
        ('Get routes with pagination', '/api/v1/routes', 'GET', 'ROUTES'),
        ('Create a route', '/api/v1/routes', 'POST', 'ROUTES'),
@@ -442,7 +444,9 @@ VALUES (1, 1),
         (33, 1),
         (34 , 1),
         (35, 1),
-        (36,1);
+        (36,1),
+        (37,1),
+        (38, 1);
 
 
 
@@ -453,54 +457,58 @@ VALUES (gen_random_uuid(), 'admin@gmail.com', 'MALE', 'I am', 'ADMIN',
         '$2a$10$MEo.Zw55GDOEVwKtOnJ/TuKNrWVAjluxnWqH96ecqAKUwkFwAVkra', '0963243443', '123456789000', 1, true,
         '1999-01-01', 235);
 
+
 --MODEL
-INSERT INTO public.airplanes (model_name, manufacturer, max_distance, velocity, number_of_seats, overall_length,
-                           wingspan, height, status)
-VALUES ('Boeing 787', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76,  'ACTIVE'),
-       ('Airbus A350', 'Airbus', 14350, 901, 323, 66.89, 64.75, 17.05,  'ACTIVE'),
-       ('Airbus A320 NEO', 'Airbus', 6300, 1005, 186, 37.57, 35.8, 11.76,  'MAINTENANCE'),
-       ('Airbus A321', 'Airbus', 5600, 950, 184, 44.51, 34.1, 11.76,  'ACTIVE'),
-       ('Boeing 737 MAX 8', 'Boeing', 6570, 842, 178, 39.5, 35.9, 12.3,  'RETIRED'),
-       ('Airbus A330-300', 'Airbus', 11650, 910, 277, 63.69, 60.3, 16.79,  'MAINTENANCE'),
-       ('Boeing 747-8', 'Boeing', 14815, 988, 410, 76.3, 68.4, 19.4,  'ACTIVE'),
-       ('Airbus A220-300', 'Airbus', 6111, 871, 160, 38.7, 35.4, 11.5,  'RETIRED'),
-       ('Boeing 767-300ER', 'Boeing', 11000, 850, 218, 54.94, 47.57, 15.75,  'ACTIVE'),
-       ('Airbus A310-300', 'Airbus', 9300, 780, 280, 46.66, 43.66, 15.85,  'MAINTENANCE'),
-       ('Boeing 757-200', 'Boeing', 5500, 850, 200, 38.06, 38.06, 13.56,  'ACTIVE'),
-       ('Boeing 787-9', 'Boeing', 14100, 926, 296, 63.0, 60.0, 17.0,  'ACTIVE'),
-       ('Airbus A350-1000', 'Airbus', 16400, 910, 410, 73.0, 64.75, 16.0,  'ACTIVE'),
-       ('Embraer E190', 'Embraer', 5000, 850, 100, 36.24, 28.7, 10.52,  'ACTIVE'),
-       ('Boeing 777-300ER', 'Boeing', 13650, 905, 396, 73.9, 64.8, 18.6,  'ACTIVE'),
-       ('Airbus A320', 'Airbus', 6100, 828, 180, 37.57, 35.8, 11.76,  'RETIRED'),
-       ('Boeing 737-900', 'Boeing', 5950, 876, 220, 42.1, 35.8, 12.3,  'ACTIVE'),
-       ('Bombardier CRJ900', 'Bombardier', 2950, 850, 90, 36.4, 24.9, 7.5,  'MAINTENANCE'),
-       ('Embraer E175', 'Embraer', 3700, 890, 88, 31.68, 28.7, 9.95,  'ACTIVE'),
-       ('Boeing 727', 'Boeing', 4000, 965, 149, 40.6, 32.9, 10.4,  'RETIRED'),
-       ('Airbus A319', 'Airbus', 6850, 828, 144, 33.84, 34.1, 11.76,  'MAINTENANCE'),
-       ('Boeing 787-10', 'Boeing', 11915, 903, 318, 68.3, 60.1, 18.0,  'ACTIVE'),
-       ('Airbus A340-600', 'Airbus', 14630, 903, 380, 75.3, 63.45, 17.2,  'ACTIVE'),
-       ('Boeing 727-200', 'Boeing', 4500, 965, 189, 46.7, 32.9, 10.4,  'RETIRED'),
-       ('Comac C919', 'Comac', 4075, 834, 158, 38.9, 35.4, 11.5,  'ACTIVE'),
-       ('Bombardier Q400', 'Bombardier', 2500, 667, 78, 32.8, 28.4, 8.3,  'ACTIVE'),
-       ('Airbus A380', 'Airbus', 15200, 1020, 555, 72.7, 79.8, 24.1,  'RETIRED'),
-       ('Boeing 737-800', 'Boeing', 5430, 842, 189, 39.5, 35.8, 12.5,  'ACTIVE'),
-       ('Embraer E170', 'Embraer', 4000, 820, 76, 29.9, 26.0, 9.85,  'MAINTENANCE'),
-       ('Airbus A310-200', 'Airbus', 8700, 800, 280, 46.66, 43.66, 15.85,  'RETIRED'),
-       ('Boeing 737 MAX 9', 'Boeing', 6570, 842, 220, 42.16, 35.92, 12.3,  'ACTIVE'),
-       ('Airbus A340-300', 'Airbus', 13800, 871, 295, 63.66, 60.3, 16.91, 'MAINTENANCE'),
-       ('Boeing 737-400', 'Boeing', 3750, 852, 188, 36.45, 28.9, 11.1,  'RETIRED'),
-       ('Airbus A380-800', 'Airbus', 15200, 1020, 544, 72.7, 79.8, 24.1, 'ACTIVE'),
-       ('Boeing 777-200LR', 'Boeing', 15400, 905, 317, 63.73, 60.9, 18.5, 'ACTIVE'),
-       ('Airbus A321neo', 'Airbus', 7400, 931, 244, 44.51, 35.8, 12.1, 'ACTIVE'),
-       ('Boeing 737 MAX 10', 'Boeing', 6110, 842, 230, 43.8, 35.9, 12.3, 'MAINTENANCE'),
-       ('Airbus A340-500', 'Airbus', 16020, 912, 372, 63.66, 60.3, 17.2, 'ACTIVE'),
-       ('Boeing 747-400', 'Boeing', 13450, 988, 416, 70.6, 64.9, 19.4,  'RETIRED'),
-       ('Airbus A321LR', 'Airbus', 7400, 931, 206, 44.51, 35.8, 12.1, 'ACTIVE'),
-       ('Embraer E195', 'Embraer', 4819, 870, 124, 38.7, 35.5, 12.0, 'MAINTENANCE'),
-       ('Boeing 777-9', 'Boeing', 13940, 905, 426, 76.5, 71.8, 19.7, 'ACTIVE'),
-       ('Airbus A330-900neo', 'Airbus', 13450, 930, 287, 63.7, 64.0, 16.8, 'ACTIVE'),
-       ('Comac ARJ21', 'Comac', 2225, 825, 90, 33.46, 27.28, 8.44, 'ACTIVE'),
-       ('Boeing 787-8', 'Boeing', 13620, 912, 242, 62.8, 60.1, 16.9, 'ACTIVE');
+INSERT INTO public.models (model_name) values ('Boeing 787'), ('Airbus A350'), ('Airbus A320 NEO'), ('Airbus A321');
+
+--AIRPLANE
+-- Dữ liệu mẫu cho bảng airplanes
+INSERT INTO public.airplanes (model_id, manufacturer, max_distance, velocity, number_of_seats, overall_length,
+                              wingspan, height, status, registration_number)
+VALUES
+    ('1', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76, 'ACTIVE', 'N78701'),
+    ('1', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76, 'MAINTENANCE', 'N78702'),
+    ('1', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76, 'ACTIVE', 'N78703'),
+    ('1', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76, 'MAINTENANCE', 'N78704'),
+    ('1', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76, 'ACTIVE', 'N78705'),
+    ('1', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76, 'MAINTENANCE', 'N78706'),
+    ('1', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76, 'ACTIVE', 'N78707'),
+    ('1', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76, 'MAINTENANCE', 'N78708'),
+    ('1', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76, 'ACTIVE', 'N78709'),
+    ('1', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76, 'MAINTENANCE', 'N78710'),
+
+    ('2', 'Airbus', 14350, 901, 323, 66.89, 64.75, 17.05, 'ACTIVE', 'VH-A3501'),
+    ('2', 'Airbus', 14350, 901, 323, 66.89, 64.75, 17.05, 'MAINTENANCE', 'VH-A3502'),
+    ('2', 'Airbus', 14350, 901, 323, 66.89, 64.75, 17.05, 'ACTIVE', 'VH-A3503'),
+    ('2', 'Airbus', 14350, 901, 323, 66.89, 64.75, 17.05, 'MAINTENANCE', 'VH-A3504'),
+    ('2', 'Airbus', 14350, 901, 323, 66.89, 64.75, 17.05, 'ACTIVE', 'VH-A3505'),
+    ('2', 'Airbus', 14350, 901, 323, 66.89, 64.75, 17.05, 'MAINTENANCE', 'VH-A3506'),
+    ('2', 'Airbus', 14350, 901, 323, 66.89, 64.75, 17.05, 'ACTIVE', 'VH-A3507'),
+    ('2', 'Airbus', 14350, 901, 323, 66.89, 64.75, 17.05, 'MAINTENANCE', 'VH-A3508'),
+    ('2', 'Airbus', 14350, 901, 323, 66.89, 64.75, 17.05, 'ACTIVE', 'VH-A3509'),
+    ('2', 'Airbus', 14350, 901, 323, 66.89, 64.75, 17.05, 'MAINTENANCE', 'VH-A3510'),
+
+    ('3', 'Airbus', 6300, 1005, 186, 37.57, 35.8, 11.76, 'ACTIVE', 'B-A3201'),
+    ('3', 'Airbus', 6300, 1005, 186, 37.57, 35.8, 11.76, 'MAINTENANCE', 'B-A3202'),
+    ('3', 'Airbus', 6300, 1005, 186, 37.57, 35.8, 11.76, 'ACTIVE', 'B-A3203'),
+    ('3', 'Airbus', 6300, 1005, 186, 37.57, 35.8, 11.76, 'MAINTENANCE', 'B-A3204'),
+    ('3', 'Airbus', 6300, 1005, 186, 37.57, 35.8, 11.76, 'ACTIVE', 'B-A3205'),
+    ('3', 'Airbus', 6300, 1005, 186, 37.57, 35.8, 11.76, 'MAINTENANCE', 'B-A3206'),
+    ('3', 'Airbus', 6300, 1005, 186, 37.57, 35.8, 11.76, 'ACTIVE', 'B-A3207'),
+    ('3', 'Airbus', 6300, 1005, 186, 37.57, 35.8, 11.76, 'MAINTENANCE', 'B-A3208'),
+    ('3', 'Airbus', 6300, 1005, 186, 37.57, 35.8, 11.76, 'ACTIVE', 'B-A3209'),
+    ('3', 'Airbus', 6300, 1005, 186, 37.57, 35.8, 11.76, 'MAINTENANCE', 'B-A3210'),
+
+    ('4', 'Airbus', 5600, 950, 184, 44.51, 34.1, 11.76, 'ACTIVE', 'VH-A3211'),
+    ('4', 'Airbus', 5600, 950, 184, 44.51, 34.1, 11.76, 'MAINTENANCE', 'VH-A3212'),
+    ('4', 'Airbus', 5600, 950, 184, 44.51, 34.1, 11.76, 'ACTIVE', 'VH-A3213'),
+    ('4', 'Airbus', 5600, 950, 184, 44.51, 34.1, 11.76, 'MAINTENANCE', 'VH-A3214'),
+    ('4', 'Airbus', 5600, 950, 184, 44.51, 34.1, 11.76, 'ACTIVE', 'VH-A3215'),
+    ('4', 'Airbus', 5600, 950, 184, 44.51, 34.1, 11.76, 'MAINTENANCE', 'VH-A3216'),
+    ('4', 'Airbus', 5600, 950, 184, 44.51, 34.1, 11.76, 'ACTIVE', 'VH-A3217'),
+    ('4', 'Airbus', 5600, 950, 184, 44.51, 34.1, 11.76, 'MAINTENANCE', 'VH-A3218'),
+    ('4', 'Airbus', 5600, 950, 184, 44.51, 34.1, 11.76, 'ACTIVE', 'VH-A3219'),
+    ('4', 'Airbus', 5600, 950, 184, 44.51, 34.1, 11.76, 'MAINTENANCE', 'VH-A3220');
 
 
 INSERT INTO public.routes (departure_airport_id, arrival_airport_id,  route_type)
@@ -584,82 +592,177 @@ VALUES
     (49, 50,  'DOMESTIC');  -- DLI đến HPH
 
 
--- SEAT
-INSERT INTO seats (seat_class, seat_code, airplane_id)
-VALUES
--- Airplane 1
-('BUSINESS', '1A', 1),
-('BUSINESS', '1B', 1),
-('BUSINESS', '1C', 1),
-('BUSINESS', '2A', 1),
-('ECONOMY', '10A', 1),
-('ECONOMY', '10B', 1),
-('ECONOMY', '10C', 1),
-('ECONOMY', '11A', 1),
-('ECONOMY', '11B', 1),
-('ECONOMY', '11C', 1),
+-- Ghế cho máy bay 1
+-- INSERT INTO seats (seat_class, seat_code, airplane_id) VALUES
+--                                                            ('BUSINESS', '1A', 1),
+--                                                            ('BUSINESS', '1B', 1),
+--                                                            ('BUSINESS', '1C', 1),
+--                                                            ('BUSINESS', '1D', 1),
+--                                                            ('BUSINESS', '1E', 1),
+--                                                            ('BUSINESS', '1F', 1),
+--                                                            ('BUSINESS', '2A', 1),
+--                                                            ('BUSINESS', '2B', 1),
+--                                                            ('BUSINESS', '2C', 1),
+--                                                            ('BUSINESS', '2D', 1),
+--                                                            ('BUSINESS', '2E', 1),
+--                                                            ('BUSINESS', '2F', 1),
+--                                                            ('BUSINESS', '2G', 1),
+--                                                            ('BUSINESS', '2H', 1),
+--                                                            ('BUSINESS', '2I', 1),
+--                                                            ('BUSINESS', '2J', 1),
+--                                                            ('ECONOMY', '3A', 1),
+--                                                            ('ECONOMY', '3B', 1),
+--                                                            ('ECONOMY', '3C', 1),
+--                                                            ('ECONOMY', '3D', 1),
+--                                                            ('ECONOMY', '3E', 1),
+--                                                            ('ECONOMY', '3F', 1),
+--                                                            ('ECONOMY', '3G', 1),
+--                                                            ('ECONOMY', '3H', 1),
+--                                                            ('ECONOMY', '3I', 1),
+--                                                            ('ECONOMY', '3J', 1),
+--                                                            ('ECONOMY', '3K', 1),
+--                                                            ('ECONOMY', '3L', 1),
+--                                                            ('ECONOMY', '3M', 1),
+--                                                            ('ECONOMY', '3N', 1),
+--                                                            ('ECONOMY', '3O', 1),
+--                                                            ('ECONOMY', '3P', 1),
+--                                                            ('ECONOMY', '3Q', 1),
+--                                                            ('ECONOMY', '3R', 1),
+--                                                            ('ECONOMY', '3S', 1),
+--                                                            ('ECONOMY', '3T', 1),
+--                                                            ('ECONOMY', '3U', 1),
+--                                                            ('ECONOMY', '3V', 1),
+--                                                            ('ECONOMY', '3W', 1),
+--                                                            ('ECONOMY', '3X', 1),
+--                                                            ('ECONOMY', '3Y', 1),
+--                                                            ('ECONOMY', '3Z', 1),
+--                                                            ('ECONOMY', '4A', 1),
+--                                                            ('ECONOMY', '4B', 1),
+--                                                            ('ECONOMY', '4C', 1),
+--                                                            ('ECONOMY', '4D', 1),
+--                                                            ('ECONOMY', '4E', 1),
+--                                                            ('ECONOMY', '4F', 1),
+--                                                            ('ECONOMY', '4G', 1),
+--                                                            ('ECONOMY', '4H', 1),
+--                                                            ('ECONOMY', '4I', 1),
+--                                                            ('ECONOMY', '4J', 1),
+--                                                            ('ECONOMY', '4K', 1),
+--                                                            ('ECONOMY', '4L', 1),
+--                                                            ('ECONOMY', '4M', 1),
+--                                                            ('ECONOMY', '4N', 1),
+--                                                            ('ECONOMY', '4O', 1),
+--                                                            ('ECONOMY', '4P', 1),
+--                                                            ('ECONOMY', '4Q', 1),
+--                                                            ('ECONOMY', '4R', 1),
+--                                                            ('ECONOMY', '4S', 1),
+--                                                            ('ECONOMY', '4T', 1),
+--                                                            ('ECONOMY', '4U', 1),
+--                                                            ('ECONOMY', '4V', 1),
+--                                                            ('ECONOMY', '4W', 1),
+--                                                            ('ECONOMY', '4X', 1),
+--                                                            ('ECONOMY', '4Y', 1),
+--                                                            ('ECONOMY', '4Z', 1),
+--                                                            ('ECONOMY', '5A', 1),
+--                                                            ('ECONOMY', '5B', 1),
+--                                                            ('ECONOMY', '5C', 1),
+--                                                            ('ECONOMY', '5D', 1),
+--                                                            ('ECONOMY', '5E', 1),
+--                                                            ('ECONOMY', '5F', 1),
+--                                                            ('ECONOMY', '5G', 1),
+--                                                            ('ECONOMY', '5H', 1),
+--                                                            ('ECONOMY', '5I', 1),
+--                                                            ('ECONOMY', '5J', 1),
+--                                                            ('ECONOMY', '5K', 1),
+--                                                            ('ECONOMY', '5L', 1),
+--                                                            ('ECONOMY', '5M', 1),
+--                                                            ('ECONOMY', '5N', 1),
+--                                                            ('ECONOMY', '5O', 1),
+--                                                            ('ECONOMY', '5P', 1),
+--                                                            ('ECONOMY', '5Q', 1),
+--                                                            ('ECONOMY', '5R', 1),
+--                                                            ('ECONOMY', '5S', 1),
+--                                                            ('ECONOMY', '5T', 1),
+--                                                            ('ECONOMY', '5U', 1),
+--                                                            ('ECONOMY', '5V', 1),
+--                                                            ('ECONOMY', '5W', 1),
+--                                                            ('ECONOMY', '5X', 1),
+--                                                            ('ECONOMY', '5Y', 1),
+--                                                            ('ECONOMY', '5Z', 1);
+--
+-- -- Ghế cho máy bay 2
+-- Chèn ghế ngồi cho mô hình 1
+-- INSERT INTO seats (seat_class, seat_code, airplane_id)
+-- SELECT seat_class, seat_code, airplane_id
+-- FROM (
+--          SELECT 'ECONOMY' AS seat_class, '1A' AS seat_code FROM airplanes WHERE model_name = '1'
+--          UNION ALL
+--          SELECT 'ECONOMY', '1B' FROM airplanes WHERE model_name = '1'
+--          UNION ALL
+--          SELECT 'BUSINESS', '2A' FROM airplanes WHERE model_name = '1'
+--          UNION ALL
+--          SELECT 'BUSINESS', '2B' FROM airplanes WHERE model_name = '1'
+--      ) AS seats_data
+--          JOIN airplanes ON airplanes.model_name = '1';
 
--- Airplane 2
-('BUSINESS', '1A', 2),
-('BUSINESS', '1B', 2),
-('BUSINESS', '1C', 2),
-('BUSINESS', '2A', 2),
-('ECONOMY', '12A', 2),
-('ECONOMY', '12B', 2),
-('ECONOMY', '12C', 2),
-('ECONOMY', '13A', 2),
-('ECONOMY', '13B', 2),
-('ECONOMY', '13C', 2),
-
--- Airplane 3
-('BUSINESS', '1A', 3),
-('BUSINESS', '1B', 3),
-('BUSINESS', '2A', 3),
-('BUSINESS', '2B', 3),
-('ECONOMY', '14A', 3),
-('ECONOMY', '14B', 3),
-('ECONOMY', '15A', 3),
-('ECONOMY', '15B', 3),
-('ECONOMY', '15C', 3),
-('ECONOMY', '16A', 3);
-
--- FLIGHT
-INSERT INTO flights (flight_name, departure_date_time, arrival_date_time, route_id, airplane_id, flight_status)
-VALUES
-    ('VN123', '2024-10-01 10:00:00', '2024-10-01 12:30:00', 1, 1, 'SCHEDULED'),
-    ('VN456', '2024-10-01 15:00:00', '2024-10-01 17:00:00', 2, 2, 'SCHEDULED'),
-    ('VN789', '2024-10-02 09:00:00', '2024-10-02 11:30:00', 3, 1, 'SCHEDULED'),
-    ('VN101', '2024-10-02 14:00:00', '2024-10-02 16:45:00', 1, 3, 'DELAYED'),
-    ('VN112', '2024-10-03 08:00:00', '2024-10-03 10:15:00', 2, 1, 'SCHEDULED'),
-    ('VN113', '2024-10-03 11:30:00', '2024-10-03 14:00:00', 3, 2, 'CANCELLED');
 
 
 
--- SEAT-AVALABILITY
-INSERT INTO seat_availability (total_seats, booked_seats, flight_id, seat_id, status, position)
-VALUES
-    (200, 50, 1, 1, 'AVAILABLE', '1A'),
-    (200, 75, 1, 2, 'AVAILABLE', '1B'),
-    (150, 60, 2, 3, 'BOOKED', '2A'),
-    (150, 20, 2, 4, 'AVAILABLE', '2B'),
-    (100, 0, 3, 5, 'AVAILABLE', '3A'),
-    (100, 10, 3, 6, 'BOOKED', '3B'),
-    (180, 90, 1, 7, 'AVAILABLE', '1C'),
-    (180, 130, 1, 8, 'BOOKED', '1D'),
-    (120, 50, 2, 9, 'AVAILABLE', '2C'),
-    (120, 100, 2, 10, 'BOOKED', '2D');
 
--- FLIGHT-PRICING
--- Giả định rằng bạn đã có các giá trị cho bảng flight và seat
--- Giả định rằng flight_id từ bảng flight là 1, 2, 3, ...
--- Giả định rằng seat_id từ bảng seat là 1, 2, 3, ...
 
-INSERT INTO flight_pricing (ticket_price,  flight_id, valid_from, valid_to)
-VALUES
-    (199.99, 1,  '2024-10-01', '2024-12-31'),  -- Giá vé cho ghế 1 trên chuyến bay 1
-    (299.99, 2,  '2024-10-01', '2024-12-31'),  -- Giá vé cho ghế 2 trên chuyến bay 1
-    (149.99, 3,  '2024-10-01', '2024-11-30'),  -- Giá vé cho ghế 3 trên chuyến bay 2
-    (249.99, 4,  '2024-10-01', '2024-11-30'),  -- Giá vé cho ghế 4 trên chuyến bay 2
-    (349.99, 5,  '2024-11-01', '2024-12-31'),  -- Giá vé cho ghế 5 trên chuyến bay 3
-    (199.99, 6,  '2024-11-01', '2024-12-31');  -- Giá vé cho ghế 6 trên chuyến bay 3
-
+--
+-- -- FLIGHT
+-- INSERT INTO flights (flight_name, departure_date_time, arrival_date_time, route_id, airplane_id, flight_status)
+-- VALUES
+--     ('VN123', '2024-10-01 10:00:00', '2024-10-01 12:30:00', 1, 1, 'SCHEDULED'),
+--     ('VN456', '2024-10-01 15:00:00', '2024-10-01 17:00:00', 2, 2, 'SCHEDULED'),
+--     ('VN789', '2024-10-02 09:00:00', '2024-10-02 11:30:00', 3, 1, 'SCHEDULED'),
+--     ('VN101', '2024-10-02 14:00:00', '2024-10-02 16:45:00', 1, 3, 'DELAYED'),
+--     ('VN112', '2024-10-03 08:00:00', '2024-10-03 10:15:00', 2, 1, 'SCHEDULED'),
+--     ('VN113', '2024-10-03 11:30:00', '2024-10-03 14:00:00', 3, 2, 'CANCELLED');
+--
+--
+--
+-- -- SEAT-AVALABILITY
+-- -- Dữ liệu cho bảng seat_availability cho chuyến bay đầu tiên
+-- INSERT INTO seat_availability (total_seats, booked_seats, flight_id, seat_id, status, position) VALUES
+--                                                                                                     (30, 10, 1, '1A', 'AVAILABLE', 'BUSINESS'),
+--                                                                                                     (30, 5, 1, '1B', 'BOOKED', 'BUSINESS'),
+--                                                                                                     (30, 8, 1, '1C', 'BOOKED', 'BUSINESS'),
+--                                                                                                     (30, 2, 1, '1D', 'AVAILABLE', 'BUSINESS'),
+--                                                                                                     (30, 12, 1, '1E', 'BOOKED', 'BUSINESS'),
+--                                                                                                     (30, 0, 1, '1F', 'AVAILABLE', 'BUSINESS'),
+--                                                                                                     (150, 50, 1, '3A', 'AVAILABLE', 'ECONOMY'),
+--                                                                                                     (150, 75, 1, '3B', 'BOOKED', 'ECONOMY'),
+--                                                                                                     (150, 60, 1, '3C', 'BOOKED', 'ECONOMY'),
+--                                                                                                     (150, 30, 1, '3D', 'AVAILABLE', 'ECONOMY'),
+--                                                                                                     (150, 90, 1, '3E', 'BOOKED', 'ECONOMY'),
+--                                                                                                     (150, 45, 1, '3F', 'AVAILABLE', 'ECONOMY'),
+--                                                                                                     (150, 25, 1, '3G', 'AVAILABLE', 'ECONOMY');
+--
+-- -- Dữ liệu cho bảng seat_availability cho chuyến bay thứ hai
+-- INSERT INTO seat_availability (total_seats, booked_seats, flight_id, seat_id, status, position) VALUES
+--                                                                                                     (30, 5, 2, '1A', 'BOOKED', 'BUSINESS'),
+--                                                                                                     (30, 10, 2, '1B', 'AVAILABLE', 'BUSINESS'),
+--                                                                                                     (30, 6, 2, '1C', 'BOOKED', 'BUSINESS'),
+--                                                                                                     (30, 0, 2, '1D', 'AVAILABLE', 'BUSINESS'),
+--                                                                                                     (30, 8, 2, '1E', 'BOOKED', 'BUSINESS'),
+--                                                                                                     (30, 2, 2, '1F', 'AVAILABLE', 'BUSINESS'),
+--                                                                                                     (150, 80, 2, '3A', 'AVAILABLE', 'ECONOMY'),
+--                                                                                                     (150, 40, 2, '3B', 'BOOKED', 'ECONOMY'),
+--                                                                                                     (150, 90, 2, '3C', 'BOOKED', 'ECONOMY'),
+--                                                                                                     (150, 10, 2, '3D', 'AVAILABLE', 'ECONOMY'),
+--                                                                                                     (150, 50, 2, '3E', 'BOOKED', 'ECONOMY'),
+--                                                                                                     (150, 30, 2, '3F', 'AVAILABLE', 'ECONOMY'),
+--                                                                                                     (150, 15, 2, '3G', 'AVAILABLE', 'ECONOMY');
+--
+--
+--
+-- INSERT INTO flight_pricing (ticket_price,  flight_id, valid_from, valid_to)
+-- VALUES
+--     (199.99, 1,  '2024-10-01', '2024-12-31'),  -- Giá vé cho ghế 1 trên chuyến bay 1
+--     (299.99, 2,  '2024-10-01', '2024-12-31'),  -- Giá vé cho ghế 2 trên chuyến bay 1
+--     (149.99, 3,  '2024-10-01', '2024-11-30'),  -- Giá vé cho ghế 3 trên chuyến bay 2
+--     (249.99, 4,  '2024-10-01', '2024-11-30'),  -- Giá vé cho ghế 4 trên chuyến bay 2
+--     (349.99, 5,  '2024-11-01', '2024-12-31'),  -- Giá vé cho ghế 5 trên chuyến bay 3
+--     (199.99, 6,  '2024-11-01', '2024-12-31');  -- Giá vé cho ghế 6 trên chuyến bay 3
+--
