@@ -65,9 +65,9 @@ public class AirportServiceImpl implements AirportService {
             String searchValue = params.get("query");
             spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.or(
                     criteriaBuilder.like(criteriaBuilder.lower(root.get("airportName")), "%" + searchValue.toLowerCase() + "%"),
-                    criteriaBuilder.like(root.get("airportCode"), "%" + params.get("query").toUpperCase() + "%"),
+                    criteriaBuilder.like(root.get("airportCode"), "%" + searchValue.toUpperCase() + "%"),
                     criteriaBuilder.like(criteriaBuilder.lower(root.get("cityName")), "%" + searchValue.toLowerCase() + "%"),
-                    criteriaBuilder.like(root.get("cityCode"), "%" + params.get("query").toUpperCase() + "%")
+                    criteriaBuilder.like(root.get("cityCode"), "%" + searchValue.toUpperCase() + "%")
             ));
         }
         return spec;

@@ -1,6 +1,8 @@
 package com.dvk.ct250backend.domain.flight.dto;
 
+
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -11,16 +13,11 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SeatAvailabilityDTO {
-    Integer seatAvailabilityId;
+public class ModelDTO {
 
-    Integer totalSeats;
-    Integer bookedSeats;
+    Integer modelId;
 
-    SeatDTO seat;
-
-   String status;
-
-    String position;
+    @NotBlank(message = "Model name is required")
+    String modelName;
 
 }

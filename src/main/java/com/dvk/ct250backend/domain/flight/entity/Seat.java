@@ -34,4 +34,5 @@ public class Seat {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "airplane_id")
     Airplane airplane;
+
 }

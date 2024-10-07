@@ -6,9 +6,12 @@ import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.flight.dto.AirplaneDTO;
 import com.dvk.ct250backend.domain.flight.entity.Airplane;
+import com.dvk.ct250backend.domain.flight.entity.Model;
 import com.dvk.ct250backend.domain.flight.mapper.AirplaneMapper;
 import com.dvk.ct250backend.domain.flight.repository.AirplaneRepository;
+import com.dvk.ct250backend.domain.flight.repository.ModelRepository;
 import com.dvk.ct250backend.domain.flight.service.AirplaneService;
+import com.dvk.ct250backend.domain.flight.service.ModelService;
 import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +30,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AirplaneServiceImpl implements AirplaneService {
@@ -35,6 +37,7 @@ public class AirplaneServiceImpl implements AirplaneService {
     AirplaneRepository airplaneRepository;
     RequestParamUtils requestParamUtils;
     AirplaneMapper airplaneMapper;
+    ModelService modelService;
 
     @Override
     @Transactional
@@ -47,8 +50,14 @@ public class AirplaneServiceImpl implements AirplaneService {
     @Override
     @CacheEvict(value = "airplanes", allEntries = true)
     public void deleteAirplane(Integer id) throws ResourceNotFoundException {
-       Airplane airplane = airplaneRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Airplane not found"));
-         airplaneRepository.delete(airplane);
+        Airplane airplane = airplaneRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Airplane not found"));
+        Model model = airplane.getModel();
+        airplaneRepository.delete(airplane);
+        airplaneRepository.flush();
+        boolean isModelUsed = airplaneRepository.existsByModel(model);
+        if (!isModelUsed) {
+            modelService.deleteModel(model.getModelId());
+        }
     }
 
     @Override
@@ -89,7 +98,8 @@ public class AirplaneServiceImpl implements AirplaneService {
         if(params.containsKey("query")){
             String searchValue = params.get("query");
             spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.or(
-                    criteriaBuilder.like(criteriaBuilder.lower(root.get("modelName")), "%" + searchValue.toLowerCase() + "%")
+                    criteriaBuilder.like(criteriaBuilder.lower(root.get("modelName")), "%" + searchValue.toLowerCase() + "%"),
+                    criteriaBuilder.like(root.get("registrationNumber"), "%" + searchValue.toUpperCase() + "%")
             ));
         }
         Specification<Airplane> inUseSpec = Specification.where(null);
