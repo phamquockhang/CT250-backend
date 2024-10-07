@@ -21,12 +21,8 @@ import java.util.List;
 public class Flight extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "flight_id_seq")
-    @SequenceGenerator(name = "flight_id_seq", sequenceName = "flights_seq", allocationSize = 1)
-    Integer flightId;
+    String flightId;
 
-    @Column(unique = true, nullable = false)
-    String flightName;
 
     LocalDateTime departureDateTime;
     LocalDateTime arrivalDateTime;

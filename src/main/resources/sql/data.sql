@@ -362,12 +362,16 @@ values ('Tan Son Nhat INTERNATIONAL Airport', 'SGN', 'Ho Chi Minh', 'SGN', 235),
        ('Xuzhou Guanyin Airport', 'XUZ', 'Xuzhou', 'XUZ', 44);
 
 
+--ROLE
+INSERT INTO public.roles (role_name, description, active)
+VALUES ('ADMIN', 'Admin thì full permissions', true);
+
 --PERMISSION
 INSERT INTO public.permissions (name, api_path, method, module)
 VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Update a user', '/api/v1/users/{id}', 'PUT', 'USERS'),
        ('Delete a user', '/api/v1/users/{id}', 'DELETE', 'USERS'),
-        ('Get a user by id', '/api/v1/users/{id}', 'GET', 'USERS'),
+       ('Get a user by id', '/api/v1/users/{id}', 'GET', 'USERS'),
        ('Get logged in user', '/api/v1/users/logged-in', 'GET', 'USERS'),
        ('Get users with pagination', '/api/v1/users', 'GET', 'USERS'),
        ('Change password for logged in user', '/api/v1/users/{id}/change-password', 'PUT', 'USERS'),
@@ -386,8 +390,8 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Get airports with pagination', '/api/v1/airports', 'GET', 'AIRPORTS'),
        ('Get all airports', '/api/v1/airports/all', 'GET', 'AIRPORTS'),
        ('Create an airport', '/api/v1/airports', 'POST', 'AIRPORTS'),
-        ('Delete an airport', '/api/v1/airports/{id}', 'DELETE', 'AIRPORTS'),
-        ('Update an airport', '/api/v1/airports/{id}', 'PUT', 'AIRPORTS'),
+       ('Delete an airport', '/api/v1/airports/{id}', 'DELETE', 'AIRPORTS'),
+       ('Update an airport', '/api/v1/airports/{id}', 'PUT', 'AIRPORTS'),
        ('Get airplanes with pagination', '/api/v1/airplanes', 'GET', 'AIRPLANES'),
        ('Get all airplanes ', '/api/v1/airplanes/all', 'GET', 'AIRPLANES'),
        ('Create an airplane', '/api/v1/airplanes', 'POST', 'AIRPLANES'),
@@ -401,8 +405,8 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Delete a route', '/api/v1/routes/{id}', 'DELETE', 'ROUTES'),
        ('Update a route', '/api/v1/routes/{id}', 'PUT', 'ROUTES'),
        ('Get all flights', '/api/v1/flights/all', 'GET', 'FLIGHTS'),
-       ('Update a flight', '/api/v1/flights/{id}', 'PUT', 'FLIGHTS');
-
+       ('Update a flight', '/api/v1/flights/{id}', 'PUT', 'FLIGHTS'),
+        ('Upload flights', '/api/v1/flights/upload', 'POST', 'FLIGHTS');
 
 --ROLE
 INSERT INTO public.roles (role_name, description, active)
@@ -511,85 +515,86 @@ VALUES
     ('4', 'Airbus', 5600, 950, 184, 44.51, 34.1, 11.76, 'MAINTENANCE', 'VH-A3220');
 
 
-INSERT INTO public.routes (departure_airport_id, arrival_airport_id,  route_type)
-VALUES
-    (44, 15, 'INTERNATIONAL'),  -- HAN đến TPE (Đài Bắc)
-    (44, 61,  'INTERNATIONAL'),  -- HAN đến HKG (Hồng Kông)
-    (44, 82,  'INTERNATIONAL'),  -- HAN đến FOC (Phúc Kiến)
-    (44, 18,  'INTERNATIONAL'),  -- HAN đến KUL (Kuala Lumpur)
-    (44, 19,  'INTERNATIONAL'),  -- HAN đến SIN (Singapore)
-    (44, 31,  'INTERNATIONAL'),  -- HAN đến BKK (Bangkok)
-    (44, 13,  'INTERNATIONAL'),  -- HAN đến ICN (Seoul)
-    (44, 8,  'INTERNATIONAL'),  -- HAN đến NRT (Tokyo)
 
-    -- Chuyến bay quốc tế từ Sài Gòn
-    (43, 15,  'INTERNATIONAL'),  -- SGN đến TPE
-    (43, 61,  'INTERNATIONAL'),  -- SGN đến HKG
-    (43, 82,  'INTERNATIONAL'),  -- SGN đến FOC
-    (43, 18,  'INTERNATIONAL'),  -- SGN đến KUL
-    (43, 19,  'INTERNATIONAL'),  -- SGN đến SIN
-    (43, 31,  'INTERNATIONAL'),  -- SGN đến BKK
-    (43, 13, 'INTERNATIONAL'),  -- SGN đến ICN
-    (43, 8,  'INTERNATIONAL'),  -- SGN đến NRT
+INSERT INTO public.routes (departure_airport_id, arrival_airport_id, route_type)
+VALUES (44, 15, 'INTERNATIONAL'), -- HAN đến TPE (Đài Bắc)
+       (44, 61, 'INTERNATIONAL'), -- HAN đến HKG (Hồng Kông)
+       (44, 82, 'INTERNATIONAL'), -- HAN đến FOC (Phúc Kiến)
+       (44, 18, 'INTERNATIONAL'), -- HAN đến KUL (Kuala Lumpur)
+       (44, 19, 'INTERNATIONAL'), -- HAN đến SIN (Singapore)
+       (44, 31, 'INTERNATIONAL'), -- HAN đến BKK (Bangkok)
+       (44, 13, 'INTERNATIONAL'), -- HAN đến ICN (Seoul)
+       (44, 8, 'INTERNATIONAL'),  -- HAN đến NRT (Tokyo)
 
-    -- Chuyến bay quốc tế từ Đà Nẵng
-    (45, 15, 'INTERNATIONAL'),  -- DAD đến TPE
-    (45, 61,  'INTERNATIONAL'),  -- DAD đến HKG
-    (45, 82,  'INTERNATIONAL'),  -- DAD đến KUL
-    (45, 31, 'INTERNATIONAL'),  -- DAD đến BKK
-    (45, 13,  'INTERNATIONAL'),  -- DAD đến ICN
+       -- Chuyến bay quốc tế từ Sài Gòn
+       (43, 15, 'INTERNATIONAL'), -- SGN đến TPE
+       (43, 61, 'INTERNATIONAL'), -- SGN đến HKG
+       (43, 82, 'INTERNATIONAL'), -- SGN đến FOC
+       (43, 18, 'INTERNATIONAL'), -- SGN đến KUL
+       (43, 19, 'INTERNATIONAL'), -- SGN đến SIN
+       (43, 31, 'INTERNATIONAL'), -- SGN đến BKK
+       (43, 13, 'INTERNATIONAL'), -- SGN đến ICN
+       (43, 8, 'INTERNATIONAL'),  -- SGN đến NRT
 
-    -- Chuyến bay quốc tế từ Cam Ranh
-    (47, 15,  'INTERNATIONAL'),  -- CXR đến TPE
-    (47, 61, 'INTERNATIONAL'),  -- CXR đến HKG
-    (47, 18,  'INTERNATIONAL'),  -- CXR đến KUL
-    (47, 13, 'INTERNATIONAL'),  -- CXR đến ICN
+       -- Chuyến bay quốc tế từ Đà Nẵng
+       (45, 15, 'INTERNATIONAL'), -- DAD đến TPE
+       (45, 61, 'INTERNATIONAL'), -- DAD đến HKG
+       (45, 82, 'INTERNATIONAL'), -- DAD đến KUL
+       (45, 31, 'INTERNATIONAL'), -- DAD đến BKK
+       (45, 13, 'INTERNATIONAL'), -- DAD đến ICN
 
-    -- Chuyến bay quốc tế từ Phú Quốc
-    (46, 15, 'INTERNATIONAL'),  -- PQC đến TPE
-    (46, 61,  'INTERNATIONAL'),  -- PQC đến HKG
-    (46, 18,  'INTERNATIONAL'),  -- PQC đến KUL
-    (46, 13,  'INTERNATIONAL'),
-    -- Thanh Hóa đến các sân bay khác
-    (59, 44, 'DOMESTIC'),  -- THD đến HAN
-    (59, 43,  'DOMESTIC'),  -- THD đến SGN
-    (59, 45,  'DOMESTIC'),  -- THD đến DAD
-    (59, 47,  'DOMESTIC'),  -- THD đến CXR
-    (59, 46, 'DOMESTIC'),  -- THD đến PQC
-    (59, 51,  'DOMESTIC'),  -- THD đến HUI
-    (59, 53, 'DOMESTIC'),  -- THD đến VII
+       -- Chuyến bay quốc tế từ Cam Ranh
+       (47, 15, 'INTERNATIONAL'), -- CXR đến TPE
+       (47, 61, 'INTERNATIONAL'), -- CXR đến HKG
+       (47, 18, 'INTERNATIONAL'), -- CXR đến KUL
+       (47, 13, 'INTERNATIONAL'), -- CXR đến ICN
 
-    -- Vinh đến các sân bay khác
-    (53, 44,  'DOMESTIC'),  -- VII đến HAN
-    (53, 43,  'DOMESTIC'),  -- VII đến SGN
-    (53, 45,  'DOMESTIC'),  -- VII đến DAD
-    (53, 47,  'DOMESTIC'),  -- VII đến CXR
-    (53, 46,  'DOMESTIC'),  -- VII đến PQC
-    (53, 51,  'DOMESTIC'),  -- VII đến HUI
-    (53, 59,  'DOMESTIC'),  -- VII đến THD
-    (53, 50,  'DOMESTIC'),  -- VII đến HPH
+       -- Chuyến bay quốc tế từ Phú Quốc
+       (46, 15, 'INTERNATIONAL'), -- PQC đến TPE
+       (46, 61, 'INTERNATIONAL'), -- PQC đến HKG
+       (46, 18, 'INTERNATIONAL'), -- PQC đến KUL
+       (46, 13, 'INTERNATIONAL'),
+       -- Thanh Hóa đến các sân bay khác
+       (59, 44, 'DOMESTIC'),      -- THD đến HAN
+       (59, 43, 'DOMESTIC'),      -- THD đến SGN
+       (59, 45, 'DOMESTIC'),      -- THD đến DAD
+       (59, 47, 'DOMESTIC'),      -- THD đến CXR
+       (59, 46, 'DOMESTIC'),      -- THD đến PQC
+       (59, 51, 'DOMESTIC'),      -- THD đến HUI
+       (59, 53, 'DOMESTIC'),      -- THD đến VII
 
-    -- Hải Phòng đến các sân bay khác
-    (50, 44,  'DOMESTIC'),  -- HPH đến HAN
-    (50, 43,  'DOMESTIC'),  -- HPH đến SGN
-    (50, 45,  'DOMESTIC'),  -- HPH đến DAD
-    (50, 47,  'DOMESTIC'),  -- HPH đến CXR
-    (50, 46,  'DOMESTIC'),  -- HPH đến PQC
-    (50, 51,  'DOMESTIC'),  -- HPH đến HUI
-    (50, 59,  'DOMESTIC'),  -- HPH đến THD
-    (50, 53,  'DOMESTIC'),  -- HPH đến VII
-    (50, 49,  'DOMESTIC'),  -- HPH đến DLI
+       -- Vinh đến các sân bay khác
+       (53, 44, 'DOMESTIC'),      -- VII đến HAN
+       (53, 43, 'DOMESTIC'),      -- VII đến SGN
+       (53, 45, 'DOMESTIC'),      -- VII đến DAD
+       (53, 47, 'DOMESTIC'),      -- VII đến CXR
+       (53, 46, 'DOMESTIC'),      -- VII đến PQC
+       (53, 51, 'DOMESTIC'),      -- VII đến HUI
+       (53, 59, 'DOMESTIC'),      -- VII đến THD
+       (53, 50, 'DOMESTIC'),      -- VII đến HPH
 
-    -- Đà Lạt đến các sân bay khác
-    (49, 44,  'DOMESTIC'),  -- DLI đến HAN
-    (49, 43,  'DOMESTIC'),  -- DLI đến SGN
-    (49, 45,  'DOMESTIC'),  -- DLI đến DAD
-    (49, 47, 'DOMESTIC'),  -- DLI đến CXR
-    (49, 46,  'DOMESTIC'),  -- DLI đến PQC
-    (49, 51,  'DOMESTIC'),  -- DLI đến HUI
-    (49, 59, 'DOMESTIC'),  -- DLI đến THD
-    (49, 53,  'DOMESTIC'),  -- DLI đến VII
-    (49, 50,  'DOMESTIC');  -- DLI đến HPH
+       -- Hải Phòng đến các sân bay khác
+       (50, 44, 'DOMESTIC'),      -- HPH đến HAN
+       (50, 43, 'DOMESTIC'),      -- HPH đến SGN
+       (50, 45, 'DOMESTIC'),      -- HPH đến DAD
+       (50, 47, 'DOMESTIC'),      -- HPH đến CXR
+       (50, 46, 'DOMESTIC'),      -- HPH đến PQC
+       (50, 51, 'DOMESTIC'),      -- HPH đến HUI
+       (50, 59, 'DOMESTIC'),      -- HPH đến THD
+       (50, 53, 'DOMESTIC'),      -- HPH đến VII
+       (50, 49, 'DOMESTIC'),      -- HPH đến DLI
+
+       -- Đà Lạt đến các sân bay khác
+       (49, 44, 'DOMESTIC'),      -- DLI đến HAN
+       (49, 43, 'DOMESTIC'),      -- DLI đến SGN
+       (49, 45, 'DOMESTIC'),      -- DLI đến DAD
+       (49, 47, 'DOMESTIC'),      -- DLI đến CXR
+       (49, 46, 'DOMESTIC'),      -- DLI đến PQC
+       (49, 51, 'DOMESTIC'),      -- DLI đến HUI
+       (49, 59, 'DOMESTIC'),      -- DLI đến THD
+       (49, 53, 'DOMESTIC'),      -- DLI đến VII
+       (49, 50, 'DOMESTIC');
+
 
 
 --SEAT
@@ -677,66 +682,3 @@ INSERT INTO seats (seat_class, seat_code, model_id) VALUES
 
 
 
-
-
-
-
-
-
---
--- -- FLIGHT
--- INSERT INTO flights (flight_name, departure_date_time, arrival_date_time, route_id, airplane_id, flight_status)
--- VALUES
---     ('VN123', '2024-10-01 10:00:00', '2024-10-01 12:30:00', 1, 1, 'SCHEDULED'),
---     ('VN456', '2024-10-01 15:00:00', '2024-10-01 17:00:00', 2, 2, 'SCHEDULED'),
---     ('VN789', '2024-10-02 09:00:00', '2024-10-02 11:30:00', 3, 1, 'SCHEDULED'),
---     ('VN101', '2024-10-02 14:00:00', '2024-10-02 16:45:00', 1, 3, 'DELAYED'),
---     ('VN112', '2024-10-03 08:00:00', '2024-10-03 10:15:00', 2, 1, 'SCHEDULED'),
---     ('VN113', '2024-10-03 11:30:00', '2024-10-03 14:00:00', 3, 2, 'CANCELLED');
---
---
---
--- -- SEAT-AVALABILITY
--- -- Dữ liệu cho bảng seat_availability cho chuyến bay đầu tiên
--- INSERT INTO seat_availability (total_seats, booked_seats, flight_id, seat_id, status, position) VALUES
---                                                                                                     (30, 10, 1, '1A', 'AVAILABLE', 'BUSINESS'),
---                                                                                                     (30, 5, 1, '1B', 'BOOKED', 'BUSINESS'),
---                                                                                                     (30, 8, 1, '1C', 'BOOKED', 'BUSINESS'),
---                                                                                                     (30, 2, 1, '1D', 'AVAILABLE', 'BUSINESS'),
---                                                                                                     (30, 12, 1, '1E', 'BOOKED', 'BUSINESS'),
---                                                                                                     (30, 0, 1, '1F', 'AVAILABLE', 'BUSINESS'),
---                                                                                                     (150, 50, 1, '3A', 'AVAILABLE', 'ECONOMY'),
---                                                                                                     (150, 75, 1, '3B', 'BOOKED', 'ECONOMY'),
---                                                                                                     (150, 60, 1, '3C', 'BOOKED', 'ECONOMY'),
---                                                                                                     (150, 30, 1, '3D', 'AVAILABLE', 'ECONOMY'),
---                                                                                                     (150, 90, 1, '3E', 'BOOKED', 'ECONOMY'),
---                                                                                                     (150, 45, 1, '3F', 'AVAILABLE', 'ECONOMY'),
---                                                                                                     (150, 25, 1, '3G', 'AVAILABLE', 'ECONOMY');
---
--- -- Dữ liệu cho bảng seat_availability cho chuyến bay thứ hai
--- INSERT INTO seat_availability (total_seats, booked_seats, flight_id, seat_id, status, position) VALUES
---                                                                                                     (30, 5, 2, '1A', 'BOOKED', 'BUSINESS'),
---                                                                                                     (30, 10, 2, '1B', 'AVAILABLE', 'BUSINESS'),
---                                                                                                     (30, 6, 2, '1C', 'BOOKED', 'BUSINESS'),
---                                                                                                     (30, 0, 2, '1D', 'AVAILABLE', 'BUSINESS'),
---                                                                                                     (30, 8, 2, '1E', 'BOOKED', 'BUSINESS'),
---                                                                                                     (30, 2, 2, '1F', 'AVAILABLE', 'BUSINESS'),
---                                                                                                     (150, 80, 2, '3A', 'AVAILABLE', 'ECONOMY'),
---                                                                                                     (150, 40, 2, '3B', 'BOOKED', 'ECONOMY'),
---                                                                                                     (150, 90, 2, '3C', 'BOOKED', 'ECONOMY'),
---                                                                                                     (150, 10, 2, '3D', 'AVAILABLE', 'ECONOMY'),
---                                                                                                     (150, 50, 2, '3E', 'BOOKED', 'ECONOMY'),
---                                                                                                     (150, 30, 2, '3F', 'AVAILABLE', 'ECONOMY'),
---                                                                                                     (150, 15, 2, '3G', 'AVAILABLE', 'ECONOMY');
---
---
---
--- INSERT INTO flight_pricing (ticket_price,  flight_id, valid_from, valid_to)
--- VALUES
---     (199.99, 1,  '2024-10-01', '2024-12-31'),  -- Giá vé cho ghế 1 trên chuyến bay 1
---     (299.99, 2,  '2024-10-01', '2024-12-31'),  -- Giá vé cho ghế 2 trên chuyến bay 1
---     (149.99, 3,  '2024-10-01', '2024-11-30'),  -- Giá vé cho ghế 3 trên chuyến bay 2
---     (249.99, 4,  '2024-10-01', '2024-11-30'),  -- Giá vé cho ghế 4 trên chuyến bay 2
---     (349.99, 5,  '2024-11-01', '2024-12-31'),  -- Giá vé cho ghế 5 trên chuyến bay 3
---     (199.99, 6,  '2024-11-01', '2024-12-31');  -- Giá vé cho ghế 6 trên chuyến bay 3
---
