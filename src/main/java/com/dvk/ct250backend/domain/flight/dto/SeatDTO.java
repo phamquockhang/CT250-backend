@@ -14,7 +14,7 @@ import lombok.experimental.FieldDefaults;
 public class SeatDTO {
    Integer seatId;
 
-    String seatClass;
+    String ticketClass;
 
     String seatCode;
 
