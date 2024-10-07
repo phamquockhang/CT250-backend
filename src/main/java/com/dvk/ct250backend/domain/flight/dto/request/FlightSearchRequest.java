@@ -22,9 +22,13 @@ public class FlightSearchRequest {
     @NotBlank(message = "Departure airport code is required")
     String departureLocation;
 
-    @NotBlank(message = "Departure date is required")
+    //@NotBlank(message = "Departure date is required")
     String departureDate;
 
     @NotBlank(message = "Return date is required")
     String arrivalDate;
+
+    boolean roundWay;
+
+    boolean oneTrip;
 }

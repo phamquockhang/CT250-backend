@@ -1,10 +1,7 @@
 package com.dvk.ct250backend.domain.flight.service.impl;
 
-import com.dvk.ct250backend.app.dto.response.Meta;
-import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.flight.config.FlightUploadJobListener;
-import com.dvk.ct250backend.domain.flight.dto.AirportDTO;
 import com.dvk.ct250backend.domain.flight.dto.FlightDTO;
 import com.dvk.ct250backend.domain.flight.dto.request.FlightSearchRequest;
 import com.dvk.ct250backend.domain.flight.entity.Flight;
@@ -67,10 +64,10 @@ public class FlightServiceImpl implements FlightService {
     @Override
     public void uploadFlights(List<MultipartFile> files) throws IOException {
         String flightFilePath = "", flightPricingFilePath = "";
-        for(MultipartFile file: files){
-            if(Objects.equals(file.getOriginalFilename(), "flights.csv")){
+        for (MultipartFile file : files) {
+            if (Objects.equals(file.getOriginalFilename(), "flights.csv")) {
                 flightFilePath = fileUtils.saveTempFile(file);
-            }else if(Objects.equals(file.getOriginalFilename(), "flight_pricing.csv")){
+            } else if (Objects.equals(file.getOriginalFilename(), "flight_pricing.csv")) {
                 flightPricingFilePath = fileUtils.saveTempFile(file);
             }
         }
@@ -96,9 +93,8 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public List<FlightDTO> searchFlights(FlightSearchRequest flightSearchRequest) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate departureDate = LocalDate.parse(flightSearchRequest.getDepartureDate(), formatter);
-        LocalDate arrivalDate = LocalDate.parse(flightSearchRequest.getArrivalDate(), formatter);
+        LocalDate departureDate = parseDate(flightSearchRequest.getDepartureDate());
+        LocalDate arrivalDate = flightSearchRequest.getArrivalDate() != null ? parseDate(flightSearchRequest.getArrivalDate()) : null;
         Specification<Flight> spec = getFlightSpec(flightSearchRequest, departureDate, arrivalDate);
         List<Flight> flights = flightRepository.findAll(spec);
         return flights.stream()
@@ -106,15 +102,72 @@ public class FlightServiceImpl implements FlightService {
                 .collect(Collectors.toList());
     }
 
-
+//    private Specification<Flight> getFlightSpec(FlightSearchRequest flightSearchRequest, LocalDate departureDate, LocalDate arrivalDate) {
+//        Specification<Flight> spec = Specification.where(null);
+//
+//        spec = spec.and(getDateRangeSpec("departureDateTime", departureDate));
+//
+//        if (arrivalDate != null) {
+//            spec = spec.and(getDateRangeSpec("arrivalDateTime", arrivalDate));
+//            spec = spec.and((root, query, criteriaBuilder) ->
+//                    criteriaBuilder.greaterThan(root.get("departureDateTime"), departureDate.atStartOfDay()));
+//        }
+//
+//        if (flightSearchRequest.getDepartureLocation() != null) {
+//            spec = spec.and(getLocationSpec("route.departureAirport.airportId", flightSearchRequest.getDepartureLocation()));
+//        }
+//
+//        if (flightSearchRequest.getArrivalLocation() != null) {
+//            spec = spec.and(getLocationSpec("route.arrivalAirport.airportId", flightSearchRequest.getArrivalLocation()));
+//        }
+//
+//        spec = spec.and((root, query, criteriaBuilder) ->
+//                criteriaBuilder.equal(root.get("flightStatus"), "SCHEDULED"));
+//        spec = spec.and((root, query, criteriaBuilder) ->
+//                criteriaBuilder.isTrue(root.get("airplane").get("ACTIVE")));
+//
+//        return spec;
+//    }
 
     private Specification<Flight> getFlightSpec(FlightSearchRequest flightSearchRequest, LocalDate departureDate, LocalDate arrivalDate) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.and(
-                criteriaBuilder.lessThan(root.get("departureDateTime"), departureDate),
-                criteriaBuilder.lessThan(root.get("arrivalDateTime"), arrivalDate),
-                criteriaBuilder.equal(root.get("route").get("departureAirport").get("airportCode"), flightSearchRequest.getDepartureLocation()),
-                criteriaBuilder.equal(root.get("route").get("arrivalAirport").get("airportCode"), flightSearchRequest.getArrivalLocation())
-        );
+        Specification<Flight> spec = Specification.where(getDateRangeSpec("departureDateTime", departureDate))
+                .and(arrivalDate != null ? getDateRangeSpec("arrivalDateTime", arrivalDate)
+                        .and((root, query, criteriaBuilder) -> criteriaBuilder.greaterThan(root.get("departureDateTime"), departureDate.atStartOfDay())) : null)
+                .and(flightSearchRequest.getDepartureLocation() != null ? getLocationSpec("route.departureAirport.airportId", flightSearchRequest.getDepartureLocation()) : null)
+                .and(flightSearchRequest.getArrivalLocation() != null ? getLocationSpec("route.arrivalAirport.airportId", flightSearchRequest.getArrivalLocation()) : null)
+                .and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("flightStatus"), "SCHEDULED"))
+                .and((root, query, criteriaBuilder) -> criteriaBuilder.isTrue(root.get("airplane").get("active")));
+
+        if (flightSearchRequest.isRoundWay()) {
+            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.isNotNull(root.get("returnFlight")));
+        }
+
+        if (flightSearchRequest.isOneTrip()) {
+            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.isNull(root.get("returnFlight")));
+        }
+
+        return spec;
     }
 
+    private Specification<Flight> getDateRangeSpec(String field, LocalDate date) {
+        LocalDateTime start = date.atStartOfDay();
+        LocalDateTime end = date.atTime(23, 59, 59);
+        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get(field), start, end);
+    }
+
+    private LocalDate parseDate(String date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return LocalDate.parse(date, formatter);
+    }
+
+    private Specification<Flight> getLocationSpec(String field, String location) {
+        return (root, query, criteriaBuilder) -> {
+            if (field.equals("route.departureAirport.airportId")) {
+                return criteriaBuilder.equal(root.get("route").get("departureAirport").get("airportId"), location);
+            } else if (field.equals("route.arrivalAirport.airportId")) {
+                return criteriaBuilder.equal(root.get("route").get("arrivalAirport").get("airportId"), location);
+            }
+            return null;
+        };
+    }
 }
