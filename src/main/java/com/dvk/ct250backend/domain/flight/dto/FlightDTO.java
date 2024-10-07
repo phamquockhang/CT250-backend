@@ -16,10 +16,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FlightDTO {
-    Integer flightId;
-
-    @NotBlank(message = "Flight name is required")
-    String flightName;
+    String flightId;
 
     @NotBlank(message = "Departure date time is required")
     LocalDateTime departureDateTime;
