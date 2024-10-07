@@ -45,7 +45,7 @@ public class Airplane extends BaseEntity {
     @Column(unique = true, nullable = false)
     String registrationNumber;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "model_id")
     Model model;
 
