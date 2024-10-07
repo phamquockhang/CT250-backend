@@ -8,7 +8,10 @@ import com.dvk.ct250backend.domain.flight.service.ModelService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +29,7 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
+    @Transactional
     public ModelDTO createModel(ModelDTO modelDTO) {
         return modelMapper.toModelDTO(modelRepository.save(modelMapper.toModel(modelDTO)));
     }

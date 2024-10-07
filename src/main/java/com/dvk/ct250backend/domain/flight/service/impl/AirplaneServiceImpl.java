@@ -50,12 +50,10 @@ public class AirplaneServiceImpl implements AirplaneService {
     @Override
     @CacheEvict(value = "airplanes", allEntries = true)
     public void deleteAirplane(Integer id) throws ResourceNotFoundException {
-//       Airplane airplane = airplaneRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Airplane not found"));
-//         airplaneRepository.delete(airplane);
         Airplane airplane = airplaneRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Airplane not found"));
         Model model = airplane.getModel();
         airplaneRepository.delete(airplane);
-
+        airplaneRepository.flush();
         boolean isModelUsed = airplaneRepository.existsByModel(model);
         if (!isModelUsed) {
             modelService.deleteModel(model.getModelId());

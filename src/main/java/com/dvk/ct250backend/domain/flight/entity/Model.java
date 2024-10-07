@@ -24,6 +24,6 @@ public class Model {
 
     String modelName;
 
-    @OneToMany(mappedBy = "model")
+    @OneToMany(mappedBy = "model", cascade = {CascadeType.ALL}, orphanRemoval = true)
     Set<Airplane> airplanes;
 }
