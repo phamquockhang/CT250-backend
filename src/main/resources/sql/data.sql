@@ -596,6 +596,30 @@ VALUES (44, 15, 'INTERNATIONAL'), -- HAN đến TPE (Đài Bắc)
        (49, 50, 'DOMESTIC');
 
 
+--FLIGHT
+-- Giả định rằng đã có các route và airplane trong cơ sở dữ liệu
+-- Dữ liệu giả cho bảng flights
+INSERT INTO public.flights (flight_id, departure_date_time, arrival_date_time, route_id, airplane_id, flight_status)
+VALUES
+    ('VN101', '2024-10-10 08:00:00', '2024-10-10 09:30:00', 1, 1, 'SCHEDULED'),  -- Chuyến bay VN101
+    ('VN102', '2024-10-10 10:00:00', '2024-10-10 11:30:00', 2, 1, 'SCHEDULED'),  -- Chuyến bay VN102
+    ('VN103', '2024-10-10 12:00:00', '2024-10-10 13:15:00', 3, 2, 'SCHEDULED'),  -- Chuyến bay VN103
+    ('VN104', '2024-10-10 14:00:00', '2024-10-10 15:45:00', 4, 2, 'CANCELLED');  -- Chuyến bay VN104
+
+
+--FLIGHT-PRICING
+-- Dữ liệu giả cho bảng flight_pricing mà không cần seat_id
+INSERT INTO public.flight_pricing (ticket_price, flight_id, seat_class, valid_from, valid_to)
+VALUES
+    (150.00, 'VN101', 'BUSINESS', '2024-10-10', '2024-10-20'),  -- Giá vé cho ghế Business chuyến bay VN101
+    (100.00, 'VN101', 'ECONOMY', '2024-10-10', '2024-10-20'),   -- Giá vé cho ghế Economy chuyến bay VN101
+    (150.00, 'VN102', 'BUSINESS', '2024-10-10', '2024-10-20'),  -- Giá vé cho ghế Business chuyến bay VN102
+    (100.00, 'VN102', 'ECONOMY', '2024-10-10', '2024-10-20'),   -- Giá vé cho ghế Economy chuyến bay VN102
+    (75.00,  'VN103', 'BUSINESS', '2024-10-10', '2024-10-20'),  -- Giá vé cho ghế Business chuyến bay VN103
+    (75.00,  'VN103', 'ECONOMY', '2024-10-10', '2024-10-20'),   -- Giá vé cho ghế Economy chuyến bay VN103
+    (80.00,  'VN104', 'BUSINESS', '2024-10-10', '2024-10-20'),  -- Giá vé cho ghế Business chuyến bay VN104
+    (80.00,  'VN104', 'ECONOMY', '2024-10-10', '2024-10-20');   -- Giá vé cho ghế Economy chuyến bay VN104
+
 
 --SEAT
 -- Dữ liệu giả cho bảng seat
@@ -672,4 +696,134 @@ SELECT 4,
         'ECONOMY'
 FROM generate_series(2, 30) AS i,
      unnest(ARRAY['A', 'B', 'C', 'D', 'E', 'F']) AS j;
+-- Tổng số ghế cho mỗi model
+-- Boeing 787
+--
+-- Khoang Business: 9 ghế (từ 1A đến 1J)
+-- Khoang Economy: 270 ghế (hàng ghế từ 2 đến 30, 9 hàng ghế x 30 ghế cho mỗi hàng)
+-- Tổng số ghế:
+-- Business: 9
+-- Economy: 270
+-- Airbus A350
+--
+-- Khoang Business: 9 ghế (từ 1A đến 1J)
+-- Khoang Economy: 270 ghế (hàng ghế từ 2 đến 30, 9 hàng ghế x 30 ghế cho mỗi hàng)
+-- Tổng số ghế:
+-- Business: 9
+-- Economy: 270
+-- Airbus A320 NEO
+--
+-- Khoang Business: 6 ghế (từ 1A đến 1F)
+-- Khoang Economy: 180 ghế (hàng ghế từ 2 đến 30, 6 hàng ghế x 30 ghế cho mỗi hàng)
+-- Tổng số ghế:
+-- Business: 6
+-- Economy: 180
+-- Airbus A321
+--
+-- Khoang Business: 6 ghế (từ 1A đến 1F)
+-- Khoang Economy: 180 ghế (hàng ghế từ 2 đến 30, 6 hàng ghế x 30 ghế cho mỗi hàng)
+-- Tổng số ghế:
+-- Business: 6
+-- Economy: 180
+
+-- Dữ liệu giả cho bảng seat_availability
+-- Boeing 787
+INSERT INTO public.seat_availability (total_seats, booked_seats, flight_id, seat_id, status)
+VALUES
+    (9, 0, 'VN101', 1, 'AVAILABLE'),  -- 1A
+    (9, 0, 'VN101', 2, 'AVAILABLE'),  -- 1B
+    (9, 0, 'VN101', 3, 'AVAILABLE'),  -- 1C
+    (9, 0, 'VN101', 4, 'AVAILABLE'),  -- 1D
+    (9, 0, 'VN101', 5, 'AVAILABLE'),  -- 1E
+    (9, 0, 'VN101', 6, 'AVAILABLE'),  -- 1F
+    (9, 0, 'VN101', 7, 'AVAILABLE'),  -- 1G
+    (9, 0, 'VN101', 8, 'AVAILABLE'),  -- 1H
+    (9, 0, 'VN101', 9, 'AVAILABLE');  -- 1J
+
+-- Khoang Economy cho Boeing 787
+INSERT INTO public.seat_availability (total_seats, booked_seats, flight_id, seat_id, status)
+SELECT
+    30,
+    0,
+    'VN101',
+    seat_id,
+    'AVAILABLE'
+FROM
+    public.seats
+WHERE
+    model_id = 1 AND seat_class = 'ECONOMY'; -- Chỉ cho ghế Economy
+
+-- Airbus A350
+INSERT INTO public.seat_availability (total_seats, booked_seats, flight_id, seat_id, status)
+VALUES
+    (9, 0, 'VN102', 10, 'AVAILABLE'),  -- 1A
+    (9, 0, 'VN102', 11, 'AVAILABLE'),  -- 1B
+    (9, 0, 'VN102', 12, 'AVAILABLE'),  -- 1C
+    (9, 0, 'VN102', 13, 'AVAILABLE'),  -- 1D
+    (9, 0, 'VN102', 14, 'AVAILABLE'),  -- 1E
+    (9, 0, 'VN102', 15, 'AVAILABLE'),  -- 1F
+    (9, 0, 'VN102', 16, 'AVAILABLE'),  -- 1G
+    (9, 0, 'VN102', 17, 'AVAILABLE'),  -- 1H
+    (9, 0, 'VN102', 18, 'AVAILABLE');  -- 1J
+
+-- Khoang Economy cho Airbus A350
+INSERT INTO public.seat_availability (total_seats, booked_seats, flight_id, seat_id, status)
+SELECT
+    30,
+    0,
+    'VN102',
+    seat_id,
+    'AVAILABLE'
+FROM
+    public.seats
+WHERE
+    model_id = 2 AND seat_class = 'ECONOMY'; -- Chỉ cho ghế Economy
+
+-- Airbus A320 NEO
+INSERT INTO public.seat_availability (total_seats, booked_seats, flight_id, seat_id, status)
+VALUES
+    (6, 0, 'VN103', 19, 'AVAILABLE'),  -- 1A
+    (6, 0, 'VN103', 20, 'AVAILABLE'),  -- 1B
+    (6, 0, 'VN103', 21, 'AVAILABLE'),  -- 1C
+    (6, 0, 'VN103', 22, 'AVAILABLE'),  -- 1D
+    (6, 0, 'VN103', 23, 'AVAILABLE'),  -- 1E
+    (6, 0, 'VN103', 24, 'AVAILABLE');  -- 1F
+
+-- Khoang Economy cho Airbus A320 NEO
+INSERT INTO public.seat_availability (total_seats, booked_seats, flight_id, seat_id, status)
+SELECT
+    30,
+    0,
+    'VN103',
+    seat_id,
+    'AVAILABLE'
+FROM
+    public.seats
+WHERE
+    model_id = 3 AND seat_class = 'ECONOMY'; -- Chỉ cho ghế Economy
+
+-- Airbus A321
+INSERT INTO public.seat_availability (total_seats, booked_seats, flight_id, seat_id, status)
+VALUES
+    (6, 0, 'VN104', 25, 'AVAILABLE'),  -- 1A
+    (6, 0, 'VN104', 26, 'AVAILABLE'),  -- 1B
+    (6, 0, 'VN104', 27, 'AVAILABLE'),  -- 1C
+    (6, 0, 'VN104', 28, 'AVAILABLE'),  -- 1D
+    (6, 0, 'VN104', 29, 'AVAILABLE'),  -- 1E
+    (6, 0, 'VN104', 30, 'AVAILABLE');  -- 1F
+
+-- Khoang Economy cho Airbus A321
+INSERT INTO public.seat_availability (total_seats, booked_seats, flight_id, seat_id, status)
+SELECT
+    30,
+    0,
+    'VN104',
+    seat_id,
+    'AVAILABLE'
+FROM
+    public.seats
+WHERE
+    model_id = 4 AND seat_class = 'ECONOMY'; -- Chỉ cho ghế Economy
+
+
 

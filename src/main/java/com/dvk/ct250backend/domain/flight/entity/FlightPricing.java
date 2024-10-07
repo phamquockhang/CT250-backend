@@ -1,6 +1,7 @@
 package com.dvk.ct250backend.domain.flight.entity;
 
 import com.dvk.ct250backend.domain.common.entity.BaseEntity;
+import com.dvk.ct250backend.domain.flight.enums.SeatClassEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -26,6 +27,9 @@ public class FlightPricing extends BaseEntity {
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "seat_id")
 //    Seat seat;
+
+    @Enumerated(EnumType.STRING)
+    SeatClassEnum seatClass;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "flight_id")

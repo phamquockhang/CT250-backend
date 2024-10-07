@@ -44,6 +44,8 @@ public class Flight extends BaseEntity {
     @Enumerated(EnumType.STRING)
     FlightStatusEnum flightStatus;
 
+
+
     @Transient
     public String getFlightDuration() {
         if (departureDateTime != null && arrivalDateTime != null) {

@@ -120,3 +120,14 @@ CREATE SEQUENCE seat_availability_seq
 ALTER TABLE public.seat_availability
     ALTER COLUMN seat_availability_id SET DEFAULT nextval('seat_availability_seq');
 
+
+-- FLIGHT
+-- Drop SEQUENCE IF EXISTS flight_seq;
+-- CREATE SEQUENCE flight_seq
+--     START WITH 1
+--     INCREMENT BY 1;
+ALTER TABLE public.flights
+ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
+
+
