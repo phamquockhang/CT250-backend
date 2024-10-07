@@ -87,12 +87,12 @@ ALTER TABLE public.routes
 -- ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
 --
 -- -- SEAT
--- DROP SEQUENCE IF EXISTS seat_seq;
--- CREATE SEQUENCE seat_seq
---     START WITH 1
---     INCREMENT BY 1;
--- ALTER TABLE public.seats
---     ALTER COLUMN seat_id SET DEFAULT nextval('seat_seq');
+DROP SEQUENCE IF EXISTS seat_seq;
+CREATE SEQUENCE seat_seq
+    START WITH 1
+    INCREMENT BY 1;
+ALTER TABLE public.seats
+    ALTER COLUMN seat_id SET DEFAULT nextval('seat_seq');
 
 -- -- SEAT-AVAILABILITY
 -- DROP SEQUENCE IF EXISTS seat_availability_seq;

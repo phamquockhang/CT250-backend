@@ -32,7 +32,7 @@ public class Seat {
     List<SeatAvailability> seatAvailability;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "airplane_id")
-    Airplane airplane;
+    @JoinColumn(name = "model_id")
+    Model model;
 
 }
