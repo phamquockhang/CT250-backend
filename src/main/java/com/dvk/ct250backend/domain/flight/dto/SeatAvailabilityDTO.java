@@ -19,8 +19,8 @@ public class SeatAvailabilityDTO {
 
     SeatDTO seat;
 
-   String status;
+    String status;
 
-    String position;
+//    String position;
 
 }

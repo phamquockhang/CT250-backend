@@ -33,6 +33,6 @@ public class SeatAvailability {
     @Enumerated(EnumType.STRING)
    SeatAvailabilityStatus status;
 
-   String position;
+//   String position;
 
 }

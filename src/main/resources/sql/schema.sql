@@ -113,11 +113,10 @@ ALTER TABLE public.seats
     ALTER COLUMN seat_id SET DEFAULT nextval('seat_seq');
 
 -- -- SEAT-AVAILABILITY
--- DROP SEQUENCE IF EXISTS seat_availability_seq;
--- CREATE SEQUENCE seat_availability_seq
---     START WITH 1
---     INCREMENT BY 1;
--- ALTER TABLE public.seat_availability
---     ALTER COLUMN seat_availability_id SET DEFAULT nextval('seat_availability_seq');
---
---
+DROP SEQUENCE IF EXISTS seat_availability_seq;
+CREATE SEQUENCE seat_availability_seq
+    START WITH 1
+    INCREMENT BY 1;
+ALTER TABLE public.seat_availability
+    ALTER COLUMN seat_availability_id SET DEFAULT nextval('seat_availability_seq');
+

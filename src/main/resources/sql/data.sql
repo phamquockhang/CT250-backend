@@ -598,87 +598,78 @@ VALUES (44, 15, 'INTERNATIONAL'), -- HAN đến TPE (Đài Bắc)
 
 
 --SEAT
--- Ghế hạng Business từ hàng 1 đến 7 BOEING 787
-INSERT INTO seats (seat_class, seat_code, model_id) VALUES
-                                                        ('BUSINESS', '1A', 1), ('BUSINESS', '1D', 1), ('BUSINESS', '1G', 1), ('BUSINESS', '1K', 1),
-                                                        ('BUSINESS', '2A', 1), ('BUSINESS', '2D', 1), ('BUSINESS', '2G', 1), ('BUSINESS', '2K', 1),
-                                                        ('BUSINESS', '3A', 1), ('BUSINESS', '3D', 1), ('BUSINESS', '3G', 1), ('BUSINESS', '3K', 1),
-                                                        ('BUSINESS', '4A', 1), ('BUSINESS', '4D', 1), ('BUSINESS', '4G', 1), ('BUSINESS', '4K', 1),
-                                                        ('BUSINESS', '5A', 1), ('BUSINESS', '5D', 1), ('BUSINESS', '5G', 1), ('BUSINESS', '5K', 1),
-                                                        ('BUSINESS', '6A', 1), ('BUSINESS', '6D', 1), ('BUSINESS', '6G', 1), ('BUSINESS', '6K', 1),
-                                                        ('BUSINESS', '7A', 1), ('BUSINESS', '7D', 1), ('BUSINESS', '7G', 1), ('BUSINESS', '7K', 1);
+-- Dữ liệu giả cho bảng seat
+-- -- Boeing 787
+-- INSERT INTO public.seats (model_id, seat_code, seat_class) VALUES
+--                                                                (1, '1A', 'BUSINESS'),
+--                                                                (1, '1B', 'BUSINESS'),
+--                                                                (1, '1C', 'BUSINESS'),
+--                                                                (1, '1D', 'BUSINESS'),
+--                                                                (1, '1E', 'BUSINESS'),
+--                                                                (1, '1F', 'BUSINESS'),
+--                                                                (1, '1G', 'BUSINESS'),
+--                                                                (1, '1H', 'BUSINESS'),
+--                                                                (1, '1J', 'BUSINESS');
+--
+-- -- Giả lập cho các hàng ghế còn lại của Boeing 787
+-- INSERT INTO public.seats (model_id, seat_code, seat_class)
+-- SELECT 1,
+--        i::TEXT || j,
+--         'ECONOMY'
+-- FROM generate_series(2, 30) AS i,
+--      unnest(ARRAY['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J']) AS j;
+--
+-- -- Airbus A350
+-- INSERT INTO public.seats (model_id, seat_code, seat_class) VALUES
+--                                                                (2, '1A', 'BUSINESS'),
+--                                                                (2, '1B', 'BUSINESS'),
+--                                                                (2, '1C', 'BUSINESS'),
+--                                                                (2, '1D', 'BUSINESS'),
+--                                                                (2, '1E', 'BUSINESS'),
+--                                                                (2, '1F', 'BUSINESS'),
+--                                                                (2, '1G', 'BUSINESS'),
+--                                                                (2, '1H', 'BUSINESS'),
+--                                                                (2, '1J', 'BUSINESS');
+--
+-- -- Giả lập cho các hàng ghế còn lại của Airbus A350
+-- INSERT INTO public.seats (model_id, seat_code, seat_class)
+-- SELECT 2,
+--        i::TEXT || j,
+--         'ECONOMY'
+-- FROM generate_series(2, 30) AS i,
+--      unnest(ARRAY['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J']) AS j;
 
--- Ghế hạng Economy từ hàng 16 đến 50 BOEING 787
-INSERT INTO seats (seat_class, seat_code, model_id) VALUES
-                                                        ('ECONOMY', '16A', 1), ('ECONOMY', '16B', 1), ('ECONOMY', '16C', 1), ('ECONOMY', '16D', 1), ('ECONOMY', '16E', 1),
-                                                        ('ECONOMY', '16F', 1), ('ECONOMY', '16G', 1), ('ECONOMY', '16H', 1), ('ECONOMY', '16K', 1),
-                                                        ('ECONOMY', '17A', 1), ('ECONOMY', '17B', 1), ('ECONOMY', '17C', 1), ('ECONOMY', '17D', 1), ('ECONOMY', '17E', 1),
-                                                        ('ECONOMY', '17F', 1), ('ECONOMY', '17G', 1), ('ECONOMY', '17H', 1), ('ECONOMY', '17K', 1),
-                                                        ('ECONOMY', '18A', 1), ('ECONOMY', '18B', 1), ('ECONOMY', '18C', 1), ('ECONOMY', '18D', 1), ('ECONOMY', '18E', 1),
-                                                        ('ECONOMY', '18F', 1), ('ECONOMY', '18G', 1), ('ECONOMY', '18H', 1), ('ECONOMY', '18K', 1),
-                                                        ('ECONOMY', '19A', 1), ('ECONOMY', '19B', 1), ('ECONOMY', '19C', 1), ('ECONOMY', '19D', 1), ('ECONOMY', '19E', 1),
-                                                        ('ECONOMY', '19F', 1), ('ECONOMY', '19G', 1), ('ECONOMY', '19H', 1), ('ECONOMY', '19K', 1),
-                                                        ('ECONOMY', '20A', 1), ('ECONOMY', '20B', 1), ('ECONOMY', '20C', 1), ('ECONOMY', '20D', 1), ('ECONOMY', '20E', 1),
-                                                        ('ECONOMY', '20F', 1), ('ECONOMY', '20G', 1), ('ECONOMY', '20H', 1), ('ECONOMY', '20K', 1),
-                                                        ('ECONOMY', '21A', 1), ('ECONOMY', '21B', 1), ('ECONOMY', '21C', 1), ('ECONOMY', '21D', 1), ('ECONOMY', '21E', 1),
-                                                        ('ECONOMY', '21F', 1), ('ECONOMY', '21G', 1), ('ECONOMY', '21H', 1), ('ECONOMY', '21K', 1),
-                                                        ('ECONOMY', '22A', 1), ('ECONOMY', '22B', 1), ('ECONOMY', '22C', 1), ('ECONOMY', '22D', 1), ('ECONOMY', '22E', 1),
-                                                        ('ECONOMY', '22F', 1), ('ECONOMY', '22G', 1), ('ECONOMY', '22H', 1), ('ECONOMY', '22K', 1),
-                                                        ('ECONOMY', '23A', 1), ('ECONOMY', '23B', 1), ('ECONOMY', '23C', 1), ('ECONOMY', '23D', 1), ('ECONOMY', '23E', 1),
-                                                        ('ECONOMY', '23F', 1), ('ECONOMY', '23G', 1), ('ECONOMY', '23H', 1), ('ECONOMY', '23K', 1),
-                                                        ('ECONOMY', '24A', 1), ('ECONOMY', '24B', 1), ('ECONOMY', '24C', 1), ('ECONOMY', '24D', 1), ('ECONOMY', '24E', 1),
-                                                        ('ECONOMY', '24F', 1), ('ECONOMY', '24G', 1), ('ECONOMY', '24H', 1), ('ECONOMY', '24K', 1),
-                                                        ('ECONOMY', '25A', 1), ('ECONOMY', '25B', 1), ('ECONOMY', '25C', 1), ('ECONOMY', '25D', 1), ('ECONOMY', '25E', 1),
-                                                        ('ECONOMY', '25F', 1), ('ECONOMY', '25G', 1), ('ECONOMY', '25H', 1), ('ECONOMY', '25K', 1),
-                                                        ('ECONOMY', '26A', 1), ('ECONOMY', '26B', 1), ('ECONOMY', '26C', 1), ('ECONOMY', '26D', 1), ('ECONOMY', '26E', 1),
-                                                        ('ECONOMY', '26F', 1), ('ECONOMY', '26G', 1), ('ECONOMY', '26H', 1), ('ECONOMY', '26K', 1),
-                                                        ('ECONOMY', '27A', 1), ('ECONOMY', '27B', 1), ('ECONOMY', '27C', 1), ('ECONOMY', '27D', 1), ('ECONOMY', '27E', 1),
-                                                        ('ECONOMY', '27F', 1), ('ECONOMY', '27G', 1), ('ECONOMY', '27H', 1), ('ECONOMY', '27K', 1),
-                                                        ('ECONOMY', '28A', 1), ('ECONOMY', '28B', 1), ('ECONOMY', '28C', 1), ('ECONOMY', '28D', 1), ('ECONOMY', '28E', 1),
-                                                        ('ECONOMY', '28F', 1), ('ECONOMY', '28G', 1), ('ECONOMY', '28H', 1), ('ECONOMY', '28K', 1),
-                                                        ('ECONOMY', '29A', 1), ('ECONOMY', '29B', 1), ('ECONOMY', '29C', 1), ('ECONOMY', '29D', 1), ('ECONOMY', '29E', 1),
-                                                        ('ECONOMY', '29F', 1), ('ECONOMY', '29G', 1), ('ECONOMY', '29H', 1), ('ECONOMY', '29K', 1),
-                                                        ('ECONOMY', '30A', 1), ('ECONOMY', '30B', 1), ('ECONOMY', '30C', 1), ('ECONOMY', '30D', 1), ('ECONOMY', '30E', 1),
-                                                        ('ECONOMY', '30F', 1), ('ECONOMY', '30G', 1), ('ECONOMY', '30H', 1), ('ECONOMY', '30K', 1),
-                                                        ('ECONOMY', '31A', 1), ('ECONOMY', '31B', 1), ('ECONOMY', '31C', 1), ('ECONOMY', '31D', 1), ('ECONOMY', '31E', 1),
-                                                        ('ECONOMY', '31F', 1), ('ECONOMY', '31G', 1), ('ECONOMY', '31H', 1), ('ECONOMY', '31K', 1),
-                                                        ('ECONOMY', '32A', 1), ('ECONOMY', '32B', 1), ('ECONOMY', '32C', 1),
-                                                         ('ECONOMY', '33D', 1), ('ECONOMY', '33E', 1),
-                                                        ('ECONOMY', '33F', 1),
-                                                        ('ECONOMY', '34A', 1), ('ECONOMY', '34B', 1), ('ECONOMY', '34C', 1), ('ECONOMY', '34D', 1), ('ECONOMY', '34E', 1),
-                                                        ('ECONOMY', '34F', 1), ('ECONOMY', '34G', 1), ('ECONOMY', '34H', 1), ('ECONOMY', '34K', 1),
-                                                        ('ECONOMY', '35A', 1), ('ECONOMY', '35B', 1), ('ECONOMY', '35C', 1), ('ECONOMY', '35D', 1), ('ECONOMY', '35E', 1),
-                                                        ('ECONOMY', '35F', 1), ('ECONOMY', '35G', 1), ('ECONOMY', '35H', 1), ('ECONOMY', '35K', 1),
-                                                        ('ECONOMY', '36A', 1), ('ECONOMY', '36B', 1), ('ECONOMY', '36C', 1), ('ECONOMY', '36D', 1), ('ECONOMY', '36E', 1),
-                                                        ('ECONOMY', '36F', 1), ('ECONOMY', '36G', 1), ('ECONOMY', '36H', 1), ('ECONOMY', '36K', 1),
-                                                        ('ECONOMY', '37A', 1), ('ECONOMY', '37B', 1), ('ECONOMY', '37C', 1), ('ECONOMY', '37D', 1), ('ECONOMY', '37E', 1),
-                                                        ('ECONOMY', '37F', 1), ('ECONOMY', '37G', 1), ('ECONOMY', '37H', 1), ('ECONOMY', '37K', 1),
-                                                        ('ECONOMY', '38A', 1), ('ECONOMY', '38B', 1), ('ECONOMY', '38C', 1), ('ECONOMY', '38D', 1), ('ECONOMY', '38E', 1),
-                                                        ('ECONOMY', '38F', 1), ('ECONOMY', '38G', 1), ('ECONOMY', '38H', 1), ('ECONOMY', '38K', 1),
-                                                        ('ECONOMY', '39A', 1), ('ECONOMY', '39B', 1), ('ECONOMY', '39C', 1), ('ECONOMY', '39D', 1), ('ECONOMY', '39E', 1),
-                                                        ('ECONOMY', '39F', 1), ('ECONOMY', '39G', 1), ('ECONOMY', '39H', 1), ('ECONOMY', '39K', 1),
-                                                        ('ECONOMY', '40A', 1), ('ECONOMY', '40B', 1), ('ECONOMY', '40C', 1), ('ECONOMY', '40D', 1), ('ECONOMY', '40E', 1),
-                                                        ('ECONOMY', '40F', 1), ('ECONOMY', '40G', 1), ('ECONOMY', '40H', 1), ('ECONOMY', '40K', 1),
-                                                        ('ECONOMY', '41A', 1), ('ECONOMY', '41B', 1), ('ECONOMY', '41C', 1), ('ECONOMY', '41D', 1), ('ECONOMY', '41E', 1),
-                                                        ('ECONOMY', '41F', 1), ('ECONOMY', '41G', 1), ('ECONOMY', '41H', 1), ('ECONOMY', '41K', 1),
-                                                        ('ECONOMY', '42A', 1), ('ECONOMY', '42B', 1), ('ECONOMY', '42C', 1), ('ECONOMY', '42D', 1), ('ECONOMY', '42E', 1),
-                                                        ('ECONOMY', '42F', 1), ('ECONOMY', '42G', 1), ('ECONOMY', '42H', 1), ('ECONOMY', '42K', 1),
-                                                        ('ECONOMY', '43A', 1), ('ECONOMY', '43B', 1), ('ECONOMY', '43C', 1), ('ECONOMY', '43D', 1), ('ECONOMY', '43E', 1),
-                                                        ('ECONOMY', '43F', 1), ('ECONOMY', '43G', 1), ('ECONOMY', '43H', 1), ('ECONOMY', '43K', 1),
-                                                        ('ECONOMY', '44A', 1), ('ECONOMY', '44B', 1), ('ECONOMY', '44C', 1), ('ECONOMY', '44D', 1), ('ECONOMY', '44E', 1),
-                                                        ('ECONOMY', '44F', 1), ('ECONOMY', '44G', 1), ('ECONOMY', '44H', 1), ('ECONOMY', '44K', 1),
-                                                        ('ECONOMY', '45A', 1), ('ECONOMY', '45B', 1), ('ECONOMY', '45C', 1), ('ECONOMY', '45D', 1), ('ECONOMY', '45E', 1),
-                                                        ('ECONOMY', '45F', 1), ('ECONOMY', '45G', 1), ('ECONOMY', '45H', 1), ('ECONOMY', '45K', 1),
-                                                        ('ECONOMY', '46A', 1), ('ECONOMY', '46B', 1), ('ECONOMY', '46C', 1), ('ECONOMY', '46D', 1), ('ECONOMY', '46E', 1),
-                                                        ('ECONOMY', '46F', 1), ('ECONOMY', '46G', 1), ('ECONOMY', '46H', 1), ('ECONOMY', '46K', 1),
-                                                        ('ECONOMY', '47B', 1), ('ECONOMY', '47C', 1), ('ECONOMY', '47D', 1), ('ECONOMY', '47E', 1),
-                                                        ('ECONOMY', '47F', 1), ('ECONOMY', '47G', 1), ('ECONOMY', '47H', 1),
-                                                        ('ECONOMY', '48D', 1), ('ECONOMY', '48E', 1),
-                                                        ('ECONOMY', '48F', 1),
-                                                      ('ECONOMY', '49D', 1), ('ECONOMY', '49E', 1),
-                                                        ('ECONOMY', '49F', 1),
-                                                         ('ECONOMY', '50D', 1), ('ECONOMY', '50E', 1),
-                                                        ('ECONOMY', '50F', 1);
+-- Airbus A320 NEO
+INSERT INTO public.seats (model_id, seat_code, seat_class) VALUES
+                                                               (3, '1A', 'BUSINESS'),
+                                                               (3, '1B', 'BUSINESS'),
+                                                               (3, '1C', 'BUSINESS'),
+                                                               (3, '1D', 'BUSINESS'),
+                                                               (3, '1E', 'BUSINESS'),
+                                                               (3, '1F', 'BUSINESS');
 
+-- Giả lập cho các hàng ghế còn lại của Airbus A320 NEO
+INSERT INTO public.seats (model_id, seat_code, seat_class)
+SELECT 3,
+       i::TEXT || j,
+        'ECONOMY'
+FROM generate_series(2, 30) AS i,
+     unnest(ARRAY['A', 'B', 'C', 'D', 'E', 'F']) AS j;
 
+-- Airbus A321
+INSERT INTO public.seats (model_id, seat_code, seat_class) VALUES
+                                                               (4, '1A', 'BUSINESS'),
+                                                               (4, '1B', 'BUSINESS'),
+                                                               (4, '1C', 'BUSINESS'),
+                                                               (4, '1D', 'BUSINESS'),
+                                                               (4, '1E', 'BUSINESS'),
+                                                               (4, '1F', 'BUSINESS');
+
+-- Giả lập cho các hàng ghế còn lại của Airbus A321
+INSERT INTO public.seats (model_id, seat_code, seat_class)
+SELECT 4,
+       i::TEXT || j,
+        'ECONOMY'
+FROM generate_series(2, 30) AS i,
+     unnest(ARRAY['A', 'B', 'C', 'D', 'E', 'F']) AS j;
 
