@@ -599,45 +599,45 @@ VALUES (44, 15, 'INTERNATIONAL'), -- HAN đến TPE (Đài Bắc)
 
 --SEAT
 -- Dữ liệu giả cho bảng seat
--- -- Boeing 787
--- INSERT INTO public.seats (model_id, seat_code, seat_class) VALUES
---                                                                (1, '1A', 'BUSINESS'),
---                                                                (1, '1B', 'BUSINESS'),
---                                                                (1, '1C', 'BUSINESS'),
---                                                                (1, '1D', 'BUSINESS'),
---                                                                (1, '1E', 'BUSINESS'),
---                                                                (1, '1F', 'BUSINESS'),
---                                                                (1, '1G', 'BUSINESS'),
---                                                                (1, '1H', 'BUSINESS'),
---                                                                (1, '1J', 'BUSINESS');
---
--- -- Giả lập cho các hàng ghế còn lại của Boeing 787
--- INSERT INTO public.seats (model_id, seat_code, seat_class)
--- SELECT 1,
---        i::TEXT || j,
---         'ECONOMY'
--- FROM generate_series(2, 30) AS i,
---      unnest(ARRAY['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J']) AS j;
---
--- -- Airbus A350
--- INSERT INTO public.seats (model_id, seat_code, seat_class) VALUES
---                                                                (2, '1A', 'BUSINESS'),
---                                                                (2, '1B', 'BUSINESS'),
---                                                                (2, '1C', 'BUSINESS'),
---                                                                (2, '1D', 'BUSINESS'),
---                                                                (2, '1E', 'BUSINESS'),
---                                                                (2, '1F', 'BUSINESS'),
---                                                                (2, '1G', 'BUSINESS'),
---                                                                (2, '1H', 'BUSINESS'),
---                                                                (2, '1J', 'BUSINESS');
---
--- -- Giả lập cho các hàng ghế còn lại của Airbus A350
--- INSERT INTO public.seats (model_id, seat_code, seat_class)
--- SELECT 2,
---        i::TEXT || j,
---         'ECONOMY'
--- FROM generate_series(2, 30) AS i,
---      unnest(ARRAY['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J']) AS j;
+-- Boeing 787
+INSERT INTO public.seats (model_id, seat_code, seat_class) VALUES
+                                                               (1, '1A', 'BUSINESS'),
+                                                               (1, '1B', 'BUSINESS'),
+                                                               (1, '1C', 'BUSINESS'),
+                                                               (1, '1D', 'BUSINESS'),
+                                                               (1, '1E', 'BUSINESS'),
+                                                               (1, '1F', 'BUSINESS'),
+                                                               (1, '1G', 'BUSINESS'),
+                                                               (1, '1H', 'BUSINESS'),
+                                                               (1, '1J', 'BUSINESS');
+
+-- Giả lập cho các hàng ghế còn lại của Boeing 787
+INSERT INTO public.seats (model_id, seat_code, seat_class)
+SELECT 1,
+       i::TEXT || j,
+        'ECONOMY'
+FROM generate_series(2, 30) AS i,
+     unnest(ARRAY['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J']) AS j;
+
+-- Airbus A350
+INSERT INTO public.seats (model_id, seat_code, seat_class) VALUES
+                                                               (2, '1A', 'BUSINESS'),
+                                                               (2, '1B', 'BUSINESS'),
+                                                               (2, '1C', 'BUSINESS'),
+                                                               (2, '1D', 'BUSINESS'),
+                                                               (2, '1E', 'BUSINESS'),
+                                                               (2, '1F', 'BUSINESS'),
+                                                               (2, '1G', 'BUSINESS'),
+                                                               (2, '1H', 'BUSINESS'),
+                                                               (2, '1J', 'BUSINESS');
+
+-- Giả lập cho các hàng ghế còn lại của Airbus A350
+INSERT INTO public.seats (model_id, seat_code, seat_class)
+SELECT 2,
+       i::TEXT || j,
+        'ECONOMY'
+FROM generate_series(2, 30) AS i,
+     unnest(ARRAY['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J']) AS j;
 
 -- Airbus A320 NEO
 INSERT INTO public.seats (model_id, seat_code, seat_class) VALUES
