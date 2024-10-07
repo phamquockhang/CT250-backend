@@ -1,6 +1,6 @@
 package com.dvk.ct250backend.domain.flight.entity;
 
-import com.dvk.ct250backend.domain.flight.enums.SeatClassEnum;
+import com.dvk.ct250backend.domain.flight.enums.TicketClassEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -23,7 +23,7 @@ public class Seat {
     Integer seatId;
 
     @Enumerated(EnumType.STRING)
-    SeatClassEnum seatClass;
+    TicketClassEnum ticketClass;
 
     String seatCode;
 

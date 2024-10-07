@@ -412,47 +412,6 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
 INSERT INTO public.roles (role_name, description, active)
 VALUES ('ADMIN', 'Admin thì full permissions', true);
 
-INSERT INTO public.permission_role (permission_id, role_id)
-VALUES (1, 1),
-       (2, 1),
-       (3, 1),
-       (4, 1),
-       (5, 1),
-       (6, 1),
-       (7, 1),
-       (8, 1),
-       (9, 1),
-       (10, 1),
-       (11, 1),
-      (12, 1),
-       (13, 1),
-       (14, 1),
-       (15, 1),
-       (16, 1),
-       (17, 1),
-       (18, 1),
-       (19, 1),
-       (20,1),
-        (21,1),
-        (22,1),
-        (23,1),
-        (24,1),
-        (25,1),
-        (26,1),
-        (27,1),
-        (28,1),
-        (29,1),
-        (30,1),
-        (31, 1),
-        (32, 1),
-        (33, 1),
-        (34 , 1),
-        (35, 1),
-        (36,1),
-        (37,1),
-        (38, 1);
-
-
 
 --USER
 INSERT INTO public.users (user_id, email, gender, first_name, last_name, password, phone_number, identity_number,
@@ -609,7 +568,7 @@ VALUES
 
 --FLIGHT-PRICING
 -- Dữ liệu giả cho bảng flight_pricing mà không cần seat_id
-INSERT INTO public.flight_pricing (ticket_price, flight_id, seat_class, valid_from, valid_to)
+INSERT INTO public.flight_pricing (ticket_price, flight_id, ticket_class, valid_from, valid_to)
 VALUES
     (150.00, 'VN101', 'BUSINESS', '2024-10-10', '2024-10-20'),  -- Giá vé cho ghế Business chuyến bay VN101
     (100.00, 'VN101', 'ECONOMY', '2024-10-10', '2024-10-20'),   -- Giá vé cho ghế Economy chuyến bay VN101
@@ -624,7 +583,7 @@ VALUES
 --SEAT
 -- Dữ liệu giả cho bảng seat
 -- Boeing 787
-INSERT INTO public.seats (model_id, seat_code, seat_class) VALUES
+INSERT INTO public.seats (model_id, seat_code, ticket_class) VALUES
                                                                (1, '1A', 'BUSINESS'),
                                                                (1, '1B', 'BUSINESS'),
                                                                (1, '1C', 'BUSINESS'),
@@ -636,7 +595,7 @@ INSERT INTO public.seats (model_id, seat_code, seat_class) VALUES
                                                                (1, '1J', 'BUSINESS');
 
 -- Giả lập cho các hàng ghế còn lại của Boeing 787
-INSERT INTO public.seats (model_id, seat_code, seat_class)
+INSERT INTO public.seats (model_id, seat_code, ticket_class)
 SELECT 1,
        i::TEXT || j,
         'ECONOMY'
@@ -644,7 +603,7 @@ FROM generate_series(2, 30) AS i,
      unnest(ARRAY['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J']) AS j;
 
 -- Airbus A350
-INSERT INTO public.seats (model_id, seat_code, seat_class) VALUES
+INSERT INTO public.seats (model_id, seat_code, ticket_class) VALUES
                                                                (2, '1A', 'BUSINESS'),
                                                                (2, '1B', 'BUSINESS'),
                                                                (2, '1C', 'BUSINESS'),
@@ -656,7 +615,7 @@ INSERT INTO public.seats (model_id, seat_code, seat_class) VALUES
                                                                (2, '1J', 'BUSINESS');
 
 -- Giả lập cho các hàng ghế còn lại của Airbus A350
-INSERT INTO public.seats (model_id, seat_code, seat_class)
+INSERT INTO public.seats (model_id, seat_code, ticket_class)
 SELECT 2,
        i::TEXT || j,
         'ECONOMY'
@@ -664,7 +623,7 @@ FROM generate_series(2, 30) AS i,
      unnest(ARRAY['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J']) AS j;
 
 -- Airbus A320 NEO
-INSERT INTO public.seats (model_id, seat_code, seat_class) VALUES
+INSERT INTO public.seats (model_id, seat_code, ticket_class) VALUES
                                                                (3, '1A', 'BUSINESS'),
                                                                (3, '1B', 'BUSINESS'),
                                                                (3, '1C', 'BUSINESS'),
@@ -673,7 +632,7 @@ INSERT INTO public.seats (model_id, seat_code, seat_class) VALUES
                                                                (3, '1F', 'BUSINESS');
 
 -- Giả lập cho các hàng ghế còn lại của Airbus A320 NEO
-INSERT INTO public.seats (model_id, seat_code, seat_class)
+INSERT INTO public.seats (model_id, seat_code, ticket_class)
 SELECT 3,
        i::TEXT || j,
         'ECONOMY'
@@ -681,7 +640,7 @@ FROM generate_series(2, 30) AS i,
      unnest(ARRAY['A', 'B', 'C', 'D', 'E', 'F']) AS j;
 
 -- Airbus A321
-INSERT INTO public.seats (model_id, seat_code, seat_class) VALUES
+INSERT INTO public.seats (model_id, seat_code, ticket_class) VALUES
                                                                (4, '1A', 'BUSINESS'),
                                                                (4, '1B', 'BUSINESS'),
                                                                (4, '1C', 'BUSINESS'),
@@ -690,7 +649,7 @@ INSERT INTO public.seats (model_id, seat_code, seat_class) VALUES
                                                                (4, '1F', 'BUSINESS');
 
 -- Giả lập cho các hàng ghế còn lại của Airbus A321
-INSERT INTO public.seats (model_id, seat_code, seat_class)
+INSERT INTO public.seats (model_id, seat_code, ticket_class)
 SELECT 4,
        i::TEXT || j,
         'ECONOMY'
@@ -751,7 +710,7 @@ SELECT
 FROM
     public.seats
 WHERE
-    model_id = 1 AND seat_class = 'ECONOMY'; -- Chỉ cho ghế Economy
+    model_id = 1 AND ticket_class = 'ECONOMY'; -- Chỉ cho ghế Economy
 
 -- Airbus A350
 INSERT INTO public.seat_availability (total_seats, booked_seats, flight_id, seat_id, status)
@@ -777,7 +736,7 @@ SELECT
 FROM
     public.seats
 WHERE
-    model_id = 2 AND seat_class = 'ECONOMY'; -- Chỉ cho ghế Economy
+    model_id = 2 AND ticket_class = 'ECONOMY'; -- Chỉ cho ghế Economy
 
 -- Airbus A320 NEO
 INSERT INTO public.seat_availability (total_seats, booked_seats, flight_id, seat_id, status)
@@ -800,7 +759,7 @@ SELECT
 FROM
     public.seats
 WHERE
-    model_id = 3 AND seat_class = 'ECONOMY'; -- Chỉ cho ghế Economy
+    model_id = 3 AND ticket_class = 'ECONOMY'; -- Chỉ cho ghế Economy
 
 -- Airbus A321
 INSERT INTO public.seat_availability (total_seats, booked_seats, flight_id, seat_id, status)
@@ -823,7 +782,7 @@ SELECT
 FROM
     public.seats
 WHERE
-    model_id = 4 AND seat_class = 'ECONOMY'; -- Chỉ cho ghế Economy
+    model_id = 4 AND ticket_class = 'ECONOMY'; -- Chỉ cho ghế Economy
 
 
 

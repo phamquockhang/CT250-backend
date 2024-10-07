@@ -1,6 +1,6 @@
 package com.dvk.ct250backend.domain.flight.enums;
 
-public enum SeatClassEnum {
+public enum TicketClassEnum {
     ECONOMY,
     BUSINESS
 }
