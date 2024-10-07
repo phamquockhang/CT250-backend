@@ -362,6 +362,10 @@ values ('Tan Son Nhat INTERNATIONAL Airport', 'SGN', 'Ho Chi Minh', 'SGN', 235),
        ('Xuzhou Guanyin Airport', 'XUZ', 'Xuzhou', 'XUZ', 44);
 
 
+--ROLE
+INSERT INTO public.roles (role_name, description, active)
+VALUES ('ADMIN', 'Admin thì full permissions', true);
+
 --PERMISSION
 INSERT INTO public.permissions (name, api_path, method, module)
 VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
@@ -401,50 +405,6 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Get all flights', '/api/v1/flights/all', 'GET', 'FLIGHTS'),
        ('Update a flight', '/api/v1/flights/{id}', 'PUT', 'FLIGHTS'),
        ('Upload flights', '/api/v1/flights/upload', 'POST', 'FLIGHTS');
-
-
---ROLE
-INSERT INTO public.roles (role_name, description, active)
-VALUES ('ADMIN', 'Admin thì full permissions', true);
-
-INSERT INTO public.permission_role (permission_id, role_id)
-VALUES (1, 1),
-       (2, 1),
-       (3, 1),
-       (4, 1),
-       (5, 1),
-       (6, 1),
-       (7, 1),
-       (8, 1),
-       (9, 1),
-       (10, 1),
-       (11, 1),
-       (12, 1),
-       (13, 1),
-       (14, 1),
-       (15, 1),
-       (16, 1),
-       (17, 1),
-       (18, 1),
-       (19, 1),
-       (20, 1),
-       (21, 1),
-       (22, 1),
-       (23, 1),
-       (24, 1),
-       (25, 1),
-       (26, 1),
-       (27, 1),
-       (28, 1),
-       (29, 1),
-       (30, 1),
-       (31, 1),
-       (32, 1),
-       (33, 1),
-       (34, 1),
-       (35, 1),
-       (36, 1),
-       (37, 1);
 
 
 --USER

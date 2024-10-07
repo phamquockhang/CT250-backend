@@ -20,6 +20,14 @@ ALTER TABLE public.airports
     ALTER COLUMN airport_id SET DEFAULT nextval('airports_seq'),
     ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
 
+--ROLE
+DROP SEQUENCE IF EXISTS roles_seq;
+CREATE SEQUENCE roles_seq
+    START WITH 1
+    INCREMENT BY 1;
+ALTER TABLE public.roles
+    ALTER COLUMN role_id SET DEFAULT nextval('roles_seq'),
+    ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
 
 --PERMISSION
 DROP SEQUENCE IF EXISTS permissions_seq;
@@ -30,15 +38,6 @@ ALTER TABLE public.permissions
     ALTER COLUMN permission_id SET DEFAULT nextval('permissions_seq'),
     ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
 
-
---ROLE
-DROP SEQUENCE IF EXISTS roles_seq;
-CREATE SEQUENCE roles_seq
-    START WITH 1
-    INCREMENT BY 1;
-ALTER TABLE public.roles
-    ALTER COLUMN role_id SET DEFAULT nextval('roles_seq'),
-    ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
 
 --AIRPLANE
 DROP SEQUENCE IF EXISTS airplanes_seq;
@@ -64,8 +63,8 @@ CREATE SEQUENCE flights_seq
     START WITH 1
     INCREMENT BY 1;
 ALTER TABLE public.flights
-ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP,
-ALTER COLUMN flight_status SET DEFAULT 'SCHEDULED';
+    ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP,
+    ALTER COLUMN flight_status SET DEFAULT 'SCHEDULED';
 
 -- FLIGHT_PRICING
 DROP SEQUENCE IF EXISTS flight_pricing_seq;
@@ -74,7 +73,7 @@ CREATE SEQUENCE flight_pricing_seq
     INCREMENT BY 1;
 ALTER TABLE public.flight_pricing
     ALTER COLUMN flight_pricing_id SET DEFAULT nextval('flight_pricing_seq'),
-ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+    ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
 
 -- SEAT
 DROP SEQUENCE IF EXISTS seat_seq;
