@@ -37,5 +37,4 @@ public class FlightDTO {
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
 
-
 }

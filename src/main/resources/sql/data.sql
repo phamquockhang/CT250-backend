@@ -406,7 +406,8 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Update a route', '/api/v1/routes/{id}', 'PUT', 'ROUTES'),
        ('Get all flights', '/api/v1/flights/all', 'GET', 'FLIGHTS'),
        ('Update a flight', '/api/v1/flights/{id}', 'PUT', 'FLIGHTS'),
-        ('Upload flights', '/api/v1/flights/upload', 'POST', 'FLIGHTS');
+        ('Upload flights', '/api/v1/flights/upload', 'POST', 'FLIGHTS'),
+        ('Search flights', '/api/v1/flights/search', 'GET', 'FLIGHTS');
 
 --ROLE
 INSERT INTO public.roles (role_name, description, active)
@@ -609,7 +610,7 @@ VALUES
 
 --FLIGHT-PRICING
 -- Dữ liệu giả cho bảng flight_pricing mà không cần seat_id
-INSERT INTO public.flight_pricing (ticket_price, flight_id, seat_class, valid_from, valid_to)
+INSERT INTO public.flight_pricing (ticket_price, flight_id, ticket_class, valid_from, valid_to)
 VALUES
     (150.00, 'VN101', 'BUSINESS', '2024-10-10', '2024-10-20'),  -- Giá vé cho ghế Business chuyến bay VN101
     (100.00, 'VN101', 'ECONOMY', '2024-10-10', '2024-10-20'),   -- Giá vé cho ghế Economy chuyến bay VN101

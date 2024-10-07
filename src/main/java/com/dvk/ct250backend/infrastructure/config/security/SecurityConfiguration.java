@@ -63,7 +63,7 @@ public class SecurityConfiguration {
                     return config;
                 }))
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/","/api/v1/auth/**", "/api/v1/countries/all", "/api/v1/airports/all", "/oauth2/**").permitAll()
+                        .requestMatchers("/","/api/v1/auth/**", "/api/v1/countries/all", "/api/v1/airports/all","/api/v1/flights/search" ,"/oauth2/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults())
