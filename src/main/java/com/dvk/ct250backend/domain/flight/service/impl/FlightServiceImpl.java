@@ -136,7 +136,7 @@ public class FlightServiceImpl implements FlightService {
                 .and(flightSearchRequest.getDepartureLocation() != null ? getLocationSpec("route.departureAirport.airportId", flightSearchRequest.getDepartureLocation()) : null)
                 .and(flightSearchRequest.getArrivalLocation() != null ? getLocationSpec("route.arrivalAirport.airportId", flightSearchRequest.getArrivalLocation()) : null)
                 .and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("flightStatus"), "SCHEDULED"))
-                .and((root, query, criteriaBuilder) -> criteriaBuilder.isTrue(root.get("airplane").get("active")));
+                .and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("airplane").get("status"), "ACTIVE"));
 
         if (flightSearchRequest.isRoundWay()) {
             spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.isNotNull(root.get("returnFlight")));
