@@ -28,7 +28,7 @@ public class FlightSearchRequest {
 //    @NotBlank(message = "Return date is required")
     String arrivalDate;
 
-    boolean roundTrip;
-
-    boolean oneWay;
+//    boolean roundTrip;
+//
+//    boolean oneWay;
 }
