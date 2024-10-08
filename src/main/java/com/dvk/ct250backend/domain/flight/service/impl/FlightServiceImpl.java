@@ -138,11 +138,11 @@ public class FlightServiceImpl implements FlightService {
                 .and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("flightStatus"), "SCHEDULED"))
                 .and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("airplane").get("status"), "ACTIVE"));
 
-        if (flightSearchRequest.isRoundWay()) {
+        if (flightSearchRequest.isRoundTrip()) {
             spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.isNotNull(root.get("returnFlight")));
         }
 
-        if (flightSearchRequest.isOneTrip()) {
+        if (flightSearchRequest.isOneWay()) {
             spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.isNull(root.get("returnFlight")));
         }
 
