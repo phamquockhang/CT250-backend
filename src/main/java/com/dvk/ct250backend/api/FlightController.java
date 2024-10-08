@@ -4,6 +4,7 @@ package com.dvk.ct250backend.api;
 import com.dvk.ct250backend.app.dto.response.ApiResponse;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.flight.dto.FlightDTO;
+import com.dvk.ct250backend.domain.flight.dto.FlightOverview;
 import com.dvk.ct250backend.domain.flight.dto.request.FlightSearchRequest;
 import com.dvk.ct250backend.domain.flight.service.FlightService;
 import lombok.AccessLevel;
@@ -54,6 +55,15 @@ public class FlightController {
         return ApiResponse.<List<FlightDTO>>builder()
                 .status(HttpStatus.OK.value())
                 .payload(flightService.searchFlights(flightSearchRequest))
+                .build();
+    }
+
+    @GetMapping("/overview")
+    public ApiResponse<List<FlightOverview>> getFlightOverview(@RequestParam("startDate") String startDate,
+                                                          @RequestParam("endDate") String endDate) {
+        return ApiResponse.<List<FlightOverview>>builder()
+                .status(HttpStatus.OK.value())
+                .payload(flightService.getFlightOverview(startDate, endDate))
                 .build();
     }
 
