@@ -12,7 +12,6 @@ spring:
       ddl-auto: create-drop
     defer-datasource-initialization: true
 
-
   data:
     web:
       pageable:
