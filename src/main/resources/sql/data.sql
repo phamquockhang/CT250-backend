@@ -688,23 +688,22 @@ FROM generate_series(2, 30) AS i,
 
 -- Dữ liệu giả cho bảng seat_availability
 -- Boeing 787
-INSERT INTO public.seat_availability (total_seats, booked_seats, flight_id, seat_id, status)
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
 VALUES
-    (9, 0, 'VN101', 1, 'AVAILABLE'),  -- 1A
-    (9, 0, 'VN101', 2, 'AVAILABLE'),  -- 1B
-    (9, 0, 'VN101', 3, 'AVAILABLE'),  -- 1C
-    (9, 0, 'VN101', 4, 'AVAILABLE'),  -- 1D
-    (9, 0, 'VN101', 5, 'AVAILABLE'),  -- 1E
-    (9, 0, 'VN101', 6, 'AVAILABLE'),  -- 1F
-    (9, 0, 'VN101', 7, 'AVAILABLE'),  -- 1G
-    (9, 0, 'VN101', 8, 'AVAILABLE'),  -- 1H
-    (9, 0, 'VN101', 9, 'AVAILABLE');  -- 1J
+    ('VN101', 1, 'AVAILABLE'),  -- 1A
+    ( 'VN101', 2, 'AVAILABLE'),  -- 1B
+    ( 'VN101', 3, 'AVAILABLE'),  -- 1C
+    ('VN101', 4, 'AVAILABLE'),  -- 1D
+    ('VN101', 5, 'AVAILABLE'),  -- 1E
+    ( 'VN101', 6, 'AVAILABLE'),  -- 1F
+    ( 'VN101', 7, 'AVAILABLE'),  -- 1G
+    ('VN101', 8, 'AVAILABLE'),  -- 1H
+    ('VN101', 9, 'AVAILABLE');  -- 1J
 
 -- Khoang Economy cho Boeing 787
-INSERT INTO public.seat_availability (total_seats, booked_seats, flight_id, seat_id, status)
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
 SELECT
-    30,
-    0,
+    
     'VN101',
     seat_id,
     'AVAILABLE'
@@ -714,23 +713,22 @@ WHERE
     model_id = 1 AND ticket_class = 'ECONOMY'; -- Chỉ cho ghế Economy
 
 -- Airbus A350
-INSERT INTO public.seat_availability (total_seats, booked_seats, flight_id, seat_id, status)
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
 VALUES
-    (9, 0, 'VN102', 10, 'AVAILABLE'),  -- 1A
-    (9, 0, 'VN102', 11, 'AVAILABLE'),  -- 1B
-    (9, 0, 'VN102', 12, 'AVAILABLE'),  -- 1C
-    (9, 0, 'VN102', 13, 'AVAILABLE'),  -- 1D
-    (9, 0, 'VN102', 14, 'AVAILABLE'),  -- 1E
-    (9, 0, 'VN102', 15, 'AVAILABLE'),  -- 1F
-    (9, 0, 'VN102', 16, 'AVAILABLE'),  -- 1G
-    (9, 0, 'VN102', 17, 'AVAILABLE'),  -- 1H
-    (9, 0, 'VN102', 18, 'AVAILABLE');  -- 1J
+    ('VN102', 10, 'AVAILABLE'),  -- 1A
+    ( 'VN102', 11, 'AVAILABLE'),  -- 1B
+    ( 'VN102', 12, 'AVAILABLE'),  -- 1C
+    ('VN102', 13, 'AVAILABLE'),  -- 1D
+    ('VN102', 14, 'AVAILABLE'),  -- 1E
+    ('VN102', 15, 'AVAILABLE'),  -- 1F
+    ('VN102', 16, 'AVAILABLE'),  -- 1G
+    ( 'VN102', 17, 'AVAILABLE'),  -- 1H
+    ('VN102', 18, 'AVAILABLE');  -- 1J
 
 -- Khoang Economy cho Airbus A350
-INSERT INTO public.seat_availability (total_seats, booked_seats, flight_id, seat_id, status)
+INSERT INTO public.seat_availability ( flight_id, seat_id, status)
 SELECT
-    30,
-    0,
+    
     'VN102',
     seat_id,
     'AVAILABLE'
@@ -740,20 +738,19 @@ WHERE
     model_id = 2 AND ticket_class = 'ECONOMY'; -- Chỉ cho ghế Economy
 
 -- Airbus A320 NEO
-INSERT INTO public.seat_availability (total_seats, booked_seats, flight_id, seat_id, status)
+INSERT INTO public.seat_availability ( flight_id, seat_id, status)
 VALUES
-    (6, 0, 'VN103', 19, 'AVAILABLE'),  -- 1A
-    (6, 0, 'VN103', 20, 'AVAILABLE'),  -- 1B
-    (6, 0, 'VN103', 21, 'AVAILABLE'),  -- 1C
-    (6, 0, 'VN103', 22, 'AVAILABLE'),  -- 1D
-    (6, 0, 'VN103', 23, 'AVAILABLE'),  -- 1E
-    (6, 0, 'VN103', 24, 'AVAILABLE');  -- 1F
+    ( 'VN103', 19, 'AVAILABLE'),  -- 1A
+    ( 'VN103', 20, 'AVAILABLE'),  -- 1B
+    ( 'VN103', 21, 'AVAILABLE'),  -- 1C
+    ( 'VN103', 22, 'AVAILABLE'),  -- 1D
+    ('VN103', 23, 'AVAILABLE'),  -- 1E
+    ('VN103', 24, 'AVAILABLE');  -- 1F
 
 -- Khoang Economy cho Airbus A320 NEO
-INSERT INTO public.seat_availability (total_seats, booked_seats, flight_id, seat_id, status)
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
 SELECT
-    30,
-    0,
+    
     'VN103',
     seat_id,
     'AVAILABLE'
@@ -763,20 +760,19 @@ WHERE
     model_id = 3 AND ticket_class = 'ECONOMY'; -- Chỉ cho ghế Economy
 
 -- Airbus A321
-INSERT INTO public.seat_availability (total_seats, booked_seats, flight_id, seat_id, status)
+INSERT INTO public.seat_availability ( flight_id, seat_id, status)
 VALUES
-    (6, 0, 'VN104', 25, 'AVAILABLE'),  -- 1A
-    (6, 0, 'VN104', 26, 'AVAILABLE'),  -- 1B
-    (6, 0, 'VN104', 27, 'AVAILABLE'),  -- 1C
-    (6, 0, 'VN104', 28, 'AVAILABLE'),  -- 1D
-    (6, 0, 'VN104', 29, 'AVAILABLE'),  -- 1E
-    (6, 0, 'VN104', 30, 'AVAILABLE');  -- 1F
+    ( 'VN104', 25, 'AVAILABLE'),  -- 1A
+    ( 'VN104', 26, 'AVAILABLE'),  -- 1B
+    ( 'VN104', 27, 'AVAILABLE'),  -- 1C
+    ( 'VN104', 28, 'AVAILABLE'),  -- 1D
+    ( 'VN104', 29, 'AVAILABLE'),  -- 1E
+    ( 'VN104', 30, 'AVAILABLE');  -- 1F
 
 -- Khoang Economy cho Airbus A321
-INSERT INTO public.seat_availability (total_seats, booked_seats, flight_id, seat_id, status)
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
 SELECT
-    30,
-    0,
+
     'VN104',
     seat_id,
     'AVAILABLE'

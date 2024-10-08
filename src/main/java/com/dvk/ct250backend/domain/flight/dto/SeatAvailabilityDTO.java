@@ -14,13 +14,7 @@ import lombok.experimental.FieldDefaults;
 public class SeatAvailabilityDTO {
     Integer seatAvailabilityId;
 
-    Integer totalSeats;
-    Integer bookedSeats;
-
     SeatDTO seat;
 
     String status;
-
-//    String position;
-
 }

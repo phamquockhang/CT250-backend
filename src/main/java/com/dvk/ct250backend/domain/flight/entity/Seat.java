@@ -35,7 +35,4 @@ public class Seat {
     @JoinColumn(name = "model_id")
     Model model;
 
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "seat", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-//    List<FlightPricing> flightPricing;
-
 }
