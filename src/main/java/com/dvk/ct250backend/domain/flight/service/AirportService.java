@@ -3,6 +3,7 @@ package com.dvk.ct250backend.domain.flight.service;
 import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.flight.dto.AirportDTO;
+import com.dvk.ct250backend.infrastructure.elasticsearch.document.AirportDocument;
 
 import java.util.List;
 import java.util.Map;
@@ -14,5 +15,4 @@ public interface AirportService {
     AirportDTO updateAirport(Integer id, AirportDTO airportDTO) throws ResourceNotFoundException;
     Page<AirportDTO> getAirports(Map<String, String> params);
     List<AirportDTO> getAllAirports();
-    List<AirportDTO> searchByAirportName(String name);
 }

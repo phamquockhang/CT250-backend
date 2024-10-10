@@ -13,8 +13,8 @@ public class RequestParamUtils {
 
     public List<Sort.Order> toSortOrders(Map<String, String> params) {
         List<Sort.Order> sortOrders = new ArrayList<>();
-        String sortBy = params.getOrDefault("sortBy", "createdAt");
-        String direction = params.getOrDefault("direction", "desc");
+        String sortBy = params.getOrDefault("sort", "created_at");
+        String direction = params.getOrDefault("order", "asc");
         if(sortBy != null && !sortBy.isEmpty()) {
             Sort.Order order = new Sort.Order(Sort.Direction.fromString(direction), sortBy);
             sortOrders.add(order);

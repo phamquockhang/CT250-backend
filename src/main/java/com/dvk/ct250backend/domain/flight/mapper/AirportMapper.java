@@ -3,8 +3,9 @@ package com.dvk.ct250backend.domain.flight.mapper;
 import com.dvk.ct250backend.domain.country.mapper.CountryMapper;
 import com.dvk.ct250backend.domain.flight.dto.AirportDTO;
 import com.dvk.ct250backend.domain.flight.entity.Airport;
-import com.dvk.ct250backend.infrastructure.document.AirportDocument;
+import com.dvk.ct250backend.infrastructure.elasticsearch.document.AirportDocument;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring", uses = {CountryMapper.class})

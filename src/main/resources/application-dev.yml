@@ -45,6 +45,8 @@ spring:
 
   elasticsearch:
     uris: ${ELASTICSEARCH_URL:http://localhost:9200}
+  main:
+    allow-bean-definition-overriding: true
 
 
 application:

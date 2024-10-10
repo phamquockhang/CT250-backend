@@ -5,6 +5,7 @@ import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.flight.dto.AirportDTO;
 import com.dvk.ct250backend.domain.flight.service.AirportService;
+import com.dvk.ct250backend.infrastructure.elasticsearch.document.AirportDocument;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -63,14 +64,6 @@ public class AirportController {
         return ApiResponse.<List<AirportDTO>>builder()
                 .status(HttpStatus.OK.value())
                 .payload(airportService.getAllAirports())
-                .build();
-    }
-
-    @GetMapping("/es/{query}")
-    public ApiResponse<List<AirportDTO>> searchByAirportName(@PathVariable("query") String name) {
-        return ApiResponse.<List<AirportDTO>>builder()
-                .status(HttpStatus.OK.value())
-                .payload(airportService.searchByAirportName(name))
                 .build();
     }
 }

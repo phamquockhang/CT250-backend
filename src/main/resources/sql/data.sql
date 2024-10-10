@@ -407,9 +407,7 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Get all flights', '/api/v1/flights/all', 'GET', 'FLIGHTS'),
        ('Update a flight', '/api/v1/flights/{id}', 'PUT', 'FLIGHTS'),
        ('Upload flights', '/api/v1/flights/upload', 'POST', 'FLIGHTS'),
-       ('Search flights', '/api/v1/flights/search', 'GET', 'FLIGHTS'),
-       ('Search airport', '/api/v1/airports/es/{query}', 'GET', 'AIRPORTS');
-
+       ('Search flights', '/api/v1/flights/search', 'GET', 'FLIGHTS');
 --ROLE
 INSERT INTO public.roles (role_name, description, active)
 VALUES ('ADMIN', 'Admin thì full permissions', true);
