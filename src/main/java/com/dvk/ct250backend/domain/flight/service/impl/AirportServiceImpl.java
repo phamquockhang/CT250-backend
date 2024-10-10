@@ -8,6 +8,7 @@ import com.dvk.ct250backend.domain.flight.entity.Airport;
 import com.dvk.ct250backend.domain.flight.mapper.AirportMapper;
 import com.dvk.ct250backend.domain.flight.repository.AirportRepository;
 import com.dvk.ct250backend.domain.flight.service.AirportService;
+import com.dvk.ct250backend.infrastructure.repository.AirportElasticRepo;
 import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -33,6 +35,7 @@ public class AirportServiceImpl implements AirportService {
     AirportRepository airportRepository;
     AirportMapper airportMapper;
     RequestParamUtils requestParamUtils;
+    AirportElasticRepo airportElasticsearchRepository;
 
 
     @Override
@@ -73,12 +76,15 @@ public class AirportServiceImpl implements AirportService {
         return spec;
     }
 
+
     @Override
     @Transactional
     @CacheEvict(value = "airports", allEntries = true)
     public AirportDTO createAirport(AirportDTO airportDTO) {
         Airport airport = airportMapper.toAirport(airportDTO);
-        return airportMapper.toAirportDTO(airportRepository.save(airport));
+        airport = airportRepository.save(airport);
+       // airportElasticsearchRepository.save(airport); // Ensure this line is present to index the document in Elasticsearch
+        return airportMapper.toAirportDTO(airport);
     }
 
     @Override
@@ -100,6 +106,13 @@ public class AirportServiceImpl implements AirportService {
     @Cacheable(value = "airports")
     public List<AirportDTO> getAllAirports() {
         return airportRepository.findAll().stream()
+                .map(airportMapper::toAirportDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AirportDTO> searchByAirportName(String name) {
+        return airportElasticsearchRepository.findByAirportName(name).stream()
                 .map(airportMapper::toAirportDTO)
                 .collect(Collectors.toList());
     }

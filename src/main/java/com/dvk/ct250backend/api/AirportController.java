@@ -65,4 +65,12 @@ public class AirportController {
                 .payload(airportService.getAllAirports())
                 .build();
     }
+
+    @GetMapping("/es/{query}")
+    public ApiResponse<List<AirportDTO>> searchByAirportName(@PathVariable("query") String name) {
+        return ApiResponse.<List<AirportDTO>>builder()
+                .status(HttpStatus.OK.value())
+                .payload(airportService.searchByAirportName(name))
+                .build();
+    }
 }

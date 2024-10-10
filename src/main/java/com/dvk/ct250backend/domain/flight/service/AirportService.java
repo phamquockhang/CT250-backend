@@ -14,4 +14,5 @@ public interface AirportService {
     AirportDTO updateAirport(Integer id, AirportDTO airportDTO) throws ResourceNotFoundException;
     Page<AirportDTO> getAirports(Map<String, String> params);
     List<AirportDTO> getAllAirports();
+    List<AirportDTO> searchByAirportName(String name);
 }
