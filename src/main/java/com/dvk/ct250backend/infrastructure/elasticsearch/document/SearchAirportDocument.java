@@ -1,11 +1,5 @@
 package com.dvk.ct250backend.infrastructure.elasticsearch.document;
 
-import com.dvk.ct250backend.domain.country.entity.Country;
-import com.dvk.ct250backend.domain.flight.entity.Route;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.Id;
@@ -13,7 +7,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import java.util.Set;
+import java.time.LocalDateTime;
 
 @Document(indexName = "airports")
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -22,7 +16,7 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AirportDocument {
+public class SearchAirportDocument {
 
     @Id
     @Field(type = FieldType.Integer, name = "airport_id")
@@ -40,10 +34,32 @@ public class AirportDocument {
     @Field(type = FieldType.Keyword, name = "city_code")
     String cityCode;
 
+    @Field(name = "created_at")
+    LocalDateTime createdAt;
 
-//    @Field(type = FieldType.Long, name = "country_id")
-//    Long countryId;
-//
-//    @Field(type = FieldType.Date, name = "created_at")
-//    String createdAt;
+    @Field(name = "created_by")
+    String createdBy;
+
+    @Field(name = "updated_at")
+    LocalDateTime updatedAt;
+
+    @Field(name = "updated_by")
+    String updatedBy;
+
+    @Field(name = "country_id")
+    Integer countryId;
+
+    @Field(name = "country_name")
+    String countryName;
+
+    @Field(name = "country_code")
+    Integer countryCode;
+
+    @Field(name = "iso2_code")
+    String iso2Code;
+
+    @Field(name = "iso3_code")
+    String iso3Code;
+
+
 }

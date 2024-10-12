@@ -3,7 +3,6 @@ package com.dvk.ct250backend.domain.flight.service;
 import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.flight.dto.AirportDTO;
-import com.dvk.ct250backend.infrastructure.elasticsearch.document.AirportDocument;
 
 import java.util.List;
 import java.util.Map;

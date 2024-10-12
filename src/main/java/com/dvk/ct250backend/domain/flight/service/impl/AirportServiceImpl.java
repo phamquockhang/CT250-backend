@@ -8,7 +8,7 @@ import com.dvk.ct250backend.domain.flight.entity.Airport;
 import com.dvk.ct250backend.domain.flight.mapper.AirportMapper;
 import com.dvk.ct250backend.domain.flight.repository.AirportRepository;
 import com.dvk.ct250backend.domain.flight.service.AirportService;
-import com.dvk.ct250backend.infrastructure.elasticsearch.document.AirportDocument;
+import com.dvk.ct250backend.infrastructure.elasticsearch.document.SearchAirportDocument;
 import com.dvk.ct250backend.infrastructure.elasticsearch.repository.AirportElasticRepo;
 import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
 import lombok.AccessLevel;
@@ -35,47 +35,6 @@ public class AirportServiceImpl implements AirportService {
     AirportMapper airportMapper;
     RequestParamUtils requestParamUtils;
     AirportElasticRepo airportElasticsearchRepository;
-    private final AirportElasticRepo airportElasticRepo;
-
-
-//    @Override
-//    @Cacheable(value = "airports")
-//    public Page<AirportDTO> getAirports(Map<String, String> params) {
-//        int page = Integer.parseInt(params.getOrDefault("page", "1"));
-//        int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
-//
-//        //Specification<Airport> spec = getAirportSpec(params);
-//        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params);
-//        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortOrders));
-//        //org.springframework.data.domain.Page<Airport> airportPage = airportRepository.findAll(spec, pageable);
-//        org.springframework.data.domain.Page<AirportDocument> airportPage = airportElasticsearchRepository.findAll(params.getOrDefault("query", ""), pageable);
-//        Meta meta = Meta.builder()
-//                .page(pageable.getPageNumber() + 1)
-//                .pageSize(pageable.getPageSize())
-//                .pages(airportPage.getTotalPages())
-//                .total(airportPage.getTotalElements())
-//                .build();
-//        return Page.<AirportDTO>builder()
-//                .meta(meta)
-//                .content(airportPage.getContent().stream()
-//                        .map(airportMapper::toAirportDTO)
-//                        .collect(Collectors.toList()))
-//                .build();
-//    }
-
-//    private Specification<Airport> getAirportSpec(Map<String, String> params) {
-//        Specification<Airport> spec = Specification.where(null);
-//        if(params.containsKey("query")){
-//            String searchValue = params.get("query");
-//            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.or(
-//                    criteriaBuilder.like(criteriaBuilder.lower(root.get("airportName")), "%" + searchValue.toLowerCase() + "%"),
-//                    criteriaBuilder.like(root.get("airportCode"), "%" + searchValue.toUpperCase() + "%"),
-//                    criteriaBuilder.like(criteriaBuilder.lower(root.get("cityName")), "%" + searchValue.toLowerCase() + "%"),
-//                    criteriaBuilder.like(root.get("cityCode"), "%" + searchValue.toUpperCase() + "%")
-//            ));
-//        }
-//        return spec;
-//    }
 
     @Override
     @Cacheable(value = "airports", key = "#params['query'] + '-' + #params['page'] + '-' + #params['pageSize']")
@@ -83,11 +42,11 @@ public class AirportServiceImpl implements AirportService {
         int page = Integer.parseInt(params.getOrDefault("page", "1"));
         int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
 
-        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params);
+        List<Sort.Order> sortOrders = requestParamUtils.toSortOrdersByElastic(params);
         Pageable pageable = PageRequest.of(page-1, pageSize, Sort.by(sortOrders));
 
         String query = params.getOrDefault("query", "");
-         org.springframework.data.domain.Page<AirportDocument> airportPage;
+         org.springframework.data.domain.Page<SearchAirportDocument> airportPage;
 
         if (query.isEmpty()) {
             airportPage = airportElasticsearchRepository.findAll(pageable);
@@ -110,13 +69,13 @@ public class AirportServiceImpl implements AirportService {
                 .build();
     }
 
+
     @Override
     @Transactional
     @CacheEvict(value = "airports", allEntries = true)
     public AirportDTO createAirport(AirportDTO airportDTO) {
         Airport airport = airportMapper.toAirport(airportDTO);
         airport = airportRepository.save(airport);
-       // airportElasticRepo.save(airportMapper.toAirportDocument(airport));
         return airportMapper.toAirportDTO(airport);
     }
 

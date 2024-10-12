@@ -8,7 +8,8 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,8 +20,8 @@ public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "country_id_seq")
     @SequenceGenerator(name = "country_id_seq", sequenceName = "countries_seq", allocationSize = 1)
+    Integer countryId;
 
-    Integer countryId = 0;
     @Column(name = "iso2_code")
     String iso2Code;
     @Column(name = "iso3_code")
