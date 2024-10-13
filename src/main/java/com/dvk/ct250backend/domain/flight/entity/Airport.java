@@ -22,10 +22,13 @@ public class Airport extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "airport_id_seq")
     @SequenceGenerator(name = "airport_id_seq", sequenceName = "airports_seq", allocationSize = 1)
     Integer airportId;
+
     String airportName;
 
     String airportCode;
+
     String cityName;
+
     String cityCode;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -37,5 +40,4 @@ public class Airport extends BaseEntity {
 
     @OneToMany(mappedBy = "arrivalAirport")
     Set<Route> arrivalRoutes;
-
 }

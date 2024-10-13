@@ -22,6 +22,17 @@ public class RequestParamUtils {
         return sortOrders;
     }
 
+    public List<Sort.Order> toSortOrdersByElastic(Map<String, String> params) {
+        List<Sort.Order> sortOrders = new ArrayList<>();
+        String sortBy = params.getOrDefault("sort", "created_at");
+        String direction = params.getOrDefault("order", "desc");
+        if(sortBy != null && !sortBy.isEmpty()) {
+            Sort.Order order = new Sort.Order(Sort.Direction.fromString(direction), sortBy);
+            sortOrders.add(order);
+        }
+        return sortOrders;
+    }
+
     public List<SearchCriteria> getSearchCriteria(Map<String, String> params, String key) {
         List<SearchCriteria> searchCriteriaList = new ArrayList<>();
         String value = params.get(key);
@@ -39,3 +50,4 @@ public class RequestParamUtils {
         return searchCriteriaList;
     }
 }
+

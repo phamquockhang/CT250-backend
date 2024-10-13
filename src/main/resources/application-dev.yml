@@ -1,8 +1,9 @@
 spring:
   datasource:
     url: ${DATABASE_URL:jdbc:postgresql://ct250-ttdat-cloud.h.aivencloud.com:23952/ct250?sslmode=require}
-    username: ${DATABASE_USERNAME:avnadmin}
+    username: ${DATABASE_USER:avnadmin}
     password: ${DATABASE_PASSWORD:AVNS_AgrUvRlC9rufFI_x5al}
+
   jpa:
     show-sql: true
     properties:
@@ -21,6 +22,10 @@ spring:
       host: ${REDIS_HOST:localhost}
       port: ${REDIS_PORT:6379}
       password: ${REDIS_PASSWORD:""}
+    elasticsearch:
+      repositories:
+        enabled: true
+
   batch:
     job:
       enabled: false #prevents any batch job from running automatically at startup
@@ -37,7 +42,15 @@ spring:
           starttls:
             enable: true
 
+
+  elasticsearch:
+    uris: ${ELASTICSEARCH_URL:http://localhost:9200}
+  main:
+    allow-bean-definition-overriding: true
+
+
 application:
+
   security:
     rsa:
       rsa-public-key: classpath:certs/public-key.pem
