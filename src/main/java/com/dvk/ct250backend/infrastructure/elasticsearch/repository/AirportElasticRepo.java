@@ -10,7 +10,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AirportElasticRepo extends ElasticsearchRepository<SearchAirportDocument, Integer> {
     @Query("{\"bool\": {\"should\": ["
-            + "{\"multi_match\": {\"query\": \"?0\", \"fields\": [\"airport_code^3\", \"airport_name^2\", \"city_name^1.5\", \"city_code^3\"], \"type\": \"best_fields\"}},"
+            + "{\"multi_match\": {\"query\": \"?0\", \"fields\": [\"airport_code^3\", \"airport_name^2\", \"city_name^1.5\", \"city_code^3\", \"country_name\"], \"type\": \"best_fields\"}},"
+            + "{\"match\": {\"airport_code.keyword\": {\"query\": \"?0\", \"boost\": 3}}},"
+            + "{\"match\": {\"city_code.keyword\": {\"query\": \"?0\", \"boost\": 3}}},"
             + "{\"match_phrase\": {\"airport_name\": {\"query\": \"?0\", \"boost\": 2}}},"
             + "{\"match_phrase\": {\"city_name\": {\"query\": \"?0\", \"boost\": 1.5}}}"
             + "], \"minimum_should_match\": 1}}")

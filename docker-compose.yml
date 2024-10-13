@@ -26,6 +26,7 @@ services:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - bootstrap.memory_lock=true
       - xpack.security.enabled=false
+    restart: always
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -37,6 +38,7 @@ services:
     build:
       context: ./logstash/
       dockerfile: Dockerfile
+    restart: always
     ports:
       - "5044:5044"
     environment:

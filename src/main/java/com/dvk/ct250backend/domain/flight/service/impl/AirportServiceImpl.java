@@ -45,13 +45,15 @@ public class AirportServiceImpl implements AirportService {
         List<Sort.Order> sortOrders = requestParamUtils.toSortOrdersByElastic(params);
         Pageable pageable = PageRequest.of(page-1, pageSize, Sort.by(sortOrders));
 
-        String query = params.getOrDefault("query", "");
+        String query = params.getOrDefault("query", "").toUpperCase();
          org.springframework.data.domain.Page<SearchAirportDocument> airportPage;
 
         if (query.isEmpty()) {
             airportPage = airportElasticsearchRepository.findAll(pageable);
         } else {
             airportPage = airportElasticsearchRepository.findAll(query, pageable);
+           // String[] terms = query.split(" ");
+            //airportPage = airportElasticsearchRepository.findAll(String.join(" OR ", terms), pageable);
         }
 
         Meta meta = Meta.builder()

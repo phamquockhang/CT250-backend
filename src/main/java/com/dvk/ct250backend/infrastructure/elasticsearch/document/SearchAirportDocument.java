@@ -46,19 +46,19 @@ public class SearchAirportDocument {
     @Field(name = "updated_by")
     String updatedBy;
 
-    @Field(name = "country_id")
+    @Field(type = FieldType.Integer ,name = "country_id")
     Integer countryId;
 
-    @Field(name = "country_name")
+    @Field(type = FieldType.Text, name = "country_name")
     String countryName;
 
-    @Field(name = "country_code")
+    @Field(type = FieldType.Integer, name = "country_code")
     Integer countryCode;
 
-    @Field(name = "iso2_code")
+    @Field(type = FieldType.Keyword ,name = "iso2_code")
     String iso2Code;
 
-    @Field(name = "iso3_code")
+    @Field(type = FieldType.Keyword ,name = "iso3_code")
     String iso3Code;
 
 
