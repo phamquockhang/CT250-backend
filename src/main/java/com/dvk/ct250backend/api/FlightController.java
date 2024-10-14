@@ -43,8 +43,16 @@ public class FlightController {
                 .build();
     }
 
+    @GetMapping("/{id}")
+    public ApiResponse<FlightDTO> getFlightById(@PathVariable("id") String id) throws ResourceNotFoundException {
+        return ApiResponse.<FlightDTO>builder()
+                .status(HttpStatus.OK.value())
+                .payload(flightService.getFlightById(id))
+                .build();
+    }
+
     @PutMapping("/{id}")
-    public ApiResponse<FlightDTO> updateFlight(@PathVariable("id") Integer id,@RequestBody FlightDTO flightDTO) throws ResourceNotFoundException {
+    public ApiResponse<FlightDTO> updateFlight(@PathVariable("id") String id,@RequestBody FlightDTO flightDTO) throws ResourceNotFoundException {
         return ApiResponse.<FlightDTO>builder()
                 .status(HttpStatus.OK.value())
                 .payload(flightService.updateFlight(id, flightDTO))

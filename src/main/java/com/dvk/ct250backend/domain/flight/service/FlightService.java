@@ -14,10 +14,12 @@ import java.util.Map;
 public interface FlightService {
     List<FlightDTO> getAllFlights();
     void uploadFlights(List<MultipartFile> files) throws IOException;
-    FlightDTO updateFlight(Integer id, FlightDTO flightDTO) throws ResourceNotFoundException;
+    FlightDTO updateFlight(String id, FlightDTO flightDTO) throws ResourceNotFoundException;
     List<FlightDTO> searchFlights(FlightSearchRequest flightSearchRequest);
 
     List<FlightOverview> getFlightOverview(String startDate, String endDate);
 
     Page<FlightDTO> getFlights(Map<String,String> params);
+
+    FlightDTO getFlightById(String id) throws ResourceNotFoundException;
 }

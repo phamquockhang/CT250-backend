@@ -62,7 +62,7 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     @Transactional
-    public FlightDTO updateFlight(Integer id, FlightDTO flightDTO) throws ResourceNotFoundException {
+    public FlightDTO updateFlight(String id, FlightDTO flightDTO) throws ResourceNotFoundException {
         Flight flight = flightRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Flight not found for this id :: " + id));
         flightMapper.updateFlightFromDTO(flight, flightDTO);
@@ -71,7 +71,8 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public void uploadFlights(List<MultipartFile> files) throws IOException {
-        String flightFilePath = "", flightPricingFilePath = "";
+        String flightFilePath = "";
+        String flightPricingFilePath = "";
         for (MultipartFile file : files) {
             if (Objects.equals(file.getOriginalFilename(), "flights.csv")) {
                 flightFilePath = fileUtils.saveTempFile(file);
@@ -176,6 +177,13 @@ public class FlightServiceImpl implements FlightService {
                         .map(flightMapper::toFlightDTO)
                         .collect(Collectors.toList()))
                 .build();
+    }
+
+    @Override
+    public FlightDTO getFlightById(String id) throws ResourceNotFoundException {
+        return flightRepository.findById(id)
+                .map(flightMapper::toFlightDTO)
+                .orElseThrow(() -> new ResourceNotFoundException("Flight not found for this id :: " + id));
     }
 
     private Specification<Flight> getFlightSpec(FlightSearchRequest flightSearchRequest, LocalDate departureDate, LocalDate arrivalDate) {
