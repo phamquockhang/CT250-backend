@@ -1,5 +1,7 @@
 package com.dvk.ct250backend.domain.flight.service.impl;
 
+import com.dvk.ct250backend.app.dto.response.Meta;
+import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.flight.config.FlightUploadJobListener;
 import com.dvk.ct250backend.domain.flight.dto.FlightDTO;
@@ -11,6 +13,7 @@ import com.dvk.ct250backend.domain.flight.mapper.FlightMapper;
 import com.dvk.ct250backend.domain.flight.repository.FlightRepository;
 import com.dvk.ct250backend.domain.flight.service.FlightService;
 import com.dvk.ct250backend.infrastructure.utils.FileUtils;
+import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -22,6 +25,9 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,10 +37,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,6 +51,7 @@ public class FlightServiceImpl implements FlightService {
     Job flightUploadJob;
     FlightUploadJobListener flightUploadJobListener;
     FileUtils fileUtils;
+    RequestParamUtils requestParamUtils;
 
     @Override
     public List<FlightDTO> getAllFlights() {
@@ -124,9 +128,10 @@ public class FlightServiceImpl implements FlightService {
         LocalDate currentDate = start;
         while (currentDate.isBefore(end) || currentDate.isEqual(end)) {
             String date = formatDate(currentDate);
-            if (!flightMap.containsKey(date)) {
-                flightMap.put(date, List.of());
-            }
+//            if (!flightMap.containsKey(date)) {
+//                flightMap.put(date, List.of());
+//            }
+            flightMap.putIfAbsent(date, new ArrayList<>());
             currentDate = currentDate.plusDays(1);
         }
         return flightMap.entrySet().stream()
@@ -152,16 +157,35 @@ public class FlightServiceImpl implements FlightService {
 
     }
 
+    @Override
+    public Page<FlightDTO> getFlights(Map<String, String> params) {
+        int page = Integer.parseInt(params.getOrDefault("page", "1"));
+        int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
+        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params);
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortOrders));
+        org.springframework.data.domain.Page<Flight> flightPage = flightRepository.findAll(pageable);
+        Meta meta = Meta.builder()
+                .page(pageable.getPageNumber() + 1)
+                .pageSize(pageable.getPageSize())
+                .pages(flightPage.getTotalPages())
+                .total(flightPage.getTotalElements())
+                .build();
+        return Page.<FlightDTO>builder()
+                .meta(meta)
+                .content(flightPage.getContent().stream()
+                        .map(flightMapper::toFlightDTO)
+                        .collect(Collectors.toList()))
+                .build();
+    }
+
     private Specification<Flight> getFlightSpec(FlightSearchRequest flightSearchRequest, LocalDate departureDate, LocalDate arrivalDate) {
-        Specification<Flight> spec = Specification.where(getDateRangeSpec("departureDateTime", departureDate))
+        return Specification.where(getDateRangeSpec("departureDateTime", departureDate))
                 .and(arrivalDate != null ? getDateRangeSpec("arrivalDateTime", arrivalDate)
                         .and((root, query, criteriaBuilder) -> criteriaBuilder.greaterThan(root.get("departureDateTime"), departureDate.atStartOfDay())) : null)
                 .and(flightSearchRequest.getDepartureLocation() != null ? getLocationSpec("route.departureAirport.airportId", flightSearchRequest.getDepartureLocation()) : null)
                 .and(flightSearchRequest.getArrivalLocation() != null ? getLocationSpec("route.arrivalAirport.airportId", flightSearchRequest.getArrivalLocation()) : null)
                 .and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("flightStatus"), "SCHEDULED"))
                 .and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("airplane").get("status"), "ACTIVE"));
-
-        return spec;
     }
 
     private Specification<Flight> getFlightRangeSpec(FlightSearchRequest flightSearchRequest, LocalDate startDate, LocalDate endDate) {

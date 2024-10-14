@@ -2,6 +2,7 @@ package com.dvk.ct250backend.api;
 
 
 import com.dvk.ct250backend.app.dto.response.ApiResponse;
+import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.flight.dto.FlightDTO;
 import com.dvk.ct250backend.domain.flight.dto.FlightOverview;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/flights")
@@ -30,6 +32,14 @@ public class FlightController {
         return ApiResponse.<List<FlightDTO>>builder()
                 .status(HttpStatus.OK.value())
                 .payload(flightService.getAllFlights())
+                .build();
+    }
+
+    @GetMapping
+    public ApiResponse<Page<FlightDTO>> getFlights(@RequestParam Map<String, String> params) {
+        return ApiResponse.<Page<FlightDTO>>builder()
+                .status(HttpStatus.OK.value())
+                .payload(flightService.getFlights(params))
                 .build();
     }
 

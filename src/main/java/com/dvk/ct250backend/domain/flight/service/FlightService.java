@@ -1,5 +1,6 @@
 package com.dvk.ct250backend.domain.flight.service;
 
+import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.flight.dto.FlightDTO;
 import com.dvk.ct250backend.domain.flight.dto.FlightOverview;
@@ -17,4 +18,6 @@ public interface FlightService {
     List<FlightDTO> searchFlights(FlightSearchRequest flightSearchRequest);
 
     List<FlightOverview> getFlightOverview(String startDate, String endDate);
+
+    Page<FlightDTO> getFlights(Map<String,String> params);
 }

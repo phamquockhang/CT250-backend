@@ -408,7 +408,9 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Update a flight', '/api/v1/flights/{id}', 'PUT', 'FLIGHTS'),
        ('Upload flights', '/api/v1/flights/upload', 'POST', 'FLIGHTS'),
        ('Search flights', '/api/v1/flights/search', 'GET', 'FLIGHTS'),
-        ('Get flights overview', '/api/v1/flights/overview', 'GET', 'FLIGHTS');
+       ('Get flights overview', '/api/v1/flights/overview', 'GET', 'FLIGHTS'),
+       ('Get flights with pagination', '/api/v1/flights', 'GET', 'FLIGHTS'),
+       ('Get a flight by id', '/api/v1/flights/{id}', 'GET', 'FLIGHTS');
 --ROLE
 INSERT INTO public.roles (role_name, description, active)
 VALUES ('ADMIN', 'Admin thì full permissions', true);
@@ -553,7 +555,7 @@ VALUES (2, 33, 'INTERNATIONAL'), -- HAN đến TPE (Đài Bắc)
 -- Dữ liệu giả cho bảng flights
 INSERT INTO public.flights (flight_id, departure_date_time, arrival_date_time, route_id, airplane_id, flight_status)
 -- Tuyến bay Sài Gòn - Hà Nội
-VALUES ('DVK101', '2024-10-15 08:00:00', '2024-10-20 10:00:00', 26, 1, 'SCHEDULED'),
+VALUES ('DVK101', '2024-10-15 08:00:00', '2024-10-15 10:00:00', 26, 1, 'SCHEDULED'),
        ('DVK102', '2024-10-15 09:00:00', '2024-10-15 11:00:00', 26, 2, 'SCHEDULED'),
        ('DVK103', '2024-10-15 14:00:00', '2024-10-15 16:00:00', 26, 1, 'SCHEDULED'),
        ('DVK104', '2024-10-15 15:00:00', '2024-10-15 17:00:00', 26, 2, 'SCHEDULED'),
@@ -568,7 +570,6 @@ VALUES ('DVK101', '2024-10-15 08:00:00', '2024-10-20 10:00:00', 26, 1, 'SCHEDULE
 
        ('DVK111', '2024-10-26 05:00:00', '2024-10-26 07:00:00', 32, 1, 'SCHEDULED'),
        ('DVK112', '2024-10-26 06:00:00', '2024-10-26 08:00:00', 32, 2, 'SCHEDULED');
-
 
 
 
