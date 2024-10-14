@@ -361,7 +361,6 @@ values ('Tan Son Nhat INTERNATIONAL Airport', 'SGN', 'Ho Chi Minh', 'SGN', 235),
        ('Wuhan Tianhe INTERNATIONAL Airport', 'WUH', 'Wuhan', 'WUH', 44),
        ('Xuzhou Guanyin Airport', 'XUZ', 'Xuzhou', 'XUZ', 44);
 
-
 --ROLE
 INSERT INTO public.roles (role_name, description, active)
 VALUES ('ADMIN', 'Admin thì full permissions', true);
@@ -411,10 +410,6 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Get flights overview', '/api/v1/flights/overview', 'GET', 'FLIGHTS'),
        ('Get flights with pagination', '/api/v1/flights', 'GET', 'FLIGHTS'),
        ('Get a flight by id', '/api/v1/flights/{id}', 'GET', 'FLIGHTS');
---ROLE
-INSERT INTO public.roles (role_name, description, active)
-VALUES ('ADMIN', 'Admin thì full permissions', true);
-
 
 --USER
 INSERT INTO public.users (user_id, email, gender, first_name, last_name, password, phone_number, identity_number,
