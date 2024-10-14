@@ -35,9 +35,9 @@ public class Airport extends BaseEntity {
     @JoinColumn(name = "country_id")
     Country country;
 
-    @OneToMany(mappedBy = "departureAirport")
+    @OneToMany(mappedBy = "departureAirport", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     Set<Route> departureRoutes;
 
-    @OneToMany(mappedBy = "arrivalAirport")
+    @OneToMany(mappedBy = "arrivalAirport", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     Set<Route> arrivalRoutes;
 }

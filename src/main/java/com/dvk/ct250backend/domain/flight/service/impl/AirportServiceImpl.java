@@ -37,7 +37,7 @@ public class AirportServiceImpl implements AirportService {
     AirportElasticRepo airportElasticsearchRepository;
 
     @Override
-    @Cacheable(value = "airports", key = "#params['query'] + '-' + #params['page'] + '-' + #params['pageSize']")
+    @Cacheable(value = "airports")
     public Page<AirportDTO> getAirports(Map<String, String> params) {
         int page = Integer.parseInt(params.getOrDefault("page", "1"));
         int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
@@ -52,8 +52,6 @@ public class AirportServiceImpl implements AirportService {
             airportPage = airportElasticsearchRepository.findAll(pageable);
         } else {
             airportPage = airportElasticsearchRepository.findAll(query, pageable);
-           // String[] terms = query.split(" ");
-            //airportPage = airportElasticsearchRepository.findAll(String.join(" OR ", terms), pageable);
         }
 
         Meta meta = Meta.builder()
@@ -77,7 +75,9 @@ public class AirportServiceImpl implements AirportService {
     @CacheEvict(value = "airports", allEntries = true)
     public AirportDTO createAirport(AirportDTO airportDTO) {
         Airport airport = airportMapper.toAirport(airportDTO);
+       // airportElasticsearchRepository.save(airportMapper.toSearchAirportDocument(airportDTO));
         airport = airportRepository.save(airport);
+        //airportElasticsearchRepository.save(airportMapper.toSearchAirportDocument(airport));
         return airportMapper.toAirportDTO(airport);
     }
 
@@ -85,15 +85,19 @@ public class AirportServiceImpl implements AirportService {
     @CacheEvict(value = "airports", allEntries = true)
     public void deleteAirport(Integer id) throws ResourceNotFoundException {
         Airport airport = airportRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Airport not found"));
+        airportElasticsearchRepository.deleteById(id);
         airportRepository.delete(airport);
     }
 
     @Override
     @CacheEvict(value = "airports", allEntries = true)
+    @Transactional
     public AirportDTO updateAirport(Integer id, AirportDTO airportDTO) throws ResourceNotFoundException {
         Airport airport = airportRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Airport not found"));
         airportMapper.updateAirportFromDTO(airport, airportDTO);
-        return airportMapper.toAirportDTO(airportRepository.save(airport));
+        airport = airportRepository.save(airport);
+        //airportElasticsearchRepository.save(airportMapper.toSearchAirportDocument(airport));
+        return airportMapper.toAirportDTO(airport);
     }
 
     @Override

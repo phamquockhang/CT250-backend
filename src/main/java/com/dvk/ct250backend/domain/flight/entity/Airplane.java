@@ -34,7 +34,7 @@ public class Airplane extends BaseEntity {
     @Enumerated(EnumType.STRING)// Chiều cao (m)
     AirplaneStatusEnum status; // Trạng thái máy bay
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "airplane", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "airplane", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     Set<Flight> flights; // Danh sách các chuyến bay
 
 

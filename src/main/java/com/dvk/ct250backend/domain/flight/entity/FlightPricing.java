@@ -25,13 +25,11 @@ public class FlightPricing extends BaseEntity {
 
     Double ticketPrice;
 
-
-
     @Enumerated(EnumType.STRING)
     TicketClassEnum ticketClass;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "flight_id")
     Flight flight;
 

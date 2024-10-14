@@ -24,9 +24,9 @@ public class Model {
 
     String modelName;
 
-    @OneToMany(mappedBy = "model", cascade = {CascadeType.ALL}, orphanRemoval = true)
+    @OneToMany(mappedBy = "model", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     Set<Airplane> airplanes;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "model", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "model", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     Set<Seat> seats; // Danh sách các ghế trên máy bay
 }

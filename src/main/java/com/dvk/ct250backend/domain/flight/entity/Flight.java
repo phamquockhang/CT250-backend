@@ -31,14 +31,14 @@ public class Flight extends BaseEntity {
     @JoinColumn(name = "route_id")
     Route route;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "flight", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "flight", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     List<FlightPricing> flightPricing;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "airplane_id", nullable = false)
     Airplane airplane;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "flight", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "flight", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     List<SeatAvailability> seatAvailability;
 
     @Enumerated(EnumType.STRING)

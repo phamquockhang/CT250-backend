@@ -28,7 +28,7 @@ public class Seat {
     String seatCode;
 
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "seat", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "seat", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     List<SeatAvailability> seatAvailability;
 
     @ManyToOne(fetch = FetchType.LAZY)
