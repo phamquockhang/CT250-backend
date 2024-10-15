@@ -3,12 +3,17 @@ package com.dvk.ct250backend.domain.flight.service.impl;
 import com.dvk.ct250backend.app.dto.response.Meta;
 import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
+import com.dvk.ct250backend.domain.country.entity.Country;
 import com.dvk.ct250backend.domain.flight.dto.AirportDTO;
 import com.dvk.ct250backend.domain.flight.entity.Airport;
 import com.dvk.ct250backend.domain.flight.mapper.AirportMapper;
 import com.dvk.ct250backend.domain.flight.repository.AirportRepository;
 import com.dvk.ct250backend.domain.flight.service.AirportService;
 import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
+import com.dvk.ct250backend.infrastructure.utils.StringUtils;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Predicate;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -21,8 +26,11 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.Normalizer;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,6 +41,7 @@ public class AirportServiceImpl implements AirportService {
     AirportRepository airportRepository;
     AirportMapper airportMapper;
     RequestParamUtils requestParamUtils;
+    StringUtils stringUtils;
 
 //    @Override
 //    @Cacheable(value = "airports")
@@ -91,16 +100,42 @@ public class AirportServiceImpl implements AirportService {
                 .build();
     }
 
+//    private Specification<Airport> getAirportSpec(Map<String, String> params) {
+//        Specification<Airport> spec = Specification.where(null);
+//        if(params.containsKey("query")){
+//            String searchValue = params.get("query");
+//            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.or(
+//                    criteriaBuilder.like(criteriaBuilder.lower(root.get("airportName")), "%" + searchValue.toLowerCase() + "%"),
+//                    criteriaBuilder.like(root.get("airportCode"), "%" + params.get("query").toUpperCase() + "%"),
+//                    criteriaBuilder.like(criteriaBuilder.lower(root.get("cityName")), "%" + searchValue.toLowerCase() + "%"),
+//                    criteriaBuilder.like(root.get("cityCode"), "%" + params.get("query").toUpperCase() + "%")
+//            ));
+//        }
+//        return spec;
+//    }
+
+
     private Specification<Airport> getAirportSpec(Map<String, String> params) {
         Specification<Airport> spec = Specification.where(null);
-        if(params.containsKey("query")){
-            String searchValue = params.get("query");
-            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.or(
-                    criteriaBuilder.like(criteriaBuilder.lower(root.get("airportName")), "%" + searchValue.toLowerCase() + "%"),
-                    criteriaBuilder.like(root.get("airportCode"), "%" + params.get("query").toUpperCase() + "%"),
-                    criteriaBuilder.like(criteriaBuilder.lower(root.get("cityName")), "%" + searchValue.toLowerCase() + "%"),
-                    criteriaBuilder.like(root.get("cityCode"), "%" + params.get("query").toUpperCase() + "%")
-            ));
+        if (params.containsKey("query")) {
+            String searchValue = params.get("query").trim().toLowerCase();
+            String[] searchValues = searchValue.split(",");
+            spec = spec.or((root, query, criteriaBuilder) -> {
+                Join<Airport, Country> countryJoin = root.join("country", JoinType.LEFT);
+                return criteriaBuilder.or(
+                        Arrays.stream(searchValues)
+                                .map(stringUtils::normalizeString)
+                                .map(value -> "%" + value.trim().toLowerCase() + "%")
+                                .map(likePattern -> criteriaBuilder.or(
+                                        criteriaBuilder.like(criteriaBuilder.lower(root.get("airportName")), likePattern),
+                                        criteriaBuilder.like(criteriaBuilder.lower(root.get("airportCode")), likePattern),
+                                        criteriaBuilder.like(criteriaBuilder.lower(root.get("cityName")), likePattern),
+                                        criteriaBuilder.like(criteriaBuilder.lower(root.get("cityCode")), likePattern),
+                                        criteriaBuilder.like(criteriaBuilder.lower(countryJoin.get("countryName")), likePattern)
+                                ))
+                                .toArray(Predicate[]::new)
+                );
+            });
         }
         return spec;
     }

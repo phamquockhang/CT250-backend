@@ -13,6 +13,10 @@ import com.dvk.ct250backend.domain.flight.repository.ModelRepository;
 import com.dvk.ct250backend.domain.flight.service.AirplaneService;
 import com.dvk.ct250backend.domain.flight.service.ModelService;
 import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
+import com.dvk.ct250backend.infrastructure.utils.StringUtils;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Predicate;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -25,6 +29,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -38,6 +43,7 @@ public class AirplaneServiceImpl implements AirplaneService {
     RequestParamUtils requestParamUtils;
     AirplaneMapper airplaneMapper;
     ModelService modelService;
+    StringUtils stringUtils;
 
     @Override
     @Transactional
@@ -92,26 +98,59 @@ public class AirplaneServiceImpl implements AirplaneService {
                 .build();
     }
 
-    private Specification<Airplane> getAirplaneSpec(Map<String, String> params) {
-        Specification<Airplane> spec = Specification.where(null);
-        List<SearchCriteria> statusCriteria = requestParamUtils.getSearchCriteria(params, "status");
-        if(params.containsKey("query")){
-            String searchValue = params.get("query");
-            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.or(
-                    criteriaBuilder.like(criteriaBuilder.lower(root.get("modelName")), "%" + searchValue.toLowerCase() + "%"),
-                    criteriaBuilder.like(root.get("registrationNumber"), "%" + searchValue.toUpperCase() + "%")
-            ));
-        }
-        Specification<Airplane> inUseSpec = Specification.where(null);
-        Specification<Airplane> statusSpec = Specification.where(null);
-        for (SearchCriteria criteria : statusCriteria) {
-            statusSpec = statusSpec.or(((root, query, criteriaBuilder) ->
-                    criteriaBuilder.equal(root.get("status"), criteria.getValue())));
-        }
-        spec = spec.and(inUseSpec).and(statusSpec);
-        
-        return spec;
+//    private Specification<Airplane> getAirplaneSpec(Map<String, String> params) {
+//        Specification<Airplane> spec = Specification.where(null);
+//        List<SearchCriteria> statusCriteria = requestParamUtils.getSearchCriteria(params, "status");
+//        if(params.containsKey("query")){
+//            String searchValue = params.get("query");
+//            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.or(
+//                    criteriaBuilder.like(criteriaBuilder.lower(root.get("modelName")), "%" + searchValue.toLowerCase() + "%"),
+//                    criteriaBuilder.like(root.get("registrationNumber"), "%" + searchValue.toUpperCase() + "%")
+//            ));
+//        }
+//        Specification<Airplane> inUseSpec = Specification.where(null);
+//        Specification<Airplane> statusSpec = Specification.where(null);
+//        for (SearchCriteria criteria : statusCriteria) {
+//            statusSpec = statusSpec.or(((root, query, criteriaBuilder) ->
+//                    criteriaBuilder.equal(root.get("status"), criteria.getValue())));
+//        }
+//        spec = spec.and(inUseSpec).and(statusSpec);
+//
+//        return spec;
+//    }
+private Specification<Airplane> getAirplaneSpec(Map<String, String> params) {
+    Specification<Airplane> spec = Specification.where(null);
+    List<SearchCriteria> statusCriteria = requestParamUtils.getSearchCriteria(params, "status");
+
+    if (params.containsKey("query")) {
+        String searchValue = params.get("query").trim().toLowerCase();
+        String[] searchValues = searchValue.split(",");
+        spec = spec.and((root, query, criteriaBuilder) -> {
+            Join<Airplane, Model> modelJoin = root.join("model", JoinType.LEFT);
+            return criteriaBuilder.or(
+                    Arrays.stream(searchValues)
+                            .map(stringUtils::normalizeString)
+                            .map(value -> "%" + value.trim().toLowerCase() + "%")
+                            .map(likePattern -> criteriaBuilder.or(
+                                    criteriaBuilder.like(criteriaBuilder.lower(modelJoin.get("modelName")), likePattern),
+                                    criteriaBuilder.like(criteriaBuilder.lower(root.get("registrationNumber")), likePattern),
+                                    criteriaBuilder.like(criteriaBuilder.lower(root.get("status").as(String.class)), likePattern)
+                            ))
+                            .toArray(Predicate[]::new)
+            );
+        });
     }
+
+    Specification<Airplane> statusSpec = Specification.where(null);
+    for (SearchCriteria criteria : statusCriteria) {
+        statusSpec = statusSpec.or((root, query, criteriaBuilder) ->
+                criteriaBuilder.equal(root.get("status"), criteria.getValue()));
+    }
+    spec = spec.and(statusSpec);
+
+    return spec;
+}
+
 
     @Override
     @Cacheable(value = "airplanes")
