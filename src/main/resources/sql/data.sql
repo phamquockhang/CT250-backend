@@ -361,7 +361,6 @@ values ('Tan Son Nhat INTERNATIONAL Airport', 'SGN', 'Ho Chi Minh', 'SGN', 235),
        ('Wuhan Tianhe INTERNATIONAL Airport', 'WUH', 'Wuhan', 'WUH', 44),
        ('Xuzhou Guanyin Airport', 'XUZ', 'Xuzhou', 'XUZ', 44);
 
-
 --ROLE
 INSERT INTO public.roles (role_name, description, active)
 VALUES ('ADMIN', 'Admin thì full permissions', true);
@@ -397,6 +396,8 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Create an airplane', '/api/v1/airplanes', 'POST', 'AIRPLANES'),
        ('Delete an airplane', '/api/v1/airplanes/{id}', 'DELETE', 'AIRPLANES'),
        ('Update an airplane', '/api/v1/airplanes/{id}', 'PUT', 'AIRPLANES'),
+       ('Get all models', '/api/v1/models/all', 'GET', 'MODELS'),
+       ('Create a model', '/api/v1/models', 'POST', 'MODELS'),
        ('Get all routes', '/api/v1/routes/all', 'GET', 'ROUTES'),
        ('Get routes with pagination', '/api/v1/routes', 'GET', 'ROUTES'),
        ('Create a route', '/api/v1/routes', 'POST', 'ROUTES'),
@@ -404,8 +405,11 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Update a route', '/api/v1/routes/{id}', 'PUT', 'ROUTES'),
        ('Get all flights', '/api/v1/flights/all', 'GET', 'FLIGHTS'),
        ('Update a flight', '/api/v1/flights/{id}', 'PUT', 'FLIGHTS'),
-       ('Upload flights', '/api/v1/flights/upload', 'POST', 'FLIGHTS');
-
+       ('Upload flights', '/api/v1/flights/upload', 'POST', 'FLIGHTS'),
+       ('Search flights', '/api/v1/flights/search', 'GET', 'FLIGHTS'),
+       ('Get flights overview', '/api/v1/flights/overview', 'GET', 'FLIGHTS'),
+       ('Get flights with pagination', '/api/v1/flights', 'GET', 'FLIGHTS'),
+       ('Get a flight by id', '/api/v1/flights/{id}', 'GET', 'FLIGHTS');
 
 --USER
 INSERT INTO public.users (user_id, email, gender, first_name, last_name, password, phone_number, identity_number,
@@ -414,212 +418,381 @@ VALUES (gen_random_uuid(), 'admin@gmail.com', 'MALE', 'I am', 'ADMIN',
         '$2a$10$MEo.Zw55GDOEVwKtOnJ/TuKNrWVAjluxnWqH96ecqAKUwkFwAVkra', '0963243443', '123456789000', 1, true,
         '1999-01-01', 235);
 
+
 --MODEL
-INSERT INTO public.airplanes (model_name, manufacturer, max_distance, velocity, number_of_seats, overall_length,
-                              wingspan, height, status)
-VALUES ('Boeing 787', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76, 'ACTIVE'),
-       ('Airbus A350', 'Airbus', 14350, 901, 323, 66.89, 64.75, 17.05, 'ACTIVE'),
-       ('Airbus A320 NEO', 'Airbus', 6300, 1005, 186, 37.57, 35.8, 11.76, 'MAINTENANCE'),
-       ('Airbus A321', 'Airbus', 5600, 950, 184, 44.51, 34.1, 11.76, 'ACTIVE'),
-       ('Boeing 737 MAX 8', 'Boeing', 6570, 842, 178, 39.5, 35.9, 12.3, 'RETIRED'),
-       ('Airbus A330-300', 'Airbus', 11650, 910, 277, 63.69, 60.3, 16.79, 'MAINTENANCE'),
-       ('Boeing 747-8', 'Boeing', 14815, 988, 410, 76.3, 68.4, 19.4, 'ACTIVE'),
-       ('Airbus A220-300', 'Airbus', 6111, 871, 160, 38.7, 35.4, 11.5, 'RETIRED'),
-       ('Boeing 767-300ER', 'Boeing', 11000, 850, 218, 54.94, 47.57, 15.75, 'ACTIVE'),
-       ('Airbus A310-300', 'Airbus', 9300, 780, 280, 46.66, 43.66, 15.85, 'MAINTENANCE'),
-       ('Boeing 757-200', 'Boeing', 5500, 850, 200, 38.06, 38.06, 13.56, 'ACTIVE'),
-       ('Boeing 787-9', 'Boeing', 14100, 926, 296, 63.0, 60.0, 17.0, 'ACTIVE'),
-       ('Airbus A350-1000', 'Airbus', 16400, 910, 410, 73.0, 64.75, 16.0, 'ACTIVE'),
-       ('Embraer E190', 'Embraer', 5000, 850, 100, 36.24, 28.7, 10.52, 'ACTIVE'),
-       ('Boeing 777-300ER', 'Boeing', 13650, 905, 396, 73.9, 64.8, 18.6, 'ACTIVE'),
-       ('Airbus A320', 'Airbus', 6100, 828, 180, 37.57, 35.8, 11.76, 'RETIRED'),
-       ('Boeing 737-900', 'Boeing', 5950, 876, 220, 42.1, 35.8, 12.3, 'ACTIVE'),
-       ('Bombardier CRJ900', 'Bombardier', 2950, 850, 90, 36.4, 24.9, 7.5, 'MAINTENANCE'),
-       ('Embraer E175', 'Embraer', 3700, 890, 88, 31.68, 28.7, 9.95, 'ACTIVE'),
-       ('Boeing 727', 'Boeing', 4000, 965, 149, 40.6, 32.9, 10.4, 'RETIRED'),
-       ('Airbus A319', 'Airbus', 6850, 828, 144, 33.84, 34.1, 11.76, 'MAINTENANCE'),
-       ('Boeing 787-10', 'Boeing', 11915, 903, 318, 68.3, 60.1, 18.0, 'ACTIVE'),
-       ('Airbus A340-600', 'Airbus', 14630, 903, 380, 75.3, 63.45, 17.2, 'ACTIVE'),
-       ('Boeing 727-200', 'Boeing', 4500, 965, 189, 46.7, 32.9, 10.4, 'RETIRED'),
-       ('Comac C919', 'Comac', 4075, 834, 158, 38.9, 35.4, 11.5, 'ACTIVE'),
-       ('Bombardier Q400', 'Bombardier', 2500, 667, 78, 32.8, 28.4, 8.3, 'ACTIVE'),
-       ('Airbus A380', 'Airbus', 15200, 1020, 555, 72.7, 79.8, 24.1, 'RETIRED'),
-       ('Boeing 737-800', 'Boeing', 5430, 842, 189, 39.5, 35.8, 12.5, 'ACTIVE'),
-       ('Embraer E170', 'Embraer', 4000, 820, 76, 29.9, 26.0, 9.85, 'MAINTENANCE'),
-       ('Airbus A310-200', 'Airbus', 8700, 800, 280, 46.66, 43.66, 15.85, 'RETIRED'),
-       ('Boeing 737 MAX 9', 'Boeing', 6570, 842, 220, 42.16, 35.92, 12.3, 'ACTIVE'),
-       ('Airbus A340-300', 'Airbus', 13800, 871, 295, 63.66, 60.3, 16.91, 'MAINTENANCE'),
-       ('Boeing 737-400', 'Boeing', 3750, 852, 188, 36.45, 28.9, 11.1, 'RETIRED'),
-       ('Airbus A380-800', 'Airbus', 15200, 1020, 544, 72.7, 79.8, 24.1, 'ACTIVE'),
-       ('Boeing 777-200LR', 'Boeing', 15400, 905, 317, 63.73, 60.9, 18.5, 'ACTIVE'),
-       ('Airbus A321neo', 'Airbus', 7400, 931, 244, 44.51, 35.8, 12.1, 'ACTIVE'),
-       ('Boeing 737 MAX 10', 'Boeing', 6110, 842, 230, 43.8, 35.9, 12.3, 'MAINTENANCE'),
-       ('Airbus A340-500', 'Airbus', 16020, 912, 372, 63.66, 60.3, 17.2, 'ACTIVE'),
-       ('Boeing 747-400', 'Boeing', 13450, 988, 416, 70.6, 64.9, 19.4, 'RETIRED'),
-       ('Airbus A321LR', 'Airbus', 7400, 931, 206, 44.51, 35.8, 12.1, 'ACTIVE'),
-       ('Embraer E195', 'Embraer', 4819, 870, 124, 38.7, 35.5, 12.0, 'MAINTENANCE'),
-       ('Boeing 777-9', 'Boeing', 13940, 905, 426, 76.5, 71.8, 19.7, 'ACTIVE'),
-       ('Airbus A330-900neo', 'Airbus', 13450, 930, 287, 63.7, 64.0, 16.8, 'ACTIVE'),
-       ('Comac ARJ21', 'Comac', 2225, 825, 90, 33.46, 27.28, 8.44, 'ACTIVE'),
-       ('Boeing 787-8', 'Boeing', 13620, 912, 242, 62.8, 60.1, 16.9, 'ACTIVE');
+INSERT INTO public.models (model_name)
+values ('Boeing 787'),
+       ('Airbus A350'),
+       ('Airbus A320 NEO'),
+       ('Airbus A321');
+
+--AIRPLANE
+-- Dữ liệu mẫu cho bảng airplanes
+INSERT INTO public.airplanes (model_id, manufacturer, max_distance, velocity, number_of_seats, overall_length,
+                              wingspan, height, status, registration_number)
+VALUES ('1', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76, 'ACTIVE', 'N78701'),
+       ('1', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76, 'ACTIVE', 'N78702'),
+       ('1', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76, 'ACTIVE', 'N78703'),
+       ('1', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76, 'ACTIVE', 'N78704'),
+       ('1', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76, 'ACTIVE', 'N78705'),
+       ('1', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76, 'ACTIVE', 'N78706'),
+       ('1', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76, 'ACTIVE', 'N78707'),
+       ('1', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76, 'ACTIVE', 'N78708'),
+       ('1', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76, 'ACTIVE', 'N78709'),
+       ('1', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76, 'ACTIVE', 'N78710'),
+
+       ('2', 'Airbus', 14350, 901, 305, 66.89, 64.75, 17.05, 'ACTIVE', 'VH-A3501'),
+       ('2', 'Airbus', 14350, 901, 305, 66.89, 64.75, 17.05, 'ACTIVE', 'VH-A3502'),
+       ('2', 'Airbus', 14350, 901, 305, 66.89, 64.75, 17.05, 'ACTIVE', 'VH-A3503'),
+       ('2', 'Airbus', 14350, 901, 305, 66.89, 64.75, 17.05, 'ACTIVE', 'VH-A3504'),
+       ('2', 'Airbus', 14350, 901, 305, 66.89, 64.75, 17.05, 'ACTIVE', 'VH-A3505'),
+       ('2', 'Airbus', 14350, 901, 305, 66.89, 64.75, 17.05, 'ACTIVE', 'VH-A3506'),
+       ('2', 'Airbus', 14350, 901, 305, 66.89, 64.75, 17.05, 'ACTIVE', 'VH-A3507'),
+       ('2', 'Airbus', 14350, 901, 305, 66.89, 64.75, 17.05, 'ACTIVE', 'VH-A3508'),
+       ('2', 'Airbus', 14350, 901, 305, 66.89, 64.75, 17.05, 'ACTIVE', 'VH-A3509'),
+       ('2', 'Airbus', 14350, 901, 305, 66.89, 64.75, 17.05, 'ACTIVE', 'VH-A3510'),
+
+       ('3', 'Airbus', 6300, 1005, 186, 37.57, 35.8, 11.76, 'ACTIVE', 'B-A3201'),
+       ('3', 'Airbus', 6300, 1005, 186, 37.57, 35.8, 11.76, 'MAINTENANCE', 'B-A3202'),
+       ('3', 'Airbus', 6300, 1005, 186, 37.57, 35.8, 11.76, 'ACTIVE', 'B-A3203'),
+       ('3', 'Airbus', 6300, 1005, 186, 37.57, 35.8, 11.76, 'MAINTENANCE', 'B-A3204'),
+       ('3', 'Airbus', 6300, 1005, 186, 37.57, 35.8, 11.76, 'ACTIVE', 'B-A3205'),
+       ('3', 'Airbus', 6300, 1005, 186, 37.57, 35.8, 11.76, 'MAINTENANCE', 'B-A3206'),
+       ('3', 'Airbus', 6300, 1005, 186, 37.57, 35.8, 11.76, 'ACTIVE', 'B-A3207'),
+       ('3', 'Airbus', 6300, 1005, 186, 37.57, 35.8, 11.76, 'MAINTENANCE', 'B-A3208'),
+       ('3', 'Airbus', 6300, 1005, 186, 37.57, 35.8, 11.76, 'ACTIVE', 'B-A3209'),
+       ('3', 'Airbus', 6300, 1005, 186, 37.57, 35.8, 11.76, 'MAINTENANCE', 'B-A3210'),
+
+       ('4', 'Airbus', 5600, 950, 184, 44.51, 34.1, 11.76, 'ACTIVE', 'VH-A3211'),
+       ('4', 'Airbus', 5600, 950, 184, 44.51, 34.1, 11.76, 'MAINTENANCE', 'VH-A3212'),
+       ('4', 'Airbus', 5600, 950, 184, 44.51, 34.1, 11.76, 'ACTIVE', 'VH-A3213'),
+       ('4', 'Airbus', 5600, 950, 184, 44.51, 34.1, 11.76, 'MAINTENANCE', 'VH-A3214'),
+       ('4', 'Airbus', 5600, 950, 184, 44.51, 34.1, 11.76, 'ACTIVE', 'VH-A3215'),
+       ('4', 'Airbus', 5600, 950, 184, 44.51, 34.1, 11.76, 'MAINTENANCE', 'VH-A3216'),
+       ('4', 'Airbus', 5600, 950, 184, 44.51, 34.1, 11.76, 'ACTIVE', 'VH-A3217'),
+       ('4', 'Airbus', 5600, 950, 184, 44.51, 34.1, 11.76, 'MAINTENANCE', 'VH-A3218'),
+       ('4', 'Airbus', 5600, 950, 184, 44.51, 34.1, 11.76, 'ACTIVE', 'VH-A3219'),
+       ('4', 'Airbus', 5600, 950, 184, 44.51, 34.1, 11.76, 'MAINTENANCE', 'VH-A3220');
+
 
 
 INSERT INTO public.routes (departure_airport_id, arrival_airport_id, route_type)
-VALUES (44, 15, 'INTERNATIONAL'), -- HAN đến TPE (Đài Bắc)
-       (44, 61, 'INTERNATIONAL'), -- HAN đến HKG (Hồng Kông)
-       (44, 82, 'INTERNATIONAL'), -- HAN đến FOC (Phúc Kiến)
-       (44, 18, 'INTERNATIONAL'), -- HAN đến KUL (Kuala Lumpur)
-       (44, 19, 'INTERNATIONAL'), -- HAN đến SIN (Singapore)
-       (44, 31, 'INTERNATIONAL'), -- HAN đến BKK (Bangkok)
-       (44, 13, 'INTERNATIONAL'), -- HAN đến ICN (Seoul)
-       (44, 8, 'INTERNATIONAL'),  -- HAN đến NRT (Tokyo)
+VALUES (2, 33, 'INTERNATIONAL'), -- HAN đến TPE (Đài Bắc)
+       (2, 61, 'INTERNATIONAL'), -- HAN đến HKG (Hồng Kông)
+       (2, 82, 'INTERNATIONAL'), -- HAN đến FOC (Phúc Kiến)
+       (2, 36, 'INTERNATIONAL'), -- HAN đến KUL (Kuala Lumpur)
+       (2, 37, 'INTERNATIONAL'), -- HAN đến SIN (Singapore)
+       (2, 49, 'INTERNATIONAL'), -- HAN đến BKK (Bangkok)
+       (2, 31, 'INTERNATIONAL'), -- HAN đến ICN (Seoul)
+       (2, 26, 'INTERNATIONAL'), -- HAN đến NRT (Tokyo)
 
        -- Chuyến bay quốc tế từ Sài Gòn
-       (43, 15, 'INTERNATIONAL'), -- SGN đến TPE
-       (43, 61, 'INTERNATIONAL'), -- SGN đến HKG
-       (43, 82, 'INTERNATIONAL'), -- SGN đến FOC
-       (43, 18, 'INTERNATIONAL'), -- SGN đến KUL
-       (43, 19, 'INTERNATIONAL'), -- SGN đến SIN
-       (43, 31, 'INTERNATIONAL'), -- SGN đến BKK
-       (43, 13, 'INTERNATIONAL'), -- SGN đến ICN
-       (43, 8, 'INTERNATIONAL'),  -- SGN đến NRT
+       (1, 33, 'INTERNATIONAL'), -- SGN đến TPE
+       (1, 61, 'INTERNATIONAL'), -- SGN đến HKG
+       (1, 82, 'INTERNATIONAL'), -- SGN đến FOC
+       (1, 36, 'INTERNATIONAL'), -- SGN đến KUL
+       (1, 37, 'INTERNATIONAL'), -- SGN đến SIN
+       (1, 49, 'INTERNATIONAL'), -- SGN đến BKK
+       (1, 31, 'INTERNATIONAL'), -- SGN đến ICN
+       (1, 26, 'INTERNATIONAL'), -- SGN đến NRT
 
        -- Chuyến bay quốc tế từ Đà Nẵng
-       (45, 15, 'INTERNATIONAL'), -- DAD đến TPE
-       (45, 61, 'INTERNATIONAL'), -- DAD đến HKG
-       (45, 82, 'INTERNATIONAL'), -- DAD đến KUL
-       (45, 31, 'INTERNATIONAL'), -- DAD đến BKK
-       (45, 13, 'INTERNATIONAL'), -- DAD đến ICN
-
-       -- Chuyến bay quốc tế từ Cam Ranh
-       (47, 15, 'INTERNATIONAL'), -- CXR đến TPE
-       (47, 61, 'INTERNATIONAL'), -- CXR đến HKG
-       (47, 18, 'INTERNATIONAL'), -- CXR đến KUL
-       (47, 13, 'INTERNATIONAL'), -- CXR đến ICN
+       (3, 33, 'INTERNATIONAL'), -- DAD đến TPE
+       (3, 61, 'INTERNATIONAL'), -- DAD đến HKG
+       (3, 36, 'INTERNATIONAL'), -- DAD đến KUL
+       (3, 49, 'INTERNATIONAL'), -- DAD đến BKK
+       (3, 31, 'INTERNATIONAL'), -- DAD đến ICN
 
        -- Chuyến bay quốc tế từ Phú Quốc
-       (46, 15, 'INTERNATIONAL'), -- PQC đến TPE
-       (46, 61, 'INTERNATIONAL'), -- PQC đến HKG
-       (46, 18, 'INTERNATIONAL'), -- PQC đến KUL
-       (46, 13, 'INTERNATIONAL'),
-       -- Thanh Hóa đến các sân bay khác
-       (59, 44, 'DOMESTIC'),      -- THD đến HAN
-       (59, 43, 'DOMESTIC'),      -- THD đến SGN
-       (59, 45, 'DOMESTIC'),      -- THD đến DAD
-       (59, 47, 'DOMESTIC'),      -- THD đến CXR
-       (59, 46, 'DOMESTIC'),      -- THD đến PQC
-       (59, 51, 'DOMESTIC'),      -- THD đến HUI
-       (59, 53, 'DOMESTIC'),      -- THD đến VII
+       (4, 33, 'INTERNATIONAL'), -- PQC đến TPE
+       (4, 61, 'INTERNATIONAL'), -- PQC đến HKG
+       (4, 36, 'INTERNATIONAL'), -- PQC đến KUL
+       (4, 31, 'INTERNATIONAL'), -- PQC đến ICN
 
-       -- Vinh đến các sân bay khác
-       (53, 44, 'DOMESTIC'),      -- VII đến HAN
-       (53, 43, 'DOMESTIC'),      -- VII đến SGN
-       (53, 45, 'DOMESTIC'),      -- VII đến DAD
-       (53, 47, 'DOMESTIC'),      -- VII đến CXR
-       (53, 46, 'DOMESTIC'),      -- VII đến PQC
-       (53, 51, 'DOMESTIC'),      -- VII đến HUI
-       (53, 59, 'DOMESTIC'),      -- VII đến THD
-       (53, 50, 'DOMESTIC'),      -- VII đến HPH
+       -- Chuyến bay nội địa từ Sài Gòn
+       (1, 2, 'DOMESTIC'),       -- SGN đến HAN
+       (1, 3, 'DOMESTIC'),       -- SGN đến DAD
+       (1, 4, 'DOMESTIC'),       -- SGN đến PQC
+       (1, 5, 'DOMESTIC'),       -- SGN đến CXR
+       (1, 9, 'DOMESTIC'),       -- SGN đến HUI
+       (1, 11, 'DOMESTIC'),      -- SGN đến VII
 
-       -- Hải Phòng đến các sân bay khác
-       (50, 44, 'DOMESTIC'),      -- HPH đến HAN
-       (50, 43, 'DOMESTIC'),      -- HPH đến SGN
-       (50, 45, 'DOMESTIC'),      -- HPH đến DAD
-       (50, 47, 'DOMESTIC'),      -- HPH đến CXR
-       (50, 46, 'DOMESTIC'),      -- HPH đến PQC
-       (50, 51, 'DOMESTIC'),      -- HPH đến HUI
-       (50, 59, 'DOMESTIC'),      -- HPH đến THD
-       (50, 53, 'DOMESTIC'),      -- HPH đến VII
-       (50, 49, 'DOMESTIC'),      -- HPH đến DLI
+       -- Chuyến bay nội địa từ Hà Nội
+       (2, 1, 'DOMESTIC'),       -- HAN đến SGN
+       (2, 3, 'DOMESTIC'),       -- HAN đến DAD
+       (2, 4, 'DOMESTIC'),       -- HAN đến PQC
+       (2, 5, 'DOMESTIC'),       -- HAN đến CXR
+       (2, 6, 'DOMESTIC'),       -- HAN đến VCA
+       (2, 9, 'DOMESTIC'),       -- HAN đến HUI
+       (2, 11, 'DOMESTIC'),      -- HAN đến VII
 
-       -- Đà Lạt đến các sân bay khác
-       (49, 44, 'DOMESTIC'),      -- DLI đến HAN
-       (49, 43, 'DOMESTIC'),      -- DLI đến SGN
-       (49, 45, 'DOMESTIC'),      -- DLI đến DAD
-       (49, 47, 'DOMESTIC'),      -- DLI đến CXR
-       (49, 46, 'DOMESTIC'),      -- DLI đến PQC
-       (49, 51, 'DOMESTIC'),      -- DLI đến HUI
-       (49, 59, 'DOMESTIC'),      -- DLI đến THD
-       (49, 53, 'DOMESTIC'),      -- DLI đến VII
-       (49, 50, 'DOMESTIC');
--- DLI đến HPH
+       -- Chuyến bay nội địa từ Đà Nẵng
+       (3, 1, 'DOMESTIC'),       -- DAD đến SGN
+       (3, 2, 'DOMESTIC'),       -- DAD đến HAN
+       (3, 4, 'DOMESTIC'),       -- DAD đến PQC
+       (3, 6, 'DOMESTIC'),       -- DAD đến VCA
+       (3, 9, 'DOMESTIC'),       -- DAD đến HUI
+       (3, 11, 'DOMESTIC'),      -- DAD đến VII
+
+       -- Chuyến bay nội địa từ Phú Quốc
+       (4, 1, 'DOMESTIC'),       -- PQC đến SGN
+       (4, 2, 'DOMESTIC'),       -- PQC đến HAN
+       (4, 3, 'DOMESTIC'),       -- PQC đến DAD
+       (4, 5, 'DOMESTIC'),       -- PQC đến CXR
+       (4, 6, 'DOMESTIC'),       -- PQC đến VCA
+       (4, 9, 'DOMESTIC'),       -- PQC đến HUI
+       (4, 11, 'DOMESTIC');
+-- PQC đến VII
 
 
--- SEAT
-INSERT INTO seats (seat_class, seat_code, airplane_id)
-VALUES
--- Airplane 1
-('BUSINESS', '1A', 1),
-('BUSINESS', '1B', 1),
-('BUSINESS', '1C', 1),
-('BUSINESS', '2A', 1),
-('ECONOMY', '10A', 1),
-('ECONOMY', '10B', 1),
-('ECONOMY', '10C', 1),
-('ECONOMY', '11A', 1),
-('ECONOMY', '11B', 1),
-('ECONOMY', '11C', 1),
+--FLIGHT
+-- Giả định rằng đã có các route và airplane trong cơ sở dữ liệu
+-- Dữ liệu giả cho bảng flights
+INSERT INTO public.flights (flight_id, departure_date_time, arrival_date_time, route_id, airplane_id, flight_status)
+-- Tuyến bay Sài Gòn - Hà Nội
+VALUES ('DVK101', '2024-10-15 08:00:00', '2024-10-15 10:00:00', 26, 1, 'SCHEDULED'),
+       ('DVK102', '2024-10-15 09:00:00', '2024-10-15 11:00:00', 26, 2, 'SCHEDULED'),
+       ('DVK103', '2024-10-15 14:00:00', '2024-10-15 16:00:00', 26, 1, 'SCHEDULED'),
+       ('DVK104', '2024-10-15 15:00:00', '2024-10-15 17:00:00', 26, 2, 'SCHEDULED'),
 
--- Airplane 2
-('BUSINESS', '1A', 2),
-('BUSINESS', '1B', 2),
-('BUSINESS', '1C', 2),
-('BUSINESS', '2A', 2),
-('ECONOMY', '12A', 2),
-('ECONOMY', '12B', 2),
-('ECONOMY', '12C', 2),
-('ECONOMY', '13A', 2),
-('ECONOMY', '13B', 2),
-('ECONOMY', '13C', 2),
+       ('DVK105', '2024-10-16 05:00:00', '2024-10-16 07:00:00', 26, 1, 'SCHEDULED'),
+       ('DVK106', '2024-10-16 06:00:00', '2024-10-16 08:00:00', 26, 2, 'SCHEDULED'),
 
--- Airplane 3
-('BUSINESS', '1A', 3),
-('BUSINESS', '1B', 3),
-('BUSINESS', '2A', 3),
-('BUSINESS', '2B', 3),
-('ECONOMY', '14A', 3),
-('ECONOMY', '14B', 3),
-('ECONOMY', '15A', 3),
-('ECONOMY', '15B', 3),
-('ECONOMY', '15C', 3),
-('ECONOMY', '16A', 3);
+       ('DVK107', '2024-10-25 08:00:00', '2024-10-25 10:00:00', 32, 1, 'SCHEDULED'),
+       ('DVK108', '2024-10-25 09:00:00', '2024-10-25 11:00:00', 32, 2, 'SCHEDULED'),
+       ('DVK109', '2024-10-25 14:00:00', '2024-10-25 16:00:00', 32, 1, 'SCHEDULED'),
+       ('DVK110', '2024-10-25 15:00:00', '2024-10-25 17:00:00', 32, 2, 'SCHEDULED'),
 
--- FLIGHT
--- INSERT INTO flights (flight_id, departure_date_time, arrival_date_time, route_id, airplane_id, flight_status)
--- VALUES
---     ('VN123', '2024-10-01 10:00:00', '2024-10-01 12:30:00', 1, 1, 'SCHEDULED'),
---     ('VN456', '2024-10-01 15:00:00', '2024-10-01 17:00:00', 2, 2, 'SCHEDULED'),
---     ('VN789', '2024-10-02 09:00:00', '2024-10-02 11:30:00', 3, 1, 'SCHEDULED'),
---     ('VN101', '2024-10-02 14:00:00', '2024-10-02 16:45:00', 1, 3, 'DELAYED'),
---     ('VN112', '2024-10-03 08:00:00', '2024-10-03 10:15:00', 2, 1, 'SCHEDULED'),
---     ('VN113', '2024-10-03 11:30:00', '2024-10-03 14:00:00', 3, 2, 'CANCELLED');
+       ('DVK111', '2024-10-26 05:00:00', '2024-10-26 07:00:00', 32, 1, 'SCHEDULED'),
+       ('DVK112', '2024-10-26 06:00:00', '2024-10-26 08:00:00', 32, 2, 'SCHEDULED');
 
 
--- SEAT-AVALABILITY
--- INSERT INTO seat_availability (total_seats, booked_seats, flight_id, seat_id, status, position)
--- VALUES
---     (200, 50, 1, 1, 'AVAILABLE', '1A'),
---     (200, 75, 1, 2, 'AVAILABLE', '1B'),
---     (150, 60, 2, 3, 'BOOKED', '2A'),
---     (150, 20, 2, 4, 'AVAILABLE', '2B'),
---     (100, 0, 3, 5, 'AVAILABLE', '3A'),
---     (100, 10, 3, 6, 'BOOKED', '3B'),
---     (180, 90, 1, 7, 'AVAILABLE', '1C'),
---     (180, 130, 1, 8, 'BOOKED', '1D'),
---     (120, 50, 2, 9, 'AVAILABLE', '2C'),
---     (120, 100, 2, 10, 'BOOKED', '2D');
 
--- FLIGHT-PRICING
--- Giả định rằng bạn đã có các giá trị cho bảng flight và seat
--- Giả định rằng flight_id từ bảng flight là 1, 2, 3, ...
--- Giả định rằng seat_id từ bảng seat là 1, 2, 3, ...
+--FLIGHT-PRICING
+-- Dữ liệu giả cho bảng flight_pricing mà không cần seat_id
+INSERT INTO public.flight_pricing (ticket_price, flight_id, ticket_class, valid_from, valid_to)
+VALUES (1739000, 'DVK101', 'ECONOMY', '2024-10-15', '2024-10-20'),
+       (4623000, 'DVK101', 'BUSINESS', '2024-10-15', '2024-10-20'),
+       (1739000, 'DVK102', 'ECONOMY', '2024-10-15', '2024-10-20'),
+       (4623000, 'DVK102', 'BUSINESS', '2024-10-15', '2024-10-20'),
+       (1933000, 'DVK103', 'ECONOMY', '2024-10-15', '2024-10-20'),
+       (5335000, 'DVK103', 'BUSINESS', '2024-10-15', '2024-10-20'),
+       (1933000, 'DVK104', 'ECONOMY', '2024-10-15', '2024-10-20'),
+       (5335000, 'DVK104', 'BUSINESS', '2024-10-15', '2024-10-20'),
 
--- INSERT INTO flight_pricing (ticket_price,  flight_id, valid_from, valid_to)
--- VALUES
---     (199.99, 1,  '2024-10-01', '2024-12-31'),  -- Giá vé cho ghế 1 trên chuyến bay 1
---     (299.99, 2,  '2024-10-01', '2024-12-31'),  -- Giá vé cho ghế 2 trên chuyến bay 1
---     (149.99, 3,  '2024-10-01', '2024-11-30'),  -- Giá vé cho ghế 3 trên chuyến bay 2
---     (249.99, 4,  '2024-10-01', '2024-11-30'),  -- Giá vé cho ghế 4 trên chuyến bay 2
---     (349.99, 5,  '2024-11-01', '2024-12-31'),  -- Giá vé cho ghế 5 trên chuyến bay 3
---     (199.99, 6,  '2024-11-01', '2024-12-31');  -- Giá vé cho ghế 6 trên chuyến bay 3
+       (1566000, 'DVK105', 'ECONOMY', '2024-10-16', '2024-10-21'),
+       (3412000, 'DVK105', 'BUSINESS', '2024-10-16', '2024-10-21'),
+       (1739000, 'DVK106', 'ECONOMY', '2024-10-16', '2024-10-21'),
+       (4623000, 'DVK106', 'BUSINESS', '2024-10-16', '2024-10-21'),
+
+       (1739000, 'DVK107', 'ECONOMY', '2024-10-15', '2024-10-20'),
+       (4623000, 'DVK107', 'BUSINESS', '2024-10-15', '2024-10-20'),
+       (1739000, 'DVK108', 'ECONOMY', '2024-10-15', '2024-10-20'),
+       (4623000, 'DVK108', 'BUSINESS', '2024-10-15', '2024-10-20'),
+       (1933000, 'DVK109', 'ECONOMY', '2024-10-15', '2024-10-20'),
+       (5335000, 'DVK109', 'BUSINESS', '2024-10-15', '2024-10-20'),
+       (1933000, 'DVK110', 'ECONOMY', '2024-10-15', '2024-10-20'),
+       (5335000, 'DVK110', 'BUSINESS', '2024-10-15', '2024-10-20'),
+
+       (1566000, 'DVK111', 'ECONOMY', '2024-10-16', '2024-10-21'),
+       (3412000, 'DVK111', 'BUSINESS', '2024-10-16', '2024-10-21'),
+       (1739000, 'DVK112', 'ECONOMY', '2024-10-16', '2024-10-21'),
+       (4623000, 'DVK112', 'BUSINESS', '2024-10-16', '2024-10-21');
+
+
+-- Giá vé cho ghế Economy chuyến bay VN104
+
+
+--SEAT
+-- Dữ liệu giả cho bảng seat
+-- Boeing 787
+INSERT INTO public.seats (model_id, seat_code, ticket_class)
+VALUES (1, '1A', 'BUSINESS'),
+       (1, '1B', 'BUSINESS'),
+       (1, '1C', 'BUSINESS'),
+       (1, '1D', 'BUSINESS'),
+       (1, '1E', 'BUSINESS'),
+       (1, '1F', 'BUSINESS'),
+       (1, '1G', 'BUSINESS'),
+       (1, '1H', 'BUSINESS'),
+       (1, '1J', 'BUSINESS');
+
+-- Giả lập cho các hàng ghế còn lại của Boeing 787
+INSERT INTO public.seats (model_id, seat_code, ticket_class)
+SELECT 1,
+       i::TEXT || j,
+       'ECONOMY'
+FROM generate_series(2, 30) AS i,
+     unnest(ARRAY ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J']) AS j;
+
+-- Airbus A350
+INSERT INTO public.seats (model_id, seat_code, ticket_class)
+VALUES (2, '1A', 'BUSINESS'),
+       (2, '1B', 'BUSINESS'),
+       (2, '1C', 'BUSINESS'),
+       (2, '1D', 'BUSINESS'),
+       (2, '1E', 'BUSINESS'),
+       (2, '1F', 'BUSINESS'),
+       (2, '1G', 'BUSINESS'),
+       (2, '1H', 'BUSINESS'),
+       (2, '1J', 'BUSINESS');
+
+-- Giả lập cho các hàng ghế còn lại của Airbus A350
+INSERT INTO public.seats (model_id, seat_code, ticket_class)
+SELECT 2,
+       i::TEXT || j,
+       'ECONOMY'
+FROM generate_series(2, 30) AS i,
+     unnest(ARRAY ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J']) AS j;
+
+-- Airbus A320 NEO
+INSERT INTO public.seats (model_id, seat_code, ticket_class)
+VALUES (3, '1A', 'BUSINESS'),
+       (3, '1B', 'BUSINESS'),
+       (3, '1C', 'BUSINESS'),
+       (3, '1D', 'BUSINESS'),
+       (3, '1E', 'BUSINESS'),
+       (3, '1F', 'BUSINESS');
+
+-- Giả lập cho các hàng ghế còn lại của Airbus A320 NEO
+INSERT INTO public.seats (model_id, seat_code, ticket_class)
+SELECT 3,
+       i::TEXT || j,
+       'ECONOMY'
+FROM generate_series(2, 30) AS i,
+     unnest(ARRAY ['A', 'B', 'C', 'D', 'E', 'F']) AS j;
+
+-- Airbus A321
+INSERT INTO public.seats (model_id, seat_code, ticket_class)
+VALUES (4, '1A', 'BUSINESS'),
+       (4, '1B', 'BUSINESS'),
+       (4, '1C', 'BUSINESS'),
+       (4, '1D', 'BUSINESS'),
+       (4, '1E', 'BUSINESS'),
+       (4, '1F', 'BUSINESS');
+
+-- Giả lập cho các hàng ghế còn lại của Airbus A321
+INSERT INTO public.seats (model_id, seat_code, ticket_class)
+SELECT 4,
+       i::TEXT || j,
+       'ECONOMY'
+FROM generate_series(2, 30) AS i,
+     unnest(ARRAY ['A', 'B', 'C', 'D', 'E', 'F']) AS j;
+-- Tổng số ghế cho mỗi model
+-- Boeing 787
+--
+-- Khoang Business: 9 ghế (từ 1A đến 1J)
+-- Khoang Economy: 270 ghế (hàng ghế từ 2 đến 30, 9 hàng ghế x 30 ghế cho mỗi hàng)
+-- Tổng số ghế:
+-- Business: 9
+-- Economy: 270
+-- Airbus A350
+--
+-- Khoang Business: 9 ghế (từ 1A đến 1J)
+-- Khoang Economy: 270 ghế (hàng ghế từ 2 đến 30, 9 hàng ghế x 30 ghế cho mỗi hàng)
+-- Tổng số ghế:
+-- Business: 9
+-- Economy: 270
+-- Airbus A320 NEO
+--
+-- Khoang Business: 6 ghế (từ 1A đến 1F)
+-- Khoang Economy: 180 ghế (hàng ghế từ 2 đến 30, 6 hàng ghế x 30 ghế cho mỗi hàng)
+-- Tổng số ghế:
+-- Business: 6
+-- Economy: 180
+-- Airbus A321
+--
+-- Khoang Business: 6 ghế (từ 1A đến 1F)
+-- Khoang Economy: 180 ghế (hàng ghế từ 2 đến 30, 6 hàng ghế x 30 ghế cho mỗi hàng)
+-- Tổng số ghế:
+-- Business: 6
+-- Economy: 180
+
+-- Dữ liệu giả cho bảng seat_availability
+-- Boeing 787
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
+VALUES ('DVK101', 1, 'AVAILABLE'), -- 1A
+       ('DVK101', 2, 'AVAILABLE'), -- 1B
+       ('DVK101', 3, 'AVAILABLE'), -- 1C
+       ('DVK101', 4, 'AVAILABLE'), -- 1D
+       ('DVK101', 5, 'AVAILABLE'), -- 1E
+       ('DVK101', 6, 'AVAILABLE'), -- 1F
+       ('DVK101', 7, 'AVAILABLE'), -- 1G
+       ('DVK101', 8, 'AVAILABLE'), -- 1H
+       ('DVK101', 9, 'AVAILABLE');
+-- 1J
+
+-- Khoang Economy cho Boeing 787
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
+SELECT 'DVK101',
+       seat_id,
+       'AVAILABLE'
+FROM public.seats
+WHERE model_id = 1
+  AND ticket_class = 'ECONOMY';
+-- Chỉ cho ghế Economy
+
+-- Airbus A350
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
+VALUES ('DVK102', 10, 'AVAILABLE'), -- 1A
+       ('DVK102', 11, 'AVAILABLE'), -- 1B
+       ('DVK102', 12, 'AVAILABLE'), -- 1C
+       ('DVK102', 13, 'AVAILABLE'), -- 1D
+       ('DVK102', 14, 'AVAILABLE'), -- 1E
+       ('DVK102', 15, 'AVAILABLE'), -- 1F
+       ('DVK102', 16, 'AVAILABLE'), -- 1G
+       ('DVK102', 17, 'AVAILABLE'), -- 1H
+       ('DVK102', 18, 'AVAILABLE');
+-- 1J
+
+-- Khoang Economy cho Airbus A350
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
+SELECT 'DVK102',
+       seat_id,
+       'AVAILABLE'
+FROM public.seats
+WHERE model_id = 2
+  AND ticket_class = 'ECONOMY';
+-- Chỉ cho ghế Economy
+
+-- Airbus A320 NEO
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
+VALUES ('DVK103', 19, 'AVAILABLE'), -- 1A
+       ('DVK103', 20, 'AVAILABLE'), -- 1B
+       ('DVK103', 21, 'AVAILABLE'), -- 1C
+       ('DVK103', 22, 'AVAILABLE'), -- 1D
+       ('DVK103', 23, 'AVAILABLE'), -- 1E
+       ('DVK103', 24, 'AVAILABLE');
+-- 1F
+
+-- Khoang Economy cho Airbus A320 NEO
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
+SELECT 'DVK103',
+       seat_id,
+       'AVAILABLE'
+FROM public.seats
+WHERE model_id = 3
+  AND ticket_class = 'ECONOMY';
+-- Chỉ cho ghế Economy
+
+-- Airbus A321
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
+VALUES ('DVK104', 25, 'AVAILABLE'), -- 1A
+       ('DVK104', 26, 'AVAILABLE'), -- 1B
+       ('DVK104', 27, 'AVAILABLE'), -- 1C
+       ('DVK104', 28, 'AVAILABLE'), -- 1D
+       ('DVK104', 29, 'AVAILABLE'), -- 1E
+       ('DVK104', 30, 'AVAILABLE');
+-- 1F
+
+-- Khoang Economy cho Airbus A321
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
+SELECT 'DVK104',
+       seat_id,
+       'AVAILABLE'
+FROM public.seats
+WHERE model_id = 4
+  AND ticket_class = 'ECONOMY'; -- Chỉ cho ghế Economy
+
+
 

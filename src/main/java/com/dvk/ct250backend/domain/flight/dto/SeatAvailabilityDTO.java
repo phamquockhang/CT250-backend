@@ -14,17 +14,7 @@ import lombok.experimental.FieldDefaults;
 public class SeatAvailabilityDTO {
     Integer seatAvailabilityId;
 
-    Integer totalSeats;
-    Integer bookedSeats;
-    //Flight flight;
     SeatDTO seat;
 
-   String status;
-
-    String position;
-
-    public Integer getAvailableSeats() {
-        return totalSeats != null && bookedSeats != null ? totalSeats - bookedSeats : null;
-    }
-
+    String status;
 }

@@ -1,19 +1,23 @@
-package com.dvk.ct250backend.domain.country.dto;
+package com.dvk.ct250backend.domain.flight.dto;
+
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CountryDTO {
-    Integer countryId;
-    String countryName;
-    Integer countryCode;
-    String iso2Code;
-    String iso3Code;
+public class ModelDTO {
+
+    Integer modelId;
+
+    @NotBlank(message = "Model name is required")
+    String modelName;
+
 }

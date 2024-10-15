@@ -1,6 +1,6 @@
 package com.dvk.ct250backend.domain.flight.entity;
 
-import com.dvk.ct250backend.domain.flight.enums.SeatClassEnum;
+import com.dvk.ct250backend.domain.flight.enums.TicketClassEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -23,15 +23,16 @@ public class Seat {
     Integer seatId;
 
     @Enumerated(EnumType.STRING)
-    SeatClassEnum seatClass;
+    TicketClassEnum ticketClass;
 
     String seatCode;
 
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "seat", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "seat", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     List<SeatAvailability> seatAvailability;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "airplane_id")
-    Airplane airplane;
+    @JoinColumn(name = "model_id")
+    Model model;
+
 }

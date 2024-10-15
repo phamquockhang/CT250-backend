@@ -8,7 +8,6 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.List;
 
-//@Data
 @Getter
 @Setter
 @Builder
@@ -27,7 +26,7 @@ public class Role extends BaseEntity implements GrantedAuthority {
     String description;
     boolean active;
 
-    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "role", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     List<User> users;
 
     @ManyToMany(fetch = FetchType.EAGER)

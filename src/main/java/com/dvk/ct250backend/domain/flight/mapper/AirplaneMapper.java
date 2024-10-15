@@ -5,7 +5,7 @@ import com.dvk.ct250backend.domain.flight.entity.Airplane;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {ModelMapper.class})
 public interface AirplaneMapper {
     AirplaneDTO toAirplaneDTO(Airplane Airplane);
     Airplane toAirplane(AirplaneDTO AirplaneDTO);

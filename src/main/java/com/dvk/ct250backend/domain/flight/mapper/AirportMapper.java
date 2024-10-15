@@ -11,4 +11,5 @@ public interface AirportMapper {
     AirportDTO toAirportDTO(Airport airport);
     Airport toAirport(AirportDTO airportDTO);
     void updateAirportFromDTO(@MappingTarget Airport airport, AirportDTO airportDTO);
+
 }

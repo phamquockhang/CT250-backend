@@ -33,7 +33,7 @@ public class Route extends BaseEntity {
     @Enumerated(EnumType.STRING)
     RouteTypeEnum routeType;
 
-    @OneToMany(mappedBy = "route", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "route", cascade = CascadeType.ALL, orphanRemoval = true)
     Set<Flight> flights;
 
 }

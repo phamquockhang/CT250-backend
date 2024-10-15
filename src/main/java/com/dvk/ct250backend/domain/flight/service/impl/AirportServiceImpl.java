@@ -34,6 +34,38 @@ public class AirportServiceImpl implements AirportService {
     AirportMapper airportMapper;
     RequestParamUtils requestParamUtils;
 
+//    @Override
+//    @Cacheable(value = "airports")
+//    public Page<AirportDTO> getAirports(Map<String, String> params) {
+//        int page = Integer.parseInt(params.getOrDefault("page", "1"));
+//        int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
+//
+//        List<Sort.Order> sortOrders = requestParamUtils.toSortOrdersByElastic(params);
+//        Pageable pageable = PageRequest.of(page-1, pageSize, Sort.by(sortOrders));
+//
+//        String query = params.getOrDefault("query", "").toUpperCase();
+//         org.springframework.data.domain.Page<SearchAirportDocument> airportPage;
+//
+//        if (query.isEmpty()) {
+//            airportPage = airportElasticsearchRepository.findAll(pageable);
+//        } else {
+//            airportPage = airportElasticsearchRepository.findAll(query, pageable);
+//        }
+//
+//        Meta meta = Meta.builder()
+//                .page(pageable.getPageNumber() + 1)
+//                .pageSize(pageable.getPageSize())
+//                .pages(airportPage.getTotalPages())
+//                .total(airportPage.getTotalElements())
+//                .build();
+//
+//        return Page.<AirportDTO>builder()
+//                .meta(meta)
+//                .content(airportPage.getContent().stream()
+//                        .map(airportMapper::toAirportDTO)
+//                        .collect(Collectors.toList()))
+//                .build();
+//    }
 
     @Override
     @Cacheable(value = "airports")
@@ -73,12 +105,14 @@ public class AirportServiceImpl implements AirportService {
         return spec;
     }
 
+
     @Override
     @Transactional
     @CacheEvict(value = "airports", allEntries = true)
     public AirportDTO createAirport(AirportDTO airportDTO) {
         Airport airport = airportMapper.toAirport(airportDTO);
-        return airportMapper.toAirportDTO(airportRepository.save(airport));
+        airport = airportRepository.save(airport);
+        return airportMapper.toAirportDTO(airport);
     }
 
     @Override
@@ -90,10 +124,12 @@ public class AirportServiceImpl implements AirportService {
 
     @Override
     @CacheEvict(value = "airports", allEntries = true)
+    @Transactional
     public AirportDTO updateAirport(Integer id, AirportDTO airportDTO) throws ResourceNotFoundException {
         Airport airport = airportRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Airport not found"));
         airportMapper.updateAirportFromDTO(airport, airportDTO);
-        return airportMapper.toAirportDTO(airportRepository.save(airport));
+        airport = airportRepository.save(airport);
+        return airportMapper.toAirportDTO(airport);
     }
 
     @Override
@@ -103,6 +139,5 @@ public class AirportServiceImpl implements AirportService {
                 .map(airportMapper::toAirportDTO)
                 .collect(Collectors.toList());
     }
-
 
 }

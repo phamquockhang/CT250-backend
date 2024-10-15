@@ -36,6 +36,7 @@ public class AirportDTO {
 
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
+
     String createdBy;
     String updatedBy;
 }

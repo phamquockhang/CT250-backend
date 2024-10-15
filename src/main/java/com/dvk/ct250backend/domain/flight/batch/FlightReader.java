@@ -1,5 +1,6 @@
 package com.dvk.ct250backend.domain.flight.batch;
 
+
 import com.dvk.ct250backend.domain.flight.entity.Airplane;
 import com.dvk.ct250backend.domain.flight.entity.Flight;
 import com.dvk.ct250backend.domain.flight.entity.Route;

@@ -23,7 +23,6 @@ public class Airplane extends BaseEntity {
     @SequenceGenerator(name = "airplane_id_seq", sequenceName = "airplanes_seq", allocationSize = 1)
     Integer airplaneId;
 
-    String modelName; // Tên mô hình máy bay
     String manufacturer; // Nhà sản xuất
     Integer maxDistance; // Khoảng cách tối đa (km)
     Integer velocity; // Tốc độ bay tối đa (km/h)
@@ -35,11 +34,15 @@ public class Airplane extends BaseEntity {
     @Enumerated(EnumType.STRING)// Chiều cao (m)
     AirplaneStatusEnum status; // Trạng thái máy bay
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "airplane", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "airplane", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     Set<Flight> flights; // Danh sách các chuyến bay
 
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "airplane", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    Set<Seat> seats; // Danh sách các ghế trên máy bay
+    @Column(unique = true, nullable = false)
+    String registrationNumber;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "model_id")
+    Model model;
 
 }

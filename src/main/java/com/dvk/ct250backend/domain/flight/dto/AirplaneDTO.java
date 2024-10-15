@@ -17,8 +17,11 @@ import java.time.LocalDateTime;
 public class AirplaneDTO {
     Integer airplaneId;
 
+    @NotBlank(message = "Registration number is required")
+    String registrationNumber; // Số đăng ký
+
     @NotBlank(message = "Model name is required")
-    String modelName; // Tên mô hình máy bay
+    ModelDTO model;
 
     @NotBlank(message = "Manufacturer is required")
     String manufacturer; // Nhà sản xuất

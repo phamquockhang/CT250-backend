@@ -19,9 +19,6 @@ public class SeatAvailability {
     @SequenceGenerator(name = "seat_availability_id_seq", sequenceName = "seat_availability_seq", allocationSize = 1)
     Integer seatAvailabilityId;
 
-    Integer totalSeats;
-    Integer bookedSeats;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "flight_id")
     Flight flight;
@@ -32,7 +29,5 @@ public class SeatAvailability {
 
     @Enumerated(EnumType.STRING)
    SeatAvailabilityStatus status;
-
-   String position;
 
 }
