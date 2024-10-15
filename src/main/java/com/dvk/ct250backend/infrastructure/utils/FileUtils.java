@@ -46,5 +46,8 @@ public class FileUtils {
         var uploadResult = cloudinary.uploader().upload(file, ObjectUtils.asMap("folder", "/airports/"));
         return uploadResult.get("url").toString();
     }
+    public void deleteFileFromCloudinary(String publicId) throws IOException {
+        cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
+    }
 
 }
