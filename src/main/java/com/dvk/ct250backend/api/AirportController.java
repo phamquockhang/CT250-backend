@@ -11,7 +11,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -35,10 +37,10 @@ public class AirportController {
 
 
     @PostMapping
-    public ApiResponse<AirportDTO> createAirport(@Valid @RequestBody AirportDTO airportDTO) {
+    public ApiResponse<AirportDTO> createAirport(@ModelAttribute  AirportDTO airportDTO, @RequestParam MultipartFile cityImg) throws IOException {
         return ApiResponse.<AirportDTO>builder()
                 .status(HttpStatus.CREATED.value())
-                .payload(airportService.createAirport(airportDTO))
+                .payload(airportService.createAirport(airportDTO, cityImg))
                 .build();
     }
 

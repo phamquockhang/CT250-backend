@@ -1,5 +1,8 @@
 package com.dvk.ct250backend.infrastructure.utils;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,7 +13,11 @@ import java.io.InputStream;
 import java.util.Objects;
 
 @Component
+@RequiredArgsConstructor
 public class FileUtils {
+
+    private final Cloudinary cloudinary;
+
     public String saveTempFile(MultipartFile file) throws IOException {
         if (file.isEmpty()) {
             throw new IllegalArgumentException("File is empty");
@@ -26,4 +33,18 @@ public class FileUtils {
         }
         return tempFile.getAbsolutePath();
     }
+
+    public File convertMultipartFileToFile(MultipartFile file) throws IOException {
+        File convFile = new File(System.getProperty("java.io.tmpdir") + "/" + file.getOriginalFilename());
+        try (FileOutputStream fos = new FileOutputStream(convFile)) {
+            fos.write(file.getBytes());
+        }
+        return convFile;
+    }
+
+    public String uploadFileToCloudinary(File file) throws IOException {
+        var uploadResult = cloudinary.uploader().upload(file, ObjectUtils.asMap("folder", "/airports/"));
+        return uploadResult.get("url").toString();
+    }
+
 }

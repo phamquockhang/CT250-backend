@@ -1,5 +1,7 @@
 package com.dvk.ct250backend.domain.flight.service.impl;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.dvk.ct250backend.app.dto.response.Meta;
 import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
@@ -9,6 +11,7 @@ import com.dvk.ct250backend.domain.flight.entity.Airport;
 import com.dvk.ct250backend.domain.flight.mapper.AirportMapper;
 import com.dvk.ct250backend.domain.flight.repository.AirportRepository;
 import com.dvk.ct250backend.domain.flight.service.AirportService;
+import com.dvk.ct250backend.infrastructure.utils.FileUtils;
 import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
 import com.dvk.ct250backend.infrastructure.utils.StringUtils;
 import jakarta.persistence.criteria.Join;
@@ -25,12 +28,15 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.text.Normalizer;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,39 +48,7 @@ public class AirportServiceImpl implements AirportService {
     AirportMapper airportMapper;
     RequestParamUtils requestParamUtils;
     StringUtils stringUtils;
-
-//    @Override
-//    @Cacheable(value = "airports")
-//    public Page<AirportDTO> getAirports(Map<String, String> params) {
-//        int page = Integer.parseInt(params.getOrDefault("page", "1"));
-//        int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
-//
-//        List<Sort.Order> sortOrders = requestParamUtils.toSortOrdersByElastic(params);
-//        Pageable pageable = PageRequest.of(page-1, pageSize, Sort.by(sortOrders));
-//
-//        String query = params.getOrDefault("query", "").toUpperCase();
-//         org.springframework.data.domain.Page<SearchAirportDocument> airportPage;
-//
-//        if (query.isEmpty()) {
-//            airportPage = airportElasticsearchRepository.findAll(pageable);
-//        } else {
-//            airportPage = airportElasticsearchRepository.findAll(query, pageable);
-//        }
-//
-//        Meta meta = Meta.builder()
-//                .page(pageable.getPageNumber() + 1)
-//                .pageSize(pageable.getPageSize())
-//                .pages(airportPage.getTotalPages())
-//                .total(airportPage.getTotalElements())
-//                .build();
-//
-//        return Page.<AirportDTO>builder()
-//                .meta(meta)
-//                .content(airportPage.getContent().stream()
-//                        .map(airportMapper::toAirportDTO)
-//                        .collect(Collectors.toList()))
-//                .build();
-//    }
+    FileUtils fileUtils;
 
     @Override
     @Cacheable(value = "airports")
@@ -100,19 +74,6 @@ public class AirportServiceImpl implements AirportService {
                 .build();
     }
 
-//    private Specification<Airport> getAirportSpec(Map<String, String> params) {
-//        Specification<Airport> spec = Specification.where(null);
-//        if(params.containsKey("query")){
-//            String searchValue = params.get("query");
-//            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.or(
-//                    criteriaBuilder.like(criteriaBuilder.lower(root.get("airportName")), "%" + searchValue.toLowerCase() + "%"),
-//                    criteriaBuilder.like(root.get("airportCode"), "%" + params.get("query").toUpperCase() + "%"),
-//                    criteriaBuilder.like(criteriaBuilder.lower(root.get("cityName")), "%" + searchValue.toLowerCase() + "%"),
-//                    criteriaBuilder.like(root.get("cityCode"), "%" + params.get("query").toUpperCase() + "%")
-//            ));
-//        }
-//        return spec;
-//    }
 
 
     private Specification<Airport> getAirportSpec(Map<String, String> params) {
@@ -144,11 +105,17 @@ public class AirportServiceImpl implements AirportService {
     @Override
     @Transactional
     @CacheEvict(value = "airports", allEntries = true)
-    public AirportDTO createAirport(AirportDTO airportDTO) {
+    public AirportDTO createAirport(AirportDTO airportDTO, MultipartFile imgUrl) throws IOException {
+
+        File convFile = fileUtils.convertMultipartFileToFile(imgUrl);
+        String imageUrl = fileUtils.uploadFileToCloudinary(convFile);
+        airportDTO.setImgUrl(imageUrl);
         Airport airport = airportMapper.toAirport(airportDTO);
+
         airport = airportRepository.save(airport);
         return airportMapper.toAirportDTO(airport);
     }
+
 
     @Override
     @CacheEvict(value = "airports", allEntries = true)
