@@ -20,6 +20,7 @@ services:
     ports:
       - "6379:6379"
 
+
 #  elasticsearch:
 #    container_name: elasticsearch
 #    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.2
@@ -39,7 +40,7 @@ services:
 #    build:
 #      context: ./logstash/
 #      dockerfile: Dockerfile
-##    image: ct250-logstash:8.15.2
+#    image: ct250-logstash:8.15.2
 #    restart: always
 #    ports:
 #      - "5044:5044"
@@ -57,10 +58,10 @@ volumes:
     name: postgres
   redis:
     name: redis
-  elasticsearch:
-    name: elasticsearch
-  logstash:
-    name: logstash
+#  elasticsearch:
+#    name: elasticsearch
+#  logstash:
+#    name: logstash
 networks:
   default:
     name: ct250
