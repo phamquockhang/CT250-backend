@@ -1,0 +1,59 @@
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "vietnamese_analyzer": {
+          "type": "custom",
+          "tokenizer": "icu_tokenizer",
+          "filter": ["icu_folding", "icu_normalizer"]
+        },
+        "english_analyzer": {
+          "type": "standard"
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "airport_name": {
+        "type": "text",
+        "fields": {
+          "vietnamese": {
+            "type": "text",
+            "analyzer": "vietnamese_analyzer"
+          },
+          "english": {
+            "type": "text",
+            "analyzer": "english_analyzer"
+          }
+        }
+      },
+      "city_name": {
+        "type": "text",
+        "fields": {
+          "vietnamese": {
+            "type": "text",
+            "analyzer": "vietnamese_analyzer"
+          },
+          "english": {
+            "type": "text",
+            "analyzer": "english_analyzer"
+          }
+        }
+      },
+      "country_name": {
+        "type": "text",
+        "fields": {
+          "vietnamese": {
+            "type": "text",
+            "analyzer": "vietnamese_analyzer"
+          },
+          "english": {
+            "type": "text",
+            "analyzer": "english_analyzer"
+          }
+        }
+      }
+    }
+  }
+}
