@@ -13,6 +13,10 @@ spring:
       ddl-auto: create-drop
     defer-datasource-initialization: true
 
+  servlet:
+    multipart:
+      enabled: true
+
 
   data:
     web:
@@ -49,8 +53,13 @@ spring:
     allow-bean-definition-overriding: true
 
 
-application:
+management:
+  health:
+    elasticsearch:
+      enabled: false
 
+
+application:
   security:
     rsa:
       rsa-public-key: classpath:certs/public-key.pem
@@ -59,7 +68,10 @@ application:
       access-token-validity-in-seconds: 604800 # 1 days
       refresh-token-validity-in-seconds: 604800 #7 days
 
-management:
-  health:
-    elasticsearch:
-      enabled: false
+
+cloudinary:
+  url: ${CLOUDINARY_URL:cloudinary://146776767144144:S28Z_bYDWnTZCpfrgMHwJw2k4cw@dq9aigkgv}
+
+
+
+

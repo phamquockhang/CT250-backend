@@ -31,6 +31,8 @@ public class Airport extends BaseEntity {
 
     String cityCode;
 
+    String imgUrl;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id")
     Country country;

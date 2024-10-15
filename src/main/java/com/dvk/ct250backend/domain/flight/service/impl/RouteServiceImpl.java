@@ -10,6 +10,7 @@ import com.dvk.ct250backend.domain.flight.mapper.RouteMapper;
 import com.dvk.ct250backend.domain.flight.repository.RouteRepository;
 import com.dvk.ct250backend.domain.flight.service.RouteService;
 import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
+import com.dvk.ct250backend.infrastructure.utils.StringUtils;
 import jakarta.persistence.criteria.Join;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,7 @@ import java.util.stream.Collectors;
 public class RouteServiceImpl implements RouteService {
     RouteRepository routeRepository;
     RouteMapper routeMapper;
+    StringUtils  stringUtils;
     RequestParamUtils requestParamUtils;
 
     @Override
