@@ -22,9 +22,9 @@ spring:
       host: ${REDIS_HOST:localhost}
       port: ${REDIS_PORT:6379}
       password: ${REDIS_PASSWORD:""}
-#    elasticsearch:
-#      repositories:
-#        enabled: true
+    elasticsearch:
+      repositories:
+        enabled: true
 
   batch:
     job:
@@ -58,3 +58,8 @@ application:
     jwt:
       access-token-validity-in-seconds: 604800 # 1 days
       refresh-token-validity-in-seconds: 604800 #7 days
+
+management:
+  health:
+    elasticsearch:
+      enabled: false
