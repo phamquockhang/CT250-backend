@@ -134,7 +134,7 @@ public class AirportServiceImpl implements AirportService {
 
             String currentImageUrl = airport.getImgUrl();
             if (currentImageUrl != null && !currentImageUrl.isEmpty()) {
-                String publicId = currentImageUrl.substring(currentImageUrl.lastIndexOf('/') + 1, currentImageUrl.lastIndexOf('.'));
+                String publicId = fileUtils.getPublicIdFromCloudinary(currentImageUrl);
                 fileUtils.deleteFileFromCloudinary(publicId);
             }
             File convFile = fileUtils.convertMultipartFileToFile(imgUrl);
