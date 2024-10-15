@@ -53,10 +53,10 @@ public class AirportController {
     }
 
     @PutMapping("/{id}")
-    public ApiResponse<AirportDTO> updateAirport(@PathVariable("id") Integer id, @Valid @RequestBody AirportDTO airportDTO) throws ResourceNotFoundException {
+    public ApiResponse<AirportDTO> updateAirport(@PathVariable("id") Integer id, @ModelAttribute  AirportDTO airportDTO, @RequestParam MultipartFile cityImg) throws ResourceNotFoundException, IOException {
         return ApiResponse.<AirportDTO>builder()
                 .status(HttpStatus.OK.value())
-                .payload(airportService.updateAirport(id, airportDTO))
+                .payload(airportService.updateAirport(id, airportDTO, cityImg))
                 .build();
     }
 

@@ -127,8 +127,15 @@ public class AirportServiceImpl implements AirportService {
     @Override
     @CacheEvict(value = "airports", allEntries = true)
     @Transactional
-    public AirportDTO updateAirport(Integer id, AirportDTO airportDTO) throws ResourceNotFoundException {
+    public AirportDTO updateAirport(Integer id, AirportDTO airportDTO, MultipartFile imgUrl) throws ResourceNotFoundException, IOException {
         Airport airport = airportRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Airport not found"));
+
+        if(imgUrl != null) {
+            File convFile = fileUtils.convertMultipartFileToFile(imgUrl);
+            String imageUrl = fileUtils.uploadFileToCloudinary(convFile);
+            airportDTO.setImgUrl(imageUrl);
+        }
+
         airportMapper.updateAirportFromDTO(airport, airportDTO);
         airport = airportRepository.save(airport);
         return airportMapper.toAirportDTO(airport);

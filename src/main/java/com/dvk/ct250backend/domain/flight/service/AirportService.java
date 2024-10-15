@@ -14,7 +14,7 @@ import java.util.Map;
 public interface AirportService {
     AirportDTO createAirport(AirportDTO airportDTO, MultipartFile imgUrl) throws IOException;
     void deleteAirport(Integer id) throws ResourceNotFoundException;
-    AirportDTO updateAirport(Integer id, AirportDTO airportDTO) throws ResourceNotFoundException;
+    AirportDTO updateAirport(Integer id, AirportDTO airportDTO, MultipartFile imgUrl) throws ResourceNotFoundException, IOException;
     Page<AirportDTO> getAirports(Map<String, String> params);
     List<AirportDTO> getAllAirports();
 }
