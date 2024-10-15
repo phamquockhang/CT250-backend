@@ -26,7 +26,6 @@ services:
     environment:
       - discovery.type=single-node
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - bootstrap.memory_lock=true
       - xpack.security.enabled=false
     restart: always
     ports:
@@ -40,7 +39,7 @@ services:
     build:
       context: ./logstash/
       dockerfile: Dockerfile
-#    image: ct250-logstash:8.15.2
+    image: ct250-logstash:8.15.2
     restart: always
     ports:
       - "5044:5044"
