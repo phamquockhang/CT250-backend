@@ -73,21 +73,26 @@ public class FlightServiceImpl implements FlightService {
     public void uploadFlights(List<MultipartFile> files) throws IOException {
         String flightFilePath = "";
         String flightPricingFilePath = "";
+        String seatAvailabilityFilePath = "";
         for (MultipartFile file : files) {
             if (Objects.equals(file.getOriginalFilename(), "flights.csv")) {
                 flightFilePath = fileUtils.saveTempFile(file);
             } else if (Objects.equals(file.getOriginalFilename(), "flight_pricing.csv")) {
                 flightPricingFilePath = fileUtils.saveTempFile(file);
+            } else if (Objects.equals(file.getOriginalFilename(), "seat_availability.csv")) {
+                seatAvailabilityFilePath = fileUtils.saveTempFile(file);
             }
         }
 
         JobParameters jobParameters = new JobParametersBuilder()
                 .addString("flightFile", flightFilePath)
                 .addString("flightPricingFile", flightPricingFilePath)
+                .addString("seatAvailabilityFile", seatAvailabilityFilePath)
                 .addLong("startAt", System.currentTimeMillis())
                 .toJobParameters();
         flightUploadJobListener.setFlightFilePath(flightFilePath);
         flightUploadJobListener.setFlightPricingFilePath(flightPricingFilePath);
+        flightUploadJobListener.setSeatAvailabilityFilePath(seatAvailabilityFilePath);
 
         try {
             jobLauncher.run(flightUploadJob, jobParameters);
