@@ -1,8 +1,9 @@
 package com.dvk.ct250backend.domain.flight.batch;
 
 import com.dvk.ct250backend.domain.flight.entity.Flight;
-import com.dvk.ct250backend.domain.flight.entity.FlightPricing;
-import com.dvk.ct250backend.domain.flight.enums.TicketClassEnum;
+import com.dvk.ct250backend.domain.flight.entity.Seat;
+import com.dvk.ct250backend.domain.flight.entity.SeatAvailability;
+import com.dvk.ct250backend.domain.flight.enums.SeatAvailabilityStatus;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemStream;
@@ -15,22 +16,18 @@ import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.core.io.Resource;
 import org.springframework.lang.NonNull;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+public class SeatAvailabilityReader implements ItemReader<SeatAvailability>, ItemStream {
+    private final FlatFileItemReader<SeatAvailability> delegate;
 
-public class FlightPricingReader implements ItemReader<FlightPricing>, ItemStream {
-    private final FlatFileItemReader<FlightPricing> delegate;
-
-
-    public FlightPricingReader(Resource resource) {
+    public SeatAvailabilityReader(Resource resource) {
         this.delegate = new FlatFileItemReader<>();
         this.delegate.setResource(resource);
-        this.delegate.setLineMapper(flightPricingLineMapper());
+        this.delegate.setLineMapper(seatAvailabilityLineMapper());
         this.delegate.setLinesToSkip(1);
     }
 
     @Override
-    public FlightPricing read() throws Exception {
+    public SeatAvailability read() throws Exception {
         return delegate.read();
     }
 
@@ -44,25 +41,23 @@ public class FlightPricingReader implements ItemReader<FlightPricing>, ItemStrea
         delegate.close();
     }
 
-    private LineMapper<FlightPricing> flightPricingLineMapper() {
+    private LineMapper<SeatAvailability> seatAvailabilityLineMapper() {
         DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();
         lineTokenizer.setDelimiter(",");
         lineTokenizer.setStrict(false);
-        lineTokenizer.setNames("flight_id", "ticket_class", "ticket_price", "valid_from", "valid_to");
-        DefaultLineMapper<FlightPricing> lineMapper = new DefaultLineMapper<>();
+        lineTokenizer.setNames("flight_id", "seat_id", "status");
+        DefaultLineMapper<SeatAvailability> lineMapper = new DefaultLineMapper<>();
         lineMapper.setLineTokenizer(lineTokenizer);
-        lineMapper.setFieldSetMapper(flightPricingFieldSetMapper());
+        lineMapper.setFieldSetMapper(seatAvailabilityFieldSetMapper());
         return lineMapper;
     }
 
-    private FieldSetMapper<FlightPricing> flightPricingFieldSetMapper() {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        return fieldSet -> FlightPricing.builder()
+    private FieldSetMapper<SeatAvailability> seatAvailabilityFieldSetMapper() {
+
+        return fieldSet -> SeatAvailability.builder()
                 .flight(Flight.builder().flightId(fieldSet.readString("flight_id")).build())
-                .ticketClass(TicketClassEnum.valueOf(fieldSet.readString("ticket_class")))
-                .ticketPrice(fieldSet.readDouble("ticket_price"))
-                .validFrom(LocalDate.parse(fieldSet.readString("valid_from"), dateTimeFormatter))
-                .validTo(LocalDate.parse(fieldSet.readString("valid_to"), dateTimeFormatter))
+                .seat(Seat.builder().seatId(fieldSet.readInt("seat_id")).build())
+                .status(SeatAvailabilityStatus.valueOf(fieldSet.readString("status")))
                 .build();
     }
 }
