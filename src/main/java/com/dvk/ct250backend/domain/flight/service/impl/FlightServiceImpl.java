@@ -117,10 +117,10 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public List<FlightOverview> getFlightOverview(String startDate, String endDate) {
-        LocalDate start = parseDate(startDate);
-        LocalDate end = parseDate(endDate);
-        Specification<Flight> spec = getFlightRangeSpec(new FlightSearchRequest(), start, end);
+    public List<FlightOverview> getFlightOverview(FlightSearchRequest flightSearchRequest) {
+        LocalDate start = parseDate(flightSearchRequest.getDepartureDate());
+        LocalDate end = parseDate(flightSearchRequest.getArrivalDate());
+        Specification<Flight> spec = getFlightRangeSpec(flightSearchRequest, start, end);
         List<Flight> flights = flightRepository.findAll(spec);
         TreeMap<String, List<Flight>> flightMap = new TreeMap<>();
         flights.forEach(flight -> {

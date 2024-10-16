@@ -77,11 +77,10 @@ public class FlightController {
     }
 
     @GetMapping("/overview")
-    public ApiResponse<List<FlightOverview>> getFlightOverview(@RequestParam("startDate") String startDate,
-                                                          @RequestParam("endDate") String endDate) {
+    public ApiResponse<List<FlightOverview>> getFlightOverview(@ModelAttribute FlightSearchRequest flightSearchRequest) {
         return ApiResponse.<List<FlightOverview>>builder()
                 .status(HttpStatus.OK.value())
-                .payload(flightService.getFlightOverview(startDate, endDate))
+                .payload(flightService.getFlightOverview(flightSearchRequest))
                 .build();
     }
 
