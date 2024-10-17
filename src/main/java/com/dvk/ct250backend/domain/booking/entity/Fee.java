@@ -29,7 +29,7 @@ public class Fee {
     BookingDetailLine bookingDetailLine;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "flight_pricing_id")
-    FlightPricing flightPricing;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "flight_pricing_id")
+//    FlightPricing flightPricing;
 }

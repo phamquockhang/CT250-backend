@@ -56,6 +56,15 @@ CREATE SEQUENCE models_seq
 ALTER TABLE public.models
     ALTER COLUMN model_id SET DEFAULT nextval('models_seq');
 
+-- TICKET_CLASS
+DROP SEQUENCE IF EXISTS ticket_class_seq;
+CREATE SEQUENCE ticket_class_seq
+    START WITH 1
+    INCREMENT BY 1;
+ALTER TABLE public.ticket_class
+    ALTER COLUMN ticket_class_id SET DEFAULT nextval('ticket_class_seq'),
+ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
 
 -- -- --ROUTE
 DROP SEQUENCE IF EXISTS routes_seq;
@@ -66,26 +75,6 @@ ALTER TABLE public.routes
     ALTER COLUMN route_id SET DEFAULT nextval('routes_seq'),
     ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
 
--- -- --FLIGHT
--- DROP SEQUENCE IF EXISTS flights_seq;
--- CREATE SEQUENCE flights_seq
---     START WITH 1
---     INCREMENT BY 1;
--- ALTER TABLE public.flights
---     ALTER COLUMN flight_id SET DEFAULT nextval('flights_seq'),
--- ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP,
--- ALTER COLUMN flight_status SET DEFAULT 'SCHEDULED';
---
--- -- FLIGHT_PRICING
--- DROP SEQUENCE IF EXISTS flight_pricing_seq;
--- CREATE SEQUENCE flight_pricing_seq
---     START WITH 1
---     INCREMENT BY 1;
--- ALTER TABLE public.flight_pricing
---     ALTER COLUMN flight_pricing_id SET DEFAULT nextval('flight_pricing_seq'),
--- ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
---
--- -- SEAT
 -- --FLIGHT
 DROP SEQUENCE IF EXISTS flights_seq;
 CREATE SEQUENCE flights_seq
@@ -94,6 +83,7 @@ CREATE SEQUENCE flights_seq
 ALTER TABLE public.flights
     ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP,
     ALTER COLUMN flight_status SET DEFAULT 'SCHEDULED';
+
 
 -- FLIGHT_PRICING
 DROP SEQUENCE IF EXISTS flight_pricing_seq;
@@ -121,13 +111,7 @@ ALTER TABLE public.seat_availability
     ALTER COLUMN seat_availability_id SET DEFAULT nextval('seat_availability_seq');
 
 
--- FLIGHT
--- Drop SEQUENCE IF EXISTS flight_seq;
--- CREATE SEQUENCE flight_seq
---     START WITH 1
---     INCREMENT BY 1;
-ALTER TABLE public.flights
-ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
 
 
 

@@ -21,12 +21,12 @@ public class FlightPricingDTO {
     @NotBlank(message = "Ticket price is required")
     Double ticketPrice;
 
-    @NotBlank(message = "Seat class is required")
-    String ticketClass;
-
     @NotBlank(message = "Valid from is required")
     LocalDate validFrom;
 
     @NotBlank(message = "Valid to is required")
     LocalDate validTo;
+
+    @NotBlank(message = "Ticket class is required")
+    TicketClassDTO ticketClass;
 }
