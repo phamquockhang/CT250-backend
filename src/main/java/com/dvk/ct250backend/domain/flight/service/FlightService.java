@@ -17,7 +17,7 @@ public interface FlightService {
     FlightDTO updateFlight(String id, FlightDTO flightDTO) throws ResourceNotFoundException;
     List<FlightDTO> searchFlights(FlightSearchRequest flightSearchRequest);
 
-    List<FlightOverview> getFlightOverview(String startDate, String endDate);
+    List<FlightOverview> getFlightOverview(FlightSearchRequest flightSearchRequest);
 
     Page<FlightDTO> getFlights(Map<String,String> params);
 
