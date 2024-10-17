@@ -1,5 +1,6 @@
 package com.dvk.ct250backend.domain.flight.entity;
 
+import com.dvk.ct250backend.domain.booking.entity.Fee;
 import com.dvk.ct250backend.domain.common.entity.BaseEntity;
 
 import com.dvk.ct250backend.domain.flight.enums.TicketClassEnum;
@@ -8,6 +9,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -38,4 +40,7 @@ public class FlightPricing extends BaseEntity {
 
     @Column(name = "valid_to")
     LocalDate validTo;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "flightPricing", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    Set<Fee> fees;
 }

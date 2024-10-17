@@ -1,5 +1,6 @@
 package com.dvk.ct250backend.domain.flight.entity;
 
+import com.dvk.ct250backend.domain.booking.entity.Booking;
 import com.dvk.ct250backend.domain.common.entity.BaseEntity;
 import com.dvk.ct250backend.domain.flight.enums.FlightStatusEnum;
 import jakarta.persistence.*;
@@ -9,6 +10,7 @@ import lombok.experimental.FieldDefaults;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -22,7 +24,6 @@ public class Flight extends BaseEntity {
 
     @Id
     String flightId;
-
 
     LocalDateTime departureDateTime;
     LocalDateTime arrivalDateTime;
@@ -44,7 +45,11 @@ public class Flight extends BaseEntity {
     @Enumerated(EnumType.STRING)
     FlightStatusEnum flightStatus;
 
+    @OneToMany(mappedBy = "destinationFlight", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    Set<Booking> destinationBookings;
 
+    @OneToMany(mappedBy = "departureFlight", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    Set<Booking> departureBookings;
 
     @Transient
     public String getFlightDuration() {
