@@ -24,9 +24,7 @@ public class Seat {
 
     @Enumerated(EnumType.STRING)
     TicketClassEnum ticketClass;
-
     String seatCode;
-
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "seat", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     List<SeatAvailability> seatAvailability;

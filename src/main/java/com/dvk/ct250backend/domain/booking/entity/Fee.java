@@ -1,6 +1,5 @@
 package com.dvk.ct250backend.domain.booking.entity;
 
-import com.dvk.ct250backend.domain.flight.entity.FlightPricing;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -21,15 +20,10 @@ public class Fee {
 
     String feeName;
     Double amount;
-
-    String type;// fee or tax
+    String type;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booking_detail_line_id")
     BookingDetailLine bookingDetailLine;
 
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "flight_pricing_id")
-//    FlightPricing flightPricing;
 }
