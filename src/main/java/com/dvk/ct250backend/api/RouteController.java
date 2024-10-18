@@ -6,6 +6,7 @@ import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.flight.dto.RouteDTO;
 import com.dvk.ct250backend.domain.flight.service.RouteService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -42,7 +43,7 @@ public class RouteController {
     }
 
     @PostMapping
-    public ApiResponse<RouteDTO> createRoute(@RequestBody RouteDTO routeDTO) {
+    public ApiResponse<RouteDTO> createRoute(@Valid @RequestBody RouteDTO routeDTO) throws ResourceNotFoundException {
         return ApiResponse.<RouteDTO>builder()
             .status(HttpStatus.CREATED.value())
             .payload(routeService.createRoute(routeDTO))

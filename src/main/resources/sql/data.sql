@@ -476,73 +476,74 @@ VALUES ('1', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76, 'ACTIVE', 'N78701')
 
 
 
-INSERT INTO public.routes (departure_airport_id, arrival_airport_id, route_type)
-VALUES (2, 33, 'INTERNATIONAL'), -- HAN đến TPE (Đài Bắc)
-       (2, 61, 'INTERNATIONAL'), -- HAN đến HKG (Hồng Kông)
-       (2, 82, 'INTERNATIONAL'), -- HAN đến FOC (Phúc Kiến)
-       (2, 36, 'INTERNATIONAL'), -- HAN đến KUL (Kuala Lumpur)
-       (2, 37, 'INTERNATIONAL'), -- HAN đến SIN (Singapore)
-       (2, 49, 'INTERNATIONAL'), -- HAN đến BKK (Bangkok)
-       (2, 31, 'INTERNATIONAL'), -- HAN đến ICN (Seoul)
-       (2, 26, 'INTERNATIONAL'), -- HAN đến NRT (Tokyo)
+INSERT INTO public.routes (departure_airport_id, arrival_airport_id, route_type, duration)
+VALUES
+    -- Chuyến bay quốc tế từ Hà Nội
+    (2, 33, 'INTERNATIONAL', 180), -- HAN đến TPE (Đài Bắc)
+    (2, 61, 'INTERNATIONAL', 150), -- HAN đến HKG (Hồng Kông)
+    (2, 82, 'INTERNATIONAL', 200), -- HAN đến FOC (Phúc Kiến)
+    (2, 36, 'INTERNATIONAL', 210), -- HAN đến KUL (Kuala Lumpur)
+    (2, 37, 'INTERNATIONAL', 180), -- HAN đến SIN (Singapore)
+    (2, 49, 'INTERNATIONAL', 120), -- HAN đến BKK (Bangkok)
+    (2, 31, 'INTERNATIONAL', 210), -- HAN đến ICN (Seoul)
+    (2, 26, 'INTERNATIONAL', 300), -- HAN đến NRT (Tokyo)
 
-       -- Chuyến bay quốc tế từ Sài Gòn
-       (1, 33, 'INTERNATIONAL'), -- SGN đến TPE
-       (1, 61, 'INTERNATIONAL'), -- SGN đến HKG
-       (1, 82, 'INTERNATIONAL'), -- SGN đến FOC
-       (1, 36, 'INTERNATIONAL'), -- SGN đến KUL
-       (1, 37, 'INTERNATIONAL'), -- SGN đến SIN
-       (1, 49, 'INTERNATIONAL'), -- SGN đến BKK
-       (1, 31, 'INTERNATIONAL'), -- SGN đến ICN
-       (1, 26, 'INTERNATIONAL'), -- SGN đến NRT
+    -- Chuyến bay quốc tế từ Sài Gòn
+    (1, 33, 'INTERNATIONAL', 180), -- SGN đến TPE
+    (1, 61, 'INTERNATIONAL', 150), -- SGN đến HKG
+    (1, 82, 'INTERNATIONAL', 200), -- SGN đến FOC
+    (1, 36, 'INTERNATIONAL', 210), -- SGN đến KUL
+    (1, 37, 'INTERNATIONAL', 180), -- SGN đến SIN
+    (1, 49, 'INTERNATIONAL', 120), -- SGN đến BKK
+    (1, 31, 'INTERNATIONAL', 210), -- SGN đến ICN
+    (1, 26, 'INTERNATIONAL', 300), -- SGN đến NRT
 
-       -- Chuyến bay quốc tế từ Đà Nẵng
-       (3, 33, 'INTERNATIONAL'), -- DAD đến TPE
-       (3, 61, 'INTERNATIONAL'), -- DAD đến HKG
-       (3, 36, 'INTERNATIONAL'), -- DAD đến KUL
-       (3, 49, 'INTERNATIONAL'), -- DAD đến BKK
-       (3, 31, 'INTERNATIONAL'), -- DAD đến ICN
+    -- Chuyến bay quốc tế từ Đà Nẵng
+    (3, 33, 'INTERNATIONAL', 180), -- DAD đến TPE
+    (3, 61, 'INTERNATIONAL', 150), -- DAD đến HKG
+    (3, 36, 'INTERNATIONAL', 210), -- DAD đến KUL
+    (3, 49, 'INTERNATIONAL', 120), -- DAD đến BKK
+    (3, 31, 'INTERNATIONAL', 210), -- DAD đến ICN
 
-       -- Chuyến bay quốc tế từ Phú Quốc
-       (4, 33, 'INTERNATIONAL'), -- PQC đến TPE
-       (4, 61, 'INTERNATIONAL'), -- PQC đến HKG
-       (4, 36, 'INTERNATIONAL'), -- PQC đến KUL
-       (4, 31, 'INTERNATIONAL'), -- PQC đến ICN
+    -- Chuyến bay quốc tế từ Phú Quốc
+    (4, 33, 'INTERNATIONAL', 180), -- PQC đến TPE
+    (4, 61, 'INTERNATIONAL', 150), -- PQC đến HKG
+    (4, 36, 'INTERNATIONAL', 210), -- PQC đến KUL
+    (4, 31, 'INTERNATIONAL', 210), -- PQC đến ICN
 
-       -- Chuyến bay nội địa từ Sài Gòn
-       (1, 2, 'DOMESTIC'),       -- SGN đến HAN
-       (1, 3, 'DOMESTIC'),       -- SGN đến DAD
-       (1, 4, 'DOMESTIC'),       -- SGN đến PQC
-       (1, 5, 'DOMESTIC'),       -- SGN đến CXR
-       (1, 9, 'DOMESTIC'),       -- SGN đến HUI
-       (1, 11, 'DOMESTIC'),      -- SGN đến VII
+    -- Chuyến bay nội địa từ Sài Gòn
+    (1, 2, 'DOMESTIC', 120), -- SGN đến HAN
+    (1, 3, 'DOMESTIC', 90),  -- SGN đến DAD
+    (1, 4, 'DOMESTIC', 60),  -- SGN đến PQC
+    (1, 5, 'DOMESTIC', 50),  -- SGN đến CXR
+    (1, 9, 'DOMESTIC', 75),  -- SGN đến HUI
+    (1, 11, 'DOMESTIC', 90), -- SGN đến VII
 
-       -- Chuyến bay nội địa từ Hà Nội
-       (2, 1, 'DOMESTIC'),       -- HAN đến SGN
-       (2, 3, 'DOMESTIC'),       -- HAN đến DAD
-       (2, 4, 'DOMESTIC'),       -- HAN đến PQC
-       (2, 5, 'DOMESTIC'),       -- HAN đến CXR
-       (2, 6, 'DOMESTIC'),       -- HAN đến VCA
-       (2, 9, 'DOMESTIC'),       -- HAN đến HUI
-       (2, 11, 'DOMESTIC'),      -- HAN đến VII
+    -- Chuyến bay nội địa từ Hà Nội
+    (2, 1, 'DOMESTIC', 120), -- HAN đến SGN
+    (2, 3, 'DOMESTIC', 90),  -- HAN đến DAD
+    (2, 4, 'DOMESTIC', 60),  -- HAN đến PQC
+    (2, 5, 'DOMESTIC', 50),  -- HAN đến CXR
+    (2, 6, 'DOMESTIC', 90),  -- HAN đến VCA
+    (2, 9, 'DOMESTIC', 75),  -- HAN đến HUI
+    (2, 11, 'DOMESTIC', 90), -- HAN đến VII
 
-       -- Chuyến bay nội địa từ Đà Nẵng
-       (3, 1, 'DOMESTIC'),       -- DAD đến SGN
-       (3, 2, 'DOMESTIC'),       -- DAD đến HAN
-       (3, 4, 'DOMESTIC'),       -- DAD đến PQC
-       (3, 6, 'DOMESTIC'),       -- DAD đến VCA
-       (3, 9, 'DOMESTIC'),       -- DAD đến HUI
-       (3, 11, 'DOMESTIC'),      -- DAD đến VII
+    -- Chuyến bay nội địa từ Đà Nẵng
+    (3, 1, 'DOMESTIC', 90),  -- DAD đến SGN
+    (3, 2, 'DOMESTIC', 90),  -- DAD đến HAN
+    (3, 4, 'DOMESTIC', 60),  -- DAD đến PQC
+    (3, 6, 'DOMESTIC', 100), -- DAD đến VCA
+    (3, 9, 'DOMESTIC', 75),  -- DAD đến HUI
+    (3, 11, 'DOMESTIC', 90), -- DAD đến VII
 
-       -- Chuyến bay nội địa từ Phú Quốc
-       (4, 1, 'DOMESTIC'),       -- PQC đến SGN
-       (4, 2, 'DOMESTIC'),       -- PQC đến HAN
-       (4, 3, 'DOMESTIC'),       -- PQC đến DAD
-       (4, 5, 'DOMESTIC'),       -- PQC đến CXR
-       (4, 6, 'DOMESTIC'),       -- PQC đến VCA
-       (4, 9, 'DOMESTIC'),       -- PQC đến HUI
-       (4, 11, 'DOMESTIC');
--- PQC đến VII
+    -- Chuyến bay nội địa từ Phú Quốc
+    (4, 1, 'DOMESTIC', 60),  -- PQC đến SGN
+    (4, 2, 'DOMESTIC', 60),  -- PQC đến HAN
+    (4, 3, 'DOMESTIC', 60),  -- PQC đến DAD
+    (4, 5, 'DOMESTIC', 50),  -- PQC đến CXR
+    (4, 6, 'DOMESTIC', 90),  -- PQC đến VCA
+    (4, 9, 'DOMESTIC', 75),  -- PQC đến HUI
+    (4, 11, 'DOMESTIC', 90); -- PQC đến VII
 
 --TICKET_CLASS
 INSERT INTO public.ticket_class (ticket_class_name, luggage_allowance, checked_baggage_allowance, refund_fee_before, refund_fee_after, change_fee_before, change_fee_after, is_seat_selection_free)

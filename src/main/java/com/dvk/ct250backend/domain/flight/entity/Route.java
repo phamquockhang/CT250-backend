@@ -33,6 +33,8 @@ public class Route extends BaseEntity {
     @Enumerated(EnumType.STRING)
     RouteTypeEnum routeType;
 
+    Integer duration; // in minutes
+
     @OneToMany(mappedBy = "route", cascade = CascadeType.ALL, orphanRemoval = true)
     Set<Flight> flights;
 
