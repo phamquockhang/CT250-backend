@@ -1,4 +1,4 @@
-package com.dvk.ct250backend.infrastructure.config.Cloudinary;
+package com.dvk.ct250backend.infrastructure.config.cloudinary;
 
 import com.cloudinary.Cloudinary;
 import lombok.AccessLevel;

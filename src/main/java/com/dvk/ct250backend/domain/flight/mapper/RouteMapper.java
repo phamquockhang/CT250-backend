@@ -10,8 +10,7 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring", uses = {AirportMapper.class})
 public interface RouteMapper {
-    //@Mapping(target = "duration", expression = "java(route.getFlights() != null && !route.getFlights().isEmpty() ? route.getFlights().iterator().next().getFlightDuration() : \"N/A\")")
-    @Mapping(target = "duration", expression = "java(route.getFlights() != null && !route.getFlights().isEmpty() ? route.getFlights().iterator().next().getFlightDuration() : null)")
+//    @Mapping(target = "duration", expression = "java(route.getFlights() != null && !route.getFlights().isEmpty() ? route.getFlights().iterator().next().getFlightDuration() : null)")
     RouteDTO toRouteDTO(Route route);
     Route toRoute(RouteDTO routeDTO);
     void updateRouteFromDTO(@MappingTarget Route route, RouteDTO routeDTO);
