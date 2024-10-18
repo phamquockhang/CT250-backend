@@ -723,8 +723,7 @@ VALUES ('DVK101', 1, 'AVAILABLE'), -- 1A
        ('DVK101', 6, 'AVAILABLE'), -- 1F
        ('DVK101', 7, 'AVAILABLE'), -- 1G
        ('DVK101', 8, 'AVAILABLE'), -- 1H
-       ('DVK101', 9, 'AVAILABLE');
--- 1J
+       ('DVK101', 9, 'AVAILABLE'); -- 1J
 
 -- Khoang Economy cho Boeing 787
 INSERT INTO public.seat_availability (flight_id, seat_id, status)
@@ -738,16 +737,15 @@ WHERE model_id = 1
 
 -- Airbus A350
 INSERT INTO public.seat_availability (flight_id, seat_id, status)
-VALUES ('DVK102', 10, 'AVAILABLE'), -- 1A
-       ('DVK102', 11, 'AVAILABLE'), -- 1B
-       ('DVK102', 12, 'AVAILABLE'), -- 1C
-       ('DVK102', 13, 'AVAILABLE'), -- 1D
-       ('DVK102', 14, 'AVAILABLE'), -- 1E
-       ('DVK102', 15, 'AVAILABLE'), -- 1F
-       ('DVK102', 16, 'AVAILABLE'), -- 1G
-       ('DVK102', 17, 'AVAILABLE'), -- 1H
-       ('DVK102', 18, 'AVAILABLE');
--- 1J
+VALUES ('DVK102', 271,'AVAILABLE'), -- 1A
+       ('DVK102', 272,'AVAILABLE'), -- 1B
+       ('DVK102', 273,'AVAILABLE'), -- 1C
+       ('DVK102', 274,'AVAILABLE'), -- 1D
+       ('DVK102', 275,'AVAILABLE'), -- 1E
+       ('DVK102', 276,'AVAILABLE'); -- 1F
+--        ('DVK102', 277,'AVAILABLE'), -- 1G
+--        ('DVK102', 278,'AVAILABLE'), -- 1H
+--        ('DVK102', 279,'AVAILABLE'); -- 1J
 
 -- Khoang Economy cho Airbus A350
 INSERT INTO public.seat_availability (flight_id, seat_id, status)
@@ -760,14 +758,13 @@ WHERE model_id = 2
 -- Chỉ cho ghế Economy
 
 -- Airbus A320 NEO
-INSERT INTO public.seat_availability (flight_id, seat_id, status)
-VALUES ('DVK103', 19, 'AVAILABLE'), -- 1A
-       ('DVK103', 20, 'AVAILABLE'), -- 1B
-       ('DVK103', 21, 'AVAILABLE'), -- 1C
-       ('DVK103', 22, 'AVAILABLE'), -- 1D
-       ('DVK103', 23, 'AVAILABLE'), -- 1E
-       ('DVK103', 24, 'AVAILABLE');
--- 1F
+-- INSERT INTO public.seat_availability (flight_id, seat_id, status)
+-- VALUES ('DVK103', 541, 'AVAILABLE'), -- 1A
+--        ('DVK103', 542, 'AVAILABLE'), -- 1B
+--        ('DVK103', 543, 'AVAILABLE'), -- 1C
+--        ('DVK103', 544, 'AVAILABLE'), -- 1D
+--        ('DVK103', 545, 'AVAILABLE'), -- 1E
+--        ('DVK103', 546, 'AVAILABLE'); -- 1F
 
 -- Khoang Economy cho Airbus A320 NEO
 INSERT INTO public.seat_availability (flight_id, seat_id, status)
@@ -781,22 +778,102 @@ WHERE model_id = 3
 
 -- Airbus A321
 INSERT INTO public.seat_availability (flight_id, seat_id, status)
-VALUES ('DVK104', 25, 'AVAILABLE'), -- 1A
-       ('DVK104', 26, 'AVAILABLE'), -- 1B
-       ('DVK104', 27, 'AVAILABLE'), -- 1C
-       ('DVK104', 28, 'AVAILABLE'), -- 1D
-       ('DVK104', 29, 'AVAILABLE'), -- 1E
-       ('DVK104', 30, 'AVAILABLE');
--- 1F
+VALUES ('DVK104', 721, 'AVAILABLE'), -- 1A
+       ('DVK104', 722, 'AVAILABLE'), -- 1B
+       ('DVK104', 723, 'AVAILABLE'), -- 1C
+       ('DVK104', 724, 'AVAILABLE'), -- 1D
+       ('DVK104', 725, 'AVAILABLE'), -- 1E
+       ('DVK104', 726, 'AVAILABLE'); -- 1F
 
 -- Khoang Economy cho Airbus A321
+-- INSERT INTO public.seat_availability (flight_id, seat_id, status)
+-- SELECT 'DVK104',
+--        seat_id,
+--        'AVAILABLE'
+-- FROM public.seats
+-- WHERE model_id = 4
+--   AND ticket_class = 'ECONOMY'; -- Chỉ cho ghế Economy
+
+
 INSERT INTO public.seat_availability (flight_id, seat_id, status)
-SELECT 'DVK104',
+VALUES ('DVK107', 1, 'AVAILABLE'), -- 1A
+       ('DVK107', 2, 'AVAILABLE'); -- 1B
+--        ('DVK107', 3, 'AVAILABLE'), -- 1C
+--        ('DVK107', 4, 'AVAILABLE'), -- 1D
+--        ('DVK107', 5, 'AVAILABLE'), -- 1E
+--        ('DVK107', 6, 'AVAILABLE'), -- 1F
+--        ('DVK107', 7, 'AVAILABLE'), -- 1G
+--        ('DVK107', 8, 'AVAILABLE'), -- 1H
+--        ('DVK107', 9, 'AVAILABLE');
+-- 1J
+
+-- Khoang Economy cho Boeing 787
+-- INSERT INTO public.seat_availability (flight_id, seat_id, status)
+-- SELECT 'DVK107',
+--        seat_id,
+--        'AVAILABLE'
+-- FROM public.seats
+-- WHERE model_id = 1
+--   AND ticket_class = 'ECONOMY';
+-- Chỉ cho ghế Economy
+
+-- Airbus A350
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
+VALUES ('DVK108', 271,'AVAILABLE'), -- 1A
+       ('DVK108', 272,'AVAILABLE'), -- 1B
+       ('DVK108', 273,'AVAILABLE'), -- 1C
+       ('DVK108', 274,'AVAILABLE'), -- 1D
+       ('DVK108', 275,'AVAILABLE'), -- 1E
+       ('DVK108', 276,'AVAILABLE'), -- 1F
+       ('DVK108', 277,'AVAILABLE'), -- 1G
+       ('DVK108', 278,'AVAILABLE'), -- 1H
+       ('DVK108', 279,'AVAILABLE'); -- 1J
+
+-- Khoang Economy cho Airbus A350
+-- INSERT INTO public.seat_availability (flight_id, seat_id, status)
+-- SELECT 'DVK108',
+--        seat_id,
+--        'AVAILABLE'
+-- FROM public.seats
+-- WHERE model_id = 2
+--   AND ticket_class = 'ECONOMY';
+-- Chỉ cho ghế Economy
+
+-- Airbus A320 NEO
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
+VALUES ('DVK109', 541, 'AVAILABLE'), -- 1A
+       ('DVK109', 542, 'AVAILABLE'), -- 1B
+       ('DVK109', 543, 'AVAILABLE'); -- 1C
+--        ('DVK109', 544, 'AVAILABLE'), -- 1D
+--        ('DVK109', 545, 'AVAILABLE'), -- 1E
+--        ('DVK109', 546, 'AVAILABLE'); -- 1F
+
+-- Khoang Economy cho Airbus A320 NEO
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
+SELECT 'DVK109',
        seat_id,
        'AVAILABLE'
 FROM public.seats
-WHERE model_id = 4
-  AND ticket_class = 'ECONOMY'; -- Chỉ cho ghế Economy
+WHERE model_id = 3
+  AND ticket_class = 'ECONOMY';
+-- Chỉ cho ghế Economy
 
+-- Airbus A321
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
+VALUES ('DVK110', 721, 'AVAILABLE'), -- 1A
+       ('DVK110', 722, 'AVAILABLE'), -- 1B
+       ('DVK110', 723, 'AVAILABLE'), -- 1C
+       ('DVK110', 724, 'AVAILABLE'), -- 1D
+       ('DVK110', 725, 'AVAILABLE'), -- 1E
+       ('DVK110', 726, 'AVAILABLE'); -- 1F
+
+-- Khoang Economy cho Airbus A321
+-- INSERT INTO public.seat_availability (flight_id, seat_id, status)
+-- SELECT 'DVK110',
+--        seat_id,
+--        'AVAILABLE'
+-- FROM public.seats
+-- WHERE model_id = 4
+--   AND ticket_class = 'ECONOMY'; -- Chỉ cho ghế Economy
 
 
