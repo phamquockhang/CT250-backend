@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -30,9 +31,9 @@ public class FlightDTO {
 
     List<FlightPricingDTO> flightPricing;
     List<SeatAvailabilityDTO> seatAvailability;
+    List<FeeDTO> fees;
 
     AirplaneDTO airplane;
-
 
     LocalDateTime createdAt;
     LocalDateTime updatedAt;

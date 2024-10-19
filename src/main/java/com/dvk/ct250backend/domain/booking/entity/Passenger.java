@@ -1,5 +1,6 @@
 package com.dvk.ct250backend.domain.booking.entity;
 
+import com.dvk.ct250backend.domain.booking.enums.PassengerTypeEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -22,4 +23,7 @@ public class Passenger {
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "passengers", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     List<Booking> bookings;
+
+    @Enumerated(EnumType.STRING)
+    PassengerTypeEnum passengerType;
 }

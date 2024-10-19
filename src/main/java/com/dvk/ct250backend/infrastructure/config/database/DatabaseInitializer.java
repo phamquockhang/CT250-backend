@@ -16,20 +16,37 @@ public class DatabaseInitializer {
     private final DataSource dataSource;
 
     final String PERMISSIONS_AFTER_INSERT_TRIGGER = """
-                DROP FUNCTION IF EXISTS insert_permission_role CASCADE;
-                CREATE OR REPLACE FUNCTION insert_permission_role() RETURNS TRIGGER
-                    AS $$
-                BEGIN
-                    INSERT INTO permission_role (permission_id, role_id)
-                    VALUES (NEW.permission_id, 1);
-                    RETURN NEW;
-                END;
-                $$ LANGUAGE plpgsql;
-                CREATE TRIGGER insert_permission_role
-                AFTER INSERT ON permissions
-                FOR EACH ROW
-                EXECUTE FUNCTION insert_permission_role();
-                """;
+            DROP FUNCTION IF EXISTS insert_permission_role CASCADE;
+            CREATE OR REPLACE FUNCTION insert_permission_role() RETURNS TRIGGER
+                AS $$
+            BEGIN
+                INSERT INTO permission_role (permission_id, role_id)
+                VALUES (NEW.permission_id, 1);
+                RETURN NEW;
+            END;
+            $$ LANGUAGE plpgsql;
+            CREATE TRIGGER insert_permission_role
+            AFTER INSERT ON permissions
+            FOR EACH ROW
+            EXECUTE FUNCTION insert_permission_role();
+            """;
+    final String FEES_AFTER_INSERT_TRIGGER = """
+            DROP FUNCTION IF EXISTS insert_flight_fee CASCADE;
+            CREATE OR REPLACE FUNCTION insert_flight_fee() RETURNS TRIGGER
+                AS $$
+            BEGIN
+                INSERT INTO flight_fee (flight_id, fee_id)
+                SELECT flight_id, NEW.fee_id
+                FROM flights;
+                RETURN NEW;
+            END;
+            $$ LANGUAGE plpgsql;
+            CREATE TRIGGER insert_flight_fee
+            AFTER INSERT ON fees
+            FOR EACH ROW
+            EXECUTE FUNCTION insert_flight_fee();
+            """;
+
 
     @PostConstruct
     public void initialize() {
@@ -39,6 +56,7 @@ public class DatabaseInitializer {
         schemaPopulator.execute(dataSource);
 
         jdbcTemplate.execute(PERMISSIONS_AFTER_INSERT_TRIGGER);
+        jdbcTemplate.execute(FEES_AFTER_INSERT_TRIGGER);
 
         ResourceDatabasePopulator dataPopulator = new ResourceDatabasePopulator();
         dataPopulator.addScript(new ClassPathResource("sql/data.sql"));

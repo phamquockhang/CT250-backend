@@ -7,8 +7,11 @@ import com.dvk.ct250backend.domain.flight.config.FlightUploadJobListener;
 import com.dvk.ct250backend.domain.flight.dto.FlightDTO;
 import com.dvk.ct250backend.domain.flight.dto.FlightOverview;
 import com.dvk.ct250backend.domain.flight.dto.request.FlightSearchRequest;
+import com.dvk.ct250backend.domain.flight.dto.request.PassengerTypeQuantityRequest;
 import com.dvk.ct250backend.domain.flight.entity.Flight;
 import com.dvk.ct250backend.domain.flight.entity.FlightPricing;
+import com.dvk.ct250backend.domain.flight.entity.SeatAvailability;
+import com.dvk.ct250backend.domain.flight.enums.SeatAvailabilityStatus;
 import com.dvk.ct250backend.domain.flight.mapper.FlightMapper;
 import com.dvk.ct250backend.domain.flight.repository.FlightRepository;
 import com.dvk.ct250backend.domain.flight.service.FlightService;
@@ -111,7 +114,22 @@ public class FlightServiceImpl implements FlightService {
         LocalDate arrivalDate = flightSearchRequest.getArrivalDate() != null ? parseDate(flightSearchRequest.getArrivalDate()) : null;
         Specification<Flight> spec = getFlightSpec(flightSearchRequest, departureDate, arrivalDate);
         List<Flight> flights = flightRepository.findAll(spec);
-        return flights.stream()
+        List<Flight> filteredFlights = flights.stream()
+                .filter(flight -> {
+                    int requiredSeats = Optional.ofNullable(flightSearchRequest.getPassengerTypeQuantityRequests())
+                            .orElse(Collections.emptyList())
+                            .stream()
+                            .mapToInt(PassengerTypeQuantityRequest::getQuantity)
+                            .sum();
+                    int availableSeats = flight.getSeatAvailability().stream()
+                            .filter(seatAvailability -> seatAvailability.getStatus() == SeatAvailabilityStatus.AVAILABLE)
+                            .mapToInt(SeatAvailability::getAvailableSeats)
+                            .sum();
+                    return availableSeats >= requiredSeats;
+                })
+                .collect(Collectors.toList());
+
+        return filteredFlights.stream()
                 .map(flightMapper::toFlightDTO)
                 .collect(Collectors.toList());
     }
@@ -222,6 +240,7 @@ public class FlightServiceImpl implements FlightService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return LocalDate.parse(date, formatter);
     }
+
 
     private String formatDate(LocalDate date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
