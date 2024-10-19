@@ -6,6 +6,6 @@ import jakarta.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
 
 public interface EmailService {
-    void sendVerificationEmail(User user, String siteURL) throws MessagingException, UnsupportedEncodingException;
+    void sendVerificationEmail(User user, String siteURL, String verifyToken) throws MessagingException, UnsupportedEncodingException;
     void sendPasswordResetEmail(User user, String resetURL) throws MessagingException, UnsupportedEncodingException;
 }

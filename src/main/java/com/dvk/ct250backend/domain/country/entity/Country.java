@@ -1,6 +1,7 @@
 package com.dvk.ct250backend.domain.country.entity;
 
 import com.dvk.ct250backend.domain.auth.entity.User;
+import com.dvk.ct250backend.domain.booking.entity.Passenger;
 import com.dvk.ct250backend.domain.flight.entity.Airport;
 import jakarta.persistence.*;
 import lombok.*;
@@ -31,6 +32,9 @@ public class Country {
 
     @OneToMany(mappedBy = "country", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     Set<User> users;
+
+    @OneToMany(mappedBy = "country", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    Set<Passenger> passengers;
 
     @OneToMany(mappedBy = "country", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     Set<Airport> airports;

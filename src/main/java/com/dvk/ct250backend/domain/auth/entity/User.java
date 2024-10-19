@@ -35,12 +35,6 @@ public class User extends BaseEntity implements UserDetails {
 
     LocalDate dateOfBirth;
 
-    @Column(unique = true)
-    String verificationToken;
-
-    @Column(name = "token_expiry_date")
-    LocalDateTime tokenExpiryDate;
-
     @Column(name = "identity_number", unique = true, length = 20)
     String identityNumber;
 
