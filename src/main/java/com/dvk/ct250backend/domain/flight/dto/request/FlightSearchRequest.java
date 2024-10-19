@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,10 +26,8 @@ public class FlightSearchRequest {
     @NotBlank(message = "Departure date is required")
     String departureDate;
 
-//    @NotBlank(message = "Return date is required")
     String arrivalDate;
 
-//    boolean roundTrip;
-//
-//    boolean oneWay;
+    @NotBlank(message = "Passenger type quantity is required")
+    List<PassengerTypeQuantityRequest> passengerTypeQuantityRequests;
 }

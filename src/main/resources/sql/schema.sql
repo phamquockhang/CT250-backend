@@ -110,6 +110,24 @@ CREATE SEQUENCE seat_availability_seq
 ALTER TABLE public.seat_availability
     ALTER COLUMN seat_availability_id SET DEFAULT nextval('seat_availability_seq');
 
+--BOOKING
+-- DROP SEQUENCE IF EXISTS bookings_seq;
+-- CREATE SEQUENCE bookings_seq
+--     START WITH 1
+--     INCREMENT BY 1;
+-- ALTER TABLE public.bookings
+--     ALTER COLUMN booking_id SET DEFAULT nextval('bookings_seq'),
+--     ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP,
+--     ALTER COLUMN booking_status SET DEFAULT 'PENDING';
+
+--FEE
+DROP SEQUENCE IF EXISTS fees_seq;
+CREATE SEQUENCE fees_seq
+    START WITH 1
+    INCREMENT BY 1;
+ALTER TABLE public.fees
+    ALTER COLUMN fee_id SET DEFAULT nextval('fees_seq'),
+    ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
 
 
 

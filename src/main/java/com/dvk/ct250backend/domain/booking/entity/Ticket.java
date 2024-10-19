@@ -26,12 +26,7 @@ public class Ticket extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booking_id")
     Booking booking;
-
     String seatCode;
-
     String flightId;
-
-
-
 
 }

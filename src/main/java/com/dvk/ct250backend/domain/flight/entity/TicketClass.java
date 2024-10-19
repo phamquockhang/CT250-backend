@@ -7,7 +7,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -23,7 +22,6 @@ public class TicketClass extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ticket_class_id_seq")
     @SequenceGenerator(name = "ticket_class_id_seq", sequenceName = "ticket_class_seq", allocationSize = 1)
     Integer ticketClassId;
-
 
     @Enumerated(EnumType.STRING)
     TicketClassEnum ticketClassName;
