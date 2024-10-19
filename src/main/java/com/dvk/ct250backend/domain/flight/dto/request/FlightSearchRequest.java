@@ -28,6 +28,6 @@ public class FlightSearchRequest {
 
     String arrivalDate;
 
-    @NotBlank(message = "Passenger type quantity is required")
+    //@NotBlank(message = "Passenger type quantity is required")
     List<PassengerTypeQuantityRequest> passengerTypeQuantityRequests;
 }
