@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -36,5 +37,4 @@ public class FlightPricing extends BaseEntity {
 
     @Column(name = "valid_to")
     LocalDate validTo;
-
 }
