@@ -1,5 +1,6 @@
 package com.dvk.ct250backend.domain.booking.dto;
 
+import com.dvk.ct250backend.domain.booking.entity.BookingFlight;
 import com.dvk.ct250backend.domain.flight.dto.FlightDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotBlank;
@@ -7,9 +8,12 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,8 +25,8 @@ public class BookingDTO {
     @NotBlank(message = "Trip type is required")
     String tripType;
 
-    @NotBlank(message = "Departure flight is required")
-    FlightDTO flight;
+    @NotBlank(message = "Booking flights are required")
+    List<BookingFlightDTO> bookingFlights;
 
     @NotBlank(message = "Total price is required")
     BigDecimal totalPrice;
@@ -32,6 +36,4 @@ public class BookingDTO {
 
     @NotBlank(message = "Booking status is required")
     String bookingStatus;
-
-    Set<BookingPriceDetailDTO> bookingPriceDetails;
 }

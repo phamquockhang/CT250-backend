@@ -1,15 +1,14 @@
 package com.dvk.ct250backend.domain.flight.entity;
 
-//import com.dvk.ct250backend.domain.booking.entity.Booking;
-
+import com.dvk.ct250backend.domain.booking.entity.BookingFlight;
 import com.dvk.ct250backend.domain.common.entity.BaseEntity;
 import com.dvk.ct250backend.domain.flight.enums.FlightStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -45,13 +44,6 @@ public class Flight extends BaseEntity {
     @Enumerated(EnumType.STRING)
     FlightStatusEnum flightStatus;
 
-//    @OneToMany(mappedBy = "destinationFlight", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-//    Set<Booking> destinationBookings;
-//
-//
-//    @OneToMany(mappedBy = "departureFlight", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-//    Set<Booking> departureBookings;
-
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "flight_fee",
@@ -60,5 +52,6 @@ public class Flight extends BaseEntity {
     )
     List<Fee> fees;
 
-
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "flight", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    List<BookingFlight> bookingFlights = new ArrayList<>();
 }
