@@ -39,7 +39,4 @@ public class Passenger {
     Country country;
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "passengers", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     List<Booking> bookings;
-
-    @Enumerated(EnumType.STRING)
-    PassengerTypeEnum passengerType;
 }
