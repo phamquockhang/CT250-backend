@@ -17,6 +17,8 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -31,25 +33,26 @@ public class BookingServiceImpl implements BookingService {
     @Transactional
     public BookingDTO createBooking(BookingDTO bookingDTO) {
         Booking booking = bookingMapper.toBooking(bookingDTO);
-        if (booking.getBookingStatus() == BookingStatusEnum.PENDING) {
-            saveBookingToRedis(booking);
+        if (booking.getBookingStatus() == BookingStatusEnum.PENDING || booking.getBookingStatus() == BookingStatusEnum.ON_HOLD) {
+            redisService.set("Booking: " + UUID.randomUUID() , booking, 60 * 60 * 1000 * 3 );
         } else {
-            saveBookingToDB(booking);
+            booking = bookingRepository.save(booking);
+            for (BookingFlight bookingFlight : booking.getBookingFlights()) {
+                bookingFlight.setBooking(booking);
+                Flight flight = flightRepository.findById(bookingFlight.getFlight().getFlightId()).orElseThrow();
+                bookingFlight.setFlight(flight);
+                bookingFlightRepository.save(bookingFlight);
+            }
         }
         return bookingMapper.toBookingDTO(booking);
     }
 
-    private void saveBookingToRedis(Booking booking) {
-        redisService.set("booking:" + booking.getBookingId(), booking );
+    @Override
+    public BookingDTO holdBooking(Long bookingId) {
+//        Booking booking = bookingRepository.findById(bookingId).orElseThrow();
+//        redisService.set("Booking: " + booking.getPassengers(), booking );
+//        return bookingMapper.toBookingDTO(booking);
+        return null;
     }
 
-    private void saveBookingToDB(Booking booking) {
-        booking = bookingRepository.save(booking);
-        for (BookingFlight bookingFlight : booking.getBookingFlights()) {
-            bookingFlight.setBooking(booking);
-            Flight flight = flightRepository.findById(bookingFlight.getFlight().getFlightId()).orElseThrow();
-            bookingFlight.setFlight(flight);
-            bookingFlightRepository.save(bookingFlight);
-        }
-    }
 }
