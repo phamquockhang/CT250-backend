@@ -9,6 +9,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -29,16 +30,8 @@ public class Booking extends BaseEntity {
     @Enumerated(EnumType.STRING)
     TripTypeEnum tripType;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "departure_flight_id")
-    Flight departureFlight;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "destination_flight_id")
-    Flight destinationFlight;
-
     @OneToMany(mappedBy = "booking", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-    Set<BookingPriceDetail> bookingPriceDetails;
+    List<BookingFlight> bookingFlights;
 
     @OneToMany(mappedBy = "booking", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     Set<Ticket> tickets;

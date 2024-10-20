@@ -1,22 +1,22 @@
 package com.dvk.ct250backend.domain.booking.dto;
 
+import com.dvk.ct250backend.domain.flight.dto.FlightDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.math.BigDecimal;
-
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BookingPriceDetailDTO {
+public class BookingFlightDTO {
+    Integer bookingFlightId;
 
-  Integer passengerPriceDetailId;
+    @NotBlank(message = "Flight is required")
+    FlightDTO flight;
 
-  String passengerType;
-
-  BigDecimal priceAmount;
 }
