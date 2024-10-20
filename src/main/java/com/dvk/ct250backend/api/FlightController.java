@@ -76,7 +76,7 @@ public class FlightController {
                 .build();
     }
 
-    @GetMapping("/overview")
+    @PostMapping("/overview")
     public ApiResponse<List<FlightOverview>> getFlightOverview(@ModelAttribute FlightSearchRequest flightSearchRequest) {
         return ApiResponse.<List<FlightOverview>>builder()
                 .status(HttpStatus.OK.value())

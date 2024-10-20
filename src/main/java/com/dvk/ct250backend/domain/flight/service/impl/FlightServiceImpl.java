@@ -3,20 +3,21 @@ package com.dvk.ct250backend.domain.flight.service.impl;
 import com.dvk.ct250backend.app.dto.response.Meta;
 import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
+import com.dvk.ct250backend.domain.booking.enums.PassengerTypeEnum;
 import com.dvk.ct250backend.domain.flight.config.FlightUploadJobListener;
 import com.dvk.ct250backend.domain.flight.dto.FlightDTO;
 import com.dvk.ct250backend.domain.flight.dto.FlightOverview;
 import com.dvk.ct250backend.domain.flight.dto.request.FlightSearchRequest;
 import com.dvk.ct250backend.domain.flight.dto.request.PassengerTypeQuantityRequest;
-import com.dvk.ct250backend.domain.flight.entity.Flight;
-import com.dvk.ct250backend.domain.flight.entity.FlightPricing;
-import com.dvk.ct250backend.domain.flight.entity.SeatAvailability;
+import com.dvk.ct250backend.domain.flight.entity.*;
 import com.dvk.ct250backend.domain.flight.enums.SeatAvailabilityStatus;
 import com.dvk.ct250backend.domain.flight.enums.TicketClassEnum;
 import com.dvk.ct250backend.domain.flight.mapper.FlightMapper;
+import com.dvk.ct250backend.domain.flight.repository.FeeRepository;
 import com.dvk.ct250backend.domain.flight.repository.FlightRepository;
 import com.dvk.ct250backend.domain.flight.service.FlightService;
 import com.dvk.ct250backend.infrastructure.utils.FileUtils;
+import com.dvk.ct250backend.infrastructure.utils.NumberUtils;
 import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -51,12 +52,14 @@ import java.util.stream.Collectors;
 public class FlightServiceImpl implements FlightService {
 
     FlightRepository flightRepository;
+    FeeRepository feeRepository;
     FlightMapper flightMapper;
     JobLauncher jobLauncher;
     Job flightUploadJob;
     FlightUploadJobListener flightUploadJobListener;
     FileUtils fileUtils;
     RequestParamUtils requestParamUtils;
+    NumberUtils numberUtils;
 
     @Override
     public List<FlightDTO> getAllFlights() {
@@ -146,8 +149,8 @@ public class FlightServiceImpl implements FlightService {
         flights.forEach(flight -> {
             String date = formatDate(flight.getDepartureDateTime().toLocalDate());
             int availableBusinessSeats = flight.getSeatAvailability().stream()
-                .filter(seatAvailability -> seatAvailability.getSeat().getTicketClass().equals(TicketClassEnum.BUSINESS)
-                && seatAvailability.getStatus().equals(SeatAvailabilityStatus.AVAILABLE))
+                    .filter(seatAvailability -> seatAvailability.getSeat().getTicketClass().equals(TicketClassEnum.BUSINESS)
+                            && seatAvailability.getStatus().equals(SeatAvailabilityStatus.AVAILABLE))
                     .toList().size();
             int availableEconomySeats = flight.getSeatAvailability().stream()
                     .filter(seatAvailability -> seatAvailability.getSeat().getTicketClass().equals(TicketClassEnum.ECONOMY)
@@ -170,14 +173,17 @@ public class FlightServiceImpl implements FlightService {
                 .map(entry -> {
                     FlightOverview flightOverview = new FlightOverview();
                     flightOverview.setDate(entry.getKey());
-                    if(entry.getValue().isEmpty()) {
+                    if (entry.getValue().isEmpty()) {
                         flightOverview.setMinPriceOfDay(BigDecimal.valueOf(0.0));
                         flightOverview.setHasFlight(false);
                     } else {
                         flightOverview.setHasFlight(true);
                         BigDecimal minPrice = entry.getValue().stream()
                                 .map(flight -> flight.getFlightPricing().stream()
-                                        .map(FlightPricing::getTicketPrice)
+                                        .map(flightPricing ->
+                                                getTotalTicketPrice(flight,
+                                                        flightSearchRequest.getPassengerTypeQuantityRequests(),
+                                                        flightPricing.getTicketClass()))
                                         .min(BigDecimal::compareTo)
                                         .orElse(BigDecimal.valueOf(0.0)))
                                 .min(BigDecimal::compareTo)
@@ -188,6 +194,43 @@ public class FlightServiceImpl implements FlightService {
                 }).toList();
 
     }
+
+    private BigDecimal getTotalTicketPrice(Flight flight,
+                                           List<PassengerTypeQuantityRequest> passengerTypeQuantityRequests,
+                                           TicketClass ticketClass) {
+        return passengerTypeQuantityRequests.stream()
+                .map(passengerTypeQuantityRequest ->
+                        getPassengerTotalFee(flight,
+                                PassengerTypeEnum.valueOf(passengerTypeQuantityRequest.getPassengerType()),
+                                ticketClass)
+                        .multiply(BigDecimal.valueOf(passengerTypeQuantityRequest.getQuantity()))).reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    private BigDecimal getPassengerTotalFee(Flight flight,
+                                            PassengerTypeEnum passengerType,
+                                            TicketClass ticketClass) {
+        BigDecimal basePrice = flight.getFlightPricing().stream()
+                .filter(flightPricing -> flightPricing.getTicketClass().equals(ticketClass))
+                .map(FlightPricing::getTicketPrice)
+                .findFirst()
+                .orElse(BigDecimal.valueOf(0.0));
+        List<Fee> flightFees = feeRepository.findAll();
+        return flightFees.stream()
+                .map(fee -> fee.getFeePricing().stream()
+                        .filter(feePricing -> feePricing.getPassengerType().equals(passengerType)
+                                && feePricing.getRouteType().equals(flight.getRoute().getRouteType()))
+                        .map(feePricing -> {
+                            if (Boolean.TRUE.equals(feePricing.getIsPercentage())) {
+                                return numberUtils.roundToThousand(basePrice.multiply(feePricing.getFeeAmount()));
+                            } else {
+                                return feePricing.getFeeAmount();
+                            }
+                        })
+                        .reduce(BigDecimal.ZERO, BigDecimal::add)
+                )
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
 
     @Override
     public Page<FlightDTO> getFlights(Map<String, String> params) {

@@ -578,10 +578,10 @@ VALUES ('Giá vé cơ bản', 1),
 INSERT INTO public.fee_pricing (fee_id, passenger_type, fee_amount, is_percentage, route_type)
 VALUES (1, 'ADULT', 1, true, 'DOMESTIC'),
        (1, 'CHILD', 0.75, true, 'DOMESTIC'),
-       (1, 'INFANT', 0.1, true, 'DOMESTIC'),
+       (1, 'INFANT', 100000, false, 'DOMESTIC'),
        (1, 'ADULT', 1, true, 'INTERNATIONAL'),
        (1, 'CHILD', 0.75, true, 'INTERNATIONAL'),
-       (1, 'INFANT', 0.1, true, 'INTERNATIONAL'),
+       (1, 'INFANT', 200000, false, 'INTERNATIONAL'),
 
        (2, 'ADULT', 430000, false, 'DOMESTIC'),
        (2, 'CHILD', 430000, false, 'DOMESTIC'),
