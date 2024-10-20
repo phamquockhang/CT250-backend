@@ -68,7 +68,7 @@ public class FlightController {
                 .build();
     }
 
-    @GetMapping("/search")
+    @PostMapping("/search")
     public ApiResponse<List<FlightDTO>> searchFlights(@ModelAttribute FlightSearchRequest flightSearchRequest) {
         return ApiResponse.<List<FlightDTO>>builder()
                 .status(HttpStatus.OK.value())
