@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @Builder
@@ -26,16 +28,16 @@ public class TicketClassDTO {
     String checkedBaggageAllowance;
 
     @NotBlank(message = "Refund fee before is required")
-    Double refundFeeBefore;
+    BigDecimal refundFeeBefore;
 
     @NotBlank(message = "Refund fee after is required")
-    Double refundFeeAfter;
+    BigDecimal refundFeeAfter;
 
     @NotBlank(message = "Change fee before is required")
-    Double changeFeeBefore;
+    BigDecimal changeFeeBefore;
 
     @NotBlank(message = "Change fee after is required")
-    Double changeFeeAfter;
+    BigDecimal changeFeeAfter;
 
     @NotBlank(message = "Is seat selection free is required")
     Boolean isSeatSelectionFree;

@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
@@ -21,7 +22,7 @@ public class FeeDTO {
     String feeType;
 
     @NotBlank(message = "Fee amount is required")
-    Double feeAmount;
+    BigDecimal feeAmount;
 
     @NotBlank(message = "Is percentage is required")
     Boolean isPercentage;

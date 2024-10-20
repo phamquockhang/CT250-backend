@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
@@ -21,8 +22,9 @@ public class Fee extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "fee_id_seq")
     @SequenceGenerator(name = "fee_id_seq", sequenceName = "fees_seq", allocationSize = 1)
     Integer feeId;
-    String feeType;
-    Double feeAmount;
+    String feeName;
+    @Column(precision = 15, scale = 2)
+    BigDecimal feeAmount;
     Boolean isPercentage;
 
     @Enumerated(EnumType.STRING)

@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
 import java.util.Set;
 
 @Data
@@ -24,7 +25,7 @@ public class BookingDTO {
     FlightDTO flight;
 
     @NotBlank(message = "Total price is required")
-    Double totalPrice;
+    BigDecimal totalPrice;
 
     @NotBlank(message = "Passengers are required")
     Set<PassengerDTO> passengers;

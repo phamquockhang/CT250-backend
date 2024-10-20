@@ -16,9 +16,9 @@ import java.util.List;
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FlightSelectionDTO {
-        Integer departureFlightId;
-        Integer destinationFlightId;
-        String ticketClassDeparture;
-        String ticketClassDestination;
-        List<String> passengerTypes;
+    Integer departureFlightId;
+    Integer destinationFlightId;
+    String ticketClassDeparture;
+    String ticketClassDestination;
+    List<String> passengerTypes;
 }

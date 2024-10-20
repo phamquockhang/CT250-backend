@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @Builder
@@ -27,9 +29,11 @@ public class BookingPriceDetailLine extends BaseEntity {
     @Enumerated(EnumType.STRING)
     TicketClassEnum ticketClass;
 
-    double ticketFee;
+    @Column(precision = 15, scale = 2)
+    BigDecimal ticketFee;
     Integer quantity;
-    double totalAmount;
+    @Column(precision = 15, scale = 2)
+    BigDecimal totalAmount;
 
 //    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "bookingPriceDetailLines", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 //    List<Fee> fees;

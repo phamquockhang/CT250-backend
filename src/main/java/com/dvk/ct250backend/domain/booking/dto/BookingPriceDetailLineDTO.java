@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
 
 
 @Data
@@ -17,5 +18,5 @@ public class BookingPriceDetailLineDTO {
    Integer bookingDetailLineId;
    String ticketClass;
    String feeType;
-   Double priceAmount;
+   BigDecimal priceAmount;
 }

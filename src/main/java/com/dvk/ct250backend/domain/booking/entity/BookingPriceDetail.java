@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @Builder
@@ -23,7 +25,8 @@ public class BookingPriceDetail {
     @Enumerated(EnumType.STRING)
     PassengerTypeEnum passengerType;
 
-    Double priceAmount;
+    @Column(precision = 15, scale = 2)
+    BigDecimal priceAmount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booking_id")

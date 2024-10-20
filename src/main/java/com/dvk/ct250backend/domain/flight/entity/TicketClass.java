@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
@@ -29,11 +30,11 @@ public class TicketClass extends BaseEntity {
     String luggageAllowance;
     String checkedBaggageAllowance;
 
-    Double refundFeeBefore;
-    Double refundFeeAfter;
-    Double changeFeeBefore;
-    Double changeFeeAfter;
-    Boolean isSeatSelectionFree;
+    BigDecimal refundFeeBefore;
+    BigDecimal refundFeeAfter;
+    BigDecimal changeFeeBefore;
+    BigDecimal changeFeeAfter;
+    BigDecimal isSeatSelectionFree;
 
    @OneToMany(fetch = FetchType.LAZY, mappedBy = "ticketClass", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
    List<FlightPricing> flightPricing;

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
@@ -21,7 +22,8 @@ public class FlightPricing extends BaseEntity {
     @SequenceGenerator(name = "flight_pricing_id_seq", sequenceName = "flight_pricing_seq", allocationSize = 1)
     Integer flightPricingId;
 
-    Double ticketPrice;
+    @Column(precision = 15, scale = 2)
+    BigDecimal ticketPrice;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ticket_class_id", nullable = false)

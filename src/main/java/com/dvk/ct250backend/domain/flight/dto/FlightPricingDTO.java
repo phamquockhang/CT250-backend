@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
@@ -19,7 +20,7 @@ public class FlightPricingDTO {
     Integer flightPricingId;
 
     @NotBlank(message = "Ticket price is required")
-    Double ticketPrice;
+    BigDecimal ticketPrice;
 
     @NotBlank(message = "Valid from is required")
     LocalDate validFrom;
