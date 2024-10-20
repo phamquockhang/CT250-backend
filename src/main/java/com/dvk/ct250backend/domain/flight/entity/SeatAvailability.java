@@ -30,4 +30,8 @@ public class SeatAvailability {
     @Enumerated(EnumType.STRING)
    SeatAvailabilityStatus status;
 
+    public int getAvailableSeats() {
+        return status == SeatAvailabilityStatus.AVAILABLE ? 1 : 0;
+    }
+
 }

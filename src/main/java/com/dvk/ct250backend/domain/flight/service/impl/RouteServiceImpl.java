@@ -39,7 +39,6 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     @Transactional
-    @CacheEvict(value = "routes", allEntries = true)
     public RouteDTO createRoute(RouteDTO routeDTO) throws ResourceNotFoundException {
         Airport departureAirport = airportRepository.findById(routeDTO.getDepartureAirport().getAirportId())
                 .orElseThrow(() -> new ResourceNotFoundException("Departure airport not found"));
@@ -52,7 +51,6 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    @CacheEvict(value = "routes", allEntries = true)
     public void deleteRoute(Integer id) throws ResourceNotFoundException {
         Route route = routeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Route not found"));
         routeRepository.delete(route);
@@ -60,7 +58,6 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     @Transactional
-    @CacheEvict(value = "routes", allEntries = true)
     public RouteDTO updateRoute(Integer id, RouteDTO routeDTO) throws ResourceNotFoundException {
         Route route = routeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Route not found"));
         routeMapper.updateRouteFromDTO(route, routeDTO);
@@ -68,7 +65,6 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    @Cacheable(value = "routes")
     public Page<RouteDTO> getRoutes(Map<String, String> params) {
         int page = Integer.parseInt(params.getOrDefault("page", "1"));
         int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));

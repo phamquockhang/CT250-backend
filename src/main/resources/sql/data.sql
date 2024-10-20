@@ -877,4 +877,14 @@ VALUES ('DVK110', 721, 'AVAILABLE'), -- 1A
 -- WHERE model_id = 4
 --   AND ticket_class = 'ECONOMY'; -- Chỉ cho ghế Economy
 
+--FEE
+INSERT INTO public.fees (fee_type, fee_amount, is_percentage, passenger_type)
+values ('ADMIN SURCHARGE', '430000', false, 'ADULT'),
+       ('ADMIN SURCHARGE', '430000', false, 'CHILD'),
+       ('ADMIN SURCHARGE', '430000', false, 'INFANT'),
+       ('SECURITY SCREENING', '20000', false, 'ADULT'),
+       ('SECURITY SCREENING', '10000', false, 'CHILD'),
+       ('BASIC FARE', '100000', false, 'INFANT'),
+        ('BASIC FARE', 0.75, false, 'CHILD');
+
 

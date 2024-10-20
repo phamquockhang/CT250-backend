@@ -1,6 +1,6 @@
 package com.dvk.ct250backend.domain.flight.entity;
 
-import com.dvk.ct250backend.domain.booking.entity.Booking;
+//import com.dvk.ct250backend.domain.booking.entity.Booking;
 import com.dvk.ct250backend.domain.common.entity.BaseEntity;
 import com.dvk.ct250backend.domain.flight.enums.FlightStatusEnum;
 import jakarta.persistence.*;
@@ -9,6 +9,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -45,11 +46,20 @@ public class Flight extends BaseEntity {
     @Enumerated(EnumType.STRING)
     FlightStatusEnum flightStatus;
 
-    @OneToMany(mappedBy = "destinationFlight", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-    Set<Booking> destinationBookings;
+//    @OneToMany(mappedBy = "destinationFlight", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+//    Set<Booking> destinationBookings;
+//
+//
+//    @OneToMany(mappedBy = "departureFlight", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+//    Set<Booking> departureBookings;
 
-    @OneToMany(mappedBy = "departureFlight", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-    Set<Booking> departureBookings;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "flight_fee",
+            joinColumns = @JoinColumn(name = "flight_id"),
+            inverseJoinColumns = @JoinColumn(name = "fee_id")
+    )
+    List<Fee> fees;
 
     @Transient
     public String getFlightDuration() {

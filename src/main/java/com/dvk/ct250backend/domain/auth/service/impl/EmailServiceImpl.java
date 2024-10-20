@@ -2,6 +2,7 @@ package com.dvk.ct250backend.domain.auth.service.impl;
 
 import com.dvk.ct250backend.domain.auth.entity.User;
 import com.dvk.ct250backend.domain.auth.service.EmailService;
+import com.dvk.ct250backend.infrastructure.service.RedisService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.AccessLevel;
@@ -18,9 +19,10 @@ import java.io.UnsupportedEncodingException;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class EmailServiceImpl implements EmailService {
     JavaMailSender mailSender;
+    RedisService redisService;
 
     @Override
-    public void sendVerificationEmail(User user, String siteURL) throws MessagingException, UnsupportedEncodingException {
+    public void sendVerificationEmail(User user, String siteURL, String verifyToken) throws MessagingException, UnsupportedEncodingException {
         String toAddress = user.getEmail();
         String fromAddress = "davikaairways1109@gmail.com";
         String senderName = "DAVIKA AIRWAYS";
@@ -41,7 +43,7 @@ public class EmailServiceImpl implements EmailService {
                 + "<p>Dear " + user.getFirstName() + ",</p>"
                 + "<p>Thank you for registering with DaViKa Airways! We're excited to have you on board.</p>"
                 + "<p>To complete your registration and activate your account, please confirm your email address by clicking the link below:</p>"
-                + "<a href='" + siteURL + "/verify?token=" + user.getVerificationToken() + "' "
+                + "<a href='" + siteURL + "/verify?token=" + verifyToken + "' "
                 + "style='display: inline-block; padding: 15px 30px; background-color: #0056b3; color: white; text-decoration: none; "
                 + "border-radius: 5px; font-weight: bold; transition: background-color 0.3s, transform 0.2s; text-align: center;'>"
                 + "Activate Your Account</a>"
@@ -64,7 +66,7 @@ public class EmailServiceImpl implements EmailService {
         helper.setSubject(subject);
 
         content = content.replace("[[name]]", user.getFirstName());
-        String verifyURL = siteURL + "/verify?token=" + user.getVerificationToken();
+        String verifyURL = siteURL + "/verify?token=" + redisService.get(verifyToken);
 
         content = content.replace("[[URL]]", verifyURL);
 
@@ -74,6 +76,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
 
+    @Override
     public void sendPasswordResetEmail(User user, String resetURL) throws MessagingException, UnsupportedEncodingException {
         String toAddress = user.getEmail();
         String fromAddress = "davikaairways1109@gmail.com";

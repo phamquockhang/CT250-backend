@@ -51,7 +51,6 @@ public class AirportServiceImpl implements AirportService {
     FileUtils fileUtils;
 
     @Override
-    @Cacheable(value = "airports")
     public Page<AirportDTO> getAirports(Map<String, String> params) {
         int page = Integer.parseInt(params.getOrDefault("page", "1"));
         int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
@@ -73,7 +72,6 @@ public class AirportServiceImpl implements AirportService {
                         .collect(Collectors.toList()))
                 .build();
     }
-
 
 
     private Specification<Airport> getAirportSpec(Map<String, String> params) {
@@ -104,9 +102,7 @@ public class AirportServiceImpl implements AirportService {
 
     @Override
     @Transactional
-    @CacheEvict(value = "airports", allEntries = true)
     public AirportDTO createAirport(AirportDTO airportDTO, MultipartFile imgUrl) throws IOException {
-
         File convFile = fileUtils.convertMultipartFileToFile(imgUrl);
         String imageUrl = fileUtils.uploadFileToCloudinary(convFile);
         airportDTO.setImgUrl(imageUrl);
@@ -118,14 +114,12 @@ public class AirportServiceImpl implements AirportService {
 
 
     @Override
-    @CacheEvict(value = "airports", allEntries = true)
     public void deleteAirport(Integer id) throws ResourceNotFoundException {
         Airport airport = airportRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Airport not found"));
         airportRepository.delete(airport);
     }
 
     @Override
-    @CacheEvict(value = "airports", allEntries = true)
     @Transactional
     public AirportDTO updateAirport(Integer id, AirportDTO airportDTO, MultipartFile imgUrl) throws ResourceNotFoundException, IOException {
         Airport airport = airportRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Airport not found"));

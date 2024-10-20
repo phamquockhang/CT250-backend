@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -29,4 +30,5 @@ public class FlightPricingDTO {
 
     @NotBlank(message = "Ticket class is required")
     TicketClassDTO ticketClass;
+
 }

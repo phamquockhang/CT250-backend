@@ -1,5 +1,6 @@
 package com.dvk.ct250backend.domain.booking.entity;
 
+import com.dvk.ct250backend.domain.booking.enums.BookingStatusEnum;
 import com.dvk.ct250backend.domain.booking.enums.TripTypeEnum;
 import com.dvk.ct250backend.domain.common.entity.BaseEntity;
 import com.dvk.ct250backend.domain.flight.entity.Flight;
@@ -7,8 +8,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
 import java.util.Set;
-
 
 @Getter
 @Setter
@@ -27,7 +28,6 @@ public class Booking extends BaseEntity {
     @Enumerated(EnumType.STRING)
     TripTypeEnum tripType;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "departure_flight_id")
     Flight departureFlight;
@@ -37,8 +37,17 @@ public class Booking extends BaseEntity {
     Flight destinationFlight;
 
     @OneToMany(mappedBy = "booking", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-    Set<BookingSegment> flightSegments;
+    Set<BookingPriceDetail> bookingPriceDetails;
+
+    @OneToMany(mappedBy = "booking", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    Set<Ticket> tickets;
 
     Double totalPrice;
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "booking_passenger", joinColumns = @JoinColumn(name = "booking_id"), inverseJoinColumns = @JoinColumn(name = "passenger_id"))
+    List<Passenger> passengers;
+
+    @Enumerated(EnumType.STRING)
+    BookingStatusEnum bookingStatus;
 }
