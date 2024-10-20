@@ -30,21 +30,21 @@ public class DatabaseInitializer {
             FOR EACH ROW
             EXECUTE FUNCTION insert_permission_role();
             """;
-    final String FEES_AFTER_INSERT_TRIGGER = """
-            DROP FUNCTION IF EXISTS insert_flight_fee CASCADE;
-            CREATE OR REPLACE FUNCTION insert_flight_fee() RETURNS TRIGGER
+    final String FLIGHT_AFTER_INSERT_TRIGGER = """
+            DROP FUNCTION IF EXISTS insert_flight_fees CASCADE;
+            CREATE OR REPLACE FUNCTION insert_flight_fees() RETURNS TRIGGER
                 AS $$
             BEGIN
                 INSERT INTO flight_fee (flight_id, fee_id)
-                SELECT flight_id, NEW.fee_id
-                FROM flights;
+                SELECT NEW.flight_id, fee_id
+                FROM fees;
                 RETURN NEW;
             END;
             $$ LANGUAGE plpgsql;
-            CREATE TRIGGER insert_flight_fee
-            AFTER INSERT ON fees
+            CREATE TRIGGER insert_flight_fees
+            AFTER INSERT ON flights
             FOR EACH ROW
-            EXECUTE FUNCTION insert_flight_fee();
+            EXECUTE FUNCTION insert_flight_fees();
             """;
 
 
@@ -56,7 +56,7 @@ public class DatabaseInitializer {
         schemaPopulator.execute(dataSource);
 
         jdbcTemplate.execute(PERMISSIONS_AFTER_INSERT_TRIGGER);
-        jdbcTemplate.execute(FEES_AFTER_INSERT_TRIGGER);
+        jdbcTemplate.execute(FLIGHT_AFTER_INSERT_TRIGGER);
 
         ResourceDatabasePopulator dataPopulator = new ResourceDatabasePopulator();
         dataPopulator.addScript(new ClassPathResource("sql/data.sql"));
