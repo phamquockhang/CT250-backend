@@ -7,10 +7,10 @@ import com.dvk.ct250backend.domain.flight.dto.RouteDTO;
 import com.dvk.ct250backend.domain.flight.entity.Airport;
 import com.dvk.ct250backend.domain.flight.entity.Route;
 import com.dvk.ct250backend.domain.flight.mapper.RouteMapper;
+import com.dvk.ct250backend.domain.flight.repository.AirportRepository;
 import com.dvk.ct250backend.domain.flight.repository.RouteRepository;
 import com.dvk.ct250backend.domain.flight.service.RouteService;
 import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
-import com.dvk.ct250backend.infrastructure.utils.StringUtils;
 import jakarta.persistence.criteria.Join;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -34,13 +34,19 @@ import java.util.stream.Collectors;
 public class RouteServiceImpl implements RouteService {
     RouteRepository routeRepository;
     RouteMapper routeMapper;
-    StringUtils  stringUtils;
     RequestParamUtils requestParamUtils;
+    AirportRepository airportRepository;
 
     @Override
     @Transactional
-    public RouteDTO createRoute(RouteDTO RouteDTO) {
-        Route route = routeMapper.toRoute(RouteDTO);
+    public RouteDTO createRoute(RouteDTO routeDTO) throws ResourceNotFoundException {
+        Airport departureAirport = airportRepository.findById(routeDTO.getDepartureAirport().getAirportId())
+                .orElseThrow(() -> new ResourceNotFoundException("Departure airport not found"));
+        Airport arrivalAirport = airportRepository.findById(routeDTO.getArrivalAirport().getAirportId())
+                .orElseThrow(() -> new ResourceNotFoundException("Arrival airport not found"));
+        Route route = routeMapper.toRoute(routeDTO);
+        route.setDepartureAirport(departureAirport);
+        route.setArrivalAirport(arrivalAirport);
         return routeMapper.toRouteDTO(routeRepository.save(route));
     }
 
@@ -52,9 +58,9 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     @Transactional
-    public RouteDTO updateRoute(Integer id, RouteDTO RouteDTO) throws ResourceNotFoundException {
+    public RouteDTO updateRoute(Integer id, RouteDTO routeDTO) throws ResourceNotFoundException {
         Route route = routeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Route not found"));
-        routeMapper.updateRouteFromDTO(route, RouteDTO);
+        routeMapper.updateRouteFromDTO(route, routeDTO);
         return routeMapper.toRouteDTO(routeRepository.save(route));
     }
 

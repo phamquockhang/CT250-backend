@@ -143,18 +143,24 @@ public class FlightServiceImpl implements FlightService {
         TreeMap<String, List<Flight>> flightMap = new TreeMap<>();
         flights.forEach(flight -> {
             String date = formatDate(flight.getDepartureDateTime().toLocalDate());
-            if (flightMap.containsKey(date)) {
+            int availableBusinessSeats = flight.getSeatAvailability().stream()
+                .filter(seatAvailability -> seatAvailability.getSeat().getTicketClass().equals(TicketClassEnum.BUSINESS)
+                && seatAvailability.getStatus().equals(SeatAvailabilityStatus.AVAILABLE))
+                    .toList().size();
+            int availableEconomySeats = flight.getSeatAvailability().stream()
+                    .filter(seatAvailability -> seatAvailability.getSeat().getTicketClass().equals(TicketClassEnum.ECONOMY)
+                            && seatAvailability.getStatus().equals(SeatAvailabilityStatus.AVAILABLE))
+                    .toList().size();
+
+            if (flightMap.containsKey(date) && !(availableBusinessSeats == 0 && availableEconomySeats == 0)) {
                 flightMap.get(date).add(flight);
             } else {
-                flightMap.put(date, new ArrayList<>(List.of(flight)));
+                flightMap.put(date, new ArrayList<>(new ArrayList<>()));
             }
         });
         LocalDate currentDate = start;
         while (currentDate.isBefore(end) || currentDate.isEqual(end)) {
             String date = formatDate(currentDate);
-//            if (!flightMap.containsKey(date)) {
-//                flightMap.put(date, List.of());
-//            }
             flightMap.putIfAbsent(date, new ArrayList<>());
             currentDate = currentDate.plusDays(1);
         }
