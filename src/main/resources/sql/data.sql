@@ -374,35 +374,42 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Get logged in user', '/api/v1/users/logged-in', 'GET', 'USERS'),
        ('Get users with pagination', '/api/v1/users', 'GET', 'USERS'),
        ('Change password for logged in user', '/api/v1/users/{id}/change-password', 'PUT', 'USERS'),
+
        ('Create a role', '/api/v1/roles', 'POST', 'ROLES'),
        ('Update a role', '/api/v1/roles/{id}', 'PUT', 'ROLES'),
        ('Delete a role', '/api/v1/roles/{id}', 'DELETE', 'ROLES'),
        ('Get a role by id', '/api/v1/roles/{id}', 'GET', 'ROLES'),
        ('Get roles with pagination', '/api/v1/roles', 'GET', 'ROLES'),
        ('Get all roles', '/api/v1/roles/all', 'GET', 'ROLES'),
+
        ('Create a permission', '/api/v1/permissions', 'POST', 'PERMISSIONS'),
        ('Update a permission', '/api/v1/permissions/{id}', 'PUT', 'PERMISSIONS'),
        ('Delete a permission', '/api/v1/permissions/{id}', 'DELETE', 'PERMISSIONS'),
        ('Get a permission by id', '/api/v1/permissions/{id}', 'GET', 'PERMISSIONS'),
        ('Get permissions with pagination', '/api/v1/permissions', 'GET', 'PERMISSIONS'),
        ('Get all permissions', '/api/v1/permissions/all', 'GET', 'PERMISSIONS'),
+
        ('Get airports with pagination', '/api/v1/airports', 'GET', 'AIRPORTS'),
        ('Get all airports', '/api/v1/airports/all', 'GET', 'AIRPORTS'),
        ('Create an airport', '/api/v1/airports', 'POST', 'AIRPORTS'),
        ('Delete an airport', '/api/v1/airports/{id}', 'DELETE', 'AIRPORTS'),
        ('Update an airport', '/api/v1/airports/{id}', 'PUT', 'AIRPORTS'),
+
        ('Get airplanes with pagination', '/api/v1/airplanes', 'GET', 'AIRPLANES'),
        ('Get all airplanes ', '/api/v1/airplanes/all', 'GET', 'AIRPLANES'),
        ('Create an airplane', '/api/v1/airplanes', 'POST', 'AIRPLANES'),
        ('Delete an airplane', '/api/v1/airplanes/{id}', 'DELETE', 'AIRPLANES'),
        ('Update an airplane', '/api/v1/airplanes/{id}', 'PUT', 'AIRPLANES'),
+
        ('Get all models', '/api/v1/models/all', 'GET', 'MODELS'),
        ('Create a model', '/api/v1/models', 'POST', 'MODELS'),
+
        ('Get all routes', '/api/v1/routes/all', 'GET', 'ROUTES'),
        ('Get routes with pagination', '/api/v1/routes', 'GET', 'ROUTES'),
        ('Create a route', '/api/v1/routes', 'POST', 'ROUTES'),
        ('Delete a route', '/api/v1/routes/{id}', 'DELETE', 'ROUTES'),
        ('Update a route', '/api/v1/routes/{id}', 'PUT', 'ROUTES'),
+
        ('Get all flights', '/api/v1/flights/all', 'GET', 'FLIGHTS'),
        ('Update a flight', '/api/v1/flights/{id}', 'PUT', 'FLIGHTS'),
        ('Upload flights', '/api/v1/flights/upload', 'POST', 'FLIGHTS'),
@@ -512,43 +519,89 @@ VALUES
     (4, 31, 'INTERNATIONAL', 210), -- PQC đến ICN
 
     -- Chuyến bay nội địa từ Sài Gòn
-    (1, 2, 'DOMESTIC', 120), -- SGN đến HAN
-    (1, 3, 'DOMESTIC', 90),  -- SGN đến DAD
-    (1, 4, 'DOMESTIC', 60),  -- SGN đến PQC
-    (1, 5, 'DOMESTIC', 50),  -- SGN đến CXR
-    (1, 9, 'DOMESTIC', 75),  -- SGN đến HUI
-    (1, 11, 'DOMESTIC', 90), -- SGN đến VII
+    (1, 2, 'DOMESTIC', 120),       -- SGN đến HAN
+    (1, 3, 'DOMESTIC', 90),        -- SGN đến DAD
+    (1, 4, 'DOMESTIC', 60),        -- SGN đến PQC
+    (1, 5, 'DOMESTIC', 50),        -- SGN đến CXR
+    (1, 9, 'DOMESTIC', 75),        -- SGN đến HUI
+    (1, 11, 'DOMESTIC', 90),       -- SGN đến VII
 
     -- Chuyến bay nội địa từ Hà Nội
-    (2, 1, 'DOMESTIC', 120), -- HAN đến SGN
-    (2, 3, 'DOMESTIC', 90),  -- HAN đến DAD
-    (2, 4, 'DOMESTIC', 60),  -- HAN đến PQC
-    (2, 5, 'DOMESTIC', 50),  -- HAN đến CXR
-    (2, 6, 'DOMESTIC', 90),  -- HAN đến VCA
-    (2, 9, 'DOMESTIC', 75),  -- HAN đến HUI
-    (2, 11, 'DOMESTIC', 90), -- HAN đến VII
+    (2, 1, 'DOMESTIC', 120),       -- HAN đến SGN
+    (2, 3, 'DOMESTIC', 90),        -- HAN đến DAD
+    (2, 4, 'DOMESTIC', 60),        -- HAN đến PQC
+    (2, 5, 'DOMESTIC', 50),        -- HAN đến CXR
+    (2, 6, 'DOMESTIC', 90),        -- HAN đến VCA
+    (2, 9, 'DOMESTIC', 75),        -- HAN đến HUI
+    (2, 11, 'DOMESTIC', 90),       -- HAN đến VII
 
     -- Chuyến bay nội địa từ Đà Nẵng
-    (3, 1, 'DOMESTIC', 90),  -- DAD đến SGN
-    (3, 2, 'DOMESTIC', 90),  -- DAD đến HAN
-    (3, 4, 'DOMESTIC', 60),  -- DAD đến PQC
-    (3, 6, 'DOMESTIC', 100), -- DAD đến VCA
-    (3, 9, 'DOMESTIC', 75),  -- DAD đến HUI
-    (3, 11, 'DOMESTIC', 90), -- DAD đến VII
+    (3, 1, 'DOMESTIC', 90),        -- DAD đến SGN
+    (3, 2, 'DOMESTIC', 90),        -- DAD đến HAN
+    (3, 4, 'DOMESTIC', 60),        -- DAD đến PQC
+    (3, 6, 'DOMESTIC', 100),       -- DAD đến VCA
+    (3, 9, 'DOMESTIC', 75),        -- DAD đến HUI
+    (3, 11, 'DOMESTIC', 90),       -- DAD đến VII
 
     -- Chuyến bay nội địa từ Phú Quốc
-    (4, 1, 'DOMESTIC', 60),  -- PQC đến SGN
-    (4, 2, 'DOMESTIC', 60),  -- PQC đến HAN
-    (4, 3, 'DOMESTIC', 60),  -- PQC đến DAD
-    (4, 5, 'DOMESTIC', 50),  -- PQC đến CXR
-    (4, 6, 'DOMESTIC', 90),  -- PQC đến VCA
-    (4, 9, 'DOMESTIC', 75),  -- PQC đến HUI
-    (4, 11, 'DOMESTIC', 90); -- PQC đến VII
+    (4, 1, 'DOMESTIC', 60),        -- PQC đến SGN
+    (4, 2, 'DOMESTIC', 60),        -- PQC đến HAN
+    (4, 3, 'DOMESTIC', 60),        -- PQC đến DAD
+    (4, 5, 'DOMESTIC', 50),        -- PQC đến CXR
+    (4, 6, 'DOMESTIC', 90),        -- PQC đến VCA
+    (4, 9, 'DOMESTIC', 75),        -- PQC đến HUI
+    (4, 11, 'DOMESTIC', 90);
+-- PQC đến VII
 
 --TICKET_CLASS
-INSERT INTO public.ticket_class (ticket_class_name, luggage_allowance, checked_baggage_allowance, refund_fee_before, refund_fee_after, change_fee_before, change_fee_after, is_seat_selection_free)
+INSERT INTO public.ticket_class (ticket_class_name, luggage_allowance, checked_baggage_allowance, refund_fee_before,
+                                 refund_fee_after, change_fee_before, change_fee_after, is_seat_selection_free)
 VALUES ('ECONOMY', '7kg', 'PAY FEE', 450.000, 600.000, 450.000, 600.000, false),
        ('BUSINESS', '14kg', '30kg', 450.000, 450.000, 300.000, 450.000, true);
+
+--FEE
+INSERT INTO public.fees (fee_name, fee_amount, is_percentage, route_type)
+VALUES ('Phụ thu quản trị hệ thống (Quốc nội)', 430000, false, 'DOMESTIC'),
+       ('Phụ thu quản trị hệ thống (Quốc tế)', 600000, false, 'INTERNATIONAL'),
+       ('Phí dịch vụ hành khách chặng nội địa', 100000, false, 'DOMESTIC'),
+       ('Phí dịch vụ hành khách chặng nội địa (Trẻ em)', 50000, false, 'DOMESTIC'),
+       ('Phí dịch vụ hành khách chặng quốc tế', 150000, false, 'INTERNATIONAL'),
+       ('Phí dịch vụ hành khách chặng quốc tế (Trẻ em)', 75000, false, 'INTERNATIONAL'),
+
+       ('Phí soi chiếu an ninh', 20000, false, 'DOMESTIC'),
+       ('Phí soi chiếu an ninh (Trẻ em)', 10000, false, 'DOMESTIC'),
+       ('Phí soi chiếu an ninh', 30000, false, 'INTERNATIONAL'),
+       ('Phí soi chiếu an ninh (Trẻ em)', 15000, false, 'INTERNATIONAL'),
+
+
+       ('Giá vé trẻ em', 0.75, true, 'DOMESTIC'),
+       ('Giá vé trẻ em', 0.75, true, 'INTERNATIONAL'),
+       ('Giá vé em bé (Quốc nội)', 100000, false, 'DOMESTIC'),
+       ('Giá vé em bé (Quốc tế)', 200000, false, 'INTERNATIONAL');
+
+
+--FEE-PRICING
+INSERT INTO public.fee_pricing (fee_id, passenger_type)
+VALUES (1, 'ADULT'),
+       (1, 'CHILD'),
+       (2, 'ADULT'),
+       (2, 'CHILD'),
+         (3, 'ADULT'),
+         (4, 'CHILD'),
+         (5, 'ADULT'),
+         (6, 'CHILD'),
+       (7, 'ADULT'),
+       (8, 'CHILD'),
+       (9, 'ADULT'),
+       (10, 'CHILD'),
+       (11, 'CHILD'),
+       (12, 'CHILD'),
+       (13, 'INFANT'),
+         (14, 'INFANT');
+
+
+
+
 
 --FLIGHT
 -- Giả định rằng đã có các route và airplane trong cơ sở dữ liệu
@@ -556,16 +609,16 @@ VALUES ('ECONOMY', '7kg', 'PAY FEE', 450.000, 600.000, 450.000, 600.000, false),
 INSERT INTO public.flights (flight_id, departure_date_time, arrival_date_time, route_id, airplane_id, flight_status)
 -- Tuyến bay Sài Gòn - Hà Nội
 VALUES ('DVK101', '2024-11-01 08:00:00', '2024-11-01 10:00:00', 26, 1, 'SCHEDULED'),
-    ('DVK102', '2024-11-01 09:00:00', '2024-11-01 11:00:00', 26, 2, 'SCHEDULED'),
-    ('DVK103', '2024-11-01 14:00:00', '2024-11-01 16:00:00', 26, 1, 'SCHEDULED'),
-    ('DVK104', '2024-11-01 15:00:00', '2024-11-01 17:00:00', 26, 2, 'SCHEDULED'),
+       ('DVK102', '2024-11-01 09:00:00', '2024-11-01 11:00:00', 26, 2, 'SCHEDULED'),
+       ('DVK103', '2024-11-01 14:00:00', '2024-11-01 16:00:00', 26, 1, 'SCHEDULED'),
+       ('DVK104', '2024-11-01 15:00:00', '2024-11-01 17:00:00', 26, 2, 'SCHEDULED'),
 
-    ('DVK105', '2024-10-16 05:00:00', '2024-10-16 07:00:00', 26, 1, 'SCHEDULED'),
-    ('DVK106', '2024-10-16 06:00:00', '2024-10-16 08:00:00', 26, 2, 'SCHEDULED'),
-    ('DVK107', '2024-11-02 08:00:00', '2024-11-02 10:00:00', 32, 1, 'SCHEDULED'),
-    ('DVK108', '2024-11-02 09:00:00', '2024-11-02 11:00:00', 32, 2, 'SCHEDULED'),
-    ('DVK109', '2024-11-02 14:00:00', '2024-11-02 16:00:00', 32, 1, 'SCHEDULED'),
-    ('DVK110', '2024-11-02 15:00:00', '2024-11-02 17:00:00', 32, 2, 'SCHEDULED'),
+       ('DVK105', '2024-10-16 05:00:00', '2024-10-16 07:00:00', 26, 1, 'SCHEDULED'),
+       ('DVK106', '2024-10-16 06:00:00', '2024-10-16 08:00:00', 26, 2, 'SCHEDULED'),
+       ('DVK107', '2024-11-02 08:00:00', '2024-11-02 10:00:00', 32, 1, 'SCHEDULED'),
+       ('DVK108', '2024-11-02 09:00:00', '2024-11-02 11:00:00', 32, 2, 'SCHEDULED'),
+       ('DVK109', '2024-11-02 14:00:00', '2024-11-02 16:00:00', 32, 1, 'SCHEDULED'),
+       ('DVK110', '2024-11-02 15:00:00', '2024-11-02 17:00:00', 32, 2, 'SCHEDULED'),
 
        ('DVK111', '2024-10-26 05:00:00', '2024-10-26 07:00:00', 32, 1, 'SCHEDULED'),
        ('DVK112', '2024-10-26 06:00:00', '2024-10-26 08:00:00', 32, 2, 'SCHEDULED');
@@ -724,7 +777,8 @@ VALUES ('DVK101', 1, 'AVAILABLE'), -- 1A
        ('DVK101', 6, 'AVAILABLE'), -- 1F
        ('DVK101', 7, 'AVAILABLE'), -- 1G
        ('DVK101', 8, 'AVAILABLE'), -- 1H
-       ('DVK101', 9, 'AVAILABLE'); -- 1J
+       ('DVK101', 9, 'AVAILABLE');
+-- 1J
 
 -- Khoang Economy cho Boeing 787
 INSERT INTO public.seat_availability (flight_id, seat_id, status)
@@ -738,12 +792,13 @@ WHERE model_id = 1
 
 -- Airbus A350
 INSERT INTO public.seat_availability (flight_id, seat_id, status)
-VALUES ('DVK102', 271,'AVAILABLE'), -- 1A
-       ('DVK102', 272,'AVAILABLE'), -- 1B
-       ('DVK102', 273,'AVAILABLE'), -- 1C
-       ('DVK102', 274,'AVAILABLE'), -- 1D
-       ('DVK102', 275,'AVAILABLE'), -- 1E
-       ('DVK102', 276,'AVAILABLE'); -- 1F
+VALUES ('DVK102', 271, 'AVAILABLE'), -- 1A
+       ('DVK102', 272, 'AVAILABLE'), -- 1B
+       ('DVK102', 273, 'AVAILABLE'), -- 1C
+       ('DVK102', 274, 'AVAILABLE'), -- 1D
+       ('DVK102', 275, 'AVAILABLE'), -- 1E
+       ('DVK102', 276, 'AVAILABLE');
+-- 1F
 --        ('DVK102', 277,'AVAILABLE'), -- 1G
 --        ('DVK102', 278,'AVAILABLE'), -- 1H
 --        ('DVK102', 279,'AVAILABLE'); -- 1J
@@ -784,7 +839,8 @@ VALUES ('DVK104', 721, 'AVAILABLE'), -- 1A
        ('DVK104', 723, 'AVAILABLE'), -- 1C
        ('DVK104', 724, 'AVAILABLE'), -- 1D
        ('DVK104', 725, 'AVAILABLE'), -- 1E
-       ('DVK104', 726, 'AVAILABLE'); -- 1F
+       ('DVK104', 726, 'AVAILABLE');
+-- 1F
 
 -- Khoang Economy cho Airbus A321
 -- INSERT INTO public.seat_availability (flight_id, seat_id, status)
@@ -798,7 +854,8 @@ VALUES ('DVK104', 721, 'AVAILABLE'), -- 1A
 
 INSERT INTO public.seat_availability (flight_id, seat_id, status)
 VALUES ('DVK107', 1, 'AVAILABLE'), -- 1A
-       ('DVK107', 2, 'AVAILABLE'); -- 1B
+       ('DVK107', 2, 'AVAILABLE');
+-- 1B
 --        ('DVK107', 3, 'AVAILABLE'), -- 1C
 --        ('DVK107', 4, 'AVAILABLE'), -- 1D
 --        ('DVK107', 5, 'AVAILABLE'), -- 1E
@@ -820,15 +877,16 @@ VALUES ('DVK107', 1, 'AVAILABLE'), -- 1A
 
 -- Airbus A350
 INSERT INTO public.seat_availability (flight_id, seat_id, status)
-VALUES ('DVK108', 271,'AVAILABLE'), -- 1A
-       ('DVK108', 272,'AVAILABLE'), -- 1B
-       ('DVK108', 273,'AVAILABLE'), -- 1C
-       ('DVK108', 274,'AVAILABLE'), -- 1D
-       ('DVK108', 275,'AVAILABLE'), -- 1E
-       ('DVK108', 276,'AVAILABLE'), -- 1F
-       ('DVK108', 277,'AVAILABLE'), -- 1G
-       ('DVK108', 278,'AVAILABLE'), -- 1H
-       ('DVK108', 279,'AVAILABLE'); -- 1J
+VALUES ('DVK108', 271, 'AVAILABLE'), -- 1A
+       ('DVK108', 272, 'AVAILABLE'), -- 1B
+       ('DVK108', 273, 'AVAILABLE'), -- 1C
+       ('DVK108', 274, 'AVAILABLE'), -- 1D
+       ('DVK108', 275, 'AVAILABLE'), -- 1E
+       ('DVK108', 276, 'AVAILABLE'), -- 1F
+       ('DVK108', 277, 'AVAILABLE'), -- 1G
+       ('DVK108', 278, 'AVAILABLE'), -- 1H
+       ('DVK108', 279, 'AVAILABLE');
+-- 1J
 
 -- Khoang Economy cho Airbus A350
 -- INSERT INTO public.seat_availability (flight_id, seat_id, status)
@@ -844,7 +902,8 @@ VALUES ('DVK108', 271,'AVAILABLE'), -- 1A
 INSERT INTO public.seat_availability (flight_id, seat_id, status)
 VALUES ('DVK109', 541, 'AVAILABLE'), -- 1A
        ('DVK109', 542, 'AVAILABLE'), -- 1B
-       ('DVK109', 543, 'AVAILABLE'); -- 1C
+       ('DVK109', 543, 'AVAILABLE');
+-- 1C
 --        ('DVK109', 544, 'AVAILABLE'), -- 1D
 --        ('DVK109', 545, 'AVAILABLE'), -- 1E
 --        ('DVK109', 546, 'AVAILABLE'); -- 1F
@@ -866,7 +925,8 @@ VALUES ('DVK110', 721, 'AVAILABLE'), -- 1A
        ('DVK110', 723, 'AVAILABLE'), -- 1C
        ('DVK110', 724, 'AVAILABLE'), -- 1D
        ('DVK110', 725, 'AVAILABLE'), -- 1E
-       ('DVK110', 726, 'AVAILABLE'); -- 1F
+       ('DVK110', 726, 'AVAILABLE');
+-- 1F
 
 -- Khoang Economy cho Airbus A321
 -- INSERT INTO public.seat_availability (flight_id, seat_id, status)
@@ -877,14 +937,5 @@ VALUES ('DVK110', 721, 'AVAILABLE'), -- 1A
 -- WHERE model_id = 4
 --   AND ticket_class = 'ECONOMY'; -- Chỉ cho ghế Economy
 
---FEE
-INSERT INTO public.fees (fee_type, fee_amount, is_percentage, passenger_type)
-values ('ADMIN SURCHARGE', '430000', false, 'ADULT'),
-       ('ADMIN SURCHARGE', '430000', false, 'CHILD'),
-       ('ADMIN SURCHARGE', '430000', false, 'INFANT'),
-       ('SECURITY SCREENING', '20000', false, 'ADULT'),
-       ('SECURITY SCREENING', '10000', false, 'CHILD'),
-       ('BASIC FARE', '100000', false, 'INFANT'),
-        ('BASIC FARE', 0.75, false, 'CHILD');
 
 

@@ -2,6 +2,7 @@ package com.dvk.ct250backend.domain.flight.entity;
 
 import com.dvk.ct250backend.domain.booking.enums.PassengerTypeEnum;
 import com.dvk.ct250backend.domain.common.entity.BaseEntity;
+import com.dvk.ct250backend.domain.flight.enums.RouteTypeEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -27,8 +28,11 @@ public class Fee extends BaseEntity {
     BigDecimal feeAmount;
     Boolean isPercentage;
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "fee", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    List<FeePricing> feePricing;
+
     @Enumerated(EnumType.STRING)
-    PassengerTypeEnum passengerType;
+    RouteTypeEnum routeType;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "fees", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     List<Flight> flights;

@@ -38,6 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -170,17 +171,17 @@ public class FlightServiceImpl implements FlightService {
                     FlightOverview flightOverview = new FlightOverview();
                     flightOverview.setDate(entry.getKey());
                     if(entry.getValue().isEmpty()) {
-                        flightOverview.setMinPriceOfDay(0.0);
+                        flightOverview.setMinPriceOfDay(BigDecimal.valueOf(0.0));
                         flightOverview.setHasFlight(false);
                     } else {
                         flightOverview.setHasFlight(true);
-                        double minPrice = entry.getValue().stream()
+                        BigDecimal minPrice = entry.getValue().stream()
                                 .map(flight -> flight.getFlightPricing().stream()
                                         .map(FlightPricing::getTicketPrice)
-                                        .min(Double::compareTo)
-                                        .orElse(0.0))
-                                .min(Double::compareTo)
-                                .orElse(0.0);
+                                        .min(BigDecimal::compareTo)
+                                        .orElse(BigDecimal.valueOf(0.0)))
+                                .min(BigDecimal::compareTo)
+                                .orElse(BigDecimal.valueOf(0.0));
                         flightOverview.setMinPriceOfDay(minPrice);
                     }
                     return flightOverview;

@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "flight_pricing")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class FlightPricing extends BaseEntity {
+public class FlightPricing {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "flight_pricing_id_seq")
     @SequenceGenerator(name = "flight_pricing_id_seq", sequenceName = "flight_pricing_seq", allocationSize = 1)

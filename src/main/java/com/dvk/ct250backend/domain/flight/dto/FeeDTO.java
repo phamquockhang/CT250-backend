@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,8 +19,8 @@ import java.time.LocalDateTime;
 public class FeeDTO {
     Integer feeId;
 
-    @NotBlank(message = "Fee type is required")
-    String feeType;
+    @NotBlank(message = "Fee name is required")
+    String feeName;
 
     @NotBlank(message = "Fee amount is required")
     BigDecimal feeAmount;
@@ -27,8 +28,7 @@ public class FeeDTO {
     @NotBlank(message = "Is percentage is required")
     Boolean isPercentage;
 
-    @NotBlank(message = "Passenger type is required")
-    String passengerType;
+    List<FeePricingDTO> feePricing;
 
     LocalDateTime createdAt;
     LocalDateTime updatedAt;

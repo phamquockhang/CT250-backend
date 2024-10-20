@@ -34,7 +34,7 @@ public class TicketClass extends BaseEntity {
     BigDecimal refundFeeAfter;
     BigDecimal changeFeeBefore;
     BigDecimal changeFeeAfter;
-    BigDecimal isSeatSelectionFree;
+    Boolean isSeatSelectionFree;
 
    @OneToMany(fetch = FetchType.LAZY, mappedBy = "ticketClass", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
    List<FlightPricing> flightPricing;

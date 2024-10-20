@@ -91,8 +91,7 @@ CREATE SEQUENCE flight_pricing_seq
     START WITH 1
     INCREMENT BY 1;
 ALTER TABLE public.flight_pricing
-    ALTER COLUMN flight_pricing_id SET DEFAULT nextval('flight_pricing_seq'),
-    ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+    ALTER COLUMN flight_pricing_id SET DEFAULT nextval('flight_pricing_seq');
 
 -- SEAT
 DROP SEQUENCE IF EXISTS seat_seq;
@@ -129,6 +128,12 @@ ALTER TABLE public.fees
     ALTER COLUMN fee_id SET DEFAULT nextval('fees_seq'),
     ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
 
+DROP SEQUENCE IF EXISTS fee_pricing_seq;
+CREATE SEQUENCE fee_pricing_seq
+    START WITH 1
+    INCREMENT BY 1;
+ALTER TABLE public.fee_pricing
+    ALTER COLUMN fee_pricing_id SET DEFAULT nextval('fee_pricing_seq');
 
 
 

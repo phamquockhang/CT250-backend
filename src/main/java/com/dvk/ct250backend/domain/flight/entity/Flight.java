@@ -60,15 +60,5 @@ public class Flight extends BaseEntity {
     )
     List<Fee> fees;
 
-    @Transient
-    public String getFlightDuration() {
-        if (departureDateTime != null && arrivalDateTime != null) {
-            Duration duration = Duration.between(departureDateTime, arrivalDateTime);
-            long totalMinutes = duration.toMinutes();
-            return totalMinutes + " minutes";
-        }
-        return null;
-    }
-
 
 }

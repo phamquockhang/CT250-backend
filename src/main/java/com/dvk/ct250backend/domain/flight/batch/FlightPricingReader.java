@@ -61,7 +61,7 @@ public class FlightPricingReader implements ItemReader<FlightPricing>, ItemStrea
                 .flight(Flight.builder().flightId(fieldSet.readString("flight_id")).build())
                 //.ticketClass(TicketClassEnum.valueOf(fieldSet.readString("ticket_class")))
                 .ticketClass(TicketClass.builder().ticketClassId(fieldSet.readInt("ticket_class_id")).build())
-                .ticketPrice(fieldSet.readDouble("ticket_price"))
+                .ticketPrice(fieldSet.readBigDecimal("ticket_price"))
                 .validFrom(LocalDate.parse(fieldSet.readString("valid_from"), dateTimeFormatter))
                 .validTo(LocalDate.parse(fieldSet.readString("valid_to"), dateTimeFormatter))
                 .build();
