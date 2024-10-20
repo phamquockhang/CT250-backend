@@ -1,14 +1,10 @@
 package com.dvk.ct250backend.domain.booking.entity;
 
 import com.dvk.ct250backend.domain.common.entity.BaseEntity;
-import com.dvk.ct250backend.domain.flight.entity.Fee;
 import com.dvk.ct250backend.domain.flight.enums.TicketClassEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter

@@ -12,6 +12,7 @@ import com.dvk.ct250backend.domain.flight.entity.Flight;
 import com.dvk.ct250backend.domain.flight.entity.FlightPricing;
 import com.dvk.ct250backend.domain.flight.entity.SeatAvailability;
 import com.dvk.ct250backend.domain.flight.enums.SeatAvailabilityStatus;
+import com.dvk.ct250backend.domain.flight.enums.TicketClassEnum;
 import com.dvk.ct250backend.domain.flight.mapper.FlightMapper;
 import com.dvk.ct250backend.domain.flight.repository.FlightRepository;
 import com.dvk.ct250backend.domain.flight.service.FlightService;
