@@ -1,9 +1,12 @@
 package com.dvk.ct250backend.domain.flight.entity;
 
 import com.dvk.ct250backend.domain.booking.enums.PassengerTypeEnum;
+import com.dvk.ct250backend.domain.flight.enums.RouteTypeEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -25,5 +28,12 @@ public class FeePricing {
 
     @Enumerated(EnumType.STRING)
     PassengerTypeEnum passengerType;
+
+    @Column(precision = 15, scale = 2)
+    BigDecimal feeAmount;
+    Boolean isPercentage;
+
+    @Enumerated(EnumType.STRING)
+    RouteTypeEnum routeType;
 
 }

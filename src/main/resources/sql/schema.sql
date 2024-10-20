@@ -135,6 +135,14 @@ CREATE SEQUENCE fee_pricing_seq
 ALTER TABLE public.fee_pricing
     ALTER COLUMN fee_pricing_id SET DEFAULT nextval('fee_pricing_seq');
 
+DROP SEQUENCE IF EXISTS fee_group_seq;
+CREATE SEQUENCE fee_group_seq
+    START WITH 1
+    INCREMENT BY 1;
+ALTER TABLE public.fee_groups
+    ALTER COLUMN fee_group_id SET DEFAULT nextval('fee_group_seq'),
+    ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
 
 
 

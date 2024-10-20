@@ -1,9 +1,12 @@
 package com.dvk.ct250backend.domain.flight.dto;
 
 import com.dvk.ct250backend.domain.booking.enums.PassengerTypeEnum;
+import com.dvk.ct250backend.domain.flight.enums.RouteTypeEnum;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -15,4 +18,7 @@ import lombok.experimental.FieldDefaults;
 public class FeePricingDTO {
     Integer feePricingId;
     PassengerTypeEnum passengerType;
+    BigDecimal feeAmount;
+    Boolean isPercentage;
+    RouteTypeEnum routeType;
 }

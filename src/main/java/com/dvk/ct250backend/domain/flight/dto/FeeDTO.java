@@ -22,13 +22,9 @@ public class FeeDTO {
     @NotBlank(message = "Fee name is required")
     String feeName;
 
-    @NotBlank(message = "Fee amount is required")
-    BigDecimal feeAmount;
-
-    @NotBlank(message = "Is percentage is required")
-    Boolean isPercentage;
-
     List<FeePricingDTO> feePricing;
+
+    FeeGroupDTO feeGroup;
 
     LocalDateTime createdAt;
     LocalDateTime updatedAt;

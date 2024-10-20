@@ -559,47 +559,57 @@ INSERT INTO public.ticket_class (ticket_class_name, luggage_allowance, checked_b
 VALUES ('ECONOMY', '7kg', 'PAY FEE', 450.000, 600.000, 450.000, 600.000, false),
        ('BUSINESS', '14kg', '30kg', 450.000, 450.000, 300.000, 450.000, true);
 
+
+--FEE GROUP
+INSERT INTO public.fee_groups (fee_group_name)
+VALUES ('Phí vận chuyển hàng không'),
+       ('Phụ phí'),
+       ('Thuế, phí và lệ phí');
+
 --FEE
-INSERT INTO public.fees (fee_name, fee_amount, is_percentage, route_type)
-VALUES ('Phụ thu quản trị hệ thống (Quốc nội)', 430000, false, 'DOMESTIC'),
-       ('Phụ thu quản trị hệ thống (Quốc tế)', 600000, false, 'INTERNATIONAL'),
-       ('Phí dịch vụ hành khách chặng nội địa', 100000, false, 'DOMESTIC'),
-       ('Phí dịch vụ hành khách chặng nội địa (Trẻ em)', 50000, false, 'DOMESTIC'),
-       ('Phí dịch vụ hành khách chặng quốc tế', 150000, false, 'INTERNATIONAL'),
-       ('Phí dịch vụ hành khách chặng quốc tế (Trẻ em)', 75000, false, 'INTERNATIONAL'),
-
-       ('Phí soi chiếu an ninh', 20000, false, 'DOMESTIC'),
-       ('Phí soi chiếu an ninh (Trẻ em)', 10000, false, 'DOMESTIC'),
-       ('Phí soi chiếu an ninh', 30000, false, 'INTERNATIONAL'),
-       ('Phí soi chiếu an ninh (Trẻ em)', 15000, false, 'INTERNATIONAL'),
-
-
-       ('Giá vé trẻ em', 0.75, true, 'DOMESTIC'),
-       ('Giá vé trẻ em', 0.75, true, 'INTERNATIONAL'),
-       ('Giá vé em bé (Quốc nội)', 100000, false, 'DOMESTIC'),
-       ('Giá vé em bé (Quốc tế)', 200000, false, 'INTERNATIONAL');
-
+INSERT INTO public.fees(fee_name, fee_group_id)
+VALUES ('Giá vé cơ bản', 1),
+       ('Phụ thu quản trị hệ thống', 2),
+       ('Phí dịch vụ hành khách', 3),
+       ('Phí soi chiếu an ninh', 3),
+       ('Thuế giá trị gia tăng', 3);
 
 --FEE-PRICING
-INSERT INTO public.fee_pricing (fee_id, passenger_type)
-VALUES (1, 'ADULT'),
-       (1, 'CHILD'),
-       (2, 'ADULT'),
-       (2, 'CHILD'),
-         (3, 'ADULT'),
-         (4, 'CHILD'),
-         (5, 'ADULT'),
-         (6, 'CHILD'),
-       (7, 'ADULT'),
-       (8, 'CHILD'),
-       (9, 'ADULT'),
-       (10, 'CHILD'),
-       (11, 'CHILD'),
-       (12, 'CHILD'),
-       (13, 'INFANT'),
-         (14, 'INFANT');
+INSERT INTO public.fee_pricing (fee_id, passenger_type, fee_amount, is_percentage, route_type)
+VALUES (1, 'ADULT', 1, true, 'DOMESTIC'),
+       (1, 'CHILD', 0.75, true, 'DOMESTIC'),
+       (1, 'INFANT', 0.1, true, 'DOMESTIC'),
+       (1, 'ADULT', 1, true, 'INTERNATIONAL'),
+       (1, 'CHILD', 0.75, true, 'INTERNATIONAL'),
+       (1, 'INFANT', 0.1, true, 'INTERNATIONAL'),
 
+       (2, 'ADULT', 430000, false, 'DOMESTIC'),
+       (2, 'CHILD', 430000, false, 'DOMESTIC'),
+       (2, 'INFANT', 0, false, 'DOMESTIC'),
+       (2, 'ADULT', 600000, false, 'INTERNATIONAL'),
+       (2, 'CHILD', 600000, false, 'INTERNATIONAL'),
+       (2, 'INFANT', 0, false, 'INTERNATIONAL'),
 
+       (3, 'ADULT', 100000, false, 'DOMESTIC'),
+       (3, 'CHILD', 50000, false, 'DOMESTIC'),
+       (3, 'INFANT', 0, false, 'DOMESTIC'),
+       (3, 'ADULT', 150000, false, 'INTERNATIONAL'),
+       (3, 'CHILD', 75000, false, 'INTERNATIONAL'),
+       (3, 'INFANT', 0, false, 'INTERNATIONAL'),
+
+       (4, 'ADULT', 20000, false, 'DOMESTIC'),
+       (4, 'CHILD', 10000, false, 'DOMESTIC'),
+       (4, 'INFANT', 0, false, 'DOMESTIC'),
+       (4, 'ADULT', 30000, false, 'INTERNATIONAL'),
+       (4, 'CHILD', 15000, false, 'INTERNATIONAL'),
+       (4, 'INFANT', 0, false, 'INTERNATIONAL'),
+
+       (5, 'ADULT', 0.1, true, 'DOMESTIC'),
+       (5, 'CHILD', 0.1, true, 'DOMESTIC'),
+       (5, 'INFANT', 0.1, true, 'DOMESTIC'),
+       (5, 'ADULT', 0.1, true, 'INTERNATIONAL'),
+       (5, 'CHILD', 0.1, true, 'INTERNATIONAL'),
+       (5, 'INFANT', 0.1, true, 'INTERNATIONAL');
 
 
 

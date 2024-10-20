@@ -24,18 +24,15 @@ public class Fee extends BaseEntity {
     @SequenceGenerator(name = "fee_id_seq", sequenceName = "fees_seq", allocationSize = 1)
     Integer feeId;
     String feeName;
-    @Column(precision = 15, scale = 2)
-    BigDecimal feeAmount;
-    Boolean isPercentage;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "fee", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     List<FeePricing> feePricing;
 
-    @Enumerated(EnumType.STRING)
-    RouteTypeEnum routeType;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fee_group_id")
+    FeeGroup feeGroup;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "fees", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     List<Flight> flights;
-
 
 }
