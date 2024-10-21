@@ -54,7 +54,7 @@ public class CustomPermissionInterceptor implements HandlerInterceptor {
     }
 
     private void logRequestDetails(String path,  String httpMethod) {
-        log.info("PATH: {}, METHOD: {}", path, httpMethod);
+        log.info("[PATH={}, METHOD={}]", path, httpMethod);
     }
 
     private void checkPermissions(User user, String path, String httpMethod) throws AccessDeniedException {
