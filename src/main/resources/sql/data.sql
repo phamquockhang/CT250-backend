@@ -895,8 +895,11 @@ VALUES ('DVK108', 271, 'AVAILABLE'), -- 1A
        ('DVK108', 276, 'AVAILABLE'), -- 1F
        ('DVK108', 277, 'AVAILABLE'), -- 1G
        ('DVK108', 278, 'AVAILABLE'), -- 1H
-       ('DVK108', 279, 'AVAILABLE');
--- 1J
+       ('DVK108', 279, 'AVAILABLE');-- 1J
+
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
+VALUES ('DVK108', 280, 'AVAILABLE'),
+       ('DVK108', 280, 'AVAILABLE');
 
 -- Khoang Economy cho Airbus A350
 -- INSERT INTO public.seat_availability (flight_id, seat_id, status)

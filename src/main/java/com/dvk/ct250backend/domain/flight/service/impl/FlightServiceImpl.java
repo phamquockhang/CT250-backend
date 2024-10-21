@@ -147,6 +147,9 @@ public class FlightServiceImpl implements FlightService {
         Specification<Flight> spec = getFlightRangeSpec(flightSearchRequest, start, end);
         List<Flight> flights = flightRepository.findAll(spec);
         TreeMap<String, List<Flight>> flightMap = new TreeMap<>();
+        int totalPassenger = flightSearchRequest.getPassengerTypeQuantityRequests().stream()
+                .mapToInt(PassengerTypeQuantityRequest::getQuantity)
+                .sum();
         flights.forEach(flight -> {
             String date = formatDate(flight.getDepartureDateTime().toLocalDate());
             int availableBusinessSeats = flight.getSeatAvailability().stream()
@@ -182,13 +185,13 @@ public class FlightServiceImpl implements FlightService {
                         flightOverview.setHasFlight(true);
                         BigDecimal minPrice = entry.getValue().stream()
                                 .map(flight -> flight.getFlightPricing().stream()
-                                        //Lọc ra các hạng vé còn chỗ trống
+                                        //Lọc ra các hạng vé còn chỗ trống đủ cho tổng số hành khách
                                         .filter(flightPricing -> {
                                             int availableSeats = flight.getSeatAvailability().stream()
                                                     .filter(seatAvailability -> seatAvailability.getSeat().getTicketClass().equals(flightPricing.getTicketClass().getTicketClassName())
                                                             && seatAvailability.getStatus().equals(SeatAvailabilityStatus.AVAILABLE))
                                                     .toList().size();
-                                            return availableSeats > 0;
+                                            return availableSeats > 0 && availableSeats >= totalPassenger;
                                         })
                                         //Tính giá vé thấp nhất của các hạng vé còn chỗ trống của chuyến bay
                                         .map(flightPricing -> getTotalTicketPrice(flight,
