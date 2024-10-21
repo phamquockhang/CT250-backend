@@ -69,7 +69,7 @@ public class FlightController {
     }
 
     @PostMapping("/search")
-    public ApiResponse<List<FlightDTO>> searchFlights(@ModelAttribute FlightSearchRequest flightSearchRequest) {
+    public ApiResponse<List<FlightDTO>> searchFlights(@RequestBody FlightSearchRequest flightSearchRequest) {
         return ApiResponse.<List<FlightDTO>>builder()
                 .status(HttpStatus.OK.value())
                 .payload(flightService.searchFlights(flightSearchRequest))
@@ -77,7 +77,7 @@ public class FlightController {
     }
 
     @PostMapping("/overview")
-    public ApiResponse<List<FlightOverview>> getFlightOverview(@ModelAttribute FlightSearchRequest flightSearchRequest) {
+    public ApiResponse<List<FlightOverview>> getFlightOverview(@RequestBody FlightSearchRequest flightSearchRequest) {
         return ApiResponse.<List<FlightOverview>>builder()
                 .status(HttpStatus.OK.value())
                 .payload(flightService.getFlightOverview(flightSearchRequest))
