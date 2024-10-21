@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @Builder
@@ -16,10 +19,13 @@ public class MealDTO {
     Integer mealId;
 
     @NotBlank(message = "Meal name is required")
-    String name;
+    String mealName;
 
-    String imageMeal;
+    String imgUrl;
 
     @NotBlank(message = "Price is required")
-    String price;
+    BigDecimal price;
+
+    LocalDate createdAt;
+    LocalDate updatedAt;
 }
