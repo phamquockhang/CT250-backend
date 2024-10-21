@@ -5,7 +5,7 @@ spring:
     password: ${DATABASE_PASSWORD:AVNS_RtkjrmnXf9d8sxZHkz1}
 
   jpa:
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         format_sql: true

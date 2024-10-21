@@ -576,11 +576,11 @@ VALUES ('Giá vé cơ bản', 1),
 
 --FEE-PRICING
 INSERT INTO public.fee_pricing (fee_id, passenger_type, fee_amount, is_percentage, route_type)
-VALUES (1, 'ADULT', 1, true, 'DOMESTIC'),
-       (1, 'CHILD', 0.75, true, 'DOMESTIC'),
+VALUES (1, 'ADULT', 100, true, 'DOMESTIC'),
+       (1, 'CHILD', 75, true, 'DOMESTIC'),
        (1, 'INFANT', 100000, false, 'DOMESTIC'),
-       (1, 'ADULT', 1, true, 'INTERNATIONAL'),
-       (1, 'CHILD', 0.75, true, 'INTERNATIONAL'),
+       (1, 'ADULT', 100, true, 'INTERNATIONAL'),
+       (1, 'CHILD', 75, true, 'INTERNATIONAL'),
        (1, 'INFANT', 200000, false, 'INTERNATIONAL'),
 
        (2, 'ADULT', 430000, false, 'DOMESTIC'),
@@ -604,12 +604,12 @@ VALUES (1, 'ADULT', 1, true, 'DOMESTIC'),
        (4, 'CHILD', 15000, false, 'INTERNATIONAL'),
        (4, 'INFANT', 0, false, 'INTERNATIONAL'),
 
-       (5, 'ADULT', 0.1, true, 'DOMESTIC'),
-       (5, 'CHILD', 0.1, true, 'DOMESTIC'),
-       (5, 'INFANT', 0.1, true, 'DOMESTIC'),
-       (5, 'ADULT', 0.1, true, 'INTERNATIONAL'),
-       (5, 'CHILD', 0.1, true, 'INTERNATIONAL'),
-       (5, 'INFANT', 0.1, true, 'INTERNATIONAL');
+       (5, 'ADULT', 10, true, 'DOMESTIC'),
+       (5, 'CHILD', 10, true, 'DOMESTIC'),
+       (5, 'INFANT', 10, true, 'DOMESTIC'),
+       (5, 'ADULT', 10, true, 'INTERNATIONAL'),
+       (5, 'CHILD', 10, true, 'INTERNATIONAL'),
+       (5, 'INFANT', 10, true, 'INTERNATIONAL');
 
 
 

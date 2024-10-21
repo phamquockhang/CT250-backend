@@ -40,6 +40,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -156,7 +157,7 @@ public class FlightServiceImpl implements FlightService {
                     .filter(seatAvailability -> seatAvailability.getSeat().getTicketClass().equals(TicketClassEnum.ECONOMY)
                             && seatAvailability.getStatus().equals(SeatAvailabilityStatus.AVAILABLE))
                     .toList().size();
-
+            //Cả 2 hạng vé đều hết chỗ => không thêm vào flightMap tính toán overview
             if (flightMap.containsKey(date) && !(availableBusinessSeats == 0 && availableEconomySeats == 0)) {
                 flightMap.get(date).add(flight);
             } else {
@@ -164,6 +165,7 @@ public class FlightServiceImpl implements FlightService {
             }
         });
         LocalDate currentDate = start;
+        //Thêm các ngày không có chuyến bay vào flightMap để tính toán overview
         while (currentDate.isBefore(end) || currentDate.isEqual(end)) {
             String date = formatDate(currentDate);
             flightMap.putIfAbsent(date, new ArrayList<>());
@@ -180,12 +182,21 @@ public class FlightServiceImpl implements FlightService {
                         flightOverview.setHasFlight(true);
                         BigDecimal minPrice = entry.getValue().stream()
                                 .map(flight -> flight.getFlightPricing().stream()
-                                        .map(flightPricing ->
-                                                getTotalTicketPrice(flight,
-                                                        flightSearchRequest.getPassengerTypeQuantityRequests(),
-                                                        flightPricing.getTicketClass()))
+                                        //Lọc ra các hạng vé còn chỗ trống
+                                        .filter(flightPricing -> {
+                                            int availableSeats = flight.getSeatAvailability().stream()
+                                                    .filter(seatAvailability -> seatAvailability.getSeat().getTicketClass().equals(flightPricing.getTicketClass().getTicketClassName())
+                                                            && seatAvailability.getStatus().equals(SeatAvailabilityStatus.AVAILABLE))
+                                                    .toList().size();
+                                            return availableSeats > 0;
+                                        })
+                                        //Tính giá vé thấp nhất của các hạng vé còn chỗ trống của chuyến bay
+                                        .map(flightPricing -> getTotalTicketPrice(flight,
+                                                flightSearchRequest.getPassengerTypeQuantityRequests(),
+                                                flightPricing.getTicketClass()))
                                         .min(BigDecimal::compareTo)
                                         .orElse(BigDecimal.valueOf(0.0)))
+                                //Tìm giá vé thấp nhất của tất cả cả chuyến bay trong ngày
                                 .min(BigDecimal::compareTo)
                                 .orElse(BigDecimal.valueOf(0.0));
                         flightOverview.setMinPriceOfDay(minPrice);
@@ -198,30 +209,34 @@ public class FlightServiceImpl implements FlightService {
     private BigDecimal getTotalTicketPrice(Flight flight,
                                            List<PassengerTypeQuantityRequest> passengerTypeQuantityRequests,
                                            TicketClass ticketClass) {
+        //Tính tổng giá vé cho mỗi loại hành khách
         return passengerTypeQuantityRequests.stream()
                 .map(passengerTypeQuantityRequest ->
                         getPassengerTotalFee(flight,
                                 PassengerTypeEnum.valueOf(passengerTypeQuantityRequest.getPassengerType()),
                                 ticketClass)
-                        .multiply(BigDecimal.valueOf(passengerTypeQuantityRequest.getQuantity()))).reduce(BigDecimal.ZERO, BigDecimal::add);
+                                .multiply(BigDecimal.valueOf(passengerTypeQuantityRequest.getQuantity()))).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     private BigDecimal getPassengerTotalFee(Flight flight,
                                             PassengerTypeEnum passengerType,
                                             TicketClass ticketClass) {
         BigDecimal basePrice = flight.getFlightPricing().stream()
-                .filter(flightPricing -> flightPricing.getTicketClass().equals(ticketClass))
+                .filter(flightPricing -> Objects.equals(flightPricing.getTicketClass().getTicketClassId(), ticketClass.getTicketClassId()))
                 .map(FlightPricing::getTicketPrice)
                 .findFirst()
                 .orElse(BigDecimal.valueOf(0.0));
+
         List<Fee> flightFees = feeRepository.findAll();
+        //Tính tổng phí cho mỗi hành khách (vé + phí)
         return flightFees.stream()
                 .map(fee -> fee.getFeePricing().stream()
                         .filter(feePricing -> feePricing.getPassengerType().equals(passengerType)
                                 && feePricing.getRouteType().equals(flight.getRoute().getRouteType()))
                         .map(feePricing -> {
                             if (Boolean.TRUE.equals(feePricing.getIsPercentage())) {
-                                return numberUtils.roundToThousand(basePrice.multiply(feePricing.getFeeAmount()));
+                                return numberUtils.roundToThousand(basePrice.multiply(feePricing.getFeeAmount())
+                                        .divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP));
                             } else {
                                 return feePricing.getFeeAmount();
                             }
