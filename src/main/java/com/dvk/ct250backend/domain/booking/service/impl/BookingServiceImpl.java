@@ -33,8 +33,9 @@ public class BookingServiceImpl implements BookingService {
     @Transactional
     public BookingDTO createBooking(BookingDTO bookingDTO) {
         Booking booking = bookingMapper.toBooking(bookingDTO);
-        if (booking.getBookingStatus() == BookingStatusEnum.PENDING || booking.getBookingStatus() == BookingStatusEnum.ON_HOLD) {
-            redisService.set("Booking: " + UUID.randomUUID() , booking, 60 * 60 * 1000 * 3 );
+        if (booking.getBookingStatus() == BookingStatusEnum.PENDING) {
+            String redisKey = "Booking: " + UUID.randomUUID();
+            redisService.set(redisKey , booking, 60 * 60 * 1000 * 3 );
         } else {
             booking = bookingRepository.save(booking);
             for (BookingFlight bookingFlight : booking.getBookingFlights()) {
@@ -47,12 +48,6 @@ public class BookingServiceImpl implements BookingService {
         return bookingMapper.toBookingDTO(booking);
     }
 
-    @Override
-    public BookingDTO holdBooking(Long bookingId) {
-//        Booking booking = bookingRepository.findById(bookingId).orElseThrow();
-//        redisService.set("Booking: " + booking.getPassengers(), booking );
-//        return bookingMapper.toBookingDTO(booking);
-        return null;
-    }
+
 
 }

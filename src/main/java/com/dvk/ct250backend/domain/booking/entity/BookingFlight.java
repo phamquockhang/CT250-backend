@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
@@ -27,6 +29,8 @@ public class BookingFlight {
     @JoinColumn(name = "booking_id")
     Booking booking;
 
-
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "booking_flight_meal", joinColumns = @JoinColumn(name = "booking_flight_id"), inverseJoinColumns = @JoinColumn(name = "meal_id"))
+    List<Meal> meals;
 
 }
