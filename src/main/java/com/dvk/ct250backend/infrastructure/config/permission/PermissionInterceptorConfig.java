@@ -1,16 +1,16 @@
 package com.dvk.ct250backend.infrastructure.config.permission;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
+@RequiredArgsConstructor
 public class PermissionInterceptorConfig implements WebMvcConfigurer {
-    @Bean
-    CustomPermissionInterceptor getPermissionInterceptor() {
-        return new CustomPermissionInterceptor();
-    }
+
+    private final CustomPermissionInterceptor permissionInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -18,7 +18,7 @@ public class PermissionInterceptorConfig implements WebMvcConfigurer {
                 "/", "/api/v1/auth/**",
                 "/api/v1/countries"
         };
-        registry.addInterceptor(getPermissionInterceptor())
+        registry.addInterceptor(permissionInterceptor)
                 .excludePathPatterns(whiteList);
     }
 }
