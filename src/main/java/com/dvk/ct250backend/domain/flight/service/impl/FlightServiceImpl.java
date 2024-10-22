@@ -202,7 +202,7 @@ public class FlightServiceImpl implements FlightService {
                                             if (a == null) {
                                                 return 1;
                                             } else if (b == null) {
-                                                return 1;
+                                                return -1;
                                             } else {
                                                 return a.compareTo(b);
                                             }
@@ -213,7 +213,7 @@ public class FlightServiceImpl implements FlightService {
                                     if (a == null) {
                                         return 1;
                                     } else if (b == null) {
-                                        return 1;
+                                        return -1;
                                     } else {
                                         return a.compareTo(b);
                                     }
