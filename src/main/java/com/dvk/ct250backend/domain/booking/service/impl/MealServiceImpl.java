@@ -21,7 +21,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -56,7 +55,12 @@ public class MealServiceImpl implements MealService {
     @Transactional
     public MealDTO updateMeal(Integer mealId, MealDTO mealDTO, MultipartFile imgUrl) throws IOException, ResourceNotFoundException {
         Meal meal = mealRepository.findById(mealId).orElseThrow(() -> new ResourceNotFoundException("Meal not found"));
-        if (imgUrl != null) {
+        if(imgUrl != null) {
+            String currentImageUrl = meal.getImgUrl();
+            if (currentImageUrl != null && !currentImageUrl.isEmpty()) {
+                String publicId = fileUtils.getPublicIdFromCloudinary(currentImageUrl);
+                fileUtils.deleteFileFromCloudinary(publicId);
+            }
             File convFile = fileUtils.convertMultipartFileToFile(imgUrl);
             String imageUrl = fileUtils.uploadFileToCloudinary(convFile);
             mealDTO.setImgUrl(imageUrl);

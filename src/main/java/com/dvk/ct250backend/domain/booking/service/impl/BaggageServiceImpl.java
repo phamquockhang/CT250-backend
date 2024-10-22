@@ -14,6 +14,7 @@ import jakarta.persistence.criteria.Predicate;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -53,6 +54,7 @@ public class BaggageServiceImpl implements BaggageService {
     }
 
     @Override
+   @Cacheable(value = "baggage")
     public List<BaggageDTO> getAllBaggage() {
         return baggageRepository.findAll().stream().map(baggageMapper::toBaggageDTO).toList();
     }

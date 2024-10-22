@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -25,5 +26,8 @@ public class BaggageDTO {
 
     @NotBlank(message = "Route type is required")
     String routeType;
+
+    LocalDate createdAt;
+    LocalDate updatedAt;
 
 }
