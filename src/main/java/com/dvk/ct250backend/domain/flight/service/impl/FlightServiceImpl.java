@@ -10,6 +10,7 @@ import com.dvk.ct250backend.domain.flight.dto.FlightOverview;
 import com.dvk.ct250backend.domain.flight.dto.request.FlightSearchRequest;
 import com.dvk.ct250backend.domain.flight.dto.request.PassengerTypeQuantityRequest;
 import com.dvk.ct250backend.domain.flight.entity.*;
+import com.dvk.ct250backend.domain.flight.enums.RouteTypeEnum;
 import com.dvk.ct250backend.domain.flight.enums.SeatAvailabilityStatus;
 import com.dvk.ct250backend.domain.flight.enums.TicketClassEnum;
 import com.dvk.ct250backend.domain.flight.mapper.FlightMapper;
@@ -147,6 +148,9 @@ public class FlightServiceImpl implements FlightService {
         Specification<Flight> spec = getFlightRangeSpec(flightSearchRequest, start, end);
         List<Flight> flights = flightRepository.findAll(spec);
         TreeMap<String, List<Flight>> flightMap = new TreeMap<>();
+        int totalPassenger = flightSearchRequest.getPassengerTypeQuantityRequests().stream()
+                .mapToInt(PassengerTypeQuantityRequest::getQuantity)
+                .sum();
         flights.forEach(flight -> {
             String date = formatDate(flight.getDepartureDateTime().toLocalDate());
             int availableBusinessSeats = flight.getSeatAvailability().stream()
@@ -182,22 +186,38 @@ public class FlightServiceImpl implements FlightService {
                         flightOverview.setHasFlight(true);
                         BigDecimal minPrice = entry.getValue().stream()
                                 .map(flight -> flight.getFlightPricing().stream()
-                                        //Lọc ra các hạng vé còn chỗ trống
+                                        //Lọc ra các hạng vé còn chỗ trống đủ cho tổng số hành khách
                                         .filter(flightPricing -> {
                                             int availableSeats = flight.getSeatAvailability().stream()
                                                     .filter(seatAvailability -> seatAvailability.getSeat().getTicketClass().equals(flightPricing.getTicketClass().getTicketClassName())
                                                             && seatAvailability.getStatus().equals(SeatAvailabilityStatus.AVAILABLE))
                                                     .toList().size();
-                                            return availableSeats > 0;
+                                            return availableSeats > 0 && availableSeats >= totalPassenger;
                                         })
                                         //Tính giá vé thấp nhất của các hạng vé còn chỗ trống của chuyến bay
                                         .map(flightPricing -> getTotalTicketPrice(flight,
                                                 flightSearchRequest.getPassengerTypeQuantityRequests(),
                                                 flightPricing.getTicketClass()))
-                                        .min(BigDecimal::compareTo)
-                                        .orElse(BigDecimal.valueOf(0.0)))
+                                        .min((a, b) -> {
+                                            if (a == null) {
+                                                return 1;
+                                            } else if (b == null) {
+                                                return -1;
+                                            } else {
+                                                return a.compareTo(b);
+                                            }
+                                        })
+                                        .orElse(null))
                                 //Tìm giá vé thấp nhất của tất cả cả chuyến bay trong ngày
-                                .min(BigDecimal::compareTo)
+                                .min((a, b) -> {
+                                    if (a == null) {
+                                        return 1;
+                                    } else if (b == null) {
+                                        return -1;
+                                    } else {
+                                        return a.compareTo(b);
+                                    }
+                                })
                                 .orElse(BigDecimal.valueOf(0.0));
                         flightOverview.setMinPriceOfDay(minPrice);
                     }
@@ -230,19 +250,43 @@ public class FlightServiceImpl implements FlightService {
         List<Fee> flightFees = feeRepository.findAll();
         //Tính tổng phí cho mỗi hành khách (vé + phí)
         return flightFees.stream()
-                .map(fee -> fee.getFeePricing().stream()
-                        .filter(feePricing -> feePricing.getPassengerType().equals(passengerType)
-                                && feePricing.getRouteType().equals(flight.getRoute().getRouteType()))
-                        .map(feePricing -> {
-                            if (Boolean.TRUE.equals(feePricing.getIsPercentage())) {
-                                return numberUtils.roundToThousand(basePrice.multiply(feePricing.getFeeAmount())
-                                        .divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP));
-                            } else {
-                                return feePricing.getFeeAmount();
+                .map(fee -> {
+                            //VAT
+                            if (fee.getFeeId() == 5) {
+                                Fee ticketPriceFee = feeRepository.findById(1).orElse(null);
+                                assert ticketPriceFee != null;
+                                FeePricing ticketFeePricing = ticketPriceFee.getFeePricing().stream()
+                                        .filter(feePricing -> feePricing.getPassengerType().equals(passengerType)
+                                                && feePricing.getRouteType().equals(flight.getRoute().getRouteType()))
+                                        .findFirst()
+                                        .orElse(null);
+                                assert ticketFeePricing != null;
+                                if (ticketFeePricing.getIsPercentage().equals(Boolean.TRUE)) {
+                                    return getFee(fee, passengerType, flight.getRoute().getRouteType(),
+                                            numberUtils.roundToThousand(basePrice.multiply(ticketFeePricing.getFeeAmount())
+                                                    .divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP)));
+                                } else {
+                                    return getFee(fee, passengerType, flight.getRoute().getRouteType(), ticketFeePricing.getFeeAmount());
+                                }
                             }
-                        })
-                        .reduce(BigDecimal.ZERO, BigDecimal::add)
+                            return getFee(fee, passengerType, flight.getRoute().getRouteType(), basePrice);
+                        }
                 )
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    private BigDecimal getFee(Fee fee, PassengerTypeEnum passengerType, RouteTypeEnum routeType, BigDecimal basePrice) {
+        return fee.getFeePricing().stream()
+                .filter(feePricing -> feePricing.getPassengerType().equals(passengerType)
+                        && feePricing.getRouteType().equals(routeType))
+                .map(feePricing -> {
+                    if (feePricing.getIsPercentage().equals(Boolean.TRUE)) {
+                        return numberUtils.roundToThousand(basePrice.multiply(feePricing.getFeeAmount())
+                                .divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP));
+                    } else {
+                        return feePricing.getFeeAmount();
+                    }
+                })
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
