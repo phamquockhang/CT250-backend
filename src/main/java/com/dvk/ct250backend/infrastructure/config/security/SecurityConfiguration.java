@@ -67,6 +67,8 @@ public class SecurityConfiguration {
                                 "/api/v1/flights/search",
                                 "/api/v1/flights/overview" ,
                                 "/api/v1/bookings/create",
+                                "/api/v1/meals/all",
+                                "/api/v1/baggage/all",
                                 "/oauth2/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

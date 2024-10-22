@@ -1,12 +1,12 @@
 package com.dvk.ct250backend.domain.booking.dto;
 
-import com.dvk.ct250backend.domain.flight.dto.FlightDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.List;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -15,13 +15,17 @@ import java.util.List;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BookingFlightDTO {
-    Integer bookingFlightId;
+public class MealDTO {
+    Integer mealId;
 
-    @NotBlank(message = "Flight is required")
-    FlightDTO flight;
+    @NotBlank(message = "Meal name is required")
+    String mealName;
 
-    List<MealDTO> meals;
+    String imgUrl;
 
-    List<BaggageDTO> bagages;
+    @NotBlank(message = "Price is required")
+    BigDecimal price;
+
+    LocalDate createdAt;
+    LocalDate updatedAt;
 }

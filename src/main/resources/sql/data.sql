@@ -417,7 +417,21 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Search flights', '/api/v1/flights/search', 'GET', 'FLIGHTS'),
        ('Get flights overview', '/api/v1/flights/overview', 'GET', 'FLIGHTS'),
        ('Get flights with pagination', '/api/v1/flights', 'GET', 'FLIGHTS'),
-       ('Get a flight by id', '/api/v1/flights/{id}', 'GET', 'FLIGHTS');
+       ('Get a flight by id', '/api/v1/flights/{id}', 'GET', 'FLIGHTS'),
+
+       ('Create a meal', '/api/v1/meals', 'POST', 'MEALS'),
+       ('Get all meals', '/api/v1/meals/all', 'GET', 'MEALS'),
+       ('Get meals with pagination', '/api/v1/meals', 'GET', 'MEALS'),
+       ('Delete a meal', '/api/v1/meals/{id}', 'DELETE', 'MEALS'),
+       ('Update a meal', '/api/v1/meals/{id}', 'PUT', 'MEALS'),
+
+       ('Create a baggage', '/api/v1/baggage', 'POST', 'BAGGAGE'),
+       ('Get all baggage', '/api/v1/baggage/all', 'GET', 'BAGGAGE'),
+       ('Get baggage with pagination', '/api/v1/baggage', 'GET', 'BAGGAGE'),
+       ('Delete a baggage', '/api/v1/baggage/{id}', 'DELETE', 'BAGGAGE'),
+       ('Update a baggage', '/api/v1/baggage/{id}', 'PUT', 'BAGGAGE');
+
+
 
 --USER
 INSERT INTO public.users (user_id, email, gender, first_name, last_name, password, phone_number, identity_number,
@@ -690,7 +704,7 @@ VALUES (1, '1A', 'BUSINESS'),
 INSERT INTO public.seats (model_id, seat_code, ticket_class)
 SELECT 1,
        i::TEXT || j,
-       'ECONOMY'
+        'ECONOMY'
 FROM generate_series(2, 30) AS i,
      unnest(ARRAY ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J']) AS j;
 
@@ -710,7 +724,7 @@ VALUES (2, '1A', 'BUSINESS'),
 INSERT INTO public.seats (model_id, seat_code, ticket_class)
 SELECT 2,
        i::TEXT || j,
-       'ECONOMY'
+        'ECONOMY'
 FROM generate_series(2, 30) AS i,
      unnest(ARRAY ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J']) AS j;
 
@@ -727,7 +741,7 @@ VALUES (3, '1A', 'BUSINESS'),
 INSERT INTO public.seats (model_id, seat_code, ticket_class)
 SELECT 3,
        i::TEXT || j,
-       'ECONOMY'
+        'ECONOMY'
 FROM generate_series(2, 30) AS i,
      unnest(ARRAY ['A', 'B', 'C', 'D', 'E', 'F']) AS j;
 
@@ -744,7 +758,7 @@ VALUES (4, '1A', 'BUSINESS'),
 INSERT INTO public.seats (model_id, seat_code, ticket_class)
 SELECT 4,
        i::TEXT || j,
-       'ECONOMY'
+        'ECONOMY'
 FROM generate_series(2, 30) AS i,
      unnest(ARRAY ['A', 'B', 'C', 'D', 'E', 'F']) AS j;
 -- Tổng số ghế cho mỗi model
@@ -952,4 +966,42 @@ VALUES ('DVK110', 721, 'AVAILABLE'), -- 1A
 --   AND ticket_class = 'ECONOMY'; -- Chỉ cho ghế Economy
 
 
+-- MEALS
+INSERT INTO public.meals (meal_name, price)
+VALUES ('Bánh gạo hấp', 80000),
+       ('Cơm chiên hải sản', 80000),
+       ('Pad Thái', 80000),
+       ('Mỳ ý', 80000),
+       ('Xôi thịt kho trứng', 80000 ),
+       ('Nước suối', 30000),
+       ('Sữa tươi', 30000),
+       ('Trà lipton', 30000),
+       ('Trà xanh', 30000),
+       ('Milo dầm', 50000),
+       ('Trà sữa trân châu', 50000),
+       ('Cacao uống liền', 35000),
+    ('Cà phê không đường', 35000),
+    ('Cà phê sữa', 35000),
+    ('Cà phê đen', 35000),
+    ('Red bull', 35000),
+    ('Nước cam Teppy', 35000),
+    ('Trà đào hạt chia', 35000),
+    ('Sprite', 35000),
+    ('Coca cola', 35000);
+
+
+--BAGGAGE
+INSERT INTO public.baggages ( baggage_weight, price ,route_type)
+VALUES ('10', 130000, 'DOMESTIC'),
+       ('10', 300000, 'INTERNATIONAL'),
+       ('20', 260000, 'DOMESTIC'),
+       ('20', 600000, 'INTERNATIONAL'),
+       ('30', 390000, 'DOMESTIC'),
+       ('30', 900000, 'INTERNATIONAL'),
+       ('40', 520000, 'DOMESTIC'),
+       ('40', 500000, 'INTERNATIONAL'),
+       ('50', 650000, 'DOMESTIC'),
+       ('50', 1200000, 'INTERNATIONAL'),
+       ('60', 780000, 'DOMESTIC'),
+       ('60', 1800000, 'INTERNATIONAL');
 

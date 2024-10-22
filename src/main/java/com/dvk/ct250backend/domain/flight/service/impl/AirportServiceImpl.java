@@ -102,7 +102,6 @@ public class AirportServiceImpl implements AirportService {
         String imageUrl = fileUtils.uploadFileToCloudinary(convFile);
         airportDTO.setImgUrl(imageUrl);
         Airport airport = airportMapper.toAirport(airportDTO);
-
         airport = airportRepository.save(airport);
         return airportMapper.toAirportDTO(airport);
     }
@@ -120,7 +119,6 @@ public class AirportServiceImpl implements AirportService {
         Airport airport = airportRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Airport not found"));
 
         if(imgUrl != null) {
-
             String currentImageUrl = airport.getImgUrl();
             if (currentImageUrl != null && !currentImageUrl.isEmpty()) {
                 String publicId = fileUtils.getPublicIdFromCloudinary(currentImageUrl);

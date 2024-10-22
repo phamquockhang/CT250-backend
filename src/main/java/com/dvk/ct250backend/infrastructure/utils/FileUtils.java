@@ -43,13 +43,13 @@ public class FileUtils {
     }
 
     public String uploadFileToCloudinary(File file) throws IOException {
-        var uploadResult = cloudinary.uploader().upload(file, ObjectUtils.asMap("folder", "/airports/"));
+        var uploadResult = cloudinary.uploader().upload(file, ObjectUtils.asMap("folder", "/ct250/"));
         return uploadResult.get("url").toString();
     }
 
     public void deleteFileFromCloudinary(String name) throws IOException {
-    cloudinary.uploader().destroy(name, ObjectUtils.emptyMap());
-}
+        cloudinary.uploader().destroy(name, ObjectUtils.emptyMap());
+    }
 
     public String getPublicIdFromCloudinary(String imageUrl) {
     String[] parts = imageUrl.split("/");
