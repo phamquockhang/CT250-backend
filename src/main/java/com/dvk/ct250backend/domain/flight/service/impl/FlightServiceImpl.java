@@ -10,6 +10,7 @@ import com.dvk.ct250backend.domain.flight.dto.FlightOverview;
 import com.dvk.ct250backend.domain.flight.dto.request.FlightSearchRequest;
 import com.dvk.ct250backend.domain.flight.dto.request.PassengerTypeQuantityRequest;
 import com.dvk.ct250backend.domain.flight.entity.*;
+import com.dvk.ct250backend.domain.flight.enums.RouteTypeEnum;
 import com.dvk.ct250backend.domain.flight.enums.SeatAvailabilityStatus;
 import com.dvk.ct250backend.domain.flight.enums.TicketClassEnum;
 import com.dvk.ct250backend.domain.flight.mapper.FlightMapper;
@@ -233,19 +234,43 @@ public class FlightServiceImpl implements FlightService {
         List<Fee> flightFees = feeRepository.findAll();
         //Tính tổng phí cho mỗi hành khách (vé + phí)
         return flightFees.stream()
-                .map(fee -> fee.getFeePricing().stream()
-                        .filter(feePricing -> feePricing.getPassengerType().equals(passengerType)
-                                && feePricing.getRouteType().equals(flight.getRoute().getRouteType()))
-                        .map(feePricing -> {
-                            if (Boolean.TRUE.equals(feePricing.getIsPercentage())) {
-                                return numberUtils.roundToThousand(basePrice.multiply(feePricing.getFeeAmount())
-                                        .divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP));
-                            } else {
-                                return feePricing.getFeeAmount();
+                .map(fee -> {
+                            //VAT
+                            if (fee.getFeeId() == 5) {
+                                Fee ticketPriceFee = feeRepository.findById(1).orElse(null);
+                                assert ticketPriceFee != null;
+                                FeePricing ticketFeePricing = ticketPriceFee.getFeePricing().stream()
+                                        .filter(feePricing -> feePricing.getPassengerType().equals(passengerType)
+                                                && feePricing.getRouteType().equals(flight.getRoute().getRouteType()))
+                                        .findFirst()
+                                        .orElse(null);
+                                assert ticketFeePricing != null;
+                                if (ticketFeePricing.getIsPercentage().equals(Boolean.TRUE)) {
+                                    return getFee(fee, passengerType, flight.getRoute().getRouteType(),
+                                            numberUtils.roundToThousand(basePrice.multiply(ticketFeePricing.getFeeAmount())
+                                            .divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP)));
+                                } else {
+                                    return getFee(fee, passengerType, flight.getRoute().getRouteType(), ticketFeePricing.getFeeAmount());
+                                }
                             }
-                        })
-                        .reduce(BigDecimal.ZERO, BigDecimal::add)
+                            return getFee(fee, passengerType, flight.getRoute().getRouteType(), basePrice);
+                        }
                 )
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    private BigDecimal getFee(Fee fee, PassengerTypeEnum passengerType, RouteTypeEnum routeType, BigDecimal basePrice) {
+        return fee.getFeePricing().stream()
+                .filter(feePricing -> feePricing.getPassengerType().equals(passengerType)
+                        && feePricing.getRouteType().equals(routeType))
+                .map(feePricing -> {
+                    if (feePricing.getIsPercentage().equals(Boolean.TRUE)) {
+                        return numberUtils.roundToThousand(basePrice.multiply(feePricing.getFeeAmount())
+                                .divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP));
+                    } else {
+                        return feePricing.getFeeAmount();
+                    }
+                })
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
