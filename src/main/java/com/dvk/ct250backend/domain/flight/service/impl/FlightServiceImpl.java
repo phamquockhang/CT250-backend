@@ -198,10 +198,23 @@ public class FlightServiceImpl implements FlightService {
                                         .map(flightPricing -> getTotalTicketPrice(flight,
                                                 flightSearchRequest.getPassengerTypeQuantityRequests(),
                                                 flightPricing.getTicketClass()))
-                                        .min(BigDecimal::compareTo)
-                                        .orElse(BigDecimal.valueOf(0.0)))
+                                        .min((a, b) -> {
+                                            if (b == null) {
+                                                return -1;
+                                            } else {
+                                                return a.compareTo(b);
+                                            }
+                                        })
+                                        .orElse(null))
                                 //Tìm giá vé thấp nhất của tất cả cả chuyến bay trong ngày
-                                .min(BigDecimal::compareTo)
+                                .min((a, b) -> {
+                                    if (b == null) {
+                                        return -1;
+                                    } else {
+                                        assert a != null;
+                                        return a.compareTo(b);
+                                    }
+                                })
                                 .orElse(BigDecimal.valueOf(0.0));
                         flightOverview.setMinPriceOfDay(minPrice);
                     }
