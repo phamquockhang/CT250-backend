@@ -152,5 +152,12 @@ ALTER TABLE public.meals
     ALTER COLUMN meal_id SET DEFAULT nextval('meals_seq'),
 ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
 
-
+-- BAGGAGE
+DROP SEQUENCE IF EXISTS baggage_seq;
+CREATE SEQUENCE baggage_seq
+    START WITH 1
+    INCREMENT BY 1;
+ALTER TABLE public.baggages
+    ALTER COLUMN baggage_id SET DEFAULT nextval('baggage_seq'),
+ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
 

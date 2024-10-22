@@ -423,7 +423,15 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Get all meals', '/api/v1/meals/all', 'GET', 'MEALS'),
        ('Get meals with pagination', '/api/v1/meals', 'GET', 'MEALS'),
        ('Delete a meal', '/api/v1/meals/{id}', 'DELETE', 'MEALS'),
-       ('Update a meal', '/api/v1/meals/{id}', 'PUT', 'MEALS');
+       ('Update a meal', '/api/v1/meals/{id}', 'PUT', 'MEALS'),
+
+       ('Create a baggage', '/api/v1/baggage', 'POST', 'BAGGAGE'),
+       ('Get all baggage', '/api/v1/baggage/all', 'GET', 'BAGGAGE'),
+       ('Get baggage with pagination', '/api/v1/baggage', 'GET', 'BAGGAGE'),
+       ('Delete a baggage', '/api/v1/baggage/{id}', 'DELETE', 'BAGGAGE'),
+       ('Update a baggage', '/api/v1/baggage/{id}', 'PUT', 'BAGGAGE');
+
+
 
 --USER
 INSERT INTO public.users (user_id, email, gender, first_name, last_name, password, phone_number, identity_number,
@@ -981,4 +989,19 @@ VALUES ('Bánh gạo hấp', 80000),
     ('Sprite', 35000),
     ('Coca cola', 35000);
 
+
+--BAGGAGE
+INSERT INTO public.baggages ( baggage_weight, price ,route_type)
+VALUES ('10', 130000, 'DOMESTIC'),
+       ('10', 300000, 'INTERNATIONAL'),
+       ('20', 260000, 'DOMESTIC'),
+       ('20', 600000, 'INTERNATIONAL'),
+       ('30', 390000, 'DOMESTIC'),
+       ('30', 900000, 'INTERNATIONAL'),
+       ('40', 520000, 'DOMESTIC'),
+       ('40', 500000, 'INTERNATIONAL'),
+       ('50', 650000, 'DOMESTIC'),
+       ('50', 1200000, 'INTERNATIONAL'),
+       ('60', 780000, 'DOMESTIC'),
+       ('60', 1800000, 'INTERNATIONAL');
 

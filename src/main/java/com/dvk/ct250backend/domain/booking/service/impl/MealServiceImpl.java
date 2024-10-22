@@ -2,6 +2,7 @@ package com.dvk.ct250backend.domain.booking.service.impl;
 
 import com.dvk.ct250backend.app.dto.response.Meta;
 import com.dvk.ct250backend.app.dto.response.Page;
+import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.booking.dto.MealDTO;
 import com.dvk.ct250backend.domain.booking.entity.Meal;
 import com.dvk.ct250backend.domain.booking.mapper.MealMapper;
@@ -10,7 +11,6 @@ import com.dvk.ct250backend.domain.booking.service.MealService;
 import com.dvk.ct250backend.infrastructure.utils.FileUtils;
 import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
 import com.dvk.ct250backend.infrastructure.utils.StringUtils;
-import jakarta.persistence.criteria.Predicate;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -21,11 +21,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -54,21 +54,21 @@ public class MealServiceImpl implements MealService {
 
     @Override
     @Transactional
-    public MealDTO updateMeal(Integer mealId, MealDTO mealDTO, MultipartFile imgUrl) throws IOException {
-        Meal meal = mealRepository.findById(mealId).orElseThrow(() -> new RuntimeException("Meal not found"));
+    public MealDTO updateMeal(Integer mealId, MealDTO mealDTO, MultipartFile imgUrl) throws IOException, ResourceNotFoundException {
+        Meal meal = mealRepository.findById(mealId).orElseThrow(() -> new ResourceNotFoundException("Meal not found"));
         if (imgUrl != null) {
             File convFile = fileUtils.convertMultipartFileToFile(imgUrl);
             String imageUrl = fileUtils.uploadFileToCloudinary(convFile);
             mealDTO.setImgUrl(imageUrl);
         }
-        meal = mealMapper.toMeal(mealDTO);
+        mealMapper.updateMealFromDTO(meal, mealDTO);
         meal = mealRepository.save(meal);
         return mealMapper.toMealDTO(meal);
     }
 
     @Override
-    public void deleteMeal(Integer mealId) {
-        Meal meal = mealRepository.findById(mealId).orElseThrow(() -> new RuntimeException("Meal not found"));
+    public void deleteMeal(Integer mealId) throws ResourceNotFoundException {
+        Meal meal = mealRepository.findById(mealId).orElseThrow(() -> new ResourceNotFoundException("Meal not found"));
         mealRepository.delete(meal);
     }
 

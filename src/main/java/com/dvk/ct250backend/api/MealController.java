@@ -2,6 +2,7 @@ package com.dvk.ct250backend.api;
 
 import com.dvk.ct250backend.app.dto.response.ApiResponse;
 import com.dvk.ct250backend.app.dto.response.Page;
+import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.booking.dto.MealDTO;
 import com.dvk.ct250backend.domain.booking.service.MealService;
 import lombok.AccessLevel;
@@ -32,7 +33,7 @@ public class MealController {
     }
 
     @PutMapping("/{id}")
-    public ApiResponse<MealDTO> updateMeal(@PathVariable("id") Integer mealId, @ModelAttribute MealDTO mealDTO, @RequestParam MultipartFile mealImg) throws IOException {
+    public ApiResponse<MealDTO> updateMeal(@PathVariable("id") Integer mealId, @ModelAttribute MealDTO mealDTO, @RequestParam MultipartFile mealImg) throws IOException, ResourceNotFoundException {
         return ApiResponse.<MealDTO>builder()
                 .status(HttpStatus.OK.value())
                 .payload(mealService.updateMeal(mealId, mealDTO, mealImg))
@@ -40,7 +41,7 @@ public class MealController {
     }
 
     @DeleteMapping("/{id}")
-    public ApiResponse<Void> deleteMeal(@PathVariable("id") Integer mealId) {
+    public ApiResponse<Void> deleteMeal(@PathVariable("id") Integer mealId) throws ResourceNotFoundException {
         mealService.deleteMeal(mealId);
         return ApiResponse.<Void>builder()
                 .status(HttpStatus.OK.value())
