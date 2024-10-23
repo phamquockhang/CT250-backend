@@ -1,5 +1,6 @@
 package com.dvk.ct250backend.domain.flight.dto.request;
 
+import com.dvk.ct250backend.domain.common.annotation.NotEmptyCollection;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -27,6 +28,6 @@ public class FlightSearchRequest {
 
     String arrivalDate;
 
-    //@NotBlank(message = "Passenger type quantity is required")
+    @NotEmptyCollection(message = "Passenger type quantity is required")
     List<PassengerTypeQuantityRequest> passengerTypeQuantityRequests;
 }

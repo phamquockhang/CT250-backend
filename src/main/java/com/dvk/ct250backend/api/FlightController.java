@@ -8,6 +8,7 @@ import com.dvk.ct250backend.domain.flight.dto.FlightDTO;
 import com.dvk.ct250backend.domain.flight.dto.FlightOverview;
 import com.dvk.ct250backend.domain.flight.dto.request.FlightSearchRequest;
 import com.dvk.ct250backend.domain.flight.service.FlightService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -69,7 +70,7 @@ public class FlightController {
     }
 
     @PostMapping("/search")
-    public ApiResponse<List<FlightDTO>> searchFlights(@RequestBody FlightSearchRequest flightSearchRequest) {
+    public ApiResponse<List<FlightDTO>> searchFlights(@Valid @RequestBody FlightSearchRequest flightSearchRequest) {
         return ApiResponse.<List<FlightDTO>>builder()
                 .status(HttpStatus.OK.value())
                 .payload(flightService.searchFlights(flightSearchRequest))
@@ -77,7 +78,7 @@ public class FlightController {
     }
 
     @PostMapping("/overview")
-    public ApiResponse<List<FlightOverview>> getFlightOverview(@RequestBody FlightSearchRequest flightSearchRequest) {
+    public ApiResponse<List<FlightOverview>> getFlightOverview(@Valid @RequestBody FlightSearchRequest flightSearchRequest) {
         return ApiResponse.<List<FlightOverview>>builder()
                 .status(HttpStatus.OK.value())
                 .payload(flightService.getFlightOverview(flightSearchRequest))
