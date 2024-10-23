@@ -1,6 +1,5 @@
 package com.dvk.ct250backend.domain.booking.dto;
 
-import com.dvk.ct250backend.domain.flight.dto.FlightDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -15,10 +14,10 @@ import java.util.List;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BookingFlightDTO {
-    Integer bookingFlightId;
-
-    @NotBlank(message = "Flight is required")
-    FlightDTO flight;
-
+public class BookingPassengerDTO {
+    Integer bookingPassengerId;
+    @NotBlank
+    PassengerDTO passenger;
+    BaggageDTO baggage;
+    List<MealDTO> meals;
 }

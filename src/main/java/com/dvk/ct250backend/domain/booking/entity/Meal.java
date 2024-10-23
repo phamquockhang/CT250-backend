@@ -27,6 +27,6 @@ public class Meal extends BaseEntity {
     BigDecimal price;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "meals", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    List<BookingFlight> bookingFlights;
+    List<BookingPassenger> bookingPassengers;
 
 }

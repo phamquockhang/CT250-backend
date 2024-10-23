@@ -37,8 +37,9 @@ public class Passenger {
     @ManyToOne
     @JoinColumn(name = "country_id")
     Country country;
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "passengers", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    List<Booking> bookings;
+
+    @OneToMany(mappedBy = "passenger", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    List<BookingPassenger> bookingPassengers;
 
     Boolean isPrimaryContact;
 }

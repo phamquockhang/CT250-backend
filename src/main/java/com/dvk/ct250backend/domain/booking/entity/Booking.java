@@ -3,13 +3,11 @@ package com.dvk.ct250backend.domain.booking.entity;
 import com.dvk.ct250backend.domain.booking.enums.BookingStatusEnum;
 import com.dvk.ct250backend.domain.booking.enums.TripTypeEnum;
 import com.dvk.ct250backend.domain.common.entity.BaseEntity;
-import com.dvk.ct250backend.domain.flight.entity.Flight;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -39,9 +37,9 @@ public class Booking extends BaseEntity {
     @Column(precision = 15, scale = 2)
     BigDecimal totalPrice;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "booking_passenger", joinColumns = @JoinColumn(name = "booking_id"), inverseJoinColumns = @JoinColumn(name = "passenger_id"))
-    List<Passenger> passengers;
+
+    @OneToMany(mappedBy = "booking", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    List<BookingPassenger> bookingPassengers;
 
     @Enumerated(EnumType.STRING)
     BookingStatusEnum bookingStatus;

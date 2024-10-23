@@ -1,5 +1,6 @@
 package com.dvk.ct250backend.domain.booking.dto;
 
+import com.dvk.ct250backend.domain.booking.entity.Baggage;
 import com.dvk.ct250backend.domain.booking.entity.BookingFlight;
 import com.dvk.ct250backend.domain.flight.dto.FlightDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -31,8 +32,8 @@ public class BookingDTO {
     @NotBlank(message = "Total price is required")
     BigDecimal totalPrice;
 
-    @NotBlank(message = "Passengers are required")
-    Set<PassengerDTO> passengers;
+    @NotBlank
+    List<BookingPassengerDTO> bookingPassengers;
 
     @NotBlank(message = "Booking status is required")
     String bookingStatus;
