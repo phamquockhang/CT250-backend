@@ -1,6 +1,8 @@
 package com.dvk.ct250backend.domain.booking.entity;
 
 import com.dvk.ct250backend.domain.flight.entity.Flight;
+import com.dvk.ct250backend.domain.flight.entity.TicketClass;
+import com.dvk.ct250backend.domain.flight.enums.TicketClassEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -29,5 +31,7 @@ public class BookingFlight {
     @JoinColumn(name = "booking_id")
     Booking booking;
 
-
+    @ManyToOne
+    @JoinColumn(name = "ticket_class_id")
+    TicketClass ticketClass;
 }

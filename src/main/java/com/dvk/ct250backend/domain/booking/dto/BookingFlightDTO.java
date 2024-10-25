@@ -1,6 +1,7 @@
 package com.dvk.ct250backend.domain.booking.dto;
 
 import com.dvk.ct250backend.domain.flight.dto.FlightDTO;
+import com.dvk.ct250backend.domain.flight.dto.TicketClassDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -20,5 +21,8 @@ public class BookingFlightDTO {
 
     @NotBlank(message = "Flight is required")
     FlightDTO flight;
+
+    //@NotBlank(message = "Ticket class is required")
+    TicketClassDTO ticketClass;
 
 }

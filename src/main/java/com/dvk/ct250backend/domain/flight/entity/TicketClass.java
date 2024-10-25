@@ -1,5 +1,6 @@
 package com.dvk.ct250backend.domain.flight.entity;
 
+import com.dvk.ct250backend.domain.booking.entity.BookingFlight;
 import com.dvk.ct250backend.domain.common.entity.BaseEntity;
 import com.dvk.ct250backend.domain.flight.enums.TicketClassEnum;
 import jakarta.persistence.*;
@@ -7,6 +8,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -39,4 +41,6 @@ public class TicketClass extends BaseEntity {
    @OneToMany(fetch = FetchType.LAZY, mappedBy = "ticketClass", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
    List<FlightPricing> flightPricing;
 
+   @OneToMany(fetch = FetchType.LAZY, mappedBy = "ticketClass", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+   List<BookingFlight> bookingFlights;
 }

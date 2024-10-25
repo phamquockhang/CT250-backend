@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class LockService {
+
     RedisTemplate<String, Object> redisTemplate;
 
     public boolean acquireLock(String key, long timeout, TimeUnit unit) {

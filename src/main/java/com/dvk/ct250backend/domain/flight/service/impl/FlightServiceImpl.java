@@ -20,6 +20,7 @@ import com.dvk.ct250backend.domain.flight.service.FlightService;
 import com.dvk.ct250backend.infrastructure.utils.FileUtils;
 import com.dvk.ct250backend.infrastructure.utils.NumberUtils;
 import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -319,15 +320,6 @@ public class FlightServiceImpl implements FlightService {
                 .orElseThrow(() -> new ResourceNotFoundException("Flight not found for this id :: " + id));
     }
 
-    @Override
-    public Flight getFlightForUpdate(String flightId) {
-        return flightRepository.findFlightForUpdate(flightId);
-    }
-
-    @Override
-    public void updateFlight(Flight flight) {
-        flightRepository.save(flight);
-    }
 
     private Specification<Flight> getFlightSpec(FlightSearchRequest flightSearchRequest, LocalDate departureDate, LocalDate arrivalDate) {
         return Specification.where(getDateRangeSpec("departureDateTime", departureDate))
@@ -377,4 +369,5 @@ public class FlightServiceImpl implements FlightService {
             return null;
         };
     }
+
 }
