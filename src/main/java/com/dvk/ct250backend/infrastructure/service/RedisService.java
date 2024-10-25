@@ -1,9 +1,12 @@
 package com.dvk.ct250backend.infrastructure.service;
 
+import com.dvk.ct250backend.domain.booking.entity.Booking;
+import com.dvk.ct250backend.domain.booking.enums.BookingStatusEnum;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.support.atomic.RedisAtomicInteger;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
@@ -29,10 +32,5 @@ public class RedisService {
 
     public boolean delete(String key) {
         return Boolean.TRUE.equals(redisTemplate.delete(key));
-    }
-
-    public boolean setNx(String key, Object value, int timeout) {
-        Boolean result = redisTemplate.opsForValue().setIfAbsent(key, value, timeout, TimeUnit.MILLISECONDS);
-        return Boolean.TRUE.equals(result);
     }
 }

@@ -20,11 +20,11 @@ public class BookingController {
 
     BookingService bookingService;
 
-    @PostMapping("/create")
+    @PostMapping
     public ApiResponse<BookingDTO> createBooking(@RequestBody BookingDTO bookingDTO) {
         return ApiResponse.<BookingDTO>builder()
                 .status(HttpStatus.CREATED.value())
-                .payload(bookingService.createBooking(bookingDTO))
+                .payload(bookingService.createInitBooking(bookingDTO))
                 .build();
     }
 }

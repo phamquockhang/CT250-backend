@@ -2,6 +2,7 @@ package com.dvk.ct250backend.domain.booking.entity;
 
 import com.dvk.ct250backend.domain.booking.enums.TicketStatusEnum;
 import com.dvk.ct250backend.domain.common.entity.BaseEntity;
+import com.dvk.ct250backend.domain.flight.entity.Flight;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -26,7 +27,11 @@ public class Ticket extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booking_id")
     Booking booking;
+
     String seatCode;
-    String flightId;
+
+    @ManyToOne
+    @JoinColumn(name = "flight_id", nullable = false)
+    Flight flight;
 
 }

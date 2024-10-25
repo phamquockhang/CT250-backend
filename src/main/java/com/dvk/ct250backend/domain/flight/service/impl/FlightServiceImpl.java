@@ -319,6 +319,16 @@ public class FlightServiceImpl implements FlightService {
                 .orElseThrow(() -> new ResourceNotFoundException("Flight not found for this id :: " + id));
     }
 
+    @Override
+    public Flight getFlightForUpdate(String flightId) {
+        return flightRepository.findFlightForUpdate(flightId);
+    }
+
+    @Override
+    public void updateFlight(Flight flight) {
+        flightRepository.save(flight);
+    }
+
     private Specification<Flight> getFlightSpec(FlightSearchRequest flightSearchRequest, LocalDate departureDate, LocalDate arrivalDate) {
         return Specification.where(getDateRangeSpec("departureDateTime", departureDate))
                 .and(arrivalDate != null ? getDateRangeSpec("arrivalDateTime", arrivalDate)

@@ -5,6 +5,7 @@ import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.flight.dto.FlightDTO;
 import com.dvk.ct250backend.domain.flight.dto.FlightOverview;
 import com.dvk.ct250backend.domain.flight.dto.request.FlightSearchRequest;
+import com.dvk.ct250backend.domain.flight.entity.Flight;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -22,4 +23,6 @@ public interface FlightService {
     Page<FlightDTO> getFlights(Map<String,String> params);
 
     FlightDTO getFlightById(String id) throws ResourceNotFoundException;
+    Flight getFlightForUpdate(String flightId);
+    void updateFlight(Flight flight);
 }

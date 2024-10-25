@@ -1,6 +1,7 @@
 package com.dvk.ct250backend.domain.flight.entity;
 
 import com.dvk.ct250backend.domain.booking.entity.BookingFlight;
+import com.dvk.ct250backend.domain.booking.entity.Ticket;
 import com.dvk.ct250backend.domain.common.entity.BaseEntity;
 import com.dvk.ct250backend.domain.flight.enums.FlightStatusEnum;
 import jakarta.persistence.*;
@@ -23,6 +24,9 @@ public class Flight extends BaseEntity {
 
     @Id
     String flightId;
+
+    @Version
+    Integer version;
 
     LocalDateTime departureDateTime;
     LocalDateTime arrivalDateTime;
@@ -54,4 +58,7 @@ public class Flight extends BaseEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "flight", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     List<BookingFlight> bookingFlights = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "flight", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    List<Ticket> tickets = new ArrayList<>();
 }

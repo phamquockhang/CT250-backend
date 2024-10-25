@@ -12,6 +12,12 @@ import com.dvk.ct250backend.domain.booking.service.BookingFlightService;
 import com.dvk.ct250backend.domain.booking.service.BookingPassengerService;
 import com.dvk.ct250backend.domain.booking.service.BookingService;
 import com.dvk.ct250backend.domain.booking.service.PassengerService;
+import com.dvk.ct250backend.domain.booking.service.TicketService;
+import com.dvk.ct250backend.domain.flight.entity.Flight;
+import com.dvk.ct250backend.domain.flight.entity.SeatAvailability;
+import com.dvk.ct250backend.domain.flight.enums.SeatAvailabilityStatus;
+import com.dvk.ct250backend.domain.flight.service.FlightService;
+import com.dvk.ct250backend.infrastructure.service.LockService;
 import com.dvk.ct250backend.infrastructure.service.RedisService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -31,28 +38,16 @@ public class BookingServiceImpl implements BookingService {
     BookingFlightService bookingFlightService;
     BookingPassengerService bookingPassengerService;
     PassengerService passengerService;
+    FlightService flightService;
+    TicketService ticketService;
+    LockService lockService;
 
     @Override
     @Transactional
-    public BookingDTO createBooking(BookingDTO bookingDTO) {
+    public BookingDTO createInitBooking(BookingDTO bookingDTO) {
         Booking booking = bookingMapper.toBooking(bookingDTO);
-        String redisKey = "Booking: " + booking.getBookingId();
-        if (booking.getBookingStatus() == BookingStatusEnum.PENDING) {
-            redisService.set(redisKey, booking, 60 * 60 * 1000 * 3); // 3 hour
-        } else {
-            redisService.delete(redisKey);
-            booking = bookingRepository.save(booking);
-            for (BookingFlight bookingFlight : booking.getBookingFlights()) {
-                bookingFlight.setBooking(booking);
-                bookingFlightService.saveBookingFlight(bookingFlight);
-            }
-            for (BookingPassenger bookingPassenger : booking.getBookingPassengers()) {
-                Passenger passenger = passengerService.savePassenger(bookingPassenger.getPassenger());
-                bookingPassenger.setPassenger(passenger);
-                bookingPassenger.setBooking(booking);
-                bookingPassengerService.saveBookingPassenger(bookingPassenger);
-            }
-        }
-        return bookingMapper.toBookingDTO(booking);
+        booking.setBookingStatus(BookingStatusEnum.INIT);
+        return bookingMapper.toBookingDTO(bookingRepository.save(booking));
     }
+
 }
