@@ -14,6 +14,7 @@ import com.dvk.ct250backend.domain.booking.service.BookingService;
 
 import com.dvk.ct250backend.domain.booking.service.PassengerService;
 import com.dvk.ct250backend.domain.booking.utils.BookingCodeUtils;
+import com.dvk.ct250backend.domain.flight.service.FlightService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -30,6 +31,7 @@ public class BookingServiceImpl implements BookingService {
     BookingFlightService bookingFlightService;
     BookingPassengerService bookingPassengerService;
     PassengerService passengerService;
+    FlightService flightService;
 
     @Override
     @Transactional
@@ -56,6 +58,10 @@ public class BookingServiceImpl implements BookingService {
         Booking booking = bookingRepository.findById(bookingId).orElseThrow();
         bookingMapper.updateBookingFromDTO(booking, bookingDTO);
         booking.setBookingCode(bookingCodeUtils.generateBookingCode());
+        for (BookingFlight bookingFlight : booking.getBookingFlights()) {
+            bookingFlight.setBooking(booking);
+            bookingFlightService.saveBookingFlight(bookingFlight);
+        }
         return bookingMapper.toBookingDTO(bookingRepository.save(booking));
     }
 

@@ -64,6 +64,7 @@ public class SecurityConfiguration {
                                 "/api/v1/flights/search",
                                 "/api/v1/flights/overview" ,
                                 "/api/v1/bookings",
+                                "/api/v1/bookings/{bookingId}/reserve",
                                 "/api/v1/meals/all",
                                 "/api/v1/baggage/all",
                                 "/oauth2/**").permitAll()

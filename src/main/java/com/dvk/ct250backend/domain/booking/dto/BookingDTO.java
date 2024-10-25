@@ -23,7 +23,7 @@ import java.util.Set;
 public class BookingDTO {
     Integer bookingId;
 
-    String redisKey;
+    String bookingCode;
 
     @NotBlank(message = "Trip type is required")
     String tripType;
