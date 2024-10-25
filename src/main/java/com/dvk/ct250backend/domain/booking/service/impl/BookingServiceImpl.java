@@ -7,13 +7,11 @@ import com.dvk.ct250backend.domain.booking.entity.BookingPassenger;
 import com.dvk.ct250backend.domain.booking.entity.Passenger;
 import com.dvk.ct250backend.domain.booking.enums.BookingStatusEnum;
 import com.dvk.ct250backend.domain.booking.mapper.BookingMapper;
-import com.dvk.ct250backend.domain.booking.repository.BookingFlightRepository;
-import com.dvk.ct250backend.domain.booking.repository.BookingPassengerRepository;
 import com.dvk.ct250backend.domain.booking.repository.BookingRepository;
-import com.dvk.ct250backend.domain.booking.repository.PassengerRepository;
+import com.dvk.ct250backend.domain.booking.service.BookingFlightService;
+import com.dvk.ct250backend.domain.booking.service.BookingPassengerService;
 import com.dvk.ct250backend.domain.booking.service.BookingService;
-import com.dvk.ct250backend.domain.flight.entity.Flight;
-import com.dvk.ct250backend.domain.flight.repository.FlightRepository;
+import com.dvk.ct250backend.domain.booking.service.PassengerService;
 import com.dvk.ct250backend.infrastructure.service.RedisService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -27,42 +25,34 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class BookingServiceImpl implements BookingService {
-    FlightRepository flightRepository;
     BookingMapper bookingMapper;
     BookingRepository bookingRepository;
-    BookingFlightRepository bookingFlightRepository;
-    PassengerRepository passengerRepository;
     RedisService redisService;
-    BookingPassengerRepository bookingPassengerRepository;
+    BookingFlightService bookingFlightService;
+    BookingPassengerService bookingPassengerService;
+    PassengerService passengerService;
 
     @Override
     @Transactional
     public BookingDTO createBooking(BookingDTO bookingDTO) {
         Booking booking = bookingMapper.toBooking(bookingDTO);
+        String redisKey = "Booking: " + booking.getBookingId();
         if (booking.getBookingStatus() == BookingStatusEnum.PENDING) {
-            String redisKey = "Booking: " + UUID.randomUUID();
-            redisService.set(redisKey , booking, 60*60*1000*3 );
+            redisService.set(redisKey, booking, 60 * 60 * 1000 * 3); // 3 hour
         } else {
+            redisService.delete(redisKey);
             booking = bookingRepository.save(booking);
             for (BookingFlight bookingFlight : booking.getBookingFlights()) {
                 bookingFlight.setBooking(booking);
-                Flight flight = flightRepository.findById(bookingFlight.getFlight().getFlightId()).orElseThrow();
-                bookingFlight.setFlight(flight);
-                bookingFlightRepository.save(bookingFlight);
+                bookingFlightService.saveBookingFlight(bookingFlight);
             }
             for (BookingPassenger bookingPassenger : booking.getBookingPassengers()) {
-                Passenger passenger = bookingPassenger.getPassenger();
-                if (passenger.getPassengerId() == null) {
-                    passenger = passengerRepository.save(passenger);
-                }
+                Passenger passenger = passengerService.savePassenger(bookingPassenger.getPassenger());
                 bookingPassenger.setPassenger(passenger);
                 bookingPassenger.setBooking(booking);
-                bookingPassengerRepository.save(bookingPassenger);
+                bookingPassengerService.saveBookingPassenger(bookingPassenger);
             }
         }
         return bookingMapper.toBookingDTO(booking);
     }
-
-
-
 }

@@ -30,4 +30,9 @@ public class RedisService {
     public boolean delete(String key) {
         return Boolean.TRUE.equals(redisTemplate.delete(key));
     }
+
+    public boolean setNx(String key, Object value, int timeout) {
+        Boolean result = redisTemplate.opsForValue().setIfAbsent(key, value, timeout, TimeUnit.MILLISECONDS);
+        return Boolean.TRUE.equals(result);
+    }
 }

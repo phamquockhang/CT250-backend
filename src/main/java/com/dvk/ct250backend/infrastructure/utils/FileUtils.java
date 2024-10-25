@@ -52,8 +52,8 @@ public class FileUtils {
     }
 
     public String getPublicIdFromCloudinary(String imageUrl) {
-    String[] parts = imageUrl.split("/");
-    return parts[parts.length - 2] + "/" + parts[parts.length - 1].substring(0, parts[parts.length - 1].lastIndexOf('.'));
-}
+        String[] parts = imageUrl.split("/");
+        return parts[parts.length - 2] + "/" + parts[parts.length - 1].substring(0, parts[parts.length - 1].lastIndexOf('.'));
+    }
 
 }
