@@ -22,7 +22,7 @@ public class BookingFlight {
     Integer bookingFlightId;
 
     @ManyToOne
-    @JoinColumn(name = "flight_id", nullable = false)
+    @JoinColumn(name = "flight_id")
     Flight flight;
 
     @ManyToOne

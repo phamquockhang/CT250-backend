@@ -25,6 +25,9 @@ public class Booking extends BaseEntity {
     @SequenceGenerator(name = "booking_id_seq", sequenceName = "bookings_seq", allocationSize = 1)
     Integer bookingId;
 
+    @Column(unique = true)
+    String bookingCode;
+
     @Enumerated(EnumType.STRING)
     TripTypeEnum tripType;
 

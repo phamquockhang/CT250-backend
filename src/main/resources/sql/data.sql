@@ -429,7 +429,9 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Get all baggage', '/api/v1/baggage/all', 'GET', 'BAGGAGE'),
        ('Get baggage with pagination', '/api/v1/baggage', 'GET', 'BAGGAGE'),
        ('Delete a baggage', '/api/v1/baggage/{id}', 'DELETE', 'BAGGAGE'),
-       ('Update a baggage', '/api/v1/baggage/{id}', 'PUT', 'BAGGAGE');
+       ('Update a baggage', '/api/v1/baggage/{id}', 'PUT', 'BAGGAGE'),
+
+       ('Create a booking', '/api/v1/bookings', 'POST', 'BOOKINGS');
 
 
 

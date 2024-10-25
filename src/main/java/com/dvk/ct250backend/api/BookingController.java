@@ -7,10 +7,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/bookings")
@@ -25,6 +22,14 @@ public class BookingController {
         return ApiResponse.<BookingDTO>builder()
                 .status(HttpStatus.CREATED.value())
                 .payload(bookingService.createInitBooking(bookingDTO))
+                .build();
+    }
+
+    @PutMapping("/{bookingId}/reserve")
+    public ApiResponse<BookingDTO> reserveBooking(@PathVariable Integer bookingId, @RequestBody BookingDTO bookingDTO) {
+        return ApiResponse.<BookingDTO>builder()
+                .status(HttpStatus.OK.value())
+                .payload(bookingService.reserveBooking(bookingId, bookingDTO))
                 .build();
     }
 }
