@@ -31,7 +31,7 @@ public class Booking extends BaseEntity {
     @Enumerated(EnumType.STRING)
     TripTypeEnum tripType;
 
-    @OneToMany(mappedBy = "booking", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "booking", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     List<BookingFlight> bookingFlights;
 
     @OneToMany(mappedBy = "booking", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)

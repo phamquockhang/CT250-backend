@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PassengerDTO {
-    Integer passengerId;
+    String passengerId;
     @NotBlank(message = "Passenger name is required")
     String passengerType;
 

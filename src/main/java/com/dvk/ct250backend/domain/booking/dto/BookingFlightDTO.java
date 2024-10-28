@@ -23,5 +23,4 @@ public class BookingFlightDTO {
     @NotBlank(message = "Ticket class is required")
     TicketClassDTO ticketClass;
     List<BookingPassengerDTO> bookingPassengers;
-
 }

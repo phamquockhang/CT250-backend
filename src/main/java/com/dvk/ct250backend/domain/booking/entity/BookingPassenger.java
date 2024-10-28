@@ -1,5 +1,6 @@
 package com.dvk.ct250backend.domain.booking.entity;
 
+import com.dvk.ct250backend.domain.flight.entity.Seat;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -41,10 +42,14 @@ public class BookingPassenger{
     @JoinColumn(name = "booking_flight_id")
     BookingFlight bookingFlight;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "seat_id")
+    Seat seat;
+
     @Version
     Integer version;
 
     Boolean isPrimaryContact;
     Boolean isSharedSeat;
-
+    String passengerGroup;
 }

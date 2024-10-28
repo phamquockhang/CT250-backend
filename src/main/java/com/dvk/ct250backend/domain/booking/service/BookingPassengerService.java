@@ -7,5 +7,5 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public interface BookingPassengerService {
-    void processBookingPassengers(BookingFlight bookingFlight, Map<String, Passenger> passengerMap, AtomicBoolean isPrimaryContactSet);
+    void processBookingPassengers(BookingFlight bookingFlight, Map<String, Passenger> passengerMap, AtomicBoolean isPrimaryContactSet, String passengerGroup);
 }

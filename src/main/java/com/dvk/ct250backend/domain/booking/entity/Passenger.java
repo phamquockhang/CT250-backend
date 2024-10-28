@@ -8,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -18,12 +19,14 @@ import java.util.List;
 @Table(name = "passengers")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Passenger {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "passenger_id_seq")
-    @SequenceGenerator(name = "passenger_id_seq", sequenceName = "passengers_seq", allocationSize = 1)
-    Integer passengerId;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    UUID passengerId;
+
+    @Column(unique = true)
     String email;
+
     String firstName;
     String lastName;
     LocalDate dateOfBirth;
@@ -41,5 +44,4 @@ public class Passenger {
     @OneToMany(mappedBy = "passenger", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     List<BookingPassenger> bookingPassengers;
 
-    Boolean isPrimaryContact;
 }

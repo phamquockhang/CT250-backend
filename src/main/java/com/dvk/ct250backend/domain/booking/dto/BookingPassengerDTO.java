@@ -1,5 +1,6 @@
 package com.dvk.ct250backend.domain.booking.dto;
 
+import com.dvk.ct250backend.domain.flight.dto.SeatDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -20,6 +21,8 @@ public class BookingPassengerDTO {
     PassengerDTO passenger;
     BaggageDTO baggage;
     List<MealDTO> meals;
+    SeatDTO seat;
     Boolean isPrimaryContact;
     Boolean isSharedSeat;
+    String passengerGroup;
 }

@@ -1,5 +1,6 @@
 package com.dvk.ct250backend.domain.flight.entity;
 
+import com.dvk.ct250backend.domain.booking.entity.BookingPassenger;
 import com.dvk.ct250backend.domain.flight.enums.TicketClassEnum;
 import jakarta.persistence.*;
 import lombok.*;
@@ -32,5 +33,9 @@ public class Seat {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "model_id")
     Model model;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "seat", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    List<BookingPassenger> bookingPassengers;
+
 
 }

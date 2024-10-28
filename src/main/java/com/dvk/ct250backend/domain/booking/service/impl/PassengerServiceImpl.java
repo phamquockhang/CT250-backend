@@ -21,9 +21,21 @@ public class PassengerServiceImpl implements PassengerService {
     @Override
     public Passenger handlePassenger(BookingPassenger bookingPassenger, Map<String, Passenger> passengerMap) {
         Passenger passenger = bookingPassenger.getPassenger();
-        return passengerMap.computeIfAbsent(passenger.getEmail(), email -> {
-            return passengerRepository.findByEmailAndIsPrimaryContact(email)
+        String uniqueIdentifier = getUniqueIdentifier(passenger, bookingPassenger.getPassengerGroup());
+
+        Passenger existingPassenger = passengerMap.get(uniqueIdentifier);
+        if (existingPassenger == null) {
+            existingPassenger = passengerRepository.findByEmailAndIsPrimaryContact(passenger.getEmail())
                     .orElseGet(() -> passengerRepository.save(passenger));
-        });
+            passengerMap.put(uniqueIdentifier, existingPassenger);
+        }
+        return existingPassenger;
+    }
+
+    private String getUniqueIdentifier(Passenger passenger, String passengerGroup) {
+        if (passenger.getEmail() != null && !passenger.getEmail().isEmpty()) {
+            return passenger.getEmail();
+        }
+        return passenger.getPassengerType().toString() + "-" +passenger.getFirstName() + "_" + passenger.getLastName() + "_" + passenger.getDateOfBirth() + passengerGroup;
     }
 }

@@ -13,6 +13,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service
@@ -24,7 +25,7 @@ public class BookingPassengerServiceImpl implements BookingPassengerService {
     PassengerService passengerService;
 
     @Override
-    public void processBookingPassengers(BookingFlight bookingFlight, Map<String, Passenger> passengerMap, AtomicBoolean isPrimaryContactSet) {
+    public void processBookingPassengers(BookingFlight bookingFlight, Map<String, Passenger> passengerMap, AtomicBoolean isPrimaryContactSet, String passengerGroup) {
         bookingFlight.getBookingPassengers().forEach(bookingPassenger -> {
             Passenger passenger = passengerService.handlePassenger(bookingPassenger, passengerMap);
             bookingPassenger.setPassenger(passenger);
@@ -33,6 +34,7 @@ public class BookingPassengerServiceImpl implements BookingPassengerService {
             bookingPassenger.setIsSharedSeat(passenger.getPassengerType() == PassengerTypeEnum.INFANT);
             bookingPassenger.setBookingFlight(bookingFlight);
             bookingPassenger.setBooking(bookingFlight.getBooking());
+            bookingPassenger.setPassengerGroup(passengerGroup);
         });
     }
 
@@ -41,7 +43,7 @@ public class BookingPassengerServiceImpl implements BookingPassengerService {
             if (Boolean.TRUE.equals(bookingPassenger.getIsPrimaryContact()) || passengerMap.containsKey(passenger.getEmail())) {
                 bookingPassenger.setIsPrimaryContact(true);
             } else {
-                bookingPassenger.setIsPrimaryContact(!isPrimaryContactSet.getAndSet(true));
+                bookingPassenger.setIsPrimaryContact(!isPrimaryContactSet.getAndSet(true) );
                 passengerMap.put(passenger.getEmail(), passenger);
             }
         } else {

@@ -10,6 +10,6 @@ import java.util.Optional;
 
 public interface PassengerRepository extends JpaRepository<Passenger, Long>, JpaSpecificationExecutor<Passenger> {
 
-    @Query("SELECT p FROM Passenger p WHERE p.email = :email AND p.isPrimaryContact = true")
+    @Query("SELECT p FROM Passenger p JOIN BookingPassenger bp ON p.passengerId = bp.passenger.passengerId WHERE p.email = :email AND bp.isPrimaryContact = true")
     Optional<Passenger> findByEmailAndIsPrimaryContact(@Param("email") String email);
 }
