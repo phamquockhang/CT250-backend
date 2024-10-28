@@ -46,4 +46,8 @@ public class Booking extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     BookingStatusEnum bookingStatus;
+
+    @Version
+    Integer version;
 }
+

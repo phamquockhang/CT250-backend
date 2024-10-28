@@ -25,9 +25,6 @@ public class Flight extends BaseEntity {
     @Id
     String flightId;
 
-    @Version
-    Long version;
-
     LocalDateTime departureDateTime;
     LocalDateTime arrivalDateTime;
 

@@ -16,8 +16,10 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BookingPassengerDTO {
     Integer bookingPassengerId;
-    @NotBlank
+    @NotBlank(message = "Passenger is required")
     PassengerDTO passenger;
     BaggageDTO baggage;
     List<MealDTO> meals;
+    Boolean isPrimaryContact;
+    Boolean isSharedSeat;
 }

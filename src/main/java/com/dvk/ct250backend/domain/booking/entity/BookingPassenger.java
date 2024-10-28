@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @Table(name = "booking_passenger")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BookingPassenger {
+public class BookingPassenger{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "booking_passenger_id_seq")
     @SequenceGenerator(name = "booking_passenger_id_seq", sequenceName = "booking_passengers_seq", allocationSize = 1)
@@ -36,5 +36,15 @@ public class BookingPassenger {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="baggage_id")
     Baggage baggage;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "booking_flight_id")
+    BookingFlight bookingFlight;
+
+    @Version
+    Integer version;
+
+    Boolean isPrimaryContact;
+    Boolean isSharedSeat;
 
 }

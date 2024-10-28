@@ -18,11 +18,10 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BookingFlightDTO {
     Integer bookingFlightId;
-
     @NotBlank(message = "Flight is required")
     FlightDTO flight;
-
-    //@NotBlank(message = "Ticket class is required")
+    @NotBlank(message = "Ticket class is required")
     TicketClassDTO ticketClass;
+    List<BookingPassengerDTO> bookingPassengers;
 
 }

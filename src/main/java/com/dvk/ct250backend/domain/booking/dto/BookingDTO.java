@@ -34,9 +34,6 @@ public class BookingDTO {
     @NotBlank(message = "Total price is required")
     BigDecimal totalPrice;
 
-    @NotBlank
-    List<BookingPassengerDTO> bookingPassengers;
-
     @NotBlank(message = "Booking status is required")
     String bookingStatus;
 }

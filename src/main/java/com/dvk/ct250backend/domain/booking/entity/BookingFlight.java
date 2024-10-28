@@ -34,4 +34,10 @@ public class BookingFlight {
     @ManyToOne
     @JoinColumn(name = "ticket_class_id")
     TicketClass ticketClass;
+
+    @OneToMany(mappedBy = "bookingFlight", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    List<BookingPassenger> bookingPassengers;
+
+    @Version
+    Integer version;
 }
