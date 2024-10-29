@@ -73,5 +73,13 @@ cloudinary:
   url: ${CLOUDINARY_URL:cloudinary://146776767144144:S28Z_bYDWnTZCpfrgMHwJw2k4cw@dq9aigkgv}
 
 
-
+payment:
+  vnPay:
+    url: ${PAY_URL}
+    tmnCode: ${TMN_CODE}
+    secretKey: ${SECRET_KEY}
+    returnUrl: ${RETURN_URL}
+    version: ${VERSION}
+    command: ${COMMAND}
+    orderType: ${ORDER_TYPE}
 

@@ -4,7 +4,6 @@ import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.booking.dto.BaggageDTO;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 

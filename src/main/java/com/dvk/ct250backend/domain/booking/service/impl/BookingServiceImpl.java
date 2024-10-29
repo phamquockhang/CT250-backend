@@ -1,27 +1,26 @@
 package com.dvk.ct250backend.domain.booking.service.impl;
 
-import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.booking.dto.BookingDTO;
-import com.dvk.ct250backend.domain.booking.entity.*;
+import com.dvk.ct250backend.domain.booking.entity.Booking;
+import com.dvk.ct250backend.domain.booking.entity.Passenger;
 import com.dvk.ct250backend.domain.booking.enums.BookingStatusEnum;
-import com.dvk.ct250backend.domain.booking.enums.PassengerTypeEnum;
 import com.dvk.ct250backend.domain.booking.mapper.BookingMapper;
 import com.dvk.ct250backend.domain.booking.repository.BookingRepository;
 import com.dvk.ct250backend.domain.booking.service.BookingFlightService;
 import com.dvk.ct250backend.domain.booking.service.BookingPassengerService;
 import com.dvk.ct250backend.domain.booking.service.BookingService;
-import com.dvk.ct250backend.domain.flight.entity.Seat;
-import com.dvk.ct250backend.domain.flight.entity.SeatAvailability;
-import com.dvk.ct250backend.domain.flight.enums.SeatAvailabilityStatus;
-import com.dvk.ct250backend.domain.flight.enums.TicketClassEnum;
+import com.dvk.ct250backend.domain.booking.utils.BookingCodeUtils;
 import com.dvk.ct250backend.infrastructure.service.LockService;
+import com.dvk.ct250backend.infrastructure.service.RedisService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -35,6 +34,9 @@ public class BookingServiceImpl implements BookingService {
     BookingPassengerService bookingPassengerService;
     LockService lockService;
     BookingFlightService bookingFlightService;
+    BookingCodeUtils bookingCodeUtils;
+    RedisService redisService;
+
     @Override
     @Transactional
     public BookingDTO createInitBooking(BookingDTO bookingDTO) {
@@ -64,10 +66,12 @@ public class BookingServiceImpl implements BookingService {
         try {
             Booking booking = bookingRepository.findById(bookingId).orElseThrow();
             booking.setBookingStatus(BookingStatusEnum.RESERVED);
+            booking.setBookingCode(bookingCodeUtils.generateBookingCode());
             booking.getBookingFlights().forEach(bookingFlightService::processBookingFlight);
 
-            Booking savedBooking = bookingRepository.save(booking);
-            return bookingMapper.toBookingDTO(savedBooking);
+            //Booking savedBooking = bookingRepository.save(booking);
+            redisService.set("booking_" + bookingId, booking, 60 * 60 * 1000);
+            return bookingMapper.toBookingDTO(booking);
         } finally {
             lockService.releaseLock(lockKey);
         }

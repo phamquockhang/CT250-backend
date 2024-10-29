@@ -5,8 +5,6 @@ import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.flight.dto.FlightDTO;
 import com.dvk.ct250backend.domain.flight.dto.FlightOverview;
 import com.dvk.ct250backend.domain.flight.dto.request.FlightSearchRequest;
-import com.dvk.ct250backend.domain.flight.entity.Flight;
-import com.dvk.ct250backend.domain.flight.enums.TicketClassEnum;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

@@ -1,6 +1,5 @@
 package com.dvk.ct250backend.domain.booking.service.impl;
 
-import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.booking.entity.BookingFlight;
 import com.dvk.ct250backend.domain.booking.entity.BookingPassenger;
 import com.dvk.ct250backend.domain.booking.entity.Passenger;

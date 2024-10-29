@@ -1,6 +1,5 @@
 package com.dvk.ct250backend.domain.flight.service.impl;
 
-import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.flight.entity.Seat;
 import com.dvk.ct250backend.domain.flight.entity.SeatAvailability;
 import com.dvk.ct250backend.domain.flight.enums.SeatAvailabilityStatus;
