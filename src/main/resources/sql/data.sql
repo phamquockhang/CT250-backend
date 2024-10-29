@@ -425,16 +425,22 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Delete a meal', '/api/v1/meals/{id}', 'DELETE', 'MEALS'),
        ('Update a meal', '/api/v1/meals/{id}', 'PUT', 'MEALS'),
 
-       ('Create a meal', '/api/v1/meal-pricing', 'POST', 'MEAL-PRICING'),
-       ('Get all meals', '/api/v1/meal-pricing/all', 'GET', 'MEAL-PRICING'),
-       ('Delete a meal', '/api/v1/meal-pricing/{id}', 'DELETE', 'MEAL-PRICING'),
-       ('Update a meal', '/api/v1/meal-pricing/{id}', 'PUT', 'MEAL-PRICING'),
+       ('Create a meal pricing', '/api/v1/meal-pricing', 'POST', 'MEAL-PRICING'),
+       ('Get all meal pricing', '/api/v1/meal-pricing/all', 'GET', 'MEAL-PRICING'),
+       ('Delete a meal pricing', '/api/v1/meal-pricing/{id}', 'DELETE', 'MEAL-PRICING'),
+       ('Update a meal pricing', '/api/v1/meal-pricing/{id}', 'PUT', 'MEAL-PRICING'),
 
        ('Create a baggage', '/api/v1/baggage', 'POST', 'BAGGAGE'),
        ('Get all baggage', '/api/v1/baggage/all', 'GET', 'BAGGAGE'),
        ('Get baggage with pagination', '/api/v1/baggage', 'GET', 'BAGGAGE'),
        ('Delete a baggage', '/api/v1/baggage/{id}', 'DELETE', 'BAGGAGE'),
        ('Update a baggage', '/api/v1/baggage/{id}', 'PUT', 'BAGGAGE'),
+
+       ('Create a baggage pricing', '/api/v1/baggage-pricing', 'POST', 'BAGGAGE-PRICING'),
+       ('Get all baggage pricing', '/api/v1/baggage-pricing/all', 'GET', 'BAGGAGE-PRICING'),
+       ('Delete a baggage pricing', '/api/v1/baggage-pricing/{id}', 'DELETE', 'BAGGAGE-PRICING'),
+       ('Update a baggage pricing', '/api/v1/baggage-pricing/{id}', 'PUT', 'BAGGAGE-PRICING'),
+
 
        ('Create a booking', '/api/v1/bookings', 'POST', 'BOOKINGS');
 
@@ -1025,16 +1031,33 @@ VALUES
 
 --BAGGAGE
 INSERT INTO public.baggages ( baggage_weight, price ,route_type)
-VALUES ('10', 130000, 'DOMESTIC'),
-       ('10', 300000, 'INTERNATIONAL'),
-       ('20', 260000, 'DOMESTIC'),
-       ('20', 600000, 'INTERNATIONAL'),
-       ('30', 390000, 'DOMESTIC'),
-       ('30', 900000, 'INTERNATIONAL'),
-       ('40', 520000, 'DOMESTIC'),
-       ('40', 500000, 'INTERNATIONAL'),
-       ('50', 650000, 'DOMESTIC'),
-       ('50', 1200000, 'INTERNATIONAL'),
-       ('60', 780000, 'DOMESTIC'),
-       ('60', 1800000, 'INTERNATIONAL');
+VALUES ('10', 'DOMESTIC'),
+       ('10',  'INTERNATIONAL'),
+       ('20',  'DOMESTIC'),
+       ('20',  'INTERNATIONAL'),
+       ('30', 'DOMESTIC'),
+       ('30',  'INTERNATIONAL'),
+       ('40', 'DOMESTIC'),
+       ('40',  'INTERNATIONAL'),
+       ('50',  'DOMESTIC'),
+       ('50',  'INTERNATIONAL'),
+       ('60',  'DOMESTIC'),
+       ('60',  'INTERNATIONAL');
+
+
+INSERT INTO public.baggage_pricing (baggage_id, price, price_status, valid_from, valid_to)
+VALUES
+    (1, 130000, true, '2024-01-01', '2024-12-31'),
+    (2, 300000, true, '2024-01-01', '2024-12-31'),
+    (3, 260000, true, '2024-01-01', '2024-12-31'),
+    (4, 600000, true, '2024-01-01', '2024-12-31'),
+    (5, 390000, true, '2024-01-01', '2024-12-31'),
+    (6, 900000, true, '2024-01-01', '2024-12-31'),
+    (7, 520000, true, '2024-01-01', '2024-12-31'),
+    (8, 500000, true, '2024-01-01', '2024-12-31'),
+    (9, 650000, true, '2024-01-01', '2024-12-31'),
+    (10, 1200000, true, '2024-01-01', '2024-12-31'),
+    (11, 780000, true, '2024-01-01', '2024-12-31'),
+    (12, 1800000, true, '2024-01-01', '2024-12-31');
+
 

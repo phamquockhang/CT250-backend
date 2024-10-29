@@ -171,3 +171,12 @@ ALTER TABLE public.baggages
     ALTER COLUMN baggage_id SET DEFAULT nextval('baggage_seq'),
 ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
 
+-- BAGGAGE_PRICING
+DROP SEQUENCE IF EXISTS baggage_pricing_seq;
+CREATE SEQUENCE baggage_pricing_seq
+    START WITH 1
+    INCREMENT BY 1;
+ALTER TABLE public.baggage_pricing
+    ALTER COLUMN baggage_pricing_id SET DEFAULT nextval('baggage_pricing_seq'),
+ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
+
