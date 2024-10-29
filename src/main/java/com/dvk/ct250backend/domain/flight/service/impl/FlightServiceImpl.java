@@ -20,7 +20,6 @@ import com.dvk.ct250backend.domain.flight.service.FlightService;
 import com.dvk.ct250backend.infrastructure.utils.FileUtils;
 import com.dvk.ct250backend.infrastructure.utils.NumberUtils;
 import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;

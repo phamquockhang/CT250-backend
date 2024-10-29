@@ -1,6 +1,5 @@
 package com.dvk.ct250backend.domain.flight.entity;
 
-import com.dvk.ct250backend.domain.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;

@@ -1,7 +1,6 @@
 package com.dvk.ct250backend.domain.booking.repository;
 
 import com.dvk.ct250backend.domain.booking.entity.Booking;
-import org.hibernate.annotations.OptimisticLocking;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
