@@ -425,6 +425,11 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Delete a meal', '/api/v1/meals/{id}', 'DELETE', 'MEALS'),
        ('Update a meal', '/api/v1/meals/{id}', 'PUT', 'MEALS'),
 
+       ('Create a meal', '/api/v1/meal-pricing', 'POST', 'MEAL-PRICING'),
+       ('Get all meals', '/api/v1/meal-pricing/all', 'GET', 'MEAL-PRICING'),
+       ('Delete a meal', '/api/v1/meal-pricing/{id}', 'DELETE', 'MEAL-PRICING'),
+       ('Update a meal', '/api/v1/meal-pricing/{id}', 'PUT', 'MEAL-PRICING'),
+
        ('Create a baggage', '/api/v1/baggage', 'POST', 'BAGGAGE'),
        ('Get all baggage', '/api/v1/baggage/all', 'GET', 'BAGGAGE'),
        ('Get baggage with pagination', '/api/v1/baggage', 'GET', 'BAGGAGE'),
@@ -969,27 +974,53 @@ VALUES ('DVK110', 721, 'AVAILABLE'), -- 1A
 
 
 -- MEALS
-INSERT INTO public.meals (meal_name, price)
-VALUES ('Bánh gạo hấp', 80000),
-       ('Cơm chiên hải sản', 80000),
-       ('Pad Thái', 80000),
-       ('Mỳ ý', 80000),
-       ('Xôi thịt kho trứng', 80000 ),
-       ('Nước suối', 30000),
-       ('Sữa tươi', 30000),
-       ('Trà lipton', 30000),
-       ('Trà xanh', 30000),
-       ('Milo dầm', 50000),
-       ('Trà sữa trân châu', 50000),
-       ('Cacao uống liền', 35000),
-    ('Cà phê không đường', 35000),
-    ('Cà phê sữa', 35000),
-    ('Cà phê đen', 35000),
-    ('Red bull', 35000),
-    ('Nước cam Teppy', 35000),
-    ('Trà đào hạt chia', 35000),
-    ('Sprite', 35000),
-    ('Coca cola', 35000);
+INSERT INTO public.meals (meal_name)
+VALUES ('Bánh gạo hấp'),
+       ('Cơm chiên hải sản'),
+       ('Pad Thái'),
+       ('Mỳ ý'),
+       ('Xôi thịt kho trứng' ),
+       ('Nước suối'),
+       ('Sữa tươi'),
+       ('Trà lipton'),
+       ('Trà xanh'),
+       ('Milo dầm'),
+       ('Trà sữa trân châu'),
+       ('Cacao uống liền'),
+        ('Cà phê không đường'),
+        ('Cà phê sữa'),
+        ('Cà phê đen'),
+        ('Red bull'),
+        ('Nước cam Teppy'),
+        ('Trà đào hạt chia'),
+        ('Sprite'),
+        ('Coca cola');
+
+--MEAL-PRICING
+-- MEAL-PRICING
+INSERT INTO public.meal_pricing (meal_id, price, price_status, valid_from, valid_to)
+VALUES
+    (1, 80000, true, '2024-10-01', '2024-12-31'),
+    (2, 80000, true, '2024-10-01', '2024-12-31'),
+    (3, 80000, true, '2024-10-01', '2024-12-31'),
+    (4, 80000, true, '2024-10-01', '2024-12-31'),
+    (5, 80000, true, '2024-10-01', '2024-12-31'),
+    (6, 30000, true, '2024-10-01', '2024-12-31'),
+    (7, 30000, true, '2024-10-01', '2024-12-31'),
+    (8, 30000, true, '2024-10-01', '2024-12-31'),
+    (9, 30000, true, '2024-10-01', '2024-12-31'),
+    (10, 50000, true, '2024-10-01', '2024-12-31'),
+    (11, 50000, true, '2024-10-01', '2024-12-31'),
+    (12, 35000, true, '2024-10-01', '2024-12-31'),
+    (13, 35000, true, '2024-10-01', '2024-12-31'),
+    (14, 35000, true, '2024-10-01', '2024-12-31'),
+    (15, 35000, true, '2024-10-01', '2024-12-31'),
+    (16, 35000, true, '2024-10-01', '2024-12-31'),
+    (17, 35000, true, '2024-10-01', '2024-12-31'),
+    (18, 35000, true, '2024-10-01', '2024-12-31'),
+    (19, 35000, true, '2024-10-01', '2024-12-31'),
+    (20, 35000, true, '2024-10-01', '2024-12-31');
+
 
 
 --BAGGAGE
