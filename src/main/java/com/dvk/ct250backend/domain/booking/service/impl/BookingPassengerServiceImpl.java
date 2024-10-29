@@ -33,7 +33,7 @@ public class BookingPassengerServiceImpl implements BookingPassengerService {
             setPrimaryContact(bookingPassenger, passenger, passengerMap, isPrimaryContactSet);
             bookingPassenger.setIsSharedSeat(passenger.getPassengerType() == PassengerTypeEnum.INFANT);
             bookingPassenger.setBookingFlight(bookingFlight);
-            bookingPassenger.setBooking(bookingFlight.getBooking());
+            //bookingPassenger.setBooking(bookingFlight.getBooking());
             bookingPassenger.setPassengerGroup(passengerGroup);
         });
     }

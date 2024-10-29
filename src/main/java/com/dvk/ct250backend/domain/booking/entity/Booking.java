@@ -41,8 +41,8 @@ public class Booking extends BaseEntity {
     BigDecimal totalPrice;
 
 
-    @OneToMany(mappedBy = "booking", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-    List<BookingPassenger> bookingPassengers;
+//    @OneToMany(mappedBy = "booking", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+//    List<BookingPassenger> bookingPassengers;
 
     @Enumerated(EnumType.STRING)
     BookingStatusEnum bookingStatus;

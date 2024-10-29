@@ -21,9 +21,9 @@ public class BookingPassenger{
     @SequenceGenerator(name = "booking_passenger_id_seq", sequenceName = "booking_passengers_seq", allocationSize = 1)
     Integer bookingPassengerId;
 
-    @ManyToOne
-    @JoinColumn(name = "booking_id")
-    Booking booking;
+//    @ManyToOne
+//    @JoinColumn(name = "booking_id")
+//    Booking booking;
 
     @ManyToOne
     @JoinColumn(name="passenger_id")
