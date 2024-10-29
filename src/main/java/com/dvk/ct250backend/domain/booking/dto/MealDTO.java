@@ -25,8 +25,6 @@ public class MealDTO {
 
     String imgUrl;
 
-//    @NotBlank(message = "Price is required")
-//    BigDecimal price;
     @NotBlank(message = "Meal pricing is required")
     List<MealPricingDTO> mealPricing;
 
