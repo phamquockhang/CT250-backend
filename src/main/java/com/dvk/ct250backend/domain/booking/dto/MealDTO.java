@@ -1,12 +1,14 @@
 package com.dvk.ct250backend.domain.booking.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,8 +25,8 @@ public class MealDTO {
 
     String imgUrl;
 
-    @NotBlank(message = "Price is required")
-    BigDecimal price;
+    @NotBlank(message = "Meal pricing is required")
+    List<MealPricingDTO> mealPricing;
 
     LocalDate createdAt;
     LocalDate updatedAt;

@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -29,5 +30,8 @@ public class BaggageDTO {
 
     LocalDate createdAt;
     LocalDate updatedAt;
+
+    @NotBlank(message = "Baggage pricing is required")
+    List<BaggagePricingDTO> baggagePricing;
 
 }

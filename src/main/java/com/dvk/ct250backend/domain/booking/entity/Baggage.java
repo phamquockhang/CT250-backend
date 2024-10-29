@@ -24,15 +24,14 @@ public class Baggage extends BaseEntity {
     Integer baggageId;
 
     Integer baggageWeight;
-    BigDecimal price;
-
-//    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "baggage", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-//    List<BookingPassenger> bookingPassengers;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "baggage",  cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     List<BookingPassenger> bookingPassengers;
 
     @Enumerated(EnumType.STRING)
     RouteTypeEnum routeType;
+
+    @OneToMany(mappedBy = "baggage", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    List<BaggagePricing> baggagePricing;
 
 }

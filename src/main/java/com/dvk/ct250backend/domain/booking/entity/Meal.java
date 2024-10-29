@@ -24,9 +24,11 @@ public class Meal extends BaseEntity {
 
     String mealName;
     String imgUrl;
-    BigDecimal price;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "meals", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     List<BookingPassenger> bookingPassengers;
+
+    @OneToMany(mappedBy = "meal", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    List<MealPricing> mealPricing;
 
 }
