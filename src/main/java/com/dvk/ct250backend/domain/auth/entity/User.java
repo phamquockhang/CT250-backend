@@ -1,6 +1,7 @@
 package com.dvk.ct250backend.domain.auth.entity;
 
 import com.dvk.ct250backend.domain.auth.enums.GenderEnum;
+import com.dvk.ct250backend.domain.booking.entity.Passenger;
 import com.dvk.ct250backend.domain.common.entity.BaseEntity;
 import com.dvk.ct250backend.domain.country.entity.Country;
 import jakarta.persistence.*;

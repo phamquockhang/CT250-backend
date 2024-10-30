@@ -11,10 +11,20 @@ import lombok.experimental.FieldDefaults;
 //@FieldDefaults(level = AccessLevel.PRIVATE)
 //@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PaymentDTO {
+    @Data
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class VNPayResponse {
-        public String code;
-        public String message;
-        public String paymentUrl;
+        String code;
+        String message;
+        String paymentUrl;
+        String transactionNo;
+        String amount;
+        String bankCode;
+        String orderInfo;
+        String payDate;
     }
 }

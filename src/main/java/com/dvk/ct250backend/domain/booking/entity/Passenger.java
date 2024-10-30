@@ -1,5 +1,6 @@
 package com.dvk.ct250backend.domain.booking.entity;
 
+import com.dvk.ct250backend.domain.auth.entity.User;
 import com.dvk.ct250backend.domain.booking.enums.PassengerTypeEnum;
 import com.dvk.ct250backend.domain.country.entity.Country;
 import jakarta.persistence.*;
@@ -21,8 +22,9 @@ import java.util.UUID;
 public class Passenger {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    UUID passengerId;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "passenger_id_seq")
+    @SequenceGenerator(name = "passenger_id_seq", sequenceName = "passengers_seq", allocationSize = 1)
+    Integer passengerId;
 
     @Column(unique = true)
     String email;
@@ -43,5 +45,4 @@ public class Passenger {
 
     @OneToMany(mappedBy = "passenger", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     List<BookingPassenger> bookingPassengers;
-
 }

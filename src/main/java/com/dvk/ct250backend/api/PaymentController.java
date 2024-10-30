@@ -26,4 +26,33 @@ public class PaymentController {
                 .payload(paymentService.createVnPayPayment(request))
                 .build();
     }
+
+    @GetMapping("/vn-pay-callback")
+    public ApiResponse<PaymentDTO.VNPayResponse> payCallbackHandler(HttpServletRequest request) {
+        String status = request.getParameter("vnp_ResponseCode");
+        String transactionNo = request.getParameter("vnp_TransactionNo");
+        String amount = request.getParameter("vnp_Amount");
+        String bankCode = request.getParameter("vnp_BankCode");
+        String orderInfo = request.getParameter("vnp_OrderInfo");
+        String payDate = request.getParameter("vnp_PayDate");
+
+        PaymentDTO.VNPayResponse.VNPayResponseBuilder responseBuilder = PaymentDTO.VNPayResponse.builder()
+                .code(status)
+                .message("00".equals(status) ? "Success" : "Failed")
+                .paymentUrl("");
+
+        if ("00".equals(status)) {
+            responseBuilder
+                    .transactionNo(transactionNo)
+                    .amount(amount)
+                    .bankCode(bankCode)
+                    .orderInfo(orderInfo)
+                    .payDate(payDate);
+        }
+
+        return ApiResponse.<PaymentDTO.VNPayResponse>builder()
+                .status("00".equals(status) ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value())
+                .payload(responseBuilder.build())
+                .build();
+    }
 }

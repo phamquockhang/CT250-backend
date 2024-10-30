@@ -15,17 +15,13 @@ import java.util.List;
 @Entity
 @Table(name = "booking_passenger")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BookingPassenger{
+public class BookingPassenger {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "booking_passenger_id_seq")
     @SequenceGenerator(name = "booking_passenger_id_seq", sequenceName = "booking_passengers_seq", allocationSize = 1)
     Integer bookingPassengerId;
 
-//    @ManyToOne
-//    @JoinColumn(name = "booking_id")
-//    Booking booking;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="passenger_id")
     Passenger passenger;
 

@@ -39,3 +39,4 @@ public class PassengerServiceImpl implements PassengerService {
         return passenger.getPassengerType().toString() + "-" +passenger.getFirstName() + "_" + passenger.getLastName() + "_" + passenger.getDateOfBirth() + passengerGroup;
     }
 }
+
