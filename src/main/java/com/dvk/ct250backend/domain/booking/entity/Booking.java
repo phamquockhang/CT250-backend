@@ -3,6 +3,7 @@ package com.dvk.ct250backend.domain.booking.entity;
 import com.dvk.ct250backend.domain.booking.enums.BookingStatusEnum;
 import com.dvk.ct250backend.domain.booking.enums.TripTypeEnum;
 import com.dvk.ct250backend.domain.common.entity.BaseEntity;
+import com.dvk.ct250backend.domain.payment.entity.Transaction;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -31,7 +32,7 @@ public class Booking extends BaseEntity {
     @Enumerated(EnumType.STRING)
     TripTypeEnum tripType;
 
-    @OneToMany(mappedBy = "booking", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "booking", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     List<BookingFlight> bookingFlights;
 
     @OneToMany(mappedBy = "booking", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
@@ -40,9 +41,8 @@ public class Booking extends BaseEntity {
     @Column(precision = 15, scale = 2)
     BigDecimal totalPrice;
 
-
-//    @OneToMany(mappedBy = "booking", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-//    List<BookingPassenger> bookingPassengers;
+    @OneToMany(mappedBy = "booking", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    List<Transaction> transactions;
 
     @Enumerated(EnumType.STRING)
     BookingStatusEnum bookingStatus;

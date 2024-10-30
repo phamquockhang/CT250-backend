@@ -1030,7 +1030,7 @@ VALUES
 
 
 --BAGGAGE
-INSERT INTO public.baggages ( baggage_weight, price ,route_type)
+INSERT INTO public.baggages ( baggage_weight, route_type)
 VALUES ('10', 'DOMESTIC'),
        ('10',  'INTERNATIONAL'),
        ('20',  'DOMESTIC'),
