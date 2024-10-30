@@ -82,4 +82,3 @@ payment:
     version: ${VERSION}
     command: ${COMMAND}
     orderType: ${ORDER_TYPE}
-
