@@ -110,7 +110,10 @@ public class MealServiceImpl implements MealService {
             String searchValue = stringUtils.normalizeString(params.get("query").trim().toLowerCase());
             String likePattern = "%" + searchValue + "%";
             spec = spec.or((root, query, criteriaBuilder) ->
-                    criteriaBuilder.like(criteriaBuilder.lower(root.get("mealName")), likePattern)
+                    criteriaBuilder.like(
+                            criteriaBuilder.function("unaccent", String.class, criteriaBuilder.lower(root.get("mealName"))),
+                            likePattern
+                    )
             );
         }
         return spec;

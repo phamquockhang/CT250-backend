@@ -81,11 +81,17 @@ public class AirportServiceImpl implements AirportService {
                                 .map(stringUtils::normalizeString)
                                 .map(value -> "%" + value.trim().toLowerCase() + "%")
                                 .map(likePattern -> criteriaBuilder.or(
-                                        criteriaBuilder.like(criteriaBuilder.lower(root.get("airportName")), likePattern),
+                                        criteriaBuilder.like(
+                                                criteriaBuilder.function("unaccent", String.class, criteriaBuilder.lower(root.get("airportName"))),
+                                                likePattern),
                                         criteriaBuilder.like(criteriaBuilder.lower(root.get("airportCode")), likePattern),
-                                        criteriaBuilder.like(criteriaBuilder.lower(root.get("cityName")), likePattern),
+                                        criteriaBuilder.like(
+                                                criteriaBuilder.function("unaccent", String.class, criteriaBuilder.lower(root.get("cityName"))),
+                                                likePattern),
                                         criteriaBuilder.like(criteriaBuilder.lower(root.get("cityCode")), likePattern),
-                                        criteriaBuilder.like(criteriaBuilder.lower(countryJoin.get("countryName")), likePattern)
+                                        criteriaBuilder.like(
+                                                criteriaBuilder.function("unaccent", String.class, criteriaBuilder.lower(countryJoin.get("countryName"))),
+                                                likePattern)
                                 ))
                                 .toArray(Predicate[]::new)
                 );

@@ -92,16 +92,20 @@ public class RouteServiceImpl implements RouteService {
             spec = spec.and((root, query, criteriaBuilder) -> {
                         Join<Route, Airport> departureAirport = root.join("departureAirport");
                         return criteriaBuilder.or(
-                                criteriaBuilder.like(criteriaBuilder.lower(departureAirport.get("airportName")), "%" + searchValue.toLowerCase() + "%"),
-                                criteriaBuilder.like(departureAirport.get("airportCode"), "%" + params.get("query").toUpperCase() + "%"));
+                                criteriaBuilder.like(
+                                        criteriaBuilder.function("unaccent", String.class, criteriaBuilder.lower(departureAirport.get("airportName"))),
+                                                "%" + searchValue.toLowerCase() + "%"),
+                                criteriaBuilder.like(departureAirport.get("airportCode"), "%" + searchValue.toUpperCase() + "%"));
                     }
 
             );
             spec = spec.or((root, query, criteriaBuilder) -> {
                 Join<Route, Airport> arrivalAirport = root.join("arrivalAirport");
                 return criteriaBuilder.or(
-                        criteriaBuilder.like(criteriaBuilder.lower(arrivalAirport.get("airportName")), "%" + searchValue.toLowerCase() + "%"),
-                        criteriaBuilder.like(arrivalAirport.get("airportCode"), "%" + params.get("query").toUpperCase() + "%"));
+                        criteriaBuilder.like(
+                                criteriaBuilder.function("unaccent", String.class, criteriaBuilder.lower(arrivalAirport.get("airportName"))),
+                                "%" + searchValue.toLowerCase() + "%"),
+                        criteriaBuilder.like(arrivalAirport.get("airportCode"), "%" + searchValue.toUpperCase() + "%"));
             });
         }
         return spec;
