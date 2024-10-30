@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 public class BaggagePricingDTO {
     Integer baggagePricingId;
     BigDecimal price;
-    Boolean priceStatus;
+    Boolean isActive;
     String validFrom;
     String validTo;
 }

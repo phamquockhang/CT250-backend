@@ -19,5 +19,5 @@ public class MealPricingDTO {
     BigDecimal price;
     LocalDate validFrom;
     LocalDate validTo;
-    Boolean priceStatus;
+    Boolean isActive;
 }

@@ -1004,7 +1004,7 @@ VALUES ('Bánh gạo hấp'),
 
 --MEAL-PRICING
 -- MEAL-PRICING
-INSERT INTO public.meal_pricing (meal_id, price, price_status, valid_from, valid_to)
+INSERT INTO public.meal_pricing (meal_id, price, is_active, valid_from, valid_to)
 VALUES
     (1, 80000, true, '2024-10-01', '2024-12-31'),
     (2, 80000, true, '2024-10-01', '2024-12-31'),
@@ -1045,7 +1045,7 @@ VALUES ('10', 'DOMESTIC'),
        ('60',  'INTERNATIONAL');
 
 
-INSERT INTO public.baggage_pricing (baggage_id, price, price_status, valid_from, valid_to)
+INSERT INTO public.baggage_pricing (baggage_id, price, is_active, valid_from, valid_to)
 VALUES
     (1, 130000, true, '2024-01-01', '2024-12-31'),
     (2, 300000, true, '2024-01-01', '2024-12-31'),
