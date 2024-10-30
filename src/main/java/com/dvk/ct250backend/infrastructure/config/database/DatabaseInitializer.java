@@ -1,6 +1,7 @@
 package com.dvk.ct250backend.infrastructure.config.database;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -61,5 +62,15 @@ public class DatabaseInitializer {
         ResourceDatabasePopulator dataPopulator = new ResourceDatabasePopulator();
         dataPopulator.addScript(new ClassPathResource("sql/data.sql"));
         dataPopulator.execute(dataSource);
+    }
+
+    @PreDestroy
+    public void destroy() {
+        ResourceDatabasePopulator schemaPopulator = new ResourceDatabasePopulator();
+        schemaPopulator.addScript(new ClassPathResource("sql/drop-batch-schema.sql"));
+        schemaPopulator.execute(dataSource);
+
+        jdbcTemplate.execute("DROP FUNCTION IF EXISTS insert_permission_role CASCADE;");
+        jdbcTemplate.execute("DROP FUNCTION IF EXISTS insert_flight_fees CASCADE;");
     }
 }
