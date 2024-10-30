@@ -33,7 +33,7 @@ public class MealController {
     }
 
     @PutMapping("/{id}")
-    public ApiResponse<MealDTO> updateMeal(@PathVariable("id") Integer mealId, @ModelAttribute MealDTO mealDTO, @RequestParam MultipartFile mealImg) throws IOException, ResourceNotFoundException {
+    public ApiResponse<MealDTO> updateMeal(@PathVariable("id") Integer mealId, @ModelAttribute MealDTO mealDTO, @RequestParam(required = false) MultipartFile mealImg) throws IOException, ResourceNotFoundException {
         return ApiResponse.<MealDTO>builder()
                 .status(HttpStatus.OK.value())
                 .payload(mealService.updateMeal(mealId, mealDTO, mealImg))

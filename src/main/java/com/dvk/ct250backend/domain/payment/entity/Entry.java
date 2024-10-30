@@ -1,6 +1,5 @@
 package com.dvk.ct250backend.domain.payment.entity;
 
-import co.elastic.clients.elasticsearch.xpack.usage.Base;
 import com.dvk.ct250backend.domain.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;

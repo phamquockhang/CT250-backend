@@ -5,7 +5,10 @@ import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.booking.dto.MealDTO;
 import com.dvk.ct250backend.domain.booking.entity.Meal;
+import com.dvk.ct250backend.domain.booking.entity.MealPricing;
 import com.dvk.ct250backend.domain.booking.mapper.MealMapper;
+import com.dvk.ct250backend.domain.booking.mapper.MealPricingMapper;
+import com.dvk.ct250backend.domain.booking.repository.MealPricingRepository;
 import com.dvk.ct250backend.domain.booking.repository.MealRepository;
 import com.dvk.ct250backend.domain.booking.service.MealService;
 import com.dvk.ct250backend.infrastructure.utils.FileUtils;
@@ -35,8 +38,10 @@ import java.util.stream.Collectors;
 public class MealServiceImpl implements MealService {
 
     MealRepository mealRepository;
+    MealPricingRepository mealPricingRepository;
     FileUtils fileUtils;
     MealMapper mealMapper;
+    MealPricingMapper mealPricingMapper;
     RequestParamUtils requestParamUtils;
     StringUtils stringUtils;
 
@@ -47,8 +52,14 @@ public class MealServiceImpl implements MealService {
         String imageUrl = fileUtils.uploadFileToCloudinary(convFile);
         mealDTO.setImgUrl(imageUrl);
         Meal meal = mealMapper.toMeal(mealDTO);
-        meal = mealRepository.save(meal);
-        return mealMapper.toMealDTO(meal);
+
+        Meal savedMeal = mealRepository.save(meal);
+        List<MealPricing> mealPricingList = mealDTO.getMealPricing().stream()
+                .map(mealPricingMapper::toMealPricing)
+                .peek(mealPricing -> mealPricing.setMeal(Meal.builder().mealId(savedMeal.getMealId()).build()))
+                .collect(Collectors.toList());
+        savedMeal.setMealPricing(mealPricingRepository.saveAll(mealPricingList));
+        return mealMapper.toMealDTO(savedMeal);
     }
 
     @Override
@@ -66,6 +77,7 @@ public class MealServiceImpl implements MealService {
             mealDTO.setImgUrl(imageUrl);
         }
         mealMapper.updateMealFromDTO(meal, mealDTO);
+        meal.getMealPricing().forEach(mealPricing -> mealPricing.setMeal(Meal.builder().mealId(mealId).build()));
         meal = mealRepository.save(meal);
         return mealMapper.toMealDTO(meal);
     }

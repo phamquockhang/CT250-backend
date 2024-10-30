@@ -3,8 +3,6 @@ package com.dvk.ct250backend.domain.booking.service;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.booking.dto.MealPricingDTO;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 
 public interface MealPricingService {

@@ -5,7 +5,7 @@ import com.dvk.ct250backend.domain.booking.entity.Meal;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = MealPricingMapper.class)
 public interface MealMapper {
     MealDTO toMealDTO(Meal meal);
     Meal toMeal(MealDTO mealDTO);

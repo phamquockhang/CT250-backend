@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
@@ -28,7 +27,7 @@ public class Meal extends BaseEntity {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "meals", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     List<BookingPassenger> bookingPassengers;
 
-    @OneToMany(mappedBy = "meal", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "meal", cascade = {CascadeType.MERGE}, orphanRemoval = true)
     List<MealPricing> mealPricing;
 
 }

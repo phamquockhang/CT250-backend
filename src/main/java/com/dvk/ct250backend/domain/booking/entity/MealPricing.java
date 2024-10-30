@@ -19,7 +19,7 @@ import java.time.LocalDate;
 public class MealPricing extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "meal_pricing_id_seq")
-    @SequenceGenerator(name = "meal_pricing_id_seq", sequenceName = "meal_pricings_seq", allocationSize = 1)
+    @SequenceGenerator(name = "meal_pricing_id_seq", sequenceName = "meal_pricing_seq", allocationSize = 1)
     Integer mealPricingId;
 
     BigDecimal price;
