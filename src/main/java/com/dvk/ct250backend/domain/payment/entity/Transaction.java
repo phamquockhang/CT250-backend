@@ -1,8 +1,11 @@
 package com.dvk.ct250backend.domain.payment.entity;
 
+import com.dvk.ct250backend.domain.booking.entity.Booking;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -17,8 +20,14 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_id_seq")
     @SequenceGenerator(name = "transaction_id_seq", sequenceName = "transaction_seq", allocationSize = 1)
     Integer transactionId;
+    String transactionType;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="booking_id")
+    Booking booking;
 
-
-
+    BigDecimal amount;
+    String paymentMethod;
+    BigDecimal fee;
+    String status;
 }
