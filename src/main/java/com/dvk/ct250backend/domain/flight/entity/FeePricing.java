@@ -33,6 +33,8 @@ public class FeePricing {
     BigDecimal feeAmount;
     Boolean isPercentage;
 
+    Boolean isActive;
+
     @Enumerated(EnumType.STRING)
     RouteTypeEnum routeType;
 

@@ -257,7 +257,8 @@ public class FlightServiceImpl implements FlightService {
                                 assert ticketPriceFee != null;
                                 FeePricing ticketFeePricing = ticketPriceFee.getFeePricing().stream()
                                         .filter(feePricing -> feePricing.getPassengerType().equals(passengerType)
-                                                && feePricing.getRouteType().equals(flight.getRoute().getRouteType()))
+                                                && feePricing.getRouteType().equals(flight.getRoute().getRouteType())
+                                        && feePricing.getIsActive().equals(Boolean.TRUE))
                                         .findFirst()
                                         .orElse(null);
                                 assert ticketFeePricing != null;
@@ -278,7 +279,7 @@ public class FlightServiceImpl implements FlightService {
     private BigDecimal getFee(Fee fee, PassengerTypeEnum passengerType, RouteTypeEnum routeType, BigDecimal basePrice) {
         return fee.getFeePricing().stream()
                 .filter(feePricing -> feePricing.getPassengerType().equals(passengerType)
-                        && feePricing.getRouteType().equals(routeType))
+                        && feePricing.getRouteType().equals(routeType) && feePricing.getIsActive().equals(Boolean.TRUE))
                 .map(feePricing -> {
                     if (feePricing.getIsPercentage().equals(Boolean.TRUE)) {
                         return numberUtils.roundToThousand(basePrice.multiply(feePricing.getFeeAmount())

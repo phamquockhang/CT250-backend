@@ -20,5 +20,6 @@ public class FeePricingDTO {
     PassengerTypeEnum passengerType;
     BigDecimal feeAmount;
     Boolean isPercentage;
+    Boolean isActive;
     RouteTypeEnum routeType;
 }
