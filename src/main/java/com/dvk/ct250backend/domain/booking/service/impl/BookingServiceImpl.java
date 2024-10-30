@@ -73,6 +73,7 @@ public class BookingServiceImpl implements BookingService {
 
             redisService.set("booking_" + bookingId, booking, 60 * 1000);
             return bookingMapper.toBookingDTO(savedBooking);
+            //return bookingDTO1;
         } finally {
             lockService.releaseLock(lockKey);
         }

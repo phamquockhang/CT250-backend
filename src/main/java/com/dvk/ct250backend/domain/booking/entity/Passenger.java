@@ -26,7 +26,6 @@ public class Passenger {
     @SequenceGenerator(name = "passenger_id_seq", sequenceName = "passengers_seq", allocationSize = 1)
     Integer passengerId;
 
-    @Column(unique = true)
     String email;
 
     String firstName;
