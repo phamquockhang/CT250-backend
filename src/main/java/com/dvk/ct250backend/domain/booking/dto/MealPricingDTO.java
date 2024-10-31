@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MealPricingDTO {
     Integer mealPricingId;
-    MealDTO meal;
+    //MealDTO meal;
     BigDecimal price;
     LocalDate validFrom;
     LocalDate validTo;

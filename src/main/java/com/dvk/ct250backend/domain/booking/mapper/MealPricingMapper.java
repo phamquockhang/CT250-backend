@@ -8,7 +8,7 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface MealPricingMapper {
-    @Mapping(target = "meal", ignore = true)
+    //@Mapping(target = "meal", ignore = true)
     MealPricingDTO toMealPricingDTO(MealPricing mealPricing);
     MealPricing toMealPricing(MealPricingDTO mealPricingDTO);
     void updateMealPricingFromDTO(@MappingTarget MealPricing mealPricing, MealPricingDTO mealPricingDTO);

@@ -8,7 +8,7 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface BaggagePricingMapper {
-    @Mapping(target = "baggage", ignore = true)
+   // @Mapping(target = "baggage", ignore = true)
     BaggagePricingDTO toBaggagePricingDTO(BaggagePricing baggagePricing);
     BaggagePricing toBaggagePricing(BaggagePricingDTO baggagePricingDTO);
     void updateBaggagePricingFromDTO(@MappingTarget BaggagePricing baggagePricing, BaggagePricingDTO baggagePricingDTO);

@@ -31,5 +31,4 @@ public class TransactionDTO {
     String status;
 
     BigDecimal amount;
-
 }
