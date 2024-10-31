@@ -1055,3 +1055,5 @@ VALUES (1, 130000, true, '2024-01-01', '2024-12-31'),
        (12, 1800000, true, '2024-01-01', '2024-12-31');
 
 
+INSERT INTO public.payment_methods (payment_method_name)
+VALUES ('VN_PAY');

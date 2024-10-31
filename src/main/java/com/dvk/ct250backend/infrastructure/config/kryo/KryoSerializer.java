@@ -14,6 +14,7 @@ public class KryoSerializer {
     private final ThreadLocal<Kryo> kryoThreadLocal = ThreadLocal.withInitial(() -> {
         Kryo kryo = new Kryo();
         kryo.setRegistrationRequired(false);
+
         return kryo;
     });
 

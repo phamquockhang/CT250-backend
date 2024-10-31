@@ -111,16 +111,6 @@ CREATE SEQUENCE seat_availability_seq
 ALTER TABLE public.seat_availability
     ALTER COLUMN seat_availability_id SET DEFAULT nextval('seat_availability_seq');
 
---BOOKING
--- DROP SEQUENCE IF EXISTS bookings_seq;
--- CREATE SEQUENCE bookings_seq
---     START WITH 1
---     INCREMENT BY 1;
--- ALTER TABLE public.bookings
---     ALTER COLUMN booking_id SET DEFAULT nextval('bookings_seq'),
---     ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP,
---     ALTER COLUMN booking_status SET DEFAULT 'PENDING';
-
 --FEE
 DROP SEQUENCE IF EXISTS fees_seq;
 CREATE SEQUENCE fees_seq
@@ -182,3 +172,10 @@ ALTER TABLE public.baggage_pricing
     ALTER COLUMN baggage_pricing_id SET DEFAULT nextval('baggage_pricing_seq'),
 ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
 
+--PAYMENT-METHOD
+DROP SEQUENCE IF EXISTS payment_methods_seq;
+CREATE SEQUENCE payment_methods_seq
+    START WITH 1
+    INCREMENT BY 1;
+ALTER TABLE public.payment_methods
+    ALTER COLUMN payment_method_id SET DEFAULT nextval('payment_methods_seq');

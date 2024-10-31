@@ -7,10 +7,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
 @EnableConfigurationProperties(RSAKeyRecord.class)
+@EnableScheduling
 public class Ct250BackendApplication extends SpringBootServletInitializer {
     public static void main(String[] args) {
         SpringApplication springApplication = new SpringApplication(Ct250BackendApplication.class);
