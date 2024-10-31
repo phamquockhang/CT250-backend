@@ -59,7 +59,7 @@ public class SecurityConfiguration {
                 }))
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/","/api/v1/auth/**",
-                                "/api/v1/countries/all",
+                                "/api/v1/countries/**",
                                 "/api/v1/airports/all",
                                 "/api/v1/flights/search",
                                 "/api/v1/flights/overview" ,

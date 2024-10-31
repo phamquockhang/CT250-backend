@@ -9,10 +9,10 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.elasticsearch.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,7 +34,10 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public Optional<Country> findById(Integer id) { // Implement this method
-        return countryRepository.findById(id);
+    public CountryDTO getCountry(Integer id) {
+        Country country =  countryRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Country not found with id: " + id)
+        );
+        return countryMapper.toCountryDTO(country);
     }
 }

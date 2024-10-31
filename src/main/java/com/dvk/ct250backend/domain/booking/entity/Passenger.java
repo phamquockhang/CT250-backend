@@ -1,6 +1,6 @@
 package com.dvk.ct250backend.domain.booking.entity;
 
-import com.dvk.ct250backend.domain.auth.entity.User;
+import com.dvk.ct250backend.domain.auth.enums.GenderEnum;
 import com.dvk.ct250backend.domain.booking.enums.PassengerTypeEnum;
 import com.dvk.ct250backend.domain.country.entity.Country;
 import jakarta.persistence.*;
@@ -9,7 +9,6 @@ import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -37,6 +36,9 @@ public class Passenger {
 
     @Enumerated(EnumType.STRING)
     PassengerTypeEnum passengerType;
+
+    @Enumerated(EnumType.STRING)
+    GenderEnum gender;
 
     @ManyToOne
     @JoinColumn(name = "country_id")

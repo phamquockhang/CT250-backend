@@ -1,5 +1,6 @@
 package com.dvk.ct250backend.domain.booking.dto;
 
+import com.dvk.ct250backend.domain.auth.enums.GenderEnum;
 import com.dvk.ct250backend.domain.country.dto.CountryDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.Column;
@@ -29,6 +30,9 @@ public class PassengerDTO {
     @NotBlank(message = "Last name is required")
     String lastName;
     LocalDate dateOfBirth;
+
+    @NotBlank(message = "Gender is required")
+    GenderEnum gender;
 
     @Column(name = "phone_number", length = 20)
     String phoneNumber;
