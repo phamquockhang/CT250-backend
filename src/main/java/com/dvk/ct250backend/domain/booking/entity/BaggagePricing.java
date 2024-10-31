@@ -19,7 +19,7 @@ import java.time.LocalDate;
 public class BaggagePricing extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "baggage_pricing_id_seq")
-    @SequenceGenerator(name = "baggage_pricing_id_seq", sequenceName = "baggage_pricings_seq", allocationSize = 1)
+    @SequenceGenerator(name = "baggage_pricing_id_seq", sequenceName = "baggage_pricing_seq", allocationSize = 1)
     Integer baggagePricingId;
 
     BigDecimal price;

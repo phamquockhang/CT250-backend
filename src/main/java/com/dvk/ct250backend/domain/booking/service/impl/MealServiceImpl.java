@@ -78,8 +78,7 @@ public class MealServiceImpl implements MealService {
         }
         mealMapper.updateMealFromDTO(meal, mealDTO);
         meal.getMealPricing().forEach(mealPricing -> mealPricing.setMeal(Meal.builder().mealId(mealId).build()));
-        meal = mealRepository.save(meal);
-        return mealMapper.toMealDTO(meal);
+        return mealMapper.toMealDTO(mealRepository.save(meal));
     }
 
     @Override

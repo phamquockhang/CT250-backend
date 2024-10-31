@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BaggagePricingDTO {
     Integer baggagePricingId;
+    BaggageDTO baggage;
     BigDecimal price;
     Boolean isActive;
     String validFrom;

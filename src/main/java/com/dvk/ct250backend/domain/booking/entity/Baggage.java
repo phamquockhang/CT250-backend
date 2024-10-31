@@ -30,7 +30,7 @@ public class Baggage extends BaseEntity {
     @Enumerated(EnumType.STRING)
     RouteTypeEnum routeType;
 
-    @OneToMany(mappedBy = "baggage", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "baggage", cascade = {CascadeType.MERGE}, orphanRemoval = true)
     List<BaggagePricing> baggagePricing;
 
 }

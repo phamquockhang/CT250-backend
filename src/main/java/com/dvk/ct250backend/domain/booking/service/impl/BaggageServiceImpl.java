@@ -6,7 +6,10 @@ import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.booking.dto.BaggageDTO;
 import com.dvk.ct250backend.domain.booking.entity.Baggage;
+import com.dvk.ct250backend.domain.booking.entity.BaggagePricing;
 import com.dvk.ct250backend.domain.booking.mapper.BaggageMapper;
+import com.dvk.ct250backend.domain.booking.mapper.BaggagePricingMapper;
+import com.dvk.ct250backend.domain.booking.repository.BaggagePricingRepository;
 import com.dvk.ct250backend.domain.booking.repository.BaggageRepository;
 import com.dvk.ct250backend.domain.booking.service.BaggageService;
 import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
@@ -31,25 +34,34 @@ import java.util.stream.Collectors;
 public class BaggageServiceImpl implements BaggageService {
 
     BaggageRepository baggageRepository;
+    BaggagePricingRepository baggagePricingRepository;
     BaggageMapper baggageMapper;
+    BaggagePricingMapper baggagePricingMapper;
     RequestParamUtils requestParamUtils;
 
     @Override
-    public BaggageDTO createBaggage(BaggageDTO BaggageDTO) {
-        Baggage Baggage = baggageMapper.toBaggage(BaggageDTO);
-        return baggageMapper.toBaggageDTO(baggageRepository.save(Baggage));
+    public BaggageDTO createBaggage(BaggageDTO baggageDTO) {
+        Baggage baggage = baggageMapper.toBaggage(baggageDTO);
+        Baggage savedBaggage = baggageRepository.save(baggage);
+        List<BaggagePricing> baggagePricingList = baggageDTO.getBaggagePricing().stream()
+                .map(baggagePricingMapper::toBaggagePricing)
+                .peek(baggagePricing -> baggagePricing.setBaggage(Baggage.builder().baggageId(savedBaggage.getBaggageId()).build()))
+                .collect(Collectors.toList());
+        savedBaggage.setBaggagePricing(baggagePricingRepository.saveAll(baggagePricingList));
+        return baggageMapper.toBaggageDTO(savedBaggage);
     }
 
     @Override
-    public BaggageDTO updateBaggage(Integer BaggageId, BaggageDTO BaggageDTO) throws ResourceNotFoundException {
-        Baggage Baggage = baggageRepository.findById(BaggageId).orElseThrow(() -> new ResourceNotFoundException("Baggage not found"));
-        baggageMapper.updateBaggageFromDTO(Baggage, BaggageDTO);
-        return baggageMapper.toBaggageDTO(baggageRepository.save(Baggage));
+    public BaggageDTO updateBaggage(Integer baggageId, BaggageDTO baggageDTO) throws ResourceNotFoundException {
+        Baggage baggage = baggageRepository.findById(baggageId).orElseThrow(() -> new ResourceNotFoundException("Baggage not found"));
+        baggageMapper.updateBaggageFromDTO(baggage, baggageDTO);
+        baggage.getBaggagePricing().forEach(baggagePricing -> baggagePricing.setBaggage(Baggage.builder().baggageId(baggageId).build()));
+        return baggageMapper.toBaggageDTO(baggageRepository.save(baggage));
     }
 
     @Override
-    public void deleteBaggage(Integer BaggageId) throws ResourceNotFoundException {
-        Baggage Baggage = baggageRepository.findById(BaggageId).orElseThrow(() -> new ResourceNotFoundException("Baggage not found"));
+    public void deleteBaggage(Integer baggageId) throws ResourceNotFoundException {
+        Baggage Baggage = baggageRepository.findById(baggageId).orElseThrow(() -> new ResourceNotFoundException("Baggage not found"));
         baggageRepository.delete(Baggage);
     }
 
