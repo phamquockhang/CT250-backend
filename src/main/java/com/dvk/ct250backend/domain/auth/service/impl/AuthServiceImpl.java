@@ -12,7 +12,7 @@ import com.dvk.ct250backend.domain.auth.repository.PermissionRepository;
 import com.dvk.ct250backend.domain.auth.repository.RoleRepository;
 import com.dvk.ct250backend.domain.auth.repository.UserRepository;
 import com.dvk.ct250backend.domain.auth.service.AuthService;
-import com.dvk.ct250backend.domain.auth.service.EmailService;
+import com.dvk.ct250backend.infrastructure.service.EmailService;
 import com.dvk.ct250backend.infrastructure.audit.AuditAwareImpl;
 import com.dvk.ct250backend.infrastructure.service.RedisService;
 import com.dvk.ct250backend.infrastructure.utils.JwtUtils;

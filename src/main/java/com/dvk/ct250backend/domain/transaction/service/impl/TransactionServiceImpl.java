@@ -4,6 +4,7 @@ import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.booking.entity.Booking;
 import com.dvk.ct250backend.domain.booking.enums.BookingStatusEnum;
 import com.dvk.ct250backend.domain.booking.repository.BookingRepository;
+import com.dvk.ct250backend.domain.booking.service.impl.TicketServiceImpl;
 import com.dvk.ct250backend.domain.transaction.dto.TransactionDTO;
 import com.dvk.ct250backend.domain.transaction.dto.request.VNPayCallbackRequest;
 import com.dvk.ct250backend.domain.transaction.dto.response.VNPayResponse;
@@ -14,11 +15,14 @@ import com.dvk.ct250backend.domain.transaction.repository.TransactionRepository;
 import com.dvk.ct250backend.domain.transaction.service.TransactionService;
 import com.dvk.ct250backend.infrastructure.service.PaymentService;
 import com.dvk.ct250backend.infrastructure.utils.VNPayUtils;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
+
+import java.io.UnsupportedEncodingException;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +32,7 @@ public class TransactionServiceImpl implements TransactionService {
     TransactionMapper transactionMapper;
     PaymentService paymentService;
     BookingRepository bookingRepository;
+    TicketServiceImpl ticketServiceImpl;
 
     @Override
     public TransactionDTO createTransaction(HttpServletRequest request, TransactionDTO transactionDTO) throws ResourceNotFoundException {
@@ -67,7 +72,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public TransactionDTO handleVNPayCallback(VNPayCallbackRequest request) throws ResourceNotFoundException {
+    public TransactionDTO handleVNPayCallback(VNPayCallbackRequest request) throws ResourceNotFoundException, MessagingException, UnsupportedEncodingException {
         String status = request.getVnp_ResponseCode();
 
         Transaction transaction = transactionRepository.findByTxnRef(request.getVnp_TxnRef())
@@ -78,17 +83,15 @@ public class TransactionServiceImpl implements TransactionService {
 
 
         String bookingCode = request.getVnp_OrderInfo();
-
         Booking booking = bookingRepository.findById(transaction.getBooking().getBookingId())
                 .orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
-
         if ("00".equals(status)) {
             booking.setBookingCode(bookingCode);
             booking.setBookingStatus(BookingStatusEnum.PAID);
+            ticketServiceImpl.createTicketsForBooking(booking);
         } else {
             booking.setBookingStatus(BookingStatusEnum.INIT);
         }
-
         bookingRepository.save(booking);
 
         return transactionMapper.toTransactionDTO(transaction);

@@ -5,12 +5,15 @@ import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.transaction.dto.TransactionDTO;
 import com.dvk.ct250backend.domain.transaction.dto.request.VNPayCallbackRequest;
 import com.dvk.ct250backend.domain.transaction.service.TransactionService;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.UnsupportedEncodingException;
 
 @RestController
 @RequestMapping("/api/v1/transactions")
@@ -27,7 +30,7 @@ public class TransactionController {
                 .build();
     }
     @GetMapping("/vn-pay-callback")
-    public ApiResponse<TransactionDTO> payCallbackHandler(HttpServletRequest request) throws ResourceNotFoundException {
+    public ApiResponse<TransactionDTO> payCallbackHandler(HttpServletRequest request) throws ResourceNotFoundException, MessagingException, UnsupportedEncodingException {
         VNPayCallbackRequest callbackRequest = new VNPayCallbackRequest();
         callbackRequest.setVnp_ResponseCode(request.getParameter("vnp_ResponseCode"));
         callbackRequest.setVnp_TransactionNo(request.getParameter("vnp_TransactionNo"));
