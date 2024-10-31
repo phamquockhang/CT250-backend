@@ -1,16 +1,17 @@
 package com.dvk.ct250backend.api;
 
-import com.dvk.ct250backend.app.dto.PaymentDTO;
 import com.dvk.ct250backend.app.dto.response.ApiResponse;
-import com.dvk.ct250backend.infrastructure.service.PaymentService;
+import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
+import com.dvk.ct250backend.domain.transaction.dto.TransactionDTO;
+import com.dvk.ct250backend.domain.transaction.dto.request.VNPayCallbackRequest;
+import com.dvk.ct250backend.domain.transaction.dto.response.VNPayResponse;
+import com.dvk.ct250backend.domain.transaction.service.TransactionService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/payment")
@@ -18,41 +19,42 @@ import org.springframework.web.bind.annotation.RestController;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class PaymentController {
 
-    PaymentService paymentService;
-    @GetMapping("/vn-pay")
-    public ApiResponse<PaymentDTO.VNPayResponse> pay(HttpServletRequest request) {
-        return ApiResponse.<PaymentDTO.VNPayResponse>builder()
-                .status(HttpStatus.OK.value())
-                .payload(paymentService.createVnPayPayment(request))
-                .build();
-    }
+    TransactionService transactionService;
 
-    @GetMapping("/vn-pay-callback")
-    public ApiResponse<PaymentDTO.VNPayResponse> payCallbackHandler(HttpServletRequest request) {
-        String status = request.getParameter("vnp_ResponseCode");
-        String transactionNo = request.getParameter("vnp_TransactionNo");
-        String amount = request.getParameter("vnp_Amount");
-        String bankCode = request.getParameter("vnp_BankCode");
-        String orderInfo = request.getParameter("vnp_OrderInfo");
-        String payDate = request.getParameter("vnp_PayDate");
+//    @GetMapping("/vn-pay-callback")
+//    public ApiResponse<VNPayResponse> payCallbackHandler(HttpServletRequest request) throws ResourceNotFoundException {
+//        VNPayCallbackRequest callbackRequest = new VNPayCallbackRequest();
+//        callbackRequest.setVnp_ResponseCode(request.getParameter("vnp_ResponseCode"));
+//        callbackRequest.setVnp_TransactionNo(request.getParameter("vnp_TransactionNo"));
+//        callbackRequest.setVnp_Amount(request.getParameter("vnp_Amount"));
+//        callbackRequest.setVnp_BankCode(request.getParameter("vnp_BankCode"));
+//        callbackRequest.setVnp_OrderInfo(request.getParameter("vnp_OrderInfo"));
+//        callbackRequest.setVnp_PayDate(request.getParameter("vnp_PayDate"));
+//        callbackRequest.setVnp_TxnRef(request.getParameter("vnp_TxnRef"));
+//
+//        VNPayResponse vnPayResponse = transactionService.handleVNPayCallback(callbackRequest);
+//
+//        return ApiResponse.<VNPayResponse>builder()
+//                .status("00".equals(vnPayResponse.getCode()) ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value())
+//                .payload(vnPayResponse)
+//                .build();
+//    }
+@GetMapping("/vn-pay-callback")
+public ApiResponse<TransactionDTO> payCallbackHandler(HttpServletRequest request) throws ResourceNotFoundException {
+    VNPayCallbackRequest callbackRequest = new VNPayCallbackRequest();
+    callbackRequest.setVnp_ResponseCode(request.getParameter("vnp_ResponseCode"));
+    callbackRequest.setVnp_TransactionNo(request.getParameter("vnp_TransactionNo"));
+    callbackRequest.setVnp_Amount(request.getParameter("vnp_Amount"));
+    callbackRequest.setVnp_BankCode(request.getParameter("vnp_BankCode"));
+    callbackRequest.setVnp_OrderInfo(request.getParameter("vnp_OrderInfo"));
+    callbackRequest.setVnp_PayDate(request.getParameter("vnp_PayDate"));
+    callbackRequest.setVnp_TxnRef(request.getParameter("vnp_TxnRef"));
 
-        PaymentDTO.VNPayResponse.VNPayResponseBuilder responseBuilder = PaymentDTO.VNPayResponse.builder()
-                .code(status)
-                .message("00".equals(status) ? "Success" : "Failed")
-                .paymentUrl("");
+    TransactionDTO transactionDTO = transactionService.handleVNPayCallback(callbackRequest);
 
-        if ("00".equals(status)) {
-            responseBuilder
-                    .transactionNo(transactionNo)
-                    .amount(amount)
-                    .bankCode(bankCode)
-                    .orderInfo(orderInfo)
-                    .payDate(payDate);
-        }
-
-        return ApiResponse.<PaymentDTO.VNPayResponse>builder()
-                .status("00".equals(status) ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value())
-                .payload(responseBuilder.build())
-                .build();
-    }
+    return ApiResponse.<TransactionDTO>builder()
+            .status("00".equals(transactionDTO.getStatus()) ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value())
+            .payload(transactionDTO)
+            .build();
+}
 }

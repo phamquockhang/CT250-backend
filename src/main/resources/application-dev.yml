@@ -52,8 +52,6 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
-  jvm:
-    args: --add-opens=java.base/java.lang.reflect=ALL-UNNAMED
 
 management:
   health:

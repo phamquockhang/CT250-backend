@@ -3,7 +3,7 @@ package com.dvk.ct250backend.domain.booking.entity;
 import com.dvk.ct250backend.domain.booking.enums.BookingStatusEnum;
 import com.dvk.ct250backend.domain.booking.enums.TripTypeEnum;
 import com.dvk.ct250backend.domain.common.entity.BaseEntity;
-import com.dvk.ct250backend.domain.payment.entity.Transaction;
+import com.dvk.ct250backend.domain.transaction.entity.Transaction;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;

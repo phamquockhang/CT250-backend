@@ -26,11 +26,14 @@ public class BookingController {
                 .build();
     }
 
-//    @PutMapping("/{bookingId}/reserve")
-//    public ApiResponse<BookingDTO> reserveBooking(@PathVariable Integer bookingId, @RequestBody BookingDTO bookingDTO) throws ResourceNotFoundException {
-//        return ApiResponse.<BookingDTO>builder()
-//                .status(HttpStatus.OK.value())
-//                .payload(bookingService.reserveBooking(bookingId, bookingDTO))
-//                .build();
-//    }
+    @PutMapping("/{bookingId}/reserve")
+    public ApiResponse<BookingDTO> reserveBooking(@PathVariable Integer bookingId, @RequestBody BookingDTO bookingDTO) throws ResourceNotFoundException {
+        return ApiResponse.<BookingDTO>builder()
+                .status(HttpStatus.OK.value())
+                .payload(bookingService.reserveBooking(bookingId, bookingDTO))
+                .build();
+    }
 }
+
+
+

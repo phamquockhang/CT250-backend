@@ -7,7 +7,9 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface BookingRepository extends JpaRepository<Booking, Integer> , JpaSpecificationExecutor<Booking> {
     List<Booking> findByBookingStatusAndCreatedAtBefore(BookingStatusEnum status, LocalDateTime cutoffTime);
+    Optional<Booking> findByBookingCode(String bookingCode);
 }

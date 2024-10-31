@@ -1,11 +1,14 @@
-package com.dvk.ct250backend.domain.payment.entity;
+package com.dvk.ct250backend.domain.transaction.entity;
 
 import com.dvk.ct250backend.domain.booking.entity.Booking;
+import com.dvk.ct250backend.domain.transaction.enums.TransactionStatusEnum;
+import com.dvk.ct250backend.domain.transaction.enums.TransactionTypeEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,14 +23,25 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_id_seq")
     @SequenceGenerator(name = "transaction_id_seq", sequenceName = "transaction_seq", allocationSize = 1)
     Integer transactionId;
-    String transactionType;
+
+    @Enumerated(EnumType.STRING)
+    TransactionTypeEnum transactionType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="booking_id")
     Booking booking;
 
+    String txnRef;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="payment_method_id")
+    PaymentMethod paymentMethod;
+
     BigDecimal amount;
-    String paymentMethod;
-    BigDecimal fee;
-    String status;
+
+    @Enumerated(EnumType.STRING)
+    TransactionStatusEnum status;
+
+    @Version
+    Integer version;
 }

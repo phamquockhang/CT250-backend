@@ -8,4 +8,5 @@ public enum BookingStatusEnum {
     COMPLETED, // ĐẶT CHỖ ĐÃ HOÀN TẤT
     REFUNDED, // ĐẶT CHỖ ĐÃ ĐƯỢC HOÀN TIỀN
     RESERVED, // ĐẶT CHỖ ĐANG TRONG QUÁ TRÌNH XỬ LÝ, CHƯA HOÀN TẤT
+    PAID, // ĐẶT CHỖ ĐÃ ĐƯỢC THANH TOÁN
 }

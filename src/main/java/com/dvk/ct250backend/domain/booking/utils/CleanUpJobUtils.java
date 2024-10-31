@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -26,5 +25,4 @@ public class CleanUpJobUtils {
         List<Booking> bookingsToDelete = bookingRepository.findByBookingStatusAndCreatedAtBefore(BookingStatusEnum.INIT, cutoffTime);
         bookingRepository.deleteAll(bookingsToDelete);
     }
-
 }
