@@ -68,7 +68,7 @@ public class BaggageServiceImpl implements BaggageService {
     @Override
    @Cacheable(value = "baggage")
     public List<BaggageDTO> getAllBaggage() {
-        return baggageRepository.findAll().stream().map(baggageMapper::toBaggageDTO).toList();
+        return baggageRepository.findAll().stream().map(baggageMapper::toBaggageDTO).collect(Collectors.toList());
     }
 
     @Override
