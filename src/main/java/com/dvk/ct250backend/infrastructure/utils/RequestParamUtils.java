@@ -16,8 +16,9 @@ public class RequestParamUtils {
         String sortBy = params.getOrDefault("sortBy", "createdAt");
         String direction = params.getOrDefault("direction", "desc");
         if(sortBy != null && !sortBy.isEmpty()) {
-            Sort.Order order = new Sort.Order(Sort.Direction.fromString(direction), sortBy);
-            sortOrders.add(order);
+            Sort.Order createdAtOrder = new Sort.Order(Sort.Direction.fromString(direction), sortBy);
+            Sort.Order updatedAtOrder = new Sort.Order(Sort.Direction.fromString(direction), "updatedAt");
+            sortOrders.addAll(List.of(createdAtOrder, updatedAtOrder));
         }
         return sortOrders;
     }
