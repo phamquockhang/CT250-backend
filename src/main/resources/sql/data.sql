@@ -441,7 +441,9 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Update a baggage pricing', '/api/v1/baggage-pricing/{id}', 'PUT', 'BAGGAGE-PRICING'),
 
 
-       ('Create a booking', '/api/v1/bookings', 'POST', 'BOOKINGS');
+       ('Create a booking', '/api/v1/bookings', 'POST', 'BOOKINGS'),
+
+       ('Create a transaction', '/api/v1/transactions', 'POST', 'TRANSACTION');
 
 
 --USER

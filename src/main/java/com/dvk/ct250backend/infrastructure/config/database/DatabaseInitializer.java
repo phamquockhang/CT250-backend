@@ -64,13 +64,4 @@ public class DatabaseInitializer {
         dataPopulator.execute(dataSource);
     }
 
-    @PreDestroy
-    public void destroy() {
-        ResourceDatabasePopulator schemaPopulator = new ResourceDatabasePopulator();
-        schemaPopulator.addScript(new ClassPathResource("sql/drop-batch-schema.sql"));
-        schemaPopulator.execute(dataSource);
-
-        jdbcTemplate.execute("DROP FUNCTION IF EXISTS insert_permission_role CASCADE;");
-        jdbcTemplate.execute("DROP FUNCTION IF EXISTS insert_flight_fees CASCADE;");
-    }
 }
