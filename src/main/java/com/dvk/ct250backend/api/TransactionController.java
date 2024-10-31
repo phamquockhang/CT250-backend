@@ -4,6 +4,7 @@ import com.dvk.ct250backend.app.dto.response.ApiResponse;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.transaction.dto.TransactionDTO;
 import com.dvk.ct250backend.domain.transaction.dto.request.VNPayCallbackRequest;
+import com.dvk.ct250backend.domain.transaction.enums.TransactionStatusEnum;
 import com.dvk.ct250backend.domain.transaction.service.TransactionService;
 import com.itextpdf.text.DocumentException;
 import jakarta.mail.MessagingException;
@@ -45,7 +46,7 @@ public class TransactionController {
         TransactionDTO transactionDTO = transactionService.handleVNPayCallback(callbackRequest);
 
         return ApiResponse.<TransactionDTO>builder()
-                .status("00".equals(transactionDTO.getStatus()) ? HttpStatus.OK.value() : HttpStatus.BAD_REQUEST.value())
+                .status(HttpStatus.OK.value())
                 .payload(transactionDTO)
                 .build();
     }

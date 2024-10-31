@@ -320,69 +320,8 @@ public class EmailServiceImpl implements EmailService {
         mailSender.send(message);
     }
 
-//    @Override
-//    public void sendTicketConfirmationEmail(Booking booking) throws MessagingException, UnsupportedEncodingException {
-//        String toAddress = booking.getBookingFlights().stream()
-//                .flatMap(bookingFlight -> bookingFlight.getBookingPassengers().stream())
-//                .filter(BookingPassenger::getIsPrimaryContact)
-//                .findFirst()
-//                .orElseThrow(() -> new IllegalArgumentException("Primary contact not found"))
-//                .getPassenger()
-//                .getEmail();
-//        String subject = "Vé Điện Tử Davika Airways Của Quý Khách - Mã Đặt Chỗ " + booking.getBookingCode();
-//
-//        String content = "<html>"
-//                + "<head>"
-//                + "<style>"
-//                + "body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #e9ecef; margin: 0; padding: 0; }"
-//                + "</style>"
-//                + "</head>"
-//                + "<body style='margin: 0; padding: 0; background-color: #e9ecef; font-family: Helvetica, Arial, sans-serif;'>"
-//                + "<div style='width: 100%; max-width: 600px; margin: auto; background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);'>"
-//                + "<div style='text-align: center; background: linear-gradient(90deg, #0066cc, #0099ff); color: white; padding: 30px; border-radius: 10px 10px 0 0;'>"
-//                + "<h2 style='margin: 0; font-size: 24px;'>Vé Điện Tử Davika Airways Của Quý Khách</h2>"
-//                + "<h3 style='margin: 0; font-size: 20px;'>Mã Đặt Chỗ " + booking.getBookingCode() + "</h3>"
-//                + "</div>"
-//                + "<div style='margin: 20px; color: #333; line-height: 1.5;'>"
-//                + "<p>Kính gửi <b>" + booking.getBookingFlights().stream()
-//                .flatMap(bookingFlight -> bookingFlight.getBookingPassengers().stream())
-//                .filter(BookingPassenger::getIsPrimaryContact)
-//                .findFirst()
-//                .orElseThrow(() -> new IllegalArgumentException("Primary contact not found"))
-//                .getPassenger()
-//                .getFirstName().toUpperCase() + " " + booking.getBookingFlights().stream()
-//                .flatMap(bookingFlight -> bookingFlight.getBookingPassengers().stream())
-//                .filter(BookingPassenger::getIsPrimaryContact)
-//                .findFirst()
-//                .orElseThrow(() -> new IllegalArgumentException("Primary contact not found"))
-//                .getPassenger()
-//                .getLastName().toUpperCase() + "</b>,</p>"
-//                + "<p>Yêu cầu đặt vé của quý khách đã được xác nhận thành công. Quý khách vui lòng xem vé điện tử trong tập tin đính kèm.</p>"
-//                + "</div>"
-//                + "<div style='text-align: center; margin-top: 20px; font-size: 12px; color: #777;'>"
-//                + "<p>&copy; " + java.time.Year.now().getValue() + " Davika Airways.All rights reserved.</p>"
-//                + "</div>"
-//                + "</div>"
-//                + "</body>"
-//                + "</html>";
-//
-//        MimeMessage message = mailSender.createMimeMessage();
-//        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-//
-//        helper.setFrom(fromAddress, senderName);
-//        helper.setTo(toAddress);
-//        helper.setSubject(subject);
-//        helper.setText(content, true);
-//
-//        // Attach the ticket file (assuming it's generated and available as a PDF)
-//        // FileSystemResource file = new FileSystemResource(new File("path/to/ticket.pdf"));
-//        // helper.addAttachment("Vé Điện Tử.pdf", file);
-//
-//
-//        mailSender.send(message);
-//    }
-
-    public void sendTicketConfirmationEmail(Booking booking) throws MessagingException, IOException, DocumentException {
+    @Override
+    public void sendTicketConfirmationEmail(Booking booking) throws MessagingException, UnsupportedEncodingException {
         String toAddress = booking.getBookingFlights().stream()
                 .flatMap(bookingFlight -> bookingFlight.getBookingPassengers().stream())
                 .filter(BookingPassenger::getIsPrimaryContact)
@@ -421,30 +360,11 @@ public class EmailServiceImpl implements EmailService {
                 + "<p>Yêu cầu đặt vé của quý khách đã được xác nhận thành công. Quý khách vui lòng xem vé điện tử trong tập tin đính kèm.</p>"
                 + "</div>"
                 + "<div style='text-align: center; margin-top: 20px; font-size: 12px; color: #777;'>"
-                + "<p>&copy; " + java.time.Year.now().getValue() + " Davika Airways. All rights reserved.</p>"
+                + "<p>&copy; " + java.time.Year.now().getValue() + " Davika Airways.All rights reserved.</p>"
                 + "</div>"
                 + "</div>"
                 + "</body>"
                 + "</html>";
-
-        // Generate PDF
-        byte[] pdfData = PdfGeneratorUtils.generateTicketPdf(booking.getBookingCode(), booking.getBookingFlights().stream()
-                .flatMap(bookingFlight -> bookingFlight.getBookingPassengers().stream())
-                .filter(BookingPassenger::getIsPrimaryContact)
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Primary contact not found"))
-                .getPassenger()
-                .getFirstName() + " " + booking.getBookingFlights().stream()
-                .flatMap(bookingFlight -> bookingFlight.getBookingPassengers().stream())
-                .filter(BookingPassenger::getIsPrimaryContact)
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Primary contact not found"))
-                .getPassenger()
-                .getLastName());
-
-        File tempFile = fileUtils.saveTempFile(pdfData, "ticket.pdf");
-
-        String pdfUrl = fileUtils.uploadFileToCloudinary(tempFile);
 
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
@@ -453,10 +373,90 @@ public class EmailServiceImpl implements EmailService {
         helper.setTo(toAddress);
         helper.setSubject(subject);
         helper.setText(content, true);
-        helper.addAttachment("Vé Điện Tử.pdf", tempFile);
+
+        // Attach the ticket file (assuming it's generated and available as a PDF)
+        // FileSystemResource file = new FileSystemResource(new File("path/to/ticket.pdf"));
+        // helper.addAttachment("Vé Điện Tử.pdf", file);
+
 
         mailSender.send(message);
-        tempFile.delete();
     }
+
+//    public void sendTicketConfirmationEmail(Booking booking) throws MessagingException, IOException, DocumentException {
+//        String toAddress = booking.getBookingFlights().stream()
+//                .flatMap(bookingFlight -> bookingFlight.getBookingPassengers().stream())
+//                .filter(BookingPassenger::getIsPrimaryContact)
+//                .findFirst()
+//                .orElseThrow(() -> new IllegalArgumentException("Primary contact not found"))
+//                .getPassenger()
+//                .getEmail();
+//        String subject = "Vé Điện Tử Davika Airways Của Quý Khách - Mã Đặt Chỗ " + booking.getBookingCode();
+//
+//        String content = "<html>"
+//                + "<head>"
+//                + "<style>"
+//                + "body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #e9ecef; margin: 0; padding: 0; }"
+//                + "</style>"
+//                + "</head>"
+//                + "<body style='margin: 0; padding: 0; background-color: #e9ecef; font-family: Helvetica, Arial, sans-serif;'>"
+//                + "<div style='width: 100%; max-width: 600px; margin: auto; background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);'>"
+//                + "<div style='text-align: center; background: linear-gradient(90deg, #0066cc, #0099ff); color: white; padding: 30px; border-radius: 10px 10px 0 0;'>"
+//                + "<h2 style='margin: 0; font-size: 24px;'>Vé Điện Tử Davika Airways Của Quý Khách</h2>"
+//                + "<h3 style='margin: 0; font-size: 20px;'>Mã Đặt Chỗ " + booking.getBookingCode() + "</h3>"
+//                + "</div>"
+//                + "<div style='margin: 20px; color: #333; line-height: 1.5;'>"
+//                + "<p>Kính gửi <b>" + booking.getBookingFlights().stream()
+//                .flatMap(bookingFlight -> bookingFlight.getBookingPassengers().stream())
+//                .filter(BookingPassenger::getIsPrimaryContact)
+//                .findFirst()
+//                .orElseThrow(() -> new IllegalArgumentException("Primary contact not found"))
+//                .getPassenger()
+//                .getFirstName().toUpperCase() + " " + booking.getBookingFlights().stream()
+//                .flatMap(bookingFlight -> bookingFlight.getBookingPassengers().stream())
+//                .filter(BookingPassenger::getIsPrimaryContact)
+//                .findFirst()
+//                .orElseThrow(() -> new IllegalArgumentException("Primary contact not found"))
+//                .getPassenger()
+//                .getLastName().toUpperCase() + "</b>,</p>"
+//                + "<p>Yêu cầu đặt vé của quý khách đã được xác nhận thành công. Quý khách vui lòng xem vé điện tử trong tập tin đính kèm.</p>"
+//                + "</div>"
+//                + "<div style='text-align: center; margin-top: 20px; font-size: 12px; color: #777;'>"
+//                + "<p>&copy; " + java.time.Year.now().getValue() + " Davika Airways. All rights reserved.</p>"
+//                + "</div>"
+//                + "</div>"
+//                + "</body>"
+//                + "</html>";
+//
+//        // Generate PDF
+//        byte[] pdfData = PdfGeneratorUtils.generateTicketPdf(booking.getBookingCode(), booking.getBookingFlights().stream()
+//                .flatMap(bookingFlight -> bookingFlight.getBookingPassengers().stream())
+//                .filter(BookingPassenger::getIsPrimaryContact)
+//                .findFirst()
+//                .orElseThrow(() -> new IllegalArgumentException("Primary contact not found"))
+//                .getPassenger()
+//                .getFirstName() + " " + booking.getBookingFlights().stream()
+//                .flatMap(bookingFlight -> bookingFlight.getBookingPassengers().stream())
+//                .filter(BookingPassenger::getIsPrimaryContact)
+//                .findFirst()
+//                .orElseThrow(() -> new IllegalArgumentException("Primary contact not found"))
+//                .getPassenger()
+//                .getLastName());
+//
+//        File tempFile = fileUtils.saveTempFile(pdfData, "ticket.pdf");
+//
+//        String pdfUrl = fileUtils.uploadFileToCloudinary(tempFile);
+//
+//        MimeMessage message = mailSender.createMimeMessage();
+//        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+//
+//        helper.setFrom(fromAddress, senderName);
+//        helper.setTo(toAddress);
+//        helper.setSubject(subject);
+//        helper.setText(content, true);
+//        helper.addAttachment("Vé Điện Tử.pdf", tempFile);
+//
+//        mailSender.send(message);
+//        tempFile.delete();
+//    }
 
 }
