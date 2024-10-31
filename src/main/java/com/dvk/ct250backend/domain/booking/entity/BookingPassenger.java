@@ -48,4 +48,7 @@ public class BookingPassenger {
     Boolean isPrimaryContact;
     Boolean isSharedSeat;
     String passengerGroup;
+
+    @OneToMany(mappedBy = "bookingPassenger", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    List<Ticket> tickets;
 }

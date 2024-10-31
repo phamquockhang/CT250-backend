@@ -24,14 +24,11 @@ public class Ticket extends BaseEntity {
     @Enumerated(EnumType.STRING)
     TicketStatusEnum status;
 
+
+    String ticketNumber;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "booking_id")
-    Booking booking;
-
-    String seatCode;
-
-    @ManyToOne
-    @JoinColumn(name = "flight_id", nullable = false)
-    Flight flight;
+    @JoinColumn(name = "booking_passenger_id")
+    BookingPassenger bookingPassenger;
 
 }

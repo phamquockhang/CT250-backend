@@ -55,7 +55,4 @@ public class Flight extends BaseEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "flight", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     List<BookingFlight> bookingFlights = new ArrayList<>();
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "flight", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-    List<Ticket> tickets = new ArrayList<>();
 }
