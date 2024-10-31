@@ -56,4 +56,13 @@ public class FileUtils {
         return parts[parts.length - 2] + "/" + parts[parts.length - 1].substring(0, parts[parts.length - 1].lastIndexOf('.'));
     }
 
+
+    public File saveTempFile(byte[] fileData, String fileName) throws IOException {
+        File tempFile = File.createTempFile("temp", fileName);
+        try (FileOutputStream outputStream = new FileOutputStream(tempFile)) {
+            outputStream.write(fileData);
+        }
+        return tempFile;
+    }
+
 }

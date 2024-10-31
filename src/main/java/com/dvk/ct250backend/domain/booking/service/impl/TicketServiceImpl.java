@@ -8,12 +8,14 @@ import com.dvk.ct250backend.domain.booking.repository.TicketRepository;
 import com.dvk.ct250backend.domain.booking.service.TicketService;
 import com.dvk.ct250backend.domain.booking.utils.TicketNumberUtils;
 import com.dvk.ct250backend.infrastructure.service.EmailService;
+import com.itextpdf.text.DocumentException;
 import jakarta.mail.MessagingException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 @Service
@@ -25,7 +27,7 @@ public class TicketServiceImpl implements TicketService {
     TicketNumberUtils ticketNumberUtils;
     EmailService emailService;
     @Override
-    public void createTicketsForBooking(Booking booking) throws MessagingException, UnsupportedEncodingException {
+    public void createTicketsForBooking(Booking booking) throws MessagingException, IOException, DocumentException {
         booking.getBookingFlights().forEach(bookingFlight -> {
             bookingFlight.getBookingPassengers().forEach(bookingPassenger -> {
                 Ticket ticket = Ticket.builder()

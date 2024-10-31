@@ -15,6 +15,7 @@ import com.dvk.ct250backend.domain.transaction.repository.TransactionRepository;
 import com.dvk.ct250backend.domain.transaction.service.TransactionService;
 import com.dvk.ct250backend.infrastructure.service.PaymentService;
 import com.dvk.ct250backend.infrastructure.utils.VNPayUtils;
+import com.itextpdf.text.DocumentException;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
@@ -22,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 @Service
@@ -72,7 +74,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public TransactionDTO handleVNPayCallback(VNPayCallbackRequest request) throws ResourceNotFoundException, MessagingException, UnsupportedEncodingException {
+    public TransactionDTO handleVNPayCallback(VNPayCallbackRequest request) throws ResourceNotFoundException, MessagingException, IOException, DocumentException {
         String status = request.getVnp_ResponseCode();
 
         Transaction transaction = transactionRepository.findByTxnRef(request.getVnp_TxnRef())
