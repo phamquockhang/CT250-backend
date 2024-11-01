@@ -4,6 +4,7 @@ import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.booking.entity.Booking;
 import com.dvk.ct250backend.domain.booking.enums.BookingStatusEnum;
 import com.dvk.ct250backend.domain.booking.repository.BookingRepository;
+import com.dvk.ct250backend.domain.booking.service.BookingFlightService;
 import com.dvk.ct250backend.domain.booking.service.impl.TicketServiceImpl;
 import com.dvk.ct250backend.domain.transaction.dto.TransactionDTO;
 import com.dvk.ct250backend.domain.transaction.dto.request.VNPayCallbackRequest;
@@ -35,6 +36,7 @@ public class TransactionServiceImpl implements TransactionService {
     PaymentService paymentService;
     BookingRepository bookingRepository;
     TicketServiceImpl ticketServiceImpl;
+    BookingFlightService bookingFlightService;
 
     @Override
     public TransactionDTO createTransaction(HttpServletRequest request, TransactionDTO transactionDTO) throws ResourceNotFoundException {
@@ -91,6 +93,7 @@ public class TransactionServiceImpl implements TransactionService {
             booking.setBookingCode(bookingCode);
             booking.setBookingStatus(BookingStatusEnum.PAID);
             ticketServiceImpl.createTicketsForBooking(booking);
+            booking.getBookingFlights().forEach(bookingFlightService::processBookingFlight);
         } else {
             booking.setBookingStatus(BookingStatusEnum.INIT);
         }
