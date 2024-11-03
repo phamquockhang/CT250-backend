@@ -17,6 +17,7 @@ import com.dvk.ct250backend.domain.flight.mapper.FlightMapper;
 import com.dvk.ct250backend.domain.flight.repository.FeeRepository;
 import com.dvk.ct250backend.domain.flight.repository.FlightRepository;
 import com.dvk.ct250backend.domain.flight.service.FlightService;
+import com.dvk.ct250backend.infrastructure.utils.DateUtils;
 import com.dvk.ct250backend.infrastructure.utils.FileUtils;
 import com.dvk.ct250backend.infrastructure.utils.NumberUtils;
 import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
@@ -62,6 +63,7 @@ public class FlightServiceImpl implements FlightService {
     FileUtils fileUtils;
     RequestParamUtils requestParamUtils;
     NumberUtils numberUtils;
+    DateUtils dateUtils;
 
     @Override
     public List<FlightDTO> getAllFlights() {
@@ -242,7 +244,8 @@ public class FlightServiceImpl implements FlightService {
                                             PassengerTypeEnum passengerType,
                                             TicketClass ticketClass) {
         BigDecimal basePrice = flight.getFlightPricing().stream()
-                .filter(flightPricing -> Objects.equals(flightPricing.getTicketClass().getTicketClassId(), ticketClass.getTicketClassId()))
+                .filter(flightPricing -> Objects.equals(flightPricing.getTicketClass().getTicketClassId(), ticketClass.getTicketClassId())
+                && dateUtils.isInDateRange(LocalDate.now(), flightPricing.getValidFrom(), flightPricing.getValidTo()))
                 .map(FlightPricing::getTicketPrice)
                 .findFirst()
                 .orElse(BigDecimal.valueOf(0.0));
