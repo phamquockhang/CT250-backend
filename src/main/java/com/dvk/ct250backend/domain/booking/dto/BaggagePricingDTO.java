@@ -17,7 +17,6 @@ public class BaggagePricingDTO {
     Integer baggagePricingId;
     //BaggageDTO baggage;
     BigDecimal price;
-    Boolean isActive;
     String validFrom;
     String validTo;
 }

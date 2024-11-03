@@ -23,7 +23,6 @@ public class BaggagePricing extends BaseEntity {
     Integer baggagePricingId;
 
     BigDecimal price;
-    Boolean isActive;
     LocalDate validFrom;
     LocalDate validTo;
 

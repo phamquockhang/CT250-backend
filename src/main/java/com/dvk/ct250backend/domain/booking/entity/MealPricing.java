@@ -25,7 +25,7 @@ public class MealPricing extends BaseEntity {
     BigDecimal price;
     LocalDate validFrom;
     LocalDate validTo;
-    Boolean isActive;
+
 
     @ManyToOne
     @JoinColumn(name = "meal_id")
