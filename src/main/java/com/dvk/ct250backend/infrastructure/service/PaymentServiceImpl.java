@@ -3,6 +3,7 @@ package com.dvk.ct250backend.infrastructure.service;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.booking.entity.Booking;
 import com.dvk.ct250backend.domain.booking.repository.BookingRepository;
+import com.dvk.ct250backend.domain.transaction.service.PaymentService;
 import com.dvk.ct250backend.domain.transaction.dto.response.VNPayResponse;
 import com.dvk.ct250backend.domain.transaction.entity.Transaction;
 import com.dvk.ct250backend.infrastructure.config.payment.vnpay.VNPayConfig;
@@ -19,9 +20,11 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class PaymentService {
+public class PaymentServiceImpl implements PaymentService {
     BookingRepository bookingRepository;
     private final VNPayConfig vnPayConfig;
+
+    @Override
     public VNPayResponse createVnPayPayment(HttpServletRequest request, Transaction transaction, String txnRef) throws ResourceNotFoundException {
         Booking booking = bookingRepository.findById(transaction.getBooking().getBookingId())
                 .orElseThrow(() -> new ResourceNotFoundException("Booking not found"));

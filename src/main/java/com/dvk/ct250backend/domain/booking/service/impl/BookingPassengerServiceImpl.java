@@ -20,7 +20,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class BookingPassengerServiceImpl implements BookingPassengerService {
 
-    BookingPassengerRepository bookingPassengerRepository;
     PassengerService passengerService;
 
     @Override

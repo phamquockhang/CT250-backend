@@ -2,12 +2,11 @@ package com.dvk.ct250backend.domain.booking.service.impl;
 
 import com.dvk.ct250backend.domain.booking.entity.Booking;
 import com.dvk.ct250backend.domain.booking.entity.Ticket;
-import com.dvk.ct250backend.domain.booking.enums.PassengerTypeEnum;
 import com.dvk.ct250backend.domain.booking.enums.TicketStatusEnum;
 import com.dvk.ct250backend.domain.booking.repository.TicketRepository;
 import com.dvk.ct250backend.domain.booking.service.TicketService;
 import com.dvk.ct250backend.domain.booking.utils.TicketNumberUtils;
-import com.dvk.ct250backend.infrastructure.service.EmailService;
+import com.dvk.ct250backend.domain.common.service.EmailService;
 import com.itextpdf.text.DocumentException;
 import jakarta.mail.MessagingException;
 import lombok.AccessLevel;
@@ -16,7 +15,6 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 @Service
 @RequiredArgsConstructor

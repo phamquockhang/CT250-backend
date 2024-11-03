@@ -1,4 +1,4 @@
-package com.dvk.ct250backend.infrastructure.service;
+package com.dvk.ct250backend.domain.common.service;
 
 import com.dvk.ct250backend.domain.auth.entity.User;
 import com.dvk.ct250backend.domain.booking.entity.Booking;

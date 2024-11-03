@@ -14,7 +14,7 @@ import com.dvk.ct250backend.domain.transaction.enums.TransactionStatusEnum;
 import com.dvk.ct250backend.domain.transaction.mapper.TransactionMapper;
 import com.dvk.ct250backend.domain.transaction.repository.TransactionRepository;
 import com.dvk.ct250backend.domain.transaction.service.TransactionService;
-import com.dvk.ct250backend.infrastructure.service.PaymentService;
+import com.dvk.ct250backend.infrastructure.service.PaymentServiceImpl;
 import com.dvk.ct250backend.infrastructure.utils.VNPayUtils;
 import com.itextpdf.text.DocumentException;
 import jakarta.mail.MessagingException;
@@ -25,7 +25,6 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +32,7 @@ import java.io.UnsupportedEncodingException;
 public class TransactionServiceImpl implements TransactionService {
     TransactionRepository transactionRepository;
     TransactionMapper transactionMapper;
-    PaymentService paymentService;
+    PaymentServiceImpl paymentService;
     BookingRepository bookingRepository;
     TicketServiceImpl ticketServiceImpl;
     BookingFlightService bookingFlightService;

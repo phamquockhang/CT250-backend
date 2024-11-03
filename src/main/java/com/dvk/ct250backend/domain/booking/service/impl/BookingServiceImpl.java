@@ -10,8 +10,10 @@ import com.dvk.ct250backend.domain.booking.service.BookingFlightService;
 import com.dvk.ct250backend.domain.booking.service.BookingPassengerService;
 import com.dvk.ct250backend.domain.booking.service.BookingService;
 import com.dvk.ct250backend.domain.booking.utils.BookingCodeUtils;
-import com.dvk.ct250backend.infrastructure.service.LockService;
-import com.dvk.ct250backend.infrastructure.service.RedisService;
+import com.dvk.ct250backend.domain.common.service.LockService;
+import com.dvk.ct250backend.domain.common.service.RedisService;
+import com.dvk.ct250backend.infrastructure.service.LockServiceImpl;
+import com.dvk.ct250backend.infrastructure.service.RedisServiceImpl;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -35,7 +37,6 @@ public class BookingServiceImpl implements BookingService {
     LockService lockService;
     BookingFlightService bookingFlightService;
     BookingCodeUtils bookingCodeUtils;
-    RedisService redisService;
 
     @Override
     @Transactional
