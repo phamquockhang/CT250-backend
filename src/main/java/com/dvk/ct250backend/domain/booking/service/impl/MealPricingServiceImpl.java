@@ -10,6 +10,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,12 +25,14 @@ public class MealPricingServiceImpl implements MealPricingService {
     MealPricingRepository mealPricingRepository;
     MealPricingMapper mealPricingMapper;
     @Override
+    @Transactional
     public MealPricingDTO createMeal(MealPricingDTO mealPricingDTO) {
         MealPricing mealPricing = mealPricingMapper.toMealPricing(mealPricingDTO);
         return mealPricingMapper.toMealPricingDTO(mealPricingRepository.save(mealPricing));
     }
 
     @Override
+    @Transactional
     public MealPricingDTO updateMeal(Integer mealPricingId, MealPricingDTO mealPricingDTO) throws ResourceNotFoundException {
         MealPricing mealPricing = mealPricingRepository.findById(mealPricingId).orElseThrow(() -> new ResourceNotFoundException("Meal not found"));
         mealPricingMapper.updateMealPricingFromDTO(mealPricing, mealPricingDTO);

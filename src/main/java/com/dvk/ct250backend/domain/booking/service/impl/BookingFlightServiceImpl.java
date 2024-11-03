@@ -12,6 +12,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,9 +21,10 @@ public class BookingFlightServiceImpl implements BookingFlightService {
 
     SeatService seatService;
 
+    @Override
+    @Transactional
     public void processBookingFlight(BookingFlight bookingFlight) {
         bookingFlight.getBookingPassengers().forEach(bookingPassenger -> {
-            Passenger passenger = bookingPassenger.getPassenger();
             TicketClassEnum ticketClass = bookingPassenger.getBookingFlight().getTicketClass().getTicketClassName();
 
             if (bookingPassenger.getIsSharedSeat()) {

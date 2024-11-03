@@ -12,6 +12,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 
@@ -23,7 +24,10 @@ public class TicketServiceImpl implements TicketService {
     TicketRepository ticketRepository;
     TicketNumberUtils ticketNumberUtils;
     EmailService emailService;
+
+
     @Override
+    @Transactional
     public void createTicketsForBooking(Booking booking) throws Exception {
         booking.getBookingFlights().forEach(bookingFlight -> {
             bookingFlight.getBookingPassengers().forEach(bookingPassenger -> {
@@ -33,6 +37,7 @@ public class TicketServiceImpl implements TicketService {
                         .ticketNumber(ticketNumberUtils.generateTicketNumber())
                         .build();
                 ticketRepository.save(ticket);
+                bookingPassenger.getTickets().add(ticket);
             });
         });
         emailService.sendTicketConfirmationEmail(booking);
@@ -43,18 +48,3 @@ public class TicketServiceImpl implements TicketService {
 
 
 
-//@Override
-//public void createTicketsForBooking(Booking booking) {
-//    booking.getBookingFlights().forEach(bookingFlight -> {
-//        bookingFlight.getBookingPassengers().forEach(bookingPassenger -> {
-//            if (bookingPassenger.getPassenger().getPassengerType() != PassengerTypeEnum.INFANT) {
-//                Ticket ticket = Ticket.builder()
-//                        .bookingPassenger(bookingPassenger)
-//                        .status(TicketStatusEnum.BOOKED)
-//                        .ticketNumber(ticketNumberUtils.generateTicketNumber())
-//                        .build();
-//                ticketRepository.save(ticket);
-//            }
-//        });
-//    });
-//}

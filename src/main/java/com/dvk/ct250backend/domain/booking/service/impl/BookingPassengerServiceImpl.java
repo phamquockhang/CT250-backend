@@ -47,4 +47,6 @@ public class BookingPassengerServiceImpl implements BookingPassengerService {
             bookingPassenger.setIsPrimaryContact(false);
         }
     }
+
+
 }

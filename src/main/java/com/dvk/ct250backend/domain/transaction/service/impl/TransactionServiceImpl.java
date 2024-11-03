@@ -22,6 +22,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 
@@ -37,6 +38,7 @@ public class TransactionServiceImpl implements TransactionService {
     BookingFlightService bookingFlightService;
 
     @Override
+    @Transactional
     public TransactionDTO createTransaction(HttpServletRequest request, TransactionDTO transactionDTO) throws ResourceNotFoundException {
         Booking booking = bookingRepository.findById(transactionDTO.getBooking().getBookingId())
                 .orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
@@ -74,6 +76,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    @Transactional
     public TransactionDTO handleVNPayCallback(VNPayCallbackRequest request) throws Exception {
         String status = request.getVnp_ResponseCode();
 
@@ -90,8 +93,8 @@ public class TransactionServiceImpl implements TransactionService {
         if ("00".equals(status)) {
             booking.setBookingCode(bookingCode);
             booking.setBookingStatus(BookingStatusEnum.PAID);
-            ticketServiceImpl.createTicketsForBooking(booking);
             booking.getBookingFlights().forEach(bookingFlightService::processBookingFlight);
+            ticketServiceImpl.createTicketsForBooking(booking);
         } else {
             booking.setBookingStatus(BookingStatusEnum.INIT);
         }

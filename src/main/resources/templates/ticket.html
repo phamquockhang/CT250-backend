@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8" />
@@ -36,14 +36,14 @@
         .ticket {
             margin-bottom: 10mm;
             padding: 5mm;
-            border: 1px solid #ddd;
+            border: 3px solid #ddd;
             border-radius: 8px;
         }
 
         .header {
             display: block;
             padding-bottom: 5mm;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 3px solid #ddd;
         }
 
         .header h2 {
@@ -103,7 +103,6 @@
             font-weight: bold;
             color: #0066cc;
             text-align: center;
-            /* margin-bottom: 2mm; */
         }
 
         .top-info {
@@ -117,55 +116,53 @@
 
 <body>
 <div class="container">
-    <div class="ticket">
-        <div class="top-info">
-            JUNE 12, 2024 JUNE 13, 2024 TRIP TO
-            SINGAPORE, SINGAPORE
-        </div>
-        <div class="header">
-            <div class="logo">Vietnam Airlines</div>
-            <div class="booking-info">
-                Prepared for: <span class="highlight">Ms Huynh Kim
-                        Truc Lam</span><br />
-                Booking Code: <span
-                    class="highlight">HETRST</span>
-            </div>
-        </div>
-        <div class="section">
-            <div class="details">
-                <h3>Departure: June 12</h3>
-                <p>Vietnam Airlines - VN 0651</p>
-                <p>Class: <span class="highlight">Economy</span>
-                </p>
-                <p>Seat Status: <span
-                        class="highlight">Confirmed</span></p>
-            </div>
-            <div class="details">
-                <h3>Origin</h3>
-                <p>SGN - Ho Chi Minh</p>
-                <p>Departure Time: <span
-                        class="highlight">08:55</span></p>
-            </div>
-            <div class="details">
-                <h3>Destination</h3>
-                <p>SIN - Singapore</p>
-                <p>Arrival Time: <span
-                        class="highlight">12:10</span></p>
-            </div>
-        </div>
+    <div th:each="bookingFlight : ${booking.bookingFlights}">
+        <div th:each="bookingPassenger : ${bookingFlight.bookingPassengers}">
+            <div class="ticket">
+                <div class="top-info">
+                    <span th:text="${#temporals.format(bookingFlight.flight.departureDateTime, 'MMMM dd, yyyy HH:mm')}"></span> TRIP TO
+                    <span th:text="${bookingFlight.flight.route.arrivalAirport.airportCode + ' - ' + bookingFlight.flight.route.arrivalAirport.airportName}"></span>
+                </div>
+                <div class="header">
+                    <div class="logo">Vietnam Airlines</div>
+                    <div class="booking-info">
+                        Prepared for: <span class="highlight" th:text="${bookingPassenger.passenger.firstName + ' ' + bookingPassenger.passenger.lastName}"></span><br />
+                        Booking Code: <span class="highlight" th:text="${booking.bookingCode}"></span>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="details">
+                        <h3>Departure: <span th:text="${#temporals.format(bookingFlight.flight.departureDateTime, 'MMMM dd')}"></span></h3>
+                        <p th:text="${bookingFlight.flight.flightId}"></p>
+                        <p>Class: <span class="highlight" th:text="${bookingFlight.ticketClass.ticketClassName}"></span></p>
+                        <p>Seat Status: <span class="highlight">Confirmed</span></p>
+                    </div>
+                    <div class="details">
+                        <h3>Origin</h3>
+                        <p th:text="${bookingFlight.flight.route.departureAirport.airportCode + ' - ' + bookingFlight.flight.route.departureAirport.airportName}"></p>
+                        <p>Departure Time: <span class="highlight" th:text="${#temporals.format(bookingFlight.flight.departureDateTime, 'HH:mm')}"></span></p>
+                    </div>
+                    <div class="details">
+                        <h3>Destination</h3>
+                        <p th:text="${bookingFlight.flight.route.arrivalAirport.airportCode + ' - ' + bookingFlight.flight.route.arrivalAirport.airportName}"></p>
+                        <p>Arrival Time: <span class="highlight" th:text="${#temporals.format(bookingFlight.flight.arrivalDateTime, 'HH:mm')}"></span></p>
+                    </div>
+                </div>
 
-        <div class="section">
-            <div class="details">
-                <h3>Passenger Name</h3>
-                <p style="margin: 0;">Ms Huynh Kim Truc Lam</p>
-            </div>
-            <div class="details">
-                <h3>Seat</h3>
-                <p>30E</p>
-            </div>
-            <div class="details">
-                <h3>eTicket</h3>
-                <p>7382110625810</p>
+                <div class="section">
+                    <div class="details">
+                        <h3>Passenger Name</h3>
+                        <p th:text="${bookingPassenger.passenger.firstName + ' ' + bookingPassenger.passenger.lastName}"></p>
+                    </div>
+                    <div class="details">
+                        <h3>Seat</h3>
+                        <p th:text="${bookingPassenger.seat.seatCode}"></p>
+                    </div>
+                    <div class="details">
+                        <h3>eTicket</h3>
+                        <p th:text="${bookingPassenger.tickets[0].ticketNumber}"></p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
