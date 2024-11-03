@@ -7,7 +7,6 @@ import com.dvk.ct250backend.domain.booking.repository.TicketRepository;
 import com.dvk.ct250backend.domain.booking.service.TicketService;
 import com.dvk.ct250backend.domain.booking.utils.TicketNumberUtils;
 import com.dvk.ct250backend.domain.common.service.EmailService;
-import com.itextpdf.text.DocumentException;
 import jakarta.mail.MessagingException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +24,7 @@ public class TicketServiceImpl implements TicketService {
     TicketNumberUtils ticketNumberUtils;
     EmailService emailService;
     @Override
-    public void createTicketsForBooking(Booking booking) throws MessagingException, IOException, DocumentException {
+    public void createTicketsForBooking(Booking booking) throws Exception {
         booking.getBookingFlights().forEach(bookingFlight -> {
             bookingFlight.getBookingPassengers().forEach(bookingPassenger -> {
                 Ticket ticket = Ticket.builder()

@@ -16,7 +16,6 @@ import com.dvk.ct250backend.domain.transaction.repository.TransactionRepository;
 import com.dvk.ct250backend.domain.transaction.service.TransactionService;
 import com.dvk.ct250backend.infrastructure.service.PaymentServiceImpl;
 import com.dvk.ct250backend.infrastructure.utils.VNPayUtils;
-import com.itextpdf.text.DocumentException;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
@@ -75,7 +74,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public TransactionDTO handleVNPayCallback(VNPayCallbackRequest request) throws ResourceNotFoundException, MessagingException, IOException, DocumentException {
+    public TransactionDTO handleVNPayCallback(VNPayCallbackRequest request) throws Exception {
         String status = request.getVnp_ResponseCode();
 
         Transaction transaction = transactionRepository.findByTxnRef(request.getVnp_TxnRef())

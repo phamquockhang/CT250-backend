@@ -6,7 +6,6 @@ import com.dvk.ct250backend.domain.transaction.dto.TransactionDTO;
 import com.dvk.ct250backend.domain.transaction.dto.request.VNPayCallbackRequest;
 import com.dvk.ct250backend.domain.transaction.enums.TransactionStatusEnum;
 import com.dvk.ct250backend.domain.transaction.service.TransactionService;
-import com.itextpdf.text.DocumentException;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
@@ -33,7 +32,7 @@ public class TransactionController {
                 .build();
     }
     @GetMapping("/vn-pay-callback")
-    public ApiResponse<TransactionDTO> payCallbackHandler(HttpServletRequest request) throws ResourceNotFoundException, MessagingException, IOException, DocumentException {
+    public ApiResponse<TransactionDTO> payCallbackHandler(HttpServletRequest request) throws Exception {
         VNPayCallbackRequest callbackRequest = new VNPayCallbackRequest();
         callbackRequest.setVnp_ResponseCode(request.getParameter("vnp_ResponseCode"));
         callbackRequest.setVnp_TransactionNo(request.getParameter("vnp_TransactionNo"));
