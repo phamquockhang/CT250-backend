@@ -1,12 +1,9 @@
 package com.dvk.ct250backend.infrastructure.utils;
 
-import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
-import com.lowagie.text.FontProvider;
 import com.lowagie.text.pdf.BaseFont;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
-import java.awt.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 

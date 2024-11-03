@@ -1,7 +1,6 @@
 package com.dvk.ct250backend.domain.booking.service;
 
 import com.dvk.ct250backend.domain.booking.entity.BookingFlight;
-import com.dvk.ct250backend.domain.booking.entity.BookingPassenger;
 import com.dvk.ct250backend.domain.booking.entity.Passenger;
 
 import java.util.Map;

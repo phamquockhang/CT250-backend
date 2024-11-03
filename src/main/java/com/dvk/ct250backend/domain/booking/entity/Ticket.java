@@ -2,7 +2,6 @@ package com.dvk.ct250backend.domain.booking.entity;
 
 import com.dvk.ct250backend.domain.booking.enums.TicketStatusEnum;
 import com.dvk.ct250backend.domain.common.entity.BaseEntity;
-import com.dvk.ct250backend.domain.flight.entity.Flight;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;

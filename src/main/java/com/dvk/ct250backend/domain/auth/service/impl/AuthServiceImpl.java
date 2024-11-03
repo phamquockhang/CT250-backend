@@ -15,7 +15,6 @@ import com.dvk.ct250backend.domain.auth.service.AuthService;
 import com.dvk.ct250backend.domain.common.service.EmailService;
 import com.dvk.ct250backend.domain.common.service.RedisService;
 import com.dvk.ct250backend.infrastructure.audit.AuditAwareImpl;
-import com.dvk.ct250backend.infrastructure.service.RedisServiceImpl;
 import com.dvk.ct250backend.infrastructure.utils.JwtUtils;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.Cookie;

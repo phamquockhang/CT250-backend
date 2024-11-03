@@ -7,14 +7,11 @@ import com.dvk.ct250backend.domain.booking.repository.TicketRepository;
 import com.dvk.ct250backend.domain.booking.service.TicketService;
 import com.dvk.ct250backend.domain.booking.utils.TicketNumberUtils;
 import com.dvk.ct250backend.domain.common.service.EmailService;
-import jakarta.mail.MessagingException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor

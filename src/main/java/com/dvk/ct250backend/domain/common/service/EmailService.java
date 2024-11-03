@@ -4,7 +4,6 @@ import com.dvk.ct250backend.domain.auth.entity.User;
 import com.dvk.ct250backend.domain.booking.entity.Booking;
 import jakarta.mail.MessagingException;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 public interface EmailService {

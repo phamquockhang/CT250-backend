@@ -2,7 +2,6 @@ package com.dvk.ct250backend.domain.booking.service.impl;
 
 import com.dvk.ct250backend.domain.booking.entity.BookingFlight;
 import com.dvk.ct250backend.domain.booking.entity.BookingPassenger;
-import com.dvk.ct250backend.domain.booking.entity.Passenger;
 import com.dvk.ct250backend.domain.booking.enums.PassengerTypeEnum;
 import com.dvk.ct250backend.domain.booking.service.BookingFlightService;
 import com.dvk.ct250backend.domain.flight.entity.Seat;
