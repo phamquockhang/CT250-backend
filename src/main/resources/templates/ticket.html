@@ -1,18 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8" />
-    <title>Flight Ticket</title>
+    <title>Vé Máy Bay</title>
     <style>
         @page {
             size: A4;
             margin: 10mm 5mm;
-        }
-
-        @font-face {
-            font-family: 'Arial';
-            src: url('https://fonts.gstatic.com/s/arial/v11/arial.woff2') format('woff2');
         }
 
         body {
@@ -81,7 +76,7 @@
         }
 
         .details h3 {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
             color: #555;
             margin-bottom: 1mm;
@@ -120,46 +115,47 @@
         <div th:each="bookingPassenger : ${bookingFlight.bookingPassengers}">
             <div class="ticket">
                 <div class="top-info">
-                    <span th:text="${#temporals.format(bookingFlight.flight.departureDateTime, 'MMMM dd, yyyy HH:mm')}"></span> TRIP TO
-                    <span th:text="${bookingFlight.flight.route.arrivalAirport.airportCode + ' - ' + bookingFlight.flight.route.arrivalAirport.airportName}"></span>
+                    <span th:text="'Ngày ' + ${#temporals.format(bookingFlight.flight.departureDateTime, 'dd')} + ' tháng ' + ${#temporals.format(bookingFlight.flight.departureDateTime, 'M')} + ', ' + ${#temporals.format(bookingFlight.flight.departureDateTime, 'yyyy')}"></span>
+                    CHUYẾN ĐI ĐẾN
+                    <span th:text="${bookingFlight.flight.route.arrivalAirport.cityName}"></span>
+
                 </div>
                 <div class="header">
-                    <div class="logo">Vietnam Airlines</div>
+                    <div class="logo">DaViKa Airways</div>
                     <div class="booking-info">
-                        Prepared for: <span class="highlight" th:text="${bookingPassenger.passenger.firstName + ' ' + bookingPassenger.passenger.lastName}"></span><br />
-                        Booking Code: <span class="highlight" th:text="${booking.bookingCode}"></span>
+                        Chuẩn bị cho: <span class="highlight" th:text="${bookingPassenger.passenger.firstName + ' ' + bookingPassenger.passenger.lastName}"></span><br />
+                        Mã Đặt Chỗ: <span class="highlight" th:text="${booking.bookingCode}"></span>
                     </div>
                 </div>
                 <div class="section">
                     <div class="details">
-                        <h3>Departure: <span th:text="${#temporals.format(bookingFlight.flight.departureDateTime, 'MMMM dd')}"></span></h3>
-                        <p th:text="${bookingFlight.flight.flightId}"></p>
-                        <p>Class: <span class="highlight" th:text="${bookingFlight.ticketClass.ticketClassName}"></span></p>
-                        <p>Seat Status: <span class="highlight">Confirmed</span></p>
+                        <h3><span class="highlight" th:text="${bookingFlight.flight.flightId}"></span></h3>
+                        <p>Hạng: <span class="highlight" th:text="${bookingFlight.ticketClass.ticketClassName}"></span></p>
+                        <p>Tình trạng chỗ: <span class="highlight">Đã Xác Nhận</span></p>
                     </div>
                     <div class="details">
-                        <h3>Origin</h3>
+                        <h3>Điểm Xuất Phát</h3>
                         <p th:text="${bookingFlight.flight.route.departureAirport.airportCode + ' - ' + bookingFlight.flight.route.departureAirport.airportName}"></p>
-                        <p>Departure Time: <span class="highlight" th:text="${#temporals.format(bookingFlight.flight.departureDateTime, 'HH:mm')}"></span></p>
+                        <p>Giờ Khởi Hành: <span class="highlight" th:text="${#temporals.format(bookingFlight.flight.departureDateTime, 'HH:mm')}"></span></p>
                     </div>
                     <div class="details">
-                        <h3>Destination</h3>
+                        <h3>Điểm Đến</h3>
                         <p th:text="${bookingFlight.flight.route.arrivalAirport.airportCode + ' - ' + bookingFlight.flight.route.arrivalAirport.airportName}"></p>
-                        <p>Arrival Time: <span class="highlight" th:text="${#temporals.format(bookingFlight.flight.arrivalDateTime, 'HH:mm')}"></span></p>
+                        <p>Giờ Đến: <span class="highlight" th:text="${#temporals.format(bookingFlight.flight.arrivalDateTime, 'HH:mm')}"></span></p>
                     </div>
                 </div>
 
                 <div class="section">
                     <div class="details">
-                        <h3>Passenger Name</h3>
+                        <h3>Tên Hành Khách</h3>
                         <p th:text="${bookingPassenger.passenger.firstName + ' ' + bookingPassenger.passenger.lastName}"></p>
                     </div>
                     <div class="details">
-                        <h3>Seat</h3>
+                        <h3>Ghế</h3>
                         <p th:text="${bookingPassenger.seat.seatCode}"></p>
                     </div>
                     <div class="details">
-                        <h3>eTicket</h3>
+                        <h3>Biên nhận eTicket</h3>
                         <p th:text="${bookingPassenger.tickets[0].ticketNumber}"></p>
                     </div>
                 </div>
