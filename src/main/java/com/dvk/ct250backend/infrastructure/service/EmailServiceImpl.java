@@ -210,6 +210,7 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.io.*;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
 @Service
@@ -264,8 +265,8 @@ public class EmailServiceImpl implements EmailService {
                 .orElseThrow(() -> new IllegalArgumentException("Primary contact not found"))
                 .getPassenger()
                 .getEmail();
-        String subject = "Vé Điện Tử Davika Airways Của Quý Khách - Mã Đặt Chỗ " + booking.getBookingCode();
-
+        //String subject = "Vé Điện Tử Davika Airways Của Quý Khách - Mã Đặt Chỗ " + booking.getBookingCode();
+        String subject = generateSubject(booking);
         Context context = new Context();
         context.setVariable("booking", booking);
 
@@ -290,5 +291,26 @@ public class EmailServiceImpl implements EmailService {
         if (!tempFile.delete()) {
             System.err.println("Failed to delete temporary file: " + tempFile.getAbsolutePath());
         }
+    }
+    private String generateSubject(Booking booking) {
+        BookingPassenger primaryContact = booking.getBookingFlights().stream()
+                .flatMap(bookingFlight -> bookingFlight.getBookingPassengers().stream())
+                .filter(BookingPassenger::getIsPrimaryContact)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Primary contact not found"));
+
+        String passengerName = primaryContact.getPassenger().getFirstName() + " " + primaryContact.getPassenger().getLastName();
+        String destination = booking.getBookingFlights().stream()
+                .map(bookingFlight -> bookingFlight.getFlight().getRoute().getArrivalAirport().getAirportName() + ", " + bookingFlight.getFlight().getRoute().getArrivalAirport().getCityName())
+                .findFirst()
+                .orElse("Unknown Destination");
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("'Ngày' dd 'Tháng' MM");
+        String departureDate = booking.getBookingFlights().stream()
+                .map(bookingFlight -> bookingFlight.getFlight().getDepartureDateTime().toLocalDate().format(formatter))
+                .findFirst()
+                .orElse("Unknown Date");
+
+        return "Đặt chỗ " + departureDate + " tới " + destination + " của " + passengerName;
     }
 }
