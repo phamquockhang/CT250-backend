@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Vé Điện Tử Davika Airways</title>
+    <style>
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #e9ecef; margin: 0; padding: 0; }
+    </style>
+</head>
+<body style="margin: 0; padding: 0; background-color: #e9ecef; font-family: Helvetica, Arial, sans-serif;">
+<div style="width: 100%; max-width: 600px; margin: auto; background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);">
+    <div style="text-align: center; background: linear-gradient(90deg, #0066cc, #0099ff); color: white; padding: 30px; border-radius: 10px 10px 0 0;">
+        <h2 style="margin: 0; font-size: 24px;">Vé Điện Tử Davika Airways Của Quý Khách</h2>
+        <h3 style="margin: 0; font-size: 20px;">Mã Đặt Chỗ [[${booking.bookingCode}]]</h3>
+    </div>
+    <div style="margin: 20px; color: #333; line-height: 1.5;">
+        <p>Kính gửi <b>[[${booking.bookingFlights[0].bookingPassengers[0].passenger.firstName.toUpperCase()}]] [[${booking.bookingFlights[0].bookingPassengers[0].passenger.lastName.toUpperCase()}]]</b>,</p>
+        <p>Yêu cầu đặt vé của quý khách đã được xác nhận thành công. Quý khách vui lòng xem vé điện tử trong tập tin đính kèm.</p>
+    </div>
+    <div style="text-align: center; margin-top: 20px; font-size: 12px; color: #777;">
+        <p>&copy; [[${#dates.format(#dates.createNow(), 'yyyy')}]] Davika Airways. All rights reserved.</p>
+    </div>
+</div>
+</body>
+</html>

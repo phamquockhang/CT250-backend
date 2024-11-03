@@ -35,9 +35,6 @@ public class Booking extends BaseEntity {
     @OneToMany(mappedBy = "booking", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     List<BookingFlight> bookingFlights;
 
-//    @OneToMany(mappedBy = "booking", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-//    Set<Ticket> tickets;
-
     @Column(precision = 15, scale = 2)
     BigDecimal totalPrice;
 

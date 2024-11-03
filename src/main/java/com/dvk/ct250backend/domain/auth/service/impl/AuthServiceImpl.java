@@ -12,9 +12,10 @@ import com.dvk.ct250backend.domain.auth.repository.PermissionRepository;
 import com.dvk.ct250backend.domain.auth.repository.RoleRepository;
 import com.dvk.ct250backend.domain.auth.repository.UserRepository;
 import com.dvk.ct250backend.domain.auth.service.AuthService;
-import com.dvk.ct250backend.infrastructure.service.EmailService;
+import com.dvk.ct250backend.domain.common.service.EmailService;
+import com.dvk.ct250backend.domain.common.service.RedisService;
 import com.dvk.ct250backend.infrastructure.audit.AuditAwareImpl;
-import com.dvk.ct250backend.infrastructure.service.RedisService;
+import com.dvk.ct250backend.infrastructure.service.RedisServiceImpl;
 import com.dvk.ct250backend.infrastructure.utils.JwtUtils;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.Cookie;
@@ -65,7 +66,7 @@ public class AuthServiceImpl implements AuthService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setActive(false);
         String verifyToken = UUID.randomUUID().toString();
-        redisService.set(verifyToken, user.getEmail(), 60 * 60 * 24 * 1000); // 24h expiration in milliseconds
+        redisService.set(verifyToken, user.getEmail() , 60 * 60 * 24 * 1000); // 24h expiration in milliseconds
         emailService.sendVerificationEmail(user, siteUrl, verifyToken);
         Optional<Role> role = roleRepository.findByRoleName("USER");
         if (role.isEmpty()) {

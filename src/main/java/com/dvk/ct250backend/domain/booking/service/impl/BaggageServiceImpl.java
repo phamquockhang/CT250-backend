@@ -23,6 +23,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,7 @@ public class BaggageServiceImpl implements BaggageService {
     RequestParamUtils requestParamUtils;
 
     @Override
+    @Transactional
     public BaggageDTO createBaggage(BaggageDTO baggageDTO) {
         Baggage baggage = baggageMapper.toBaggage(baggageDTO);
         Baggage savedBaggage = baggageRepository.save(baggage);
@@ -52,6 +54,7 @@ public class BaggageServiceImpl implements BaggageService {
     }
 
     @Override
+    @Transactional
     public BaggageDTO updateBaggage(Integer baggageId, BaggageDTO baggageDTO) throws ResourceNotFoundException {
         Baggage baggage = baggageRepository.findById(baggageId).orElseThrow(() -> new ResourceNotFoundException("Baggage not found"));
         baggageMapper.updateBaggageFromDTO(baggage, baggageDTO);
