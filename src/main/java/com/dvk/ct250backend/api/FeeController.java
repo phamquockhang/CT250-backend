@@ -2,6 +2,7 @@ package com.dvk.ct250backend.api;
 
 import com.dvk.ct250backend.app.dto.response.ApiResponse;
 import com.dvk.ct250backend.app.dto.response.Page;
+import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.flight.dto.FeeDTO;
 import com.dvk.ct250backend.domain.flight.service.FeeService;
 import lombok.AccessLevel;
@@ -32,6 +33,14 @@ public class FeeController {
         return ApiResponse.<FeeDTO>builder()
                 .status(HttpStatus.CREATED.value())
                 .payload(feeService.createFee(feeDTO))
+                .build();
+    }
+
+    @PutMapping("/{id}")
+    public ApiResponse<FeeDTO> updateFee(@PathVariable Integer id, @RequestBody FeeDTO feeDTO) throws ResourceNotFoundException {
+        return ApiResponse.<FeeDTO>builder()
+                .status(HttpStatus.OK.value())
+                .payload(feeService.updateFee(id, feeDTO))
                 .build();
     }
 
