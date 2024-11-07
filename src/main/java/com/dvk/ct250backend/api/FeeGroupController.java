@@ -6,9 +6,8 @@ import com.dvk.ct250backend.domain.flight.service.FeeGroupService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,8 +22,16 @@ public class FeeGroupController {
     @GetMapping("/all")
     public ApiResponse<List<FeeGroupDTO>> getAllFeeGroups() {
         return ApiResponse.<List<FeeGroupDTO>>builder()
-                .status(200)
+                .status(HttpStatus.OK.value())
                 .payload(feeGroupService.getAllFeeGroups())
+                .build();
+    }
+
+    @PostMapping
+    public ApiResponse<FeeGroupDTO> createFeeGroup(@RequestBody FeeGroupDTO feeGroupDTO) {
+        return ApiResponse.<FeeGroupDTO>builder()
+                .status(HttpStatus.CREATED.value())
+                .payload(feeGroupService.createFeeGroup(feeGroupDTO))
                 .build();
     }
 }

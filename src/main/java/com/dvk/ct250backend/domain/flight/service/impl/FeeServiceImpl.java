@@ -60,6 +60,7 @@ public class FeeServiceImpl implements FeeService {
     }
 
     @Override
+    @Transactional
     public FeeDTO createFee(FeeDTO feeDTO) {
         Fee fee = feeMapper.toFee(feeDTO);
         Fee savedFee = feeRepository.save(fee);

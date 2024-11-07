@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface FeeGroupService {
     List<FeeGroupDTO> getAllFeeGroups();
+    FeeGroupDTO createFeeGroup(FeeGroupDTO feeGroupDTO);
 }
