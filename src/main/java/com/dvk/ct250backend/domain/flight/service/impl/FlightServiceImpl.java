@@ -245,7 +245,7 @@ public class FlightServiceImpl implements FlightService {
                                             TicketClass ticketClass) {
         BigDecimal basePrice = flight.getFlightPricing().stream()
                 .filter(flightPricing -> Objects.equals(flightPricing.getTicketClass().getTicketClassId(), ticketClass.getTicketClassId())
-                && dateUtils.isInDateRange(LocalDate.now(), flightPricing.getValidFrom(), flightPricing.getValidTo()))
+                        && dateUtils.isInDateRange(LocalDate.now(), flightPricing.getValidFrom(), flightPricing.getValidTo()))
                 .map(FlightPricing::getTicketPrice)
                 .findFirst()
                 .orElse(BigDecimal.valueOf(0.0));
@@ -261,7 +261,7 @@ public class FlightServiceImpl implements FlightService {
                                 FeePricing ticketFeePricing = ticketPriceFee.getFeePricing().stream()
                                         .filter(feePricing -> feePricing.getPassengerType().equals(passengerType)
                                                 && feePricing.getRouteType().equals(flight.getRoute().getRouteType())
-                                        && feePricing.getIsActive().equals(Boolean.TRUE))
+                                                && dateUtils.isInDateRange(LocalDate.now(), feePricing.getValidFrom(), feePricing.getValidTo()))
                                         .findFirst()
                                         .orElse(null);
                                 assert ticketFeePricing != null;
@@ -282,7 +282,8 @@ public class FlightServiceImpl implements FlightService {
     private BigDecimal getFee(Fee fee, PassengerTypeEnum passengerType, RouteTypeEnum routeType, BigDecimal basePrice) {
         return fee.getFeePricing().stream()
                 .filter(feePricing -> feePricing.getPassengerType().equals(passengerType)
-                        && feePricing.getRouteType().equals(routeType) && feePricing.getIsActive().equals(Boolean.TRUE))
+                        && feePricing.getRouteType().equals(routeType)
+                        && dateUtils.isInDateRange(LocalDate.now(), feePricing.getValidFrom(), feePricing.getValidTo()))
                 .map(feePricing -> {
                     if (feePricing.getIsPercentage().equals(Boolean.TRUE)) {
                         return numberUtils.roundToThousand(basePrice.multiply(feePricing.getFeeAmount())

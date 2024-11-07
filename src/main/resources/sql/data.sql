@@ -440,6 +440,13 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Delete a baggage pricing', '/api/v1/baggage-pricing/{id}', 'DELETE', 'BAGGAGE-PRICING'),
        ('Update a baggage pricing', '/api/v1/baggage-pricing/{id}', 'PUT', 'BAGGAGE-PRICING'),
 
+       ('Get fees with pagination', '/api/v1/fees', 'GET', 'FEES'),
+       ('Create a fee', '/api/v1/fees', 'POST', 'FEES'),
+       ('Update a fee', '/api/v1/fees', 'PUT', 'FEES'),
+
+       ('Get all fee groups', '/api/v1/fee-groups/all', 'GET', 'FEE-GROUP'),
+
+
 
        ('Create a booking', '/api/v1/bookings', 'POST', 'BOOKINGS'),
 
@@ -603,41 +610,41 @@ VALUES ('Giá vé cơ bản', 1),
        ('Thuế giá trị gia tăng', 3);
 
 --FEE-PRICING
-INSERT INTO public.fee_pricing (fee_id, passenger_type, fee_amount, is_percentage, route_type, is_active)
-VALUES (1, 'ADULT', 100, true, 'DOMESTIC', true),
-       (1, 'CHILD', 75, true, 'DOMESTIC', true),
-       (1, 'INFANT', 100000, false, 'DOMESTIC', true),
-       (1, 'ADULT', 100, true, 'INTERNATIONAL', true),
-       (1, 'CHILD', 75, true, 'INTERNATIONAL', true),
-       (1, 'INFANT', 200000, false, 'INTERNATIONAL', true),
+INSERT INTO public.fee_pricing (fee_id, passenger_type, fee_amount, is_percentage, route_type, valid_from, valid_to)
+VALUES (1, 'ADULT', 100, true, 'DOMESTIC', '2024-01-01', '2024-12-31'),
+       (1, 'CHILD', 75, true, 'DOMESTIC', '2024-01-01', '2024-12-3'),
+       (1, 'INFANT', 100000, false, 'DOMESTIC', '2024-01-01', '2024-12-3'),
+       (1, 'ADULT', 100, true, 'INTERNATIONAL', '2024-01-01', '2024-12-3'),
+       (1, 'CHILD', 75, true, 'INTERNATIONAL', '2024-01-01', '2024-12-31'),
+       (1, 'INFANT', 200000, false, 'INTERNATIONAL', '2024-01-01', '2024-12-31'),
 
-       (2, 'ADULT', 215000, false, 'DOMESTIC', true),
-       (2, 'CHILD', 215000, false, 'DOMESTIC', true),
-       (2, 'INFANT', 0, false, 'DOMESTIC', true),
-       (2, 'ADULT', 275000, false, 'INTERNATIONAL', true),
-       (2, 'CHILD', 275000, false, 'INTERNATIONAL', true),
-       (2, 'INFANT', 0, false, 'INTERNATIONAL', true),
+       (2, 'ADULT', 215000, false, 'DOMESTIC', '2024-01-01', '2024-12-31'),
+       (2, 'CHILD', 215000, false, 'DOMESTIC', '2024-01-01', '2024-12-31'),
+       (2, 'INFANT', 0, false, 'DOMESTIC', '2024-01-01', '2024-12-31'),
+       (2, 'ADULT', 275000, false, 'INTERNATIONAL', '2024-01-01', '2024-12-31'),
+       (2, 'CHILD', 275000, false, 'INTERNATIONAL', '2024-01-01', '2024-12-31'),
+       (2, 'INFANT', 0, false, 'INTERNATIONAL', '2024-01-01', '2024-12-31'),
 
-       (3, 'ADULT', 100000, false, 'DOMESTIC', true),
-       (3, 'CHILD', 50000, false, 'DOMESTIC', true),
-       (3, 'INFANT', 0, false, 'DOMESTIC', true),
-       (3, 'ADULT', 150000, false, 'INTERNATIONAL', true),
-       (3, 'CHILD', 75000, false, 'INTERNATIONAL', true),
-       (3, 'INFANT', 0, false, 'INTERNATIONAL', true),
+       (3, 'ADULT', 100000, false, 'DOMESTIC', '2024-01-01', '2024-12-31'),
+       (3, 'CHILD', 50000, false, 'DOMESTIC', '2024-01-01', '2024-12-31'),
+       (3, 'INFANT', 0, false, 'DOMESTIC', '2024-01-01', '2024-12-31'),
+       (3, 'ADULT', 150000, false, 'INTERNATIONAL', '2024-01-01', '2024-12-31'),
+       (3, 'CHILD', 75000, false, 'INTERNATIONAL', '2024-01-01', '2024-12-31'),
+       (3, 'INFANT', 0, false, 'INTERNATIONAL', '2024-01-01', '2024-12-31'),
 
-       (4, 'ADULT', 20000, false, 'DOMESTIC', true),
-       (4, 'CHILD', 10000, false, 'DOMESTIC', true),
-       (4, 'INFANT', 0, false, 'DOMESTIC', true),
-       (4, 'ADULT', 30000, false, 'INTERNATIONAL', true),
-       (4, 'CHILD', 15000, false, 'INTERNATIONAL', true),
-       (4, 'INFANT', 0, false, 'INTERNATIONAL', true),
+       (4, 'ADULT', 20000, false, 'DOMESTIC', '2024-01-01', '2024-12-31'),
+       (4, 'CHILD', 10000, false, 'DOMESTIC', '2024-01-01', '2024-12-31'),
+       (4, 'INFANT', 0, false, 'DOMESTIC', '2024-01-01', '2024-12-31'),
+       (4, 'ADULT', 30000, false, 'INTERNATIONAL', '2024-01-01', '2024-12-31'),
+       (4, 'CHILD', 15000, false, 'INTERNATIONAL', '2024-01-01', '2024-12-31'),
+       (4, 'INFANT', 0, false, 'INTERNATIONAL', '2024-01-01', '2024-12-31'),
 
-       (5, 'ADULT', 8, true, 'DOMESTIC', true),
-       (5, 'CHILD', 8, true, 'DOMESTIC', true),
-       (5, 'INFANT', 8, true, 'DOMESTIC', true),
-       (5, 'ADULT', 8, true, 'INTERNATIONAL', true),
-       (5, 'CHILD', 8, true, 'INTERNATIONAL', true),
-       (5, 'INFANT', 8, true, 'INTERNATIONAL', true);
+       (5, 'ADULT', 8, true, 'DOMESTIC', '2024-01-01', '2024-12-31'),
+       (5, 'CHILD', 8, true, 'DOMESTIC', '2024-01-01', '2024-12-31'),
+       (5, 'INFANT', 8, true, 'DOMESTIC', '2024-01-01', '2024-12-31'),
+       (5, 'ADULT', 8, true, 'INTERNATIONAL', '2024-01-01', '2024-12-31'),
+       (5, 'CHILD', 8, true, 'INTERNATIONAL', '2024-01-01', '2024-12-31'),
+       (5, 'INFANT', 8, true, 'INTERNATIONAL', '2024-01-01', '2024-12-31');
 
 
 --FLIGHT

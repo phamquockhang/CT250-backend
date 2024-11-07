@@ -7,6 +7,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -33,7 +34,8 @@ public class FeePricing {
     BigDecimal feeAmount;
     Boolean isPercentage;
 
-    Boolean isActive;
+    LocalDate validFrom;
+    LocalDate validTo;
 
     @Enumerated(EnumType.STRING)
     RouteTypeEnum routeType;
