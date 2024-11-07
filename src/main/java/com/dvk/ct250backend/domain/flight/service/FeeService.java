@@ -7,4 +7,5 @@ import java.util.Map;
 
 public interface FeeService {
     Page<FeeDTO> getFees(Map<String, String> params);
+    FeeDTO createFee(FeeDTO feeDTO);
 }

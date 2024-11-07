@@ -442,7 +442,7 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
 
        ('Get fees with pagination', '/api/v1/fees', 'GET', 'FEES'),
        ('Create a fee', '/api/v1/fees', 'POST', 'FEES'),
-       ('Update a fee', '/api/v1/fees', 'PUT', 'FEES'),
+       ('Update a fee', '/api/v1/fees/{id}', 'PUT', 'FEES'),
 
        ('Get all fee groups', '/api/v1/fee-groups/all', 'GET', 'FEE-GROUP'),
 

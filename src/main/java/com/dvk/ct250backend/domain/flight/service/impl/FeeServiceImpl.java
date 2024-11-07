@@ -50,4 +50,11 @@ public class FeeServiceImpl implements FeeService {
                         .collect(Collectors.toList()))
                 .build();
     }
+
+    @Override
+    public FeeDTO createFee(FeeDTO feeDTO) {
+        Fee fee = feeMapper.toFee(feeDTO);
+        Fee savedFee = feeRepository.save(fee);
+        return feeMapper.toFeeDTO(savedFee);
+    }
 }

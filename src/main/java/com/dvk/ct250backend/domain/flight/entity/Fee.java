@@ -25,7 +25,7 @@ public class Fee extends BaseEntity {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "fee", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     List<FeePricing> feePricing;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "fee_group_id")
     FeeGroup feeGroup;
 
