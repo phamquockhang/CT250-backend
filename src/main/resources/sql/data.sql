@@ -424,21 +424,11 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Delete a meal', '/api/v1/meals/{id}', 'DELETE', 'MEALS'),
        ('Update a meal', '/api/v1/meals/{id}', 'PUT', 'MEALS'),
 
-       ('Create a meal pricing', '/api/v1/meal-pricing', 'POST', 'MEAL-PRICING'),
-       ('Get all meal pricing', '/api/v1/meal-pricing/all', 'GET', 'MEAL-PRICING'),
-       ('Delete a meal pricing', '/api/v1/meal-pricing/{id}', 'DELETE', 'MEAL-PRICING'),
-       ('Update a meal pricing', '/api/v1/meal-pricing/{id}', 'PUT', 'MEAL-PRICING'),
-
        ('Create a baggage', '/api/v1/baggage', 'POST', 'BAGGAGE'),
        ('Get all baggage', '/api/v1/baggage/all', 'GET', 'BAGGAGE'),
        ('Get baggage with pagination', '/api/v1/baggage', 'GET', 'BAGGAGE'),
        ('Delete a baggage', '/api/v1/baggage/{id}', 'DELETE', 'BAGGAGE'),
        ('Update a baggage', '/api/v1/baggage/{id}', 'PUT', 'BAGGAGE'),
-
-       ('Create a baggage pricing', '/api/v1/baggage-pricing', 'POST', 'BAGGAGE-PRICING'),
-       ('Get all baggage pricing', '/api/v1/baggage-pricing/all', 'GET', 'BAGGAGE-PRICING'),
-       ('Delete a baggage pricing', '/api/v1/baggage-pricing/{id}', 'DELETE', 'BAGGAGE-PRICING'),
-       ('Update a baggage pricing', '/api/v1/baggage-pricing/{id}', 'PUT', 'BAGGAGE-PRICING'),
 
        ('Get fees with pagination', '/api/v1/fees', 'GET', 'FEES'),
        ('Create a fee', '/api/v1/fees', 'POST', 'FEES'),
@@ -447,7 +437,6 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
 
        ('Get all fee groups', '/api/v1/fee-groups/all', 'GET', 'FEE-GROUPS'),
        ('Create new fee group', '/api/v1/fee-groups', 'POST', 'FEE-GROUPS'),
-
 
 
        ('Create a booking', '/api/v1/bookings', 'POST', 'BOOKINGS'),
