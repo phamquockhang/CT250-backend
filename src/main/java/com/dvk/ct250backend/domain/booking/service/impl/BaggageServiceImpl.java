@@ -81,16 +81,16 @@ public class BaggageServiceImpl implements BaggageService {
         Specification<Baggage> spec = getBaggageSpec(params);
         List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params);
         Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortOrders));
-        org.springframework.data.domain.Page<Baggage> BaggagePage = baggageRepository.findAll(spec, pageable);
+        org.springframework.data.domain.Page<Baggage> baggagePage = baggageRepository.findAll(spec, pageable);
         Meta meta = Meta.builder()
                 .page(pageable.getPageNumber() + 1)
                 .pageSize(pageable.getPageSize())
-                .pages(BaggagePage.getTotalPages())
-                .total(BaggagePage.getTotalElements())
+                .pages(baggagePage.getTotalPages())
+                .total(baggagePage.getTotalElements())
                 .build();
         return Page.<BaggageDTO>builder()
                 .meta(meta)
-                .content(BaggagePage.getContent().stream()
+                .content(baggagePage.getContent().stream()
                         .map(baggageMapper::toBaggageDTO)
                         .collect(Collectors.toList()))
                 .build();

@@ -7,6 +7,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -18,8 +19,8 @@ import java.math.BigDecimal;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FeePricing {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "flight_pricing_id_seq")
-    @SequenceGenerator(name = "flight_pricing_id_seq", sequenceName = "flight_pricing_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "fee_pricing_id_seq")
+    @SequenceGenerator(name = "fee_pricing_id_seq", sequenceName = "fee_pricing_seq", allocationSize = 1)
     Integer feePricingId;
 
     @ManyToOne
@@ -33,7 +34,8 @@ public class FeePricing {
     BigDecimal feeAmount;
     Boolean isPercentage;
 
-    Boolean isActive;
+    LocalDate validFrom;
+    LocalDate validTo;
 
     @Enumerated(EnumType.STRING)
     RouteTypeEnum routeType;

@@ -22,10 +22,10 @@ public class Fee extends BaseEntity {
     Integer feeId;
     String feeName;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "fee", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "fee", cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     List<FeePricing> feePricing;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "fee_group_id")
     FeeGroup feeGroup;
 
