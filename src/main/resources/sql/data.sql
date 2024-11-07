@@ -443,6 +443,7 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Get fees with pagination', '/api/v1/fees', 'GET', 'FEES'),
        ('Create a fee', '/api/v1/fees', 'POST', 'FEES'),
        ('Update a fee', '/api/v1/fees/{id}', 'PUT', 'FEES'),
+       ('Get fee by id', '/api/v1/fees/{id}', 'GET', 'FEES'),
 
        ('Get all fee groups', '/api/v1/fee-groups/all', 'GET', 'FEE-GROUPS'),
        ('Create new fee group', '/api/v1/fee-groups', 'POST', 'FEE-GROUPS'),

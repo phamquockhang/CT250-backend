@@ -10,4 +10,5 @@ public interface FeeService {
     Page<FeeDTO> getFees(Map<String, String> params);
     FeeDTO createFee(FeeDTO feeDTO);
     FeeDTO updateFee(Integer feeId, FeeDTO feeDTO) throws ResourceNotFoundException;
+    FeeDTO getFeeById(Integer feeId) throws ResourceNotFoundException;
 }

@@ -83,4 +83,11 @@ public class FeeServiceImpl implements FeeService {
         }
         return feeMapper.toFeeDTO(feeRepository.save(fee));
     }
+
+    @Override
+    public FeeDTO getFeeById(Integer feeId) throws ResourceNotFoundException {
+        return feeRepository.findById(feeId)
+                .map(feeMapper::toFeeDTO)
+                .orElseThrow(() -> new ResourceNotFoundException("Fee not found"));
+    }
 }

@@ -28,6 +28,14 @@ public class FeeController {
                 .build();
     }
 
+    @GetMapping("/{id}")
+    public ApiResponse<FeeDTO> getFee(@PathVariable Integer id) throws ResourceNotFoundException {
+        return ApiResponse.<FeeDTO>builder()
+                .status(HttpStatus.OK.value())
+                .payload(feeService.getFeeById(id))
+                .build();
+    }
+
     @PostMapping
     public ApiResponse<FeeDTO> createFee(@RequestBody FeeDTO feeDTO) {
         return ApiResponse.<FeeDTO>builder()
