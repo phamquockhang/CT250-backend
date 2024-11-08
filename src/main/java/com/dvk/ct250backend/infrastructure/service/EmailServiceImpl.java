@@ -4,6 +4,10 @@ import com.dvk.ct250backend.domain.auth.entity.User;
 import com.dvk.ct250backend.domain.booking.entity.Booking;
 import com.dvk.ct250backend.domain.booking.entity.BookingPassenger;
 import com.dvk.ct250backend.domain.common.service.EmailService;
+import com.dvk.ct250backend.infrastructure.kafka.mail.EmailKafkaProducer;
+import com.dvk.ct250backend.infrastructure.kafka.mail.EmailMessage;
+import com.dvk.ct250backend.infrastructure.kafka.pdf.PdfKafkaProducer;
+import com.dvk.ct250backend.infrastructure.kafka.pdf.PdfMessage;
 import com.dvk.ct250backend.infrastructure.utils.FileUtils;
 import com.dvk.ct250backend.infrastructure.utils.PdfGeneratorUtils;
 import jakarta.mail.MessagingException;
@@ -11,6 +15,7 @@ import jakarta.mail.internet.MimeMessage;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -20,22 +25,28 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Slf4j
 public class EmailServiceImpl implements EmailService {
     JavaMailSender mailSender;
     SpringTemplateEngine templateEngine;
     FileUtils fileUtils;
+    EmailKafkaProducer emailKafkaProducer;
     String fromAddress = "davikaairways1109@gmail.com";
     String senderName = "DAVIKA AIRWAYS";
+    private final PdfKafkaProducer pdfKafkaProducer;
 
-    private void sendEmail(String toAddress, String subject, String templateName, Context context) throws MessagingException, UnsupportedEncodingException {
-        String content = templateEngine.process(templateName, context);
-
+    private void sendEmail(String toAddress, String subject, String templateName, Map<String, Object> context) throws MessagingException, UnsupportedEncodingException {
+        Context thymeleafContext = new Context();
+        thymeleafContext.setVariables(context);
+        String content = templateEngine.process(templateName, thymeleafContext);
         MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message);
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
         helper.setFrom(fromAddress, senderName);
         helper.setTo(toAddress);
@@ -45,26 +56,53 @@ public class EmailServiceImpl implements EmailService {
         mailSender.send(message);
     }
 
+    public CompletableFuture<Void> sendEmailAsync(String toAddress, String subject, String templateName, Map<String, Object> context) {
+        return CompletableFuture.runAsync(() -> {
+            try {
+                sendEmail(toAddress, subject, templateName, context);
+            } catch (MessagingException | UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
     @Override
     public void sendVerificationEmail(User user, String siteURL, String verifyToken) throws MessagingException, UnsupportedEncodingException {
-        Context context = new Context();
-        context.setVariable("firstName", user.getFirstName());
-        context.setVariable("lastName", user.getLastName());
-        context.setVariable("verifyURL", siteURL + "/verify?token=" + verifyToken);
+        Map<String, Object> context = Map.of(
+                "firstName", user.getFirstName(),
+                "lastName", user.getLastName(),
+                "verifyURL", siteURL + "/verify?token=" + verifyToken
+        );
 
-        sendEmail(user.getEmail(), "Vui lòng xác nhận đăng ký của bạn", "verification-email", context);
+        EmailMessage emailMessage = EmailMessage.builder()
+                .toAddress(user.getEmail())
+                .subject("Vui lòng xác nhận đăng ký của bạn")
+                .templateName("verification-email")
+                .context(context)
+                .build();
+
+        emailKafkaProducer.sendEmailEvent(emailMessage);
     }
 
     @Override
     public void sendPasswordResetEmail(User user, String resetURL) throws MessagingException, UnsupportedEncodingException {
-        Context context = new Context();
-        context.setVariable("firstName", user.getFirstName());
-        context.setVariable("lastName", user.getLastName());
-        context.setVariable("resetURL", resetURL);
+        Map<String, Object> context = Map.of(
+                "firstName", user.getFirstName(),
+                "lastName", user.getLastName(),
+                "resetURL", resetURL
+        );
 
-        sendEmail(user.getEmail(), "Yêu cầu đặt lại mật khẩu", "password-reset-email", context);
+        EmailMessage emailMessage = EmailMessage.builder()
+                .toAddress(user.getEmail())
+                .subject("Yêu cầu đặt lại mật khẩu")
+                .templateName("password-reset-email")
+                .context(context)
+                .build();
+
+        emailKafkaProducer.sendEmailEvent(emailMessage);
     }
 
+    @Override
     public void sendTicketConfirmationEmail(Booking booking) throws Exception {
         String toAddress = booking.getBookingFlights().stream()
                 .flatMap(bookingFlight -> bookingFlight.getBookingPassengers().stream())
@@ -73,8 +111,8 @@ public class EmailServiceImpl implements EmailService {
                 .orElseThrow(() -> new IllegalArgumentException("Primary contact not found"))
                 .getPassenger()
                 .getEmail();
-        //String subject = "Vé Điện Tử Davika Airways Của Quý Khách - Mã Đặt Chỗ " + booking.getBookingCode();
         String subject = generateSubject(booking);
+
         Context context = new Context();
         context.setVariable("booking", booking);
 
@@ -83,23 +121,41 @@ public class EmailServiceImpl implements EmailService {
         String pdfContent = templateEngine.process("ticket", context);
         byte[] pdfData = PdfGeneratorUtils.generateTicketPdf(pdfContent);
 
-        File tempFile = fileUtils.saveTempFile(pdfData, "ticket.pdf");
+        PdfMessage pdfMessage = PdfMessage.builder()
+                .bookingId(booking.getBookingId().toString())
+                .context(Map.of(
+                        "toAddress", toAddress,
+                        "subject", subject,
+                        "content", content,
+                        "pdfData", pdfData
+                ))
+                .build();
+        pdfKafkaProducer.sendPdfEvent(pdfMessage);
+    }
 
-        MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+    public void sendEmailWithAttachment(String toAddress, String subject, String content, File pdfFile) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
-        helper.setFrom(fromAddress, senderName);
-        helper.setTo(toAddress);
-        helper.setSubject(subject);
-        helper.setText(content, true);
-        helper.addAttachment("Vé Điện Tử.pdf", tempFile);
+            helper.setFrom(fromAddress, senderName);
+            helper.setTo(toAddress);
+            helper.setSubject(subject);
+            helper.setText(content, true);
+            helper.addAttachment("Vé Điện Tử.pdf", pdfFile);
 
-        mailSender.send(message);
-
-        if (!tempFile.delete()) {
-            System.err.println("Failed to delete temporary file: " + tempFile.getAbsolutePath());
+            mailSender.send(message);
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            log.error("Failed to send email with attachment", e);
         }
     }
+
+    public CompletableFuture<Void> sendEmailWithAttachmentAsync(String toAddress, String subject, String content, File pdfFile) {
+        return CompletableFuture.runAsync(() -> {
+            sendEmailWithAttachment(toAddress, subject, content, pdfFile);
+        });
+    }
+
     private String generateSubject(Booking booking) {
         BookingPassenger primaryContact = booking.getBookingFlights().stream()
                 .flatMap(bookingFlight -> bookingFlight.getBookingPassengers().stream())
