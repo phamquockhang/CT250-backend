@@ -145,6 +145,17 @@
             <artifactId>thymeleaf-extras-java8time</artifactId>
             <version>3.0.4.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>dev.nqvinh.kafka.common</groupId>
+            <artifactId>kafka-lib</artifactId>
+            <version>0.0.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/kafka-lib-0.0.1.jar</systemPath>
+        </dependency>
     </dependencies>
 
     <build>

@@ -1,3 +1,4 @@
+application-name: ct250-backend
 spring:
   datasource:
     url: ${DATABASE_URL:jdbc:postgresql://ct250-davika-airways.l.aivencloud.com:24893/ct250?sslmode=require}
@@ -17,22 +18,24 @@ spring:
     multipart:
       enabled: true
 
-
   data:
     web:
       pageable:
         one-indexed-parameters: true
+
     redis:
       host: ${REDIS_HOST:localhost}
       port: ${REDIS_PORT:6379}
-      password: ${REDIS_PASSWORD:""}
+      password: ${REDIS_PASSWORD:}
+      timeout: 300000 # milliseconds
+
     elasticsearch:
       repositories:
         enabled: true
 
   batch:
     job:
-      enabled: false #prevents any batch job from running automatically at startup
+      enabled: false # prevents any batch job from running automatically at startup
 
   mail:
     host: smtp.gmail.com
@@ -47,11 +50,43 @@ spring:
           starttls:
             enable: true
 
+  kafka:
+    bootstrap-servers: localhost:9092
+    security:
+      protocol: plaintext
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      retries: 30
+      compression-type: lz4
+      properties:
+        enable.idempotence: true
+        max.in.flight.requests.per.connection: 5
+        spring.json.add.type.headers: false
 
-#  elasticsearch:
-#    uris: ${ELASTICSEARCH_URL:http://localhost:9200}
+    consumer:
+      group-id: email-service
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      auto-offset-reset: latest
+      enable-auto-commit: true
+      properties:
+        spring.json.trusted.packages: '*'
+        spring.json.use.type.headers: false
+        partition.assignment.strategy: org.apache.kafka.clients.consumer.CooperativeStickyAssignor
+
   main:
     allow-bean-definition-overriding: true
+
+
+kafka:
+  email:
+    topic: email-notifications-dev
+    concurrency: 3
+  pdf:
+    topic: pdf-dev
+    concurrency: 3
 
 
 management:
@@ -59,20 +94,17 @@ management:
     elasticsearch:
       enabled: false
 
-
 application:
   security:
     rsa:
       rsa-public-key: classpath:certs/public-key.pem
       rsa-private-key: classpath:certs/private-key.pem
     jwt:
-      access-token-validity-in-seconds: 604800 # 1 days
-      refresh-token-validity-in-seconds: 604800 #7 days
-
+      access-token-validity-in-seconds: 604800 # 1 day
+      refresh-token-validity-in-seconds: 604800 # 7 days
 
 cloudinary:
   url: ${CLOUDINARY_URL:cloudinary://146776767144144:S28Z_bYDWnTZCpfrgMHwJw2k4cw@dq9aigkgv}
-
 
 payment:
   vnPay:
@@ -83,5 +115,3 @@ payment:
     version: ${VERSION}
     command: ${COMMAND}
     orderType: ${ORDER_TYPE}
-
-

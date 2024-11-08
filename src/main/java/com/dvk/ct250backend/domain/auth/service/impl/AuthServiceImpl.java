@@ -189,6 +189,9 @@ public class AuthServiceImpl implements AuthService {
     public void forgotPassword(String email, String siteUrl) throws ResourceNotFoundException, MessagingException, UnsupportedEncodingException {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("Email not found"));
+        if (!user.isActive()) {
+            throw new ResourceNotFoundException("User account is not active");
+        }
 
         String tokenMail = UUID.randomUUID().toString();
         redisService.set(tokenMail, user.getEmail(), 60 * 60 * 2 * 1000); // 2 hours expiration in milliseconds
@@ -207,6 +210,9 @@ public class AuthServiceImpl implements AuthService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
+        if (!user.isActive()) {
+            throw new ResourceNotFoundException("User account is not active");
+        }
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
     }
