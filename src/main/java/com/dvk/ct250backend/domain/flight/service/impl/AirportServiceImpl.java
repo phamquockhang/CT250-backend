@@ -1,7 +1,5 @@
 package com.dvk.ct250backend.domain.flight.service.impl;
 
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
 import com.dvk.ct250backend.app.dto.response.Meta;
 import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
@@ -20,7 +18,6 @@ import jakarta.persistence.criteria.Predicate;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,9 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +46,6 @@ public class AirportServiceImpl implements AirportService {
     FileUtils fileUtils;
 
     @Override
-    @Cacheable(value = "airports")
     public Page<AirportDTO> getAirports(Map<String, String> params) {
         int page = Integer.parseInt(params.getOrDefault("page", "1"));
         int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
@@ -75,7 +69,6 @@ public class AirportServiceImpl implements AirportService {
     }
 
 
-
     private Specification<Airport> getAirportSpec(Map<String, String> params) {
         Specification<Airport> spec = Specification.where(null);
         if (params.containsKey("query")) {
@@ -88,11 +81,17 @@ public class AirportServiceImpl implements AirportService {
                                 .map(stringUtils::normalizeString)
                                 .map(value -> "%" + value.trim().toLowerCase() + "%")
                                 .map(likePattern -> criteriaBuilder.or(
-                                        criteriaBuilder.like(criteriaBuilder.lower(root.get("airportName")), likePattern),
+                                        criteriaBuilder.like(
+                                                criteriaBuilder.function("unaccent", String.class, criteriaBuilder.lower(root.get("airportName"))),
+                                                likePattern),
                                         criteriaBuilder.like(criteriaBuilder.lower(root.get("airportCode")), likePattern),
-                                        criteriaBuilder.like(criteriaBuilder.lower(root.get("cityName")), likePattern),
+                                        criteriaBuilder.like(
+                                                criteriaBuilder.function("unaccent", String.class, criteriaBuilder.lower(root.get("cityName"))),
+                                                likePattern),
                                         criteriaBuilder.like(criteriaBuilder.lower(root.get("cityCode")), likePattern),
-                                        criteriaBuilder.like(criteriaBuilder.lower(countryJoin.get("countryName")), likePattern)
+                                        criteriaBuilder.like(
+                                                criteriaBuilder.function("unaccent", String.class, criteriaBuilder.lower(countryJoin.get("countryName"))),
+                                                likePattern)
                                 ))
                                 .toArray(Predicate[]::new)
                 );
@@ -104,31 +103,38 @@ public class AirportServiceImpl implements AirportService {
 
     @Override
     @Transactional
-    @CacheEvict(value = "airports", allEntries = true)
     public AirportDTO createAirport(AirportDTO airportDTO, MultipartFile imgUrl) throws IOException {
-
         File convFile = fileUtils.convertMultipartFileToFile(imgUrl);
         String imageUrl = fileUtils.uploadFileToCloudinary(convFile);
         airportDTO.setImgUrl(imageUrl);
         Airport airport = airportMapper.toAirport(airportDTO);
-
         airport = airportRepository.save(airport);
         return airportMapper.toAirportDTO(airport);
     }
 
 
     @Override
-    @CacheEvict(value = "airports", allEntries = true)
     public void deleteAirport(Integer id) throws ResourceNotFoundException {
         Airport airport = airportRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Airport not found"));
         airportRepository.delete(airport);
     }
 
     @Override
-    @CacheEvict(value = "airports", allEntries = true)
     @Transactional
-    public AirportDTO updateAirport(Integer id, AirportDTO airportDTO) throws ResourceNotFoundException {
+    public AirportDTO updateAirport(Integer id, AirportDTO airportDTO, MultipartFile imgUrl) throws ResourceNotFoundException, IOException {
         Airport airport = airportRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Airport not found"));
+
+        if(imgUrl != null) {
+            String currentImageUrl = airport.getImgUrl();
+            if (currentImageUrl != null && !currentImageUrl.isEmpty()) {
+                String publicId = fileUtils.getPublicIdFromCloudinary(currentImageUrl);
+                fileUtils.deleteFileFromCloudinary(publicId);
+            }
+            File convFile = fileUtils.convertMultipartFileToFile(imgUrl);
+            String imageUrl = fileUtils.uploadFileToCloudinary(convFile);
+            airportDTO.setImgUrl(imageUrl);
+        }
+
         airportMapper.updateAirportFromDTO(airport, airportDTO);
         airport = airportRepository.save(airport);
         return airportMapper.toAirportDTO(airport);

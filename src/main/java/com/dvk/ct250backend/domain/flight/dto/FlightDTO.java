@@ -30,9 +30,9 @@ public class FlightDTO {
 
     List<FlightPricingDTO> flightPricing;
     List<SeatAvailabilityDTO> seatAvailability;
+    List<FeeDTO> fees;
 
     AirplaneDTO airplane;
-
 
     LocalDateTime createdAt;
     LocalDateTime updatedAt;

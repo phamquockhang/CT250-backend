@@ -1,11 +1,12 @@
 package com.dvk.ct250backend.domain.flight.dto.request;
 
+import com.dvk.ct250backend.domain.common.annotation.NotEmptyCollection;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,10 +26,8 @@ public class FlightSearchRequest {
     @NotBlank(message = "Departure date is required")
     String departureDate;
 
-//    @NotBlank(message = "Return date is required")
     String arrivalDate;
 
-//    boolean roundTrip;
-//
-//    boolean oneWay;
+    @NotEmptyCollection(message = "Passenger type quantity is required")
+    List<PassengerTypeQuantityRequest> passengerTypeQuantityRequests;
 }

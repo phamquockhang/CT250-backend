@@ -243,123 +243,123 @@ values (93, 'Afghanistan', 'AF', 'AFG'),
 
 
 -- AIRPORT (17 countries)
-insert into public.airports(airport_name, airport_code, city_name, city_code, country_id)
-values ('Tan Son Nhat INTERNATIONAL Airport', 'SGN', 'Ho Chi Minh', 'SGN', 235),
-       ('Noi Bai INTERNATIONAL Airport', 'HAN', 'Ha Noi', 'HAN', 235),
-       ('Da Nang INTERNATIONAL Airport', 'DAD', 'Da Nang', 'DAD', 235),
-       ('Phu Quoc INTERNATIONAL Airport', 'PQC', 'Phu Quoc', 'PQC', 235),
-       ('Cam Ranh INTERNATIONAL Airport', 'CXR', 'Nha Trang', 'CXR', 235),
-       ('Can Tho INTERNATIONAL Airport', 'VCA', 'Can Tho', 'VCA', 235),
-       ('Lien Khuong INTERNATIONAL Airport', 'DLI', 'Da Lat', 'DLI', 235),
-       ('Cat Bi INTERNATIONAL Airport', 'HPH', 'Hai Phong', 'HPH', 235),
-       ('Phu Bai INTERNATIONAL Airport', 'HUI', 'Hue', 'HUI', 235),
-       ('Van Don INTERNATIONAL Airport', 'VDO', 'Quang Ninh', 'VDO', 235),
-       ('Vinh INTERNATIONAL Airport', 'VII', 'Nghe An', 'VII', 235),
-       ('Buon Ma Thuot Airport', 'BMV', 'Dak Lak', 'BMV', 235),
-       ('Chu Lai Airport', 'VCL', 'Chu Lai', 'VCL', 235),
-       ('Dong Hoi Airport', 'VDH', 'Quang Binh', 'VDH', 235),
-       ('Phu Cat Airport', 'UIH', 'Binh Dinh', 'UIH', 235),
-       ('Pleiku Airport', 'PXU', 'Gia Lai', 'PXU', 235),
-       ('Tho Xuan Airport', 'THD', 'Thanh Hoa', 'THD', 235),
-       ('Tuy Hoa Airport', 'TBB', 'Phu Yen', 'TBB', 235),
+INSERT INTO public.airports (airport_name, airport_code, city_name, city_code, country_id)
+VALUES ('Sân bay quốc tế Tân Sơn Nhất', 'SGN', 'Tp. Hồ Chí Minh', 'SGN', 235),
+       ('Sân bay quốc tế Nội Bài', 'HAN', 'Hà Nội', 'HAN', 235),
+       ('Sân bay quốc tế Đà Nẵng', 'DAD', 'Đà Nẵng', 'DAD', 235),
+       ('Sân bay quốc tế Phú Quốc', 'PQC', 'Phú Quốc', 'PQC', 235),
+       ('Sân bay quốc tế Cam Ranh', 'CXR', 'Nha Trang', 'CXR', 235),
+       ('Sân bay quốc tế Cần Thơ', 'VCA', 'Cần Thơ', 'VCA', 235),
+       ('Sân bay quốc tế Liên Khương', 'DLI', 'Đà Lạt', 'DLI', 235),
+       ('Sân bay quốc tế Cát Bi', 'HPH', 'Hải Phòng', 'HPH', 235),
+       ('Sân bay quốc tế Phú Bài', 'HUI', 'Huế', 'HUI', 235),
+       ('Sân bay quốc tế Vân Đồn', 'VDO', 'Quảng Ninh', 'VDO', 235),
+       ('Sân bay quốc tế Vinh', 'VII', 'Vinh', 'VII', 235),
+       ('Sân bay Buôn Ma Thuột', 'BMV', 'Buôn Ma Thuột', 'BMV', 235),
+       ('Sân bay Chu Lai', 'VCL', 'Chu Lai', 'VCL', 235),
+       ('Sân bay Đồng Hới', 'VDH', 'Quảng Bình', 'VDH', 235),
+       ('Sân bay Phù Cát', 'UIH', 'Bình Định', 'UIH', 235),
+       ('Sân bay Pleiku', 'PXU', 'Gia Lai', 'PXU', 235),
+       ('Sân bay Thọ Xuân', 'THD', 'Thanh Hóa', 'THD', 235),
+       ('Sân bay Tuy Hòa', 'TBB', 'Phú Yên', 'TBB', 235),
 
-       ('Chhatrapati Shivaji INTERNATIONAL Airport', 'BOM', 'Mumbai', 'BOM', 95),
-       ('Indira Gandhi INTERNATIONAL Airport', 'DEL', 'New Delhi', 'DEL', 95),
-       ('Cochin INTERNATIONAL Airport', 'COK', 'Kochi', 'COK', 95),
-       ('Sardar Vallabhbhai Patel INTERNATIONAL Airport', 'AMD', 'Ahmedabad', 'AMD', 95),
-       ('Tiruchirappalli INTERNATIONAL Airport', 'TRZ', 'Tiruchirappalli', 'TRZ', 95),
+       ('Sân bay quốc tế Chhatrapati Shivaji', 'BOM', 'Mumbai', 'BOM', 95),
+       ('Sân bay quốc tế Indira Gandhi', 'DEL', 'New Delhi', 'DEL', 95),
+       ('Sân bay quốc tế Cochin', 'COK', 'Kochi', 'COK', 95),
+       ('Sân bay quốc tế Sardar Vallabhbhai Patel', 'AMD', 'Ahmedabad', 'AMD', 95),
+       ('Sân bay quốc tế Tiruchirappalli', 'TRZ', 'Tiruchirappalli', 'TRZ', 95),
 
-       ('Tokyo INTERNATIONAL Airport - Haneda Airport', 'HND', 'Tokyo (Haneda)', 'HND', 105),
-       ('Kansai INTERNATIONAL Airport', 'KIX', 'Osaka', 'KIX', 105),
-       ('Narita INTERNATIONAL Airport', 'NRT', 'Tokyo (Narita)', 'NRT', 105),
-       ('Chubu Centrair INTERNATIONAL Airport', 'NGO', 'Nagoya', 'NGO', 105),
-       ('Fukuoka INTERNATIONAL Airport', 'FUK', 'Fukuoka', 'FUK', 105),
+       ('Sân bay quốc tế Tokyo - Haneda', 'HND', 'Tokyo', 'HND', 105),
+       ('Sân bay quốc tế Kansai', 'KIX', 'Osaka', 'KIX', 105),
+       ('Sân bay quốc tế Narita', 'NRT', 'Tokyo', 'NRT', 105),
+       ('Sân bay quốc tế Chubu Centrair', 'NGO', 'Nagoya', 'NGO', 105),
+       ('Sân bay quốc tế Fukuoka', 'FUK', 'Fukuoka', 'FUK', 105),
 
-       ('Gimhae INTERNATIONAL Airport', 'PUS', 'Busan', 'PUS', 200),
-       ('Daegu INTERNATIONAL Airport', 'TAE', 'Daegu', 'TAE', 200),
-       ('Incheon INTERNATIONAL Airport', 'ICN', 'Incheon', 'ICN', 200),
+       ('Sân bay quốc tế Gimhae', 'PUS', 'Busan', 'PUS', 200),
+       ('Sân bay quốc tế Daegu', 'TAE', 'Daegu', 'TAE', 200),
+       ('Sân bay quốc tế Incheon', 'ICN', 'Incheon', 'ICN', 200),
 
-       ('Kaohsiung INTERNATIONAL Airport', 'KHH', 'Kaohsiung', 'KHH', 211),
-       ('Taiwan Taoyuan INTERNATIONAL Airport', 'TPE', 'Taipei', 'TPE', 211),
-       ('Tainan Airport', 'TNN', 'Tainan', 'TNN', 211),
-       ('Taichung INTERNATIONAL Airport', 'RMQ', 'Taichung', 'RMQ', 211),
+       ('Sân bay quốc tế Cao Hùng', 'KHH', 'Cao Hùng', 'KHH', 211),
+       ('Sân bay quốc tế Đào Viên Đài Loan', 'TPE', 'Đài Bắc', 'TPE', 211),
+       ('Sân bay Đài Nam', 'TNN', 'Đài Nam', 'TNN', 211),
+       ('Sân bay quốc tế Đài Trung', 'RMQ', 'Đài Trung', 'RMQ', 211),
 
-       ('Kuala Lumpur INTERNATIONAL Airport (KLIA)', 'KUL', 'Kuala Lumpur', 'KUL', 127),
+       ('Sân bay quốc tế Kuala Lumpur (KLIA)', 'KUL', 'Kuala Lumpur', 'KUL', 127),
 
-       ('Changi INTERNATIONAL Airport', 'SIN', 'Singapore', 'SIN', 193),
+       ('Sân bay quốc tế Changi', 'SIN', 'Singapore', 'SIN', 193),
 
-       ('Soekarno-Hatta INTERNATIONAL Airport', 'CGK', 'Jakarta', 'CGK', 196),
-       ('Ngurah Rai INTERNATIONAL Airport (Denpasar)', 'DPS', 'Bali', 'DPS', 196),
+       ('Sân bay quốc tế Soekarno-Hatta', 'CGK', 'Jakarta', 'CGK', 196),
+       ('Sân bay quốc tế Ngurah Rai (Denpasar)', 'DPS', 'Bali', 'DPS', 196),
 
-       ('Siem Reap–Angkor INTERNATIONAL Airport', 'SAI', 'Siem Reap', 'SAI', 36),
+       ('Sân bay quốc tế Siem Reap–Angkor', 'SAI', 'Siem Reap', 'SAI', 36),
 
-       ('Yangon INTERNATIONAL Airport', 'RGN', 'Yangon', 'RGN', 144),
+       ('Sân bay quốc tế Yangon', 'RGN', 'Yangon', 'RGN', 144),
 
-       ('Almaty INTERNATIONAL Airport', 'ALA', 'Almaty', 'ALA', 108),
-       ('Nursultan Nazarbayev INTERNATIONAL Airport', 'NQZ', 'Astana', 'NQZ', 108),
+       ('Sân bay quốc tế Almaty', 'ALA', 'Almaty', 'ALA', 108),
+       ('Sân bay quốc tế Nursultan Nazarbayev', 'NQZ', 'Astana', 'NQZ', 108),
 
-       ('Vostosny INTERNATIONAL Airport', 'TAS', 'Tashkent', 'TAS', 231),
+       ('Sân bay quốc tế Vostosny', 'TAS', 'Tashkent', 'TAS', 231),
 
-       ('Melbourne Tullamarine Airport', 'MEL', 'Melbourne', 'MEL', 13),
-       ('Perth INTERNATIONAL Airport', 'PER', 'Perth', 'PER', 13),
-       ('Brisbane INTERNATIONAL Airport', 'BNE', 'Brisbane', 'BNE', 13),
-       ('Kingsford Smith Airport', 'SYD', 'Sydney', 'SYD', 13),
+       ('Sân bay quốc tế Melbourne Tullamarine', 'MEL', 'Melbourne', 'MEL', 13),
+       ('Sân bay quốc tế Perth', 'PER', 'Perth', 'PER', 13),
+       ('Sân bay quốc tế Brisbane', 'BNE', 'Brisbane', 'BNE', 13),
+       ('Sân bay quốc tế Kingsford Smith', 'SYD', 'Sydney', 'SYD', 13),
 
-       ('Suvarnabhumi Airport', 'BKK', 'Bangkok', 'BKK', 214),
-       ('Chiang Mai INTERNATIONAL Airport', 'CNX', 'Chiang Mai', 'CNX', 214),
-       ('Chiang Rai INTERNATIONAL Airport', 'CEI', 'Chiang Rai', 'CEI', 214),
-       ('Hat Yai INTERNATIONAL Airport', 'HDY', 'Hat Yai', 'HDY', 214),
-       ('Khon Kaen Airport', 'KKC', 'Khon Kaen', 'KKC', 214),
-       ('Krabi INTERNATIONAL Airport', 'KBV', 'Krabi', 'KBV', 214),
-       ('Nakhon Si Thammarat Airport', 'NST', 'Nakhon Si Thammarat', 'NST', 214),
-       ('Phuket INTERNATIONAL Airport', 'HKT', 'Phuket', 'HKT', 214),
-       ('Surat Thani INTERNATIONAL Airport', 'URT', 'Surat Thani', 'URT', 214),
-       ('Ubon Ratchathani Airport', 'UBP', 'Ubon Ratchathani', 'UBP', 214),
-       ('Udon Thani INTERNATIONAL Airport', 'UTH', 'Udon Thani', 'UTH', 214),
-       ('U-Tapao–Rayong–Pattaya INTERNATIONAL Airport', 'UTP', 'Rayong', 'UTP', 214),
+       ('Sân bay quốc tế Suvarnabhumi', 'BKK', 'Bangkok', 'BKK', 214),
+       ('Sân bay quốc tế Chiang Mai', 'CNX', 'Chiang Mai', 'CNX', 214),
+       ('Sân bay quốc tế Chiang Rai', 'CEI', 'Chiang Rai', 'CEI', 214),
+       ('Sân bay quốc tế Hat Yai', 'HDY', 'Hat Yai', 'HDY', 214),
+       ('Sân bay Khon Kaen', 'KKC', 'Khon Kaen', 'KKC', 214),
+       ('Sân bay quốc tế Krabi', 'KBV', 'Krabi', 'KBV', 214),
+       ('Sân bay Nakhon Si Thammarat', 'NST', 'Nakhon Si Thammarat', 'NST', 214),
+       ('Sân bay quốc tế Phuket', 'HKT', 'Phuket', 'HKT', 214),
+       ('Sân bay quốc tế Surat Thani', 'URT', 'Surat Thani', 'URT', 214),
+       ('Sân bay Ubon Ratchathani', 'UBP', 'Ubon Ratchathani', 'UBP', 214),
+       ('Sân bay quốc tế Udon Thani', 'UTH', 'Udon Thani', 'UTH', 214),
+       ('Sân bay quốc tế U-Tapao–Rayong–Pattaya', 'UTP', 'Rayong', 'UTP', 214),
 
-       ('Hong Kong INTERNATIONAL Airport', 'HKG', 'Hong Kong', 'HKG', 92),
+       ('Sân bay quốc tế Hong Kong', 'HKG', 'Hồng Kông', 'HKG', 92),
 
-       ('Macau INTERNATIONAL Airport', 'MFM', 'Macao', 'MFM', 123),
+       ('Sân bay quốc tế Macau', 'MFM', 'Ma Cao', 'MFM', 123),
 
-       ('Hefei Xinqiao INTERNATIONAL Airport', 'HFE', 'Hefei', 'HFE', 44),
-       ('Haikou Meilan INTERNATIONAL Airport', 'HAK', 'Haikou', 'HAK', 44),
-       ('Baotou Airport', 'BAV', 'Baotou', 'BAV', 44),
-       ('Harbin Taiping INTERNATIONAL Airport', 'HRB', 'Harbin', 'HRB', 44),
-       ('Changsha Huanghua INTERNATIONAL Airport', 'CSX', 'Changsha', 'CSX', 44),
-       ('Kunming Changshui INTERNATIONAL Airport', 'KMG', 'Kunming', 'KMG', 44),
-       ('Dalian Zhoushuizi INTERNATIONAL Airport', 'DLC', 'Dalian', 'DLC', 44),
-       ('Jinan Yaoqiang INTERNATIONAL Airport', 'TNA', 'Jinan', 'TNA', 44),
-       ('Hangzhou Xiaoshan INTERNATIONAL Airport', 'HGH', 'Hangzhou', 'HGH', 44),
-       ('Yinchuan Hedong INTERNATIONAL Airport', 'INC', 'Hedong', 'INC', 44),
-       ('Baita Hohhot Baita INTERNATIONAL Airport', 'HET', 'Hohhot', 'HET', 44),
-       ('Lanzhou Zhongchuan INTERNATIONAL Airport', 'LHW', 'Lanzhou Zhongchuan', 'LHW', 44),
-       ('Nanjing Lukou INTERNATIONAL Airport', 'NKG', 'Nanjing', 'NKG', 44),
-       ('Nantong Xingdong INTERNATIONAL Airport', 'NTG', 'Nantong', 'NTG', 44),
-       ('Nanchang Changbei INTERNATIONAL Airport', 'KHN', 'Nanchang', 'KHN', 44),
-       ('Dongsheng Airport', 'DSN', 'Ordos', 'DSN', 44),
-       ('Yiwu Airport', 'YIW', 'Yiwu', 'YIW', 44),
-       ('Nanning Wuxu INTERNATIONAL Airport', 'NNG', 'Nanning', 'NNG', 44),
-       ('Ningbo Lishe INTERNATIONAL Airport', 'NGB', 'Ningbo', 'NGB', 44),
-       ('Fuzhou Changle INTERNATIONAL Airport', 'FOC', 'Fuzhou', 'FOC', 44),
-       ('Qingdao Liuting INTERNATIONAL Airport', 'TAO', 'Qingdao', 'TAO', 44),
-       ('Guiyang Longdongbao Airport', 'KWE', 'Guiyang', 'KWE', 44),
-       ('Xi''an Xianyang INTERNATIONAL Airport', 'XIY', 'Xi''an', 'SIA', 44),
-       ('Shijiazhuang Zhengding INTERNATIONAL Airport', 'SJW', 'Shijiazhuang', 'SJW', 44),
-       ('Taiyuan Wusu INTERNATIONAL Airport', 'TYN', 'Taiyuan', 'TYN', 44),
-       ('Chengdu Shuangliu INTERNATIONAL Airport', 'CTU', 'Chengdu', 'CTU', 44),
-       ('Shenyang Taoxian INTERNATIONAL Airport', 'SHE', 'Shenyang', 'SHE', 44),
-       ('Tianjin Binhai INTERNATIONAL Airport', 'TSN', 'Tianjin', 'TSN', 44),
-       ('Changzhou Benniu Airport', 'CZX', 'Changzhou', 'CZX', 44),
-       ('Shanghai Pudong INTERNATIONAL Airport', 'PVG', 'Shanghai', 'SHA', 44),
-       ('Zhengzhou Xinzheng INTERNATIONAL Airport', 'CGO', 'Zhengzhou', 'CGO', 44),
-       ('Chongqing Jiangbei INTERNATIONAL Airport', 'CKG', 'Chongqing', 'CKG', 44),
-       ('Zhangjiajie Hehua Airport', 'DYG', 'Zhangjiajie', 'DYG', 44),
-       ('Changchun Longjia INTERNATIONAL Airport', 'CGQ', 'Changchun', 'CGQ', 44),
-       ('Quanzhou Jinjiang INTERNATIONAL Airport', 'JJN', 'Quanzhou', 'JJN', 44),
-       ('Sunan Shuofang INTERNATIONAL Airport', 'WUX', 'Wuxi', 'WUX', 44),
-       ('Wuhan Tianhe INTERNATIONAL Airport', 'WUH', 'Wuhan', 'WUH', 44),
-       ('Xuzhou Guanyin Airport', 'XUZ', 'Xuzhou', 'XUZ', 44);
+       ('Sân bay quốc tế Hợp Phì Tân Kiều', 'HFE', 'Hợp Phì', 'HFE', 44),
+       ('Sân bay quốc tế Hải Khẩu Mỹ Lan', 'HAK', 'Hải Khẩu', 'HAK', 44),
+       ('Sân bay Bảo Đầu', 'BAV', 'Bảo Đầu', 'BAV', 44),
+       ('Sân bay quốc tế Cáp Nhĩ Tân Thái Bình', 'HRB', 'Cáp Nhĩ Tân', 'HRB', 44),
+       ('Sân bay quốc tế Trường Sa Hoàng Hoa', 'CSX', 'Trường Sa', 'CSX', 44),
+       ('Sân bay quốc tế Côn Minh Trường Thủy', 'KMG', 'Côn Minh', 'KMG', 44),
+       ('Sân bay quốc tế Đại Liên Châu Thủy Tử', 'DLC', 'Đại Liên', 'DLC', 44),
+       ('Sân bay quốc tế Tế Nam Dao Khương', 'TNA', 'Tế Nam', 'TNA', 44),
+       ('Sân bay quốc tế Hàng Châu Tiêu Sơn', 'HGH', 'Hàng Châu', 'HGH', 44),
+       ('Sân bay quốc tế Ngân Xuyên Hà Đông', 'INC', 'Ngân Xuyên', 'INC', 44),
+       ('Sân bay quốc tế Lan Châu Trung Xuyên', 'LHW', 'Lan Châu', 'LHW', 44),
+       ('Sân bay quốc tế Nam Kinh Lộc Khẩu', 'NKG', 'Nam Kinh', 'NKG', 44),
+       ('Sân bay quốc tế Nam Thông Hưng Đông', 'NTG', 'Nam Thông', 'NTG', 44),
+       ('Sân bay quốc tế Nam Xương Trường Bắc', 'KHN', 'Nam Xương', 'KHN', 44),
+       ('Sân bay Đông Thắng', 'DSN', 'Ordos', 'DSN', 44),
+       ('Sân bay Nghĩa Ô', 'YIW', 'Nghĩa Ô', 'YIW', 44),
+       ('Sân bay quốc tế Nam Ninh Ngô Tự', 'NNG', 'Nam Ninh', 'NNG', 44),
+       ('Sân bay quốc tế Ninh Ba Lý Thuế', 'NGB', 'Ninh Ba', 'NGB', 44),
+       ('Sân bay quốc tế Phúc Châu Trường Lạc', 'FOC', 'Phúc Châu', 'FOC', 44),
+       ('Sân bay quốc tế Thanh Đảo Lưu Đình', 'TAO', 'Thanh Đảo', 'TAO', 44),
+       ('Sân bay Quý Dương Long Đổng Bảo', 'KWE', 'Quý Dương', 'KWE', 44),
+       ('Sân bay quốc tế Tây An Hàm Dương', 'XIY', 'Tây An', 'SIA', 44),
+       ('Sân bay quốc tế Thạch Gia Trang Chính Định', 'SJW', 'Thạch Gia Trang', 'SJW', 44),
+       ('Sân bay quốc tế Thái Nguyên Vũ Tố', 'TYN', 'Thái Nguyên', 'TYN', 44),
+       ('Sân bay quốc tế Thành Đô Song Lưu', 'CTU', 'Thành Đô', 'CTU', 44),
+       ('Sân bay quốc tế Thẩm Dương Đào Tiên', 'SHE', 'Thẩm Dương', 'SHE', 44),
+       ('Sân bay quốc tế Thiên Tân Tân Hải', 'TSN', 'Thiên Tân', 'TSN', 44),
+       ('Sân bay Trường Châu Bành Ngưu', 'CZX', 'Trường Châu', 'CZX', 44),
+       ('Sân bay quốc tế Thượng Hải Phố Đông', 'PVG', 'Thượng Hải', 'SHA', 44),
+       ('Sân bay quốc tế Trịnh Châu Tân Trịnh', 'CGO', 'Trịnh Châu', 'CGO', 44),
+       ('Sân bay quốc tế Trùng Khánh Giang Bắc', 'CKG', 'Trùng Khánh', 'CKG', 44),
+       ('Sân bay Trương Gia Giới Hà Hoa', 'DYG', 'Trương Gia Giới', 'DYG', 44),
+       ('Sân bay quốc tế Trường Xuân Long Gia', 'CGQ', 'Trường Xuân', 'CGQ', 44),
+       ('Sân bay quốc tế Tuyền Châu Kim Giang', 'JJN', 'Tuyền Châu', 'JJN', 44),
+       ('Sân bay quốc tế Tô Nam Thụ Phường', 'WUX', 'Tô Nam', 'WUX', 44),
+       ('Sân bay quốc tế Vũ Hán Thiên Hà', 'WUH', 'Vũ Hán', 'WUH', 44),
+       ('Sân bay Từ Châu Quán Âm', 'XUZ', 'Từ Châu', 'XUZ', 44);
+
 
 --ROLE
 INSERT INTO public.roles (role_name, description, active)
@@ -374,42 +374,75 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Get logged in user', '/api/v1/users/logged-in', 'GET', 'USERS'),
        ('Get users with pagination', '/api/v1/users', 'GET', 'USERS'),
        ('Change password for logged in user', '/api/v1/users/{id}/change-password', 'PUT', 'USERS'),
+
        ('Create a role', '/api/v1/roles', 'POST', 'ROLES'),
        ('Update a role', '/api/v1/roles/{id}', 'PUT', 'ROLES'),
        ('Delete a role', '/api/v1/roles/{id}', 'DELETE', 'ROLES'),
        ('Get a role by id', '/api/v1/roles/{id}', 'GET', 'ROLES'),
        ('Get roles with pagination', '/api/v1/roles', 'GET', 'ROLES'),
        ('Get all roles', '/api/v1/roles/all', 'GET', 'ROLES'),
+
        ('Create a permission', '/api/v1/permissions', 'POST', 'PERMISSIONS'),
        ('Update a permission', '/api/v1/permissions/{id}', 'PUT', 'PERMISSIONS'),
        ('Delete a permission', '/api/v1/permissions/{id}', 'DELETE', 'PERMISSIONS'),
        ('Get a permission by id', '/api/v1/permissions/{id}', 'GET', 'PERMISSIONS'),
        ('Get permissions with pagination', '/api/v1/permissions', 'GET', 'PERMISSIONS'),
        ('Get all permissions', '/api/v1/permissions/all', 'GET', 'PERMISSIONS'),
+
        ('Get airports with pagination', '/api/v1/airports', 'GET', 'AIRPORTS'),
        ('Get all airports', '/api/v1/airports/all', 'GET', 'AIRPORTS'),
        ('Create an airport', '/api/v1/airports', 'POST', 'AIRPORTS'),
        ('Delete an airport', '/api/v1/airports/{id}', 'DELETE', 'AIRPORTS'),
        ('Update an airport', '/api/v1/airports/{id}', 'PUT', 'AIRPORTS'),
+
        ('Get airplanes with pagination', '/api/v1/airplanes', 'GET', 'AIRPLANES'),
        ('Get all airplanes ', '/api/v1/airplanes/all', 'GET', 'AIRPLANES'),
        ('Create an airplane', '/api/v1/airplanes', 'POST', 'AIRPLANES'),
        ('Delete an airplane', '/api/v1/airplanes/{id}', 'DELETE', 'AIRPLANES'),
        ('Update an airplane', '/api/v1/airplanes/{id}', 'PUT', 'AIRPLANES'),
+
        ('Get all models', '/api/v1/models/all', 'GET', 'MODELS'),
        ('Create a model', '/api/v1/models', 'POST', 'MODELS'),
+
        ('Get all routes', '/api/v1/routes/all', 'GET', 'ROUTES'),
        ('Get routes with pagination', '/api/v1/routes', 'GET', 'ROUTES'),
        ('Create a route', '/api/v1/routes', 'POST', 'ROUTES'),
        ('Delete a route', '/api/v1/routes/{id}', 'DELETE', 'ROUTES'),
        ('Update a route', '/api/v1/routes/{id}', 'PUT', 'ROUTES'),
+
        ('Get all flights', '/api/v1/flights/all', 'GET', 'FLIGHTS'),
        ('Update a flight', '/api/v1/flights/{id}', 'PUT', 'FLIGHTS'),
        ('Upload flights', '/api/v1/flights/upload', 'POST', 'FLIGHTS'),
        ('Search flights', '/api/v1/flights/search', 'GET', 'FLIGHTS'),
        ('Get flights overview', '/api/v1/flights/overview', 'GET', 'FLIGHTS'),
        ('Get flights with pagination', '/api/v1/flights', 'GET', 'FLIGHTS'),
-       ('Get a flight by id', '/api/v1/flights/{id}', 'GET', 'FLIGHTS');
+       ('Get a flight by id', '/api/v1/flights/{id}', 'GET', 'FLIGHTS'),
+
+       ('Create a meal', '/api/v1/meals', 'POST', 'MEALS'),
+       ('Get all meals', '/api/v1/meals/all', 'GET', 'MEALS'),
+       ('Get meals with pagination', '/api/v1/meals', 'GET', 'MEALS'),
+       ('Delete a meal', '/api/v1/meals/{id}', 'DELETE', 'MEALS'),
+       ('Update a meal', '/api/v1/meals/{id}', 'PUT', 'MEALS'),
+
+       ('Create a baggage', '/api/v1/baggage', 'POST', 'BAGGAGE'),
+       ('Get all baggage', '/api/v1/baggage/all', 'GET', 'BAGGAGE'),
+       ('Get baggage with pagination', '/api/v1/baggage', 'GET', 'BAGGAGE'),
+       ('Delete a baggage', '/api/v1/baggage/{id}', 'DELETE', 'BAGGAGE'),
+       ('Update a baggage', '/api/v1/baggage/{id}', 'PUT', 'BAGGAGE'),
+
+       ('Get fees with pagination', '/api/v1/fees', 'GET', 'FEES'),
+       ('Create a fee', '/api/v1/fees', 'POST', 'FEES'),
+       ('Update a fee', '/api/v1/fees/{id}', 'PUT', 'FEES'),
+       ('Get fee by id', '/api/v1/fees/{id}', 'GET', 'FEES'),
+
+       ('Get all fee groups', '/api/v1/fee-groups/all', 'GET', 'FEE-GROUPS'),
+       ('Create new fee group', '/api/v1/fee-groups', 'POST', 'FEE-GROUPS'),
+
+
+       ('Create a booking', '/api/v1/bookings', 'POST', 'BOOKINGS'),
+
+       ('Create a transaction', '/api/v1/transactions', 'POST', 'TRANSACTION');
+
 
 --USER
 INSERT INTO public.users (user_id, email, gender, first_name, last_name, password, phone_number, identity_number,
@@ -476,73 +509,133 @@ VALUES ('1', 'Boeing', 15750, 954, 311, 63.73, 60.93, 18.76, 'ACTIVE', 'N78701')
 
 
 
-INSERT INTO public.routes (departure_airport_id, arrival_airport_id, route_type)
-VALUES (2, 33, 'INTERNATIONAL'), -- HAN đến TPE (Đài Bắc)
-       (2, 61, 'INTERNATIONAL'), -- HAN đến HKG (Hồng Kông)
-       (2, 82, 'INTERNATIONAL'), -- HAN đến FOC (Phúc Kiến)
-       (2, 36, 'INTERNATIONAL'), -- HAN đến KUL (Kuala Lumpur)
-       (2, 37, 'INTERNATIONAL'), -- HAN đến SIN (Singapore)
-       (2, 49, 'INTERNATIONAL'), -- HAN đến BKK (Bangkok)
-       (2, 31, 'INTERNATIONAL'), -- HAN đến ICN (Seoul)
-       (2, 26, 'INTERNATIONAL'), -- HAN đến NRT (Tokyo)
+INSERT INTO public.routes (departure_airport_id, arrival_airport_id, route_type, duration)
+VALUES
+    -- Chuyến bay quốc tế từ Hà Nội
+    (2, 33, 'INTERNATIONAL', 180), -- HAN đến TPE (Đài Bắc)
+    (2, 61, 'INTERNATIONAL', 150), -- HAN đến HKG (Hồng Kông)
+    (2, 82, 'INTERNATIONAL', 200), -- HAN đến FOC (Phúc Kiến)
+    (2, 36, 'INTERNATIONAL', 210), -- HAN đến KUL (Kuala Lumpur)
+    (2, 37, 'INTERNATIONAL', 180), -- HAN đến SIN (Singapore)
+    (2, 49, 'INTERNATIONAL', 120), -- HAN đến BKK (Bangkok)
+    (2, 31, 'INTERNATIONAL', 210), -- HAN đến ICN (Seoul)
+    (2, 26, 'INTERNATIONAL', 300), -- HAN đến NRT (Tokyo)
 
-       -- Chuyến bay quốc tế từ Sài Gòn
-       (1, 33, 'INTERNATIONAL'), -- SGN đến TPE
-       (1, 61, 'INTERNATIONAL'), -- SGN đến HKG
-       (1, 82, 'INTERNATIONAL'), -- SGN đến FOC
-       (1, 36, 'INTERNATIONAL'), -- SGN đến KUL
-       (1, 37, 'INTERNATIONAL'), -- SGN đến SIN
-       (1, 49, 'INTERNATIONAL'), -- SGN đến BKK
-       (1, 31, 'INTERNATIONAL'), -- SGN đến ICN
-       (1, 26, 'INTERNATIONAL'), -- SGN đến NRT
+    -- Chuyến bay quốc tế từ Sài Gòn
+    (1, 33, 'INTERNATIONAL', 180), -- SGN đến TPE
+    (1, 61, 'INTERNATIONAL', 150), -- SGN đến HKG
+    (1, 82, 'INTERNATIONAL', 200), -- SGN đến FOC
+    (1, 36, 'INTERNATIONAL', 210), -- SGN đến KUL
+    (1, 37, 'INTERNATIONAL', 180), -- SGN đến SIN
+    (1, 49, 'INTERNATIONAL', 120), -- SGN đến BKK
+    (1, 31, 'INTERNATIONAL', 210), -- SGN đến ICN
+    (1, 26, 'INTERNATIONAL', 300), -- SGN đến NRT
 
-       -- Chuyến bay quốc tế từ Đà Nẵng
-       (3, 33, 'INTERNATIONAL'), -- DAD đến TPE
-       (3, 61, 'INTERNATIONAL'), -- DAD đến HKG
-       (3, 36, 'INTERNATIONAL'), -- DAD đến KUL
-       (3, 49, 'INTERNATIONAL'), -- DAD đến BKK
-       (3, 31, 'INTERNATIONAL'), -- DAD đến ICN
+    -- Chuyến bay quốc tế từ Đà Nẵng
+    (3, 33, 'INTERNATIONAL', 180), -- DAD đến TPE
+    (3, 61, 'INTERNATIONAL', 150), -- DAD đến HKG
+    (3, 36, 'INTERNATIONAL', 210), -- DAD đến KUL
+    (3, 49, 'INTERNATIONAL', 120), -- DAD đến BKK
+    (3, 31, 'INTERNATIONAL', 210), -- DAD đến ICN
 
-       -- Chuyến bay quốc tế từ Phú Quốc
-       (4, 33, 'INTERNATIONAL'), -- PQC đến TPE
-       (4, 61, 'INTERNATIONAL'), -- PQC đến HKG
-       (4, 36, 'INTERNATIONAL'), -- PQC đến KUL
-       (4, 31, 'INTERNATIONAL'), -- PQC đến ICN
+    -- Chuyến bay quốc tế từ Phú Quốc
+    (4, 33, 'INTERNATIONAL', 180), -- PQC đến TPE
+    (4, 61, 'INTERNATIONAL', 150), -- PQC đến HKG
+    (4, 36, 'INTERNATIONAL', 210), -- PQC đến KUL
+    (4, 31, 'INTERNATIONAL', 210), -- PQC đến ICN
 
-       -- Chuyến bay nội địa từ Sài Gòn
-       (1, 2, 'DOMESTIC'),       -- SGN đến HAN
-       (1, 3, 'DOMESTIC'),       -- SGN đến DAD
-       (1, 4, 'DOMESTIC'),       -- SGN đến PQC
-       (1, 5, 'DOMESTIC'),       -- SGN đến CXR
-       (1, 9, 'DOMESTIC'),       -- SGN đến HUI
-       (1, 11, 'DOMESTIC'),      -- SGN đến VII
+    -- Chuyến bay nội địa từ Sài Gòn
+    (1, 2, 'DOMESTIC', 120),       -- SGN đến HAN
+    (1, 3, 'DOMESTIC', 90),        -- SGN đến DAD
+    (1, 4, 'DOMESTIC', 60),        -- SGN đến PQC
+    (1, 5, 'DOMESTIC', 50),        -- SGN đến CXR
+    (1, 9, 'DOMESTIC', 75),        -- SGN đến HUI
+    (1, 11, 'DOMESTIC', 90),       -- SGN đến VII
 
-       -- Chuyến bay nội địa từ Hà Nội
-       (2, 1, 'DOMESTIC'),       -- HAN đến SGN
-       (2, 3, 'DOMESTIC'),       -- HAN đến DAD
-       (2, 4, 'DOMESTIC'),       -- HAN đến PQC
-       (2, 5, 'DOMESTIC'),       -- HAN đến CXR
-       (2, 6, 'DOMESTIC'),       -- HAN đến VCA
-       (2, 9, 'DOMESTIC'),       -- HAN đến HUI
-       (2, 11, 'DOMESTIC'),      -- HAN đến VII
+    -- Chuyến bay nội địa từ Hà Nội
+    (2, 1, 'DOMESTIC', 120),       -- HAN đến SGN
+    (2, 3, 'DOMESTIC', 90),        -- HAN đến DAD
+    (2, 4, 'DOMESTIC', 60),        -- HAN đến PQC
+    (2, 5, 'DOMESTIC', 50),        -- HAN đến CXR
+    (2, 6, 'DOMESTIC', 90),        -- HAN đến VCA
+    (2, 9, 'DOMESTIC', 75),        -- HAN đến HUI
+    (2, 11, 'DOMESTIC', 90),       -- HAN đến VII
 
-       -- Chuyến bay nội địa từ Đà Nẵng
-       (3, 1, 'DOMESTIC'),       -- DAD đến SGN
-       (3, 2, 'DOMESTIC'),       -- DAD đến HAN
-       (3, 4, 'DOMESTIC'),       -- DAD đến PQC
-       (3, 6, 'DOMESTIC'),       -- DAD đến VCA
-       (3, 9, 'DOMESTIC'),       -- DAD đến HUI
-       (3, 11, 'DOMESTIC'),      -- DAD đến VII
+    -- Chuyến bay nội địa từ Đà Nẵng
+    (3, 1, 'DOMESTIC', 90),        -- DAD đến SGN
+    (3, 2, 'DOMESTIC', 90),        -- DAD đến HAN
+    (3, 4, 'DOMESTIC', 60),        -- DAD đến PQC
+    (3, 6, 'DOMESTIC', 100),       -- DAD đến VCA
+    (3, 9, 'DOMESTIC', 75),        -- DAD đến HUI
+    (3, 11, 'DOMESTIC', 90),       -- DAD đến VII
 
-       -- Chuyến bay nội địa từ Phú Quốc
-       (4, 1, 'DOMESTIC'),       -- PQC đến SGN
-       (4, 2, 'DOMESTIC'),       -- PQC đến HAN
-       (4, 3, 'DOMESTIC'),       -- PQC đến DAD
-       (4, 5, 'DOMESTIC'),       -- PQC đến CXR
-       (4, 6, 'DOMESTIC'),       -- PQC đến VCA
-       (4, 9, 'DOMESTIC'),       -- PQC đến HUI
-       (4, 11, 'DOMESTIC');
+    -- Chuyến bay nội địa từ Phú Quốc
+    (4, 1, 'DOMESTIC', 60),        -- PQC đến SGN
+    (4, 2, 'DOMESTIC', 60),        -- PQC đến HAN
+    (4, 3, 'DOMESTIC', 60),        -- PQC đến DAD
+    (4, 5, 'DOMESTIC', 50),        -- PQC đến CXR
+    (4, 6, 'DOMESTIC', 90),        -- PQC đến VCA
+    (4, 9, 'DOMESTIC', 75),        -- PQC đến HUI
+    (4, 11, 'DOMESTIC', 90);
 -- PQC đến VII
+
+--TICKET_CLASS
+INSERT INTO public.ticket_class (ticket_class_name, luggage_allowance, checked_baggage_allowance, refund_fee_before,
+                                 refund_fee_after, change_fee_before, change_fee_after, is_seat_selection_free)
+VALUES ('ECONOMY', '7kg', 'PAY FEE', 450.000, 600.000, 450.000, 600.000, false),
+       ('BUSINESS', '14kg', '30kg', 450.000, 450.000, 300.000, 450.000, true);
+
+
+--FEE GROUP
+INSERT INTO public.fee_groups (fee_group_name)
+VALUES ('Phí vận chuyển hàng không'),
+       ('Phụ phí'),
+       ('Thuế, phí và lệ phí');
+
+--FEE
+INSERT INTO public.fees(fee_name, fee_group_id)
+VALUES ('Giá vé cơ bản', 1),
+       ('Phụ thu quản trị hệ thống', 2),
+       ('Phí dịch vụ hành khách', 3),
+       ('Phí soi chiếu an ninh', 3),
+       ('Thuế giá trị gia tăng', 3);
+
+--FEE-PRICING
+INSERT INTO public.fee_pricing (fee_id, passenger_type, fee_amount, is_percentage, route_type, valid_from, valid_to)
+VALUES (1, 'ADULT', 100, true, 'DOMESTIC', '2024-01-01', '2024-12-31'),
+       (1, 'CHILD', 75, true, 'DOMESTIC', '2024-01-01', '2024-12-3'),
+       (1, 'INFANT', 100000, false, 'DOMESTIC', '2024-01-01', '2024-12-3'),
+       (1, 'ADULT', 100, true, 'INTERNATIONAL', '2024-01-01', '2024-12-3'),
+       (1, 'CHILD', 75, true, 'INTERNATIONAL', '2024-01-01', '2024-12-31'),
+       (1, 'INFANT', 200000, false, 'INTERNATIONAL', '2024-01-01', '2024-12-31'),
+
+       (2, 'ADULT', 215000, false, 'DOMESTIC', '2024-01-01', '2024-12-31'),
+       (2, 'CHILD', 215000, false, 'DOMESTIC', '2024-01-01', '2024-12-31'),
+       (2, 'INFANT', 0, false, 'DOMESTIC', '2024-01-01', '2024-12-31'),
+       (2, 'ADULT', 275000, false, 'INTERNATIONAL', '2024-01-01', '2024-12-31'),
+       (2, 'CHILD', 275000, false, 'INTERNATIONAL', '2024-01-01', '2024-12-31'),
+       (2, 'INFANT', 0, false, 'INTERNATIONAL', '2024-01-01', '2024-12-31'),
+
+       (3, 'ADULT', 100000, false, 'DOMESTIC', '2024-01-01', '2024-12-31'),
+       (3, 'CHILD', 50000, false, 'DOMESTIC', '2024-01-01', '2024-12-31'),
+       (3, 'INFANT', 0, false, 'DOMESTIC', '2024-01-01', '2024-12-31'),
+       (3, 'ADULT', 150000, false, 'INTERNATIONAL', '2024-01-01', '2024-12-31'),
+       (3, 'CHILD', 75000, false, 'INTERNATIONAL', '2024-01-01', '2024-12-31'),
+       (3, 'INFANT', 0, false, 'INTERNATIONAL', '2024-01-01', '2024-12-31'),
+
+       (4, 'ADULT', 20000, false, 'DOMESTIC', '2024-01-01', '2024-12-31'),
+       (4, 'CHILD', 10000, false, 'DOMESTIC', '2024-01-01', '2024-12-31'),
+       (4, 'INFANT', 0, false, 'DOMESTIC', '2024-01-01', '2024-12-31'),
+       (4, 'ADULT', 30000, false, 'INTERNATIONAL', '2024-01-01', '2024-12-31'),
+       (4, 'CHILD', 15000, false, 'INTERNATIONAL', '2024-01-01', '2024-12-31'),
+       (4, 'INFANT', 0, false, 'INTERNATIONAL', '2024-01-01', '2024-12-31'),
+
+       (5, 'ADULT', 8, true, 'DOMESTIC', '2024-01-01', '2024-12-31'),
+       (5, 'CHILD', 8, true, 'DOMESTIC', '2024-01-01', '2024-12-31'),
+       (5, 'INFANT', 8, true, 'DOMESTIC', '2024-01-01', '2024-12-31'),
+       (5, 'ADULT', 8, true, 'INTERNATIONAL', '2024-01-01', '2024-12-31'),
+       (5, 'CHILD', 8, true, 'INTERNATIONAL', '2024-01-01', '2024-12-31'),
+       (5, 'INFANT', 8, true, 'INTERNATIONAL', '2024-01-01', '2024-12-31');
 
 
 --FLIGHT
@@ -550,54 +643,54 @@ VALUES (2, 33, 'INTERNATIONAL'), -- HAN đến TPE (Đài Bắc)
 -- Dữ liệu giả cho bảng flights
 INSERT INTO public.flights (flight_id, departure_date_time, arrival_date_time, route_id, airplane_id, flight_status)
 -- Tuyến bay Sài Gòn - Hà Nội
-VALUES ('DVK101', '2024-10-15 08:00:00', '2024-10-15 10:00:00', 26, 1, 'SCHEDULED'),
-       ('DVK102', '2024-10-15 09:00:00', '2024-10-15 11:00:00', 26, 2, 'SCHEDULED'),
-       ('DVK103', '2024-10-15 14:00:00', '2024-10-15 16:00:00', 26, 1, 'SCHEDULED'),
-       ('DVK104', '2024-10-15 15:00:00', '2024-10-15 17:00:00', 26, 2, 'SCHEDULED'),
+VALUES ('DVK101', '2024-12-05 08:00:00', '2024-12-05 10:00:00', 26, 1, 'SCHEDULED'),
+       ('DVK102', '2024-12-05 09:00:00', '2024-12-05 11:00:00', 26, 2, 'SCHEDULED'),
+       ('DVK103', '2024-12-05 14:00:00', '2024-12-05 16:00:00', 26, 1, 'SCHEDULED'),
+       ('DVK104', '2024-12-05 15:00:00', '2024-12-05 17:00:00', 26, 2, 'SCHEDULED'),
 
-       ('DVK105', '2024-10-16 05:00:00', '2024-10-16 07:00:00', 26, 1, 'SCHEDULED'),
-       ('DVK106', '2024-10-16 06:00:00', '2024-10-16 08:00:00', 26, 2, 'SCHEDULED'),
+       ('DVK105', '2024-12-06 05:00:00', '2024-12-06 07:00:00', 26, 1, 'SCHEDULED'),
+       ('DVK106', '2024-12-06 06:00:00', '2024-12-06 08:00:00', 26, 2, 'SCHEDULED'),
+       ('DVK107', '2024-12-09 08:00:00', '2024-12-09 10:00:00', 32, 1, 'SCHEDULED'),
+       ('DVK108', '2024-12-09 09:00:00', '2024-12-09 11:00:00', 32, 2, 'SCHEDULED'),
+       ('DVK109', '2024-12-09 14:00:00', '2024-12-09 16:00:00', 32, 1, 'SCHEDULED'),
+       ('DVK110', '2024-12-09 15:00:00', '2024-12-09 17:00:00', 32, 2, 'SCHEDULED'),
 
-       ('DVK107', '2024-10-25 08:00:00', '2024-10-25 10:00:00', 32, 1, 'SCHEDULED'),
-       ('DVK108', '2024-10-25 09:00:00', '2024-10-25 11:00:00', 32, 2, 'SCHEDULED'),
-       ('DVK109', '2024-10-25 14:00:00', '2024-10-25 16:00:00', 32, 1, 'SCHEDULED'),
-       ('DVK110', '2024-10-25 15:00:00', '2024-10-25 17:00:00', 32, 2, 'SCHEDULED'),
-
-       ('DVK111', '2024-10-26 05:00:00', '2024-10-26 07:00:00', 32, 1, 'SCHEDULED'),
-       ('DVK112', '2024-10-26 06:00:00', '2024-10-26 08:00:00', 32, 2, 'SCHEDULED');
+       ('DVK111', '2024-12-08 05:00:00', '2024-12-08 07:00:00', 32, 1, 'SCHEDULED'),
+       ('DVK112', '2024-12-08 06:00:00', '2024-12-08 08:00:00', 32, 2, 'SCHEDULED');
 
 
 
 --FLIGHT-PRICING
 -- Dữ liệu giả cho bảng flight_pricing mà không cần seat_id
-INSERT INTO public.flight_pricing (ticket_price, flight_id, ticket_class, valid_from, valid_to)
-VALUES (1739000, 'DVK101', 'ECONOMY', '2024-10-15', '2024-10-20'),
-       (4623000, 'DVK101', 'BUSINESS', '2024-10-15', '2024-10-20'),
-       (1739000, 'DVK102', 'ECONOMY', '2024-10-15', '2024-10-20'),
-       (4623000, 'DVK102', 'BUSINESS', '2024-10-15', '2024-10-20'),
-       (1933000, 'DVK103', 'ECONOMY', '2024-10-15', '2024-10-20'),
-       (5335000, 'DVK103', 'BUSINESS', '2024-10-15', '2024-10-20'),
-       (1933000, 'DVK104', 'ECONOMY', '2024-10-15', '2024-10-20'),
-       (5335000, 'DVK104', 'BUSINESS', '2024-10-15', '2024-10-20'),
+INSERT INTO public.flight_pricing (ticket_price, flight_id, ticket_class_id, valid_from, valid_to)
+VALUES (1200000, 'DVK101', 1, '2024-11-01', '2024-12-05'),
+       (2750000, 'DVK101', 2, '2024-11-01', '2024-12-05'),
+       (852000, 'DVK102', 1, '2024-11-01', '2024-12-05'),
+       (2443000, 'DVK102', 2, '2024-11-01', '2024-12-05'),
+       (852000, 'DVK103', 1, '2024-11-01', '2024-12-05'),
+       (2443000, 'DVK103', 2, '2024-11-01', '2024-12-05'),
+       (768000, 'DVK104', 1, '2024-11-01', '2024-12-05'),
+       (2155000, 'DVK104', 2, '2024-11-01', '2024-12-05'),
 
-       (1566000, 'DVK105', 'ECONOMY', '2024-10-16', '2024-10-21'),
-       (3412000, 'DVK105', 'BUSINESS', '2024-10-16', '2024-10-21'),
-       (1739000, 'DVK106', 'ECONOMY', '2024-10-16', '2024-10-21'),
-       (4623000, 'DVK106', 'BUSINESS', '2024-10-16', '2024-10-21'),
+       (768000, 'DVK105', 1, '2024-11-01', '2024-12-06'),
+       (1980000, 'DVK105', 2, '2024-11-01', '2024-12-06'),
+       (1120000, 'DVK106', 1, '2024-11-01', '2024-12-06'),
+       (2640000, 'DVK106', 2, '2024-11-01', '2024-12-06'),
 
-       (1739000, 'DVK107', 'ECONOMY', '2024-10-15', '2024-10-20'),
-       (4623000, 'DVK107', 'BUSINESS', '2024-10-15', '2024-10-20'),
-       (1739000, 'DVK108', 'ECONOMY', '2024-10-15', '2024-10-20'),
-       (4623000, 'DVK108', 'BUSINESS', '2024-10-15', '2024-10-20'),
-       (1933000, 'DVK109', 'ECONOMY', '2024-10-15', '2024-10-20'),
-       (5335000, 'DVK109', 'BUSINESS', '2024-10-15', '2024-10-20'),
-       (1933000, 'DVK110', 'ECONOMY', '2024-10-15', '2024-10-20'),
-       (5335000, 'DVK110', 'BUSINESS', '2024-10-15', '2024-10-20'),
+       (1739000, 'DVK107', 1, '2024-11-01', '2024-12-09'),
+       (4623000, 'DVK107', 2, '2024-11-01', '2024-12-09'),
+       (1739000, 'DVK108', 1, '2024-11-01', '2024-12-09'),
+       (4623000, 'DVK108', 2, '2024-11-01', '2024-12-09'),
+       (1933000, 'DVK109', 1, '2024-11-01', '2024-12-09'),
+       (5335000, 'DVK109', 2, '2024-11-01', '2024-12-09'),
+       (1933000, 'DVK110', 1, '2024-11-01', '2024-12-09'),
+       (5335000, 'DVK110', 2, '2024-11-01', '2024-12-09'),
 
-       (1566000, 'DVK111', 'ECONOMY', '2024-10-16', '2024-10-21'),
-       (3412000, 'DVK111', 'BUSINESS', '2024-10-16', '2024-10-21'),
-       (1739000, 'DVK112', 'ECONOMY', '2024-10-16', '2024-10-21'),
-       (4623000, 'DVK112', 'BUSINESS', '2024-10-16', '2024-10-21');
+       (1566000, 'DVK111', 1, '2024-11-01', '2024-12-08'),
+       (3412000, 'DVK111', 2, '2024-11-01', '2024-12-08'),
+       (1739000, 'DVK112', 1, '2024-11-01', '2024-12-08'),
+       (4623000, 'DVK112', 2, '2024-11-01', '2024-12-08');
+--
 
 
 -- Giá vé cho ghế Economy chuyến bay VN104
@@ -734,16 +827,16 @@ WHERE model_id = 1
 
 -- Airbus A350
 INSERT INTO public.seat_availability (flight_id, seat_id, status)
-VALUES ('DVK102', 10, 'AVAILABLE'), -- 1A
-       ('DVK102', 11, 'AVAILABLE'), -- 1B
-       ('DVK102', 12, 'AVAILABLE'), -- 1C
-       ('DVK102', 13, 'AVAILABLE'), -- 1D
-       ('DVK102', 14, 'AVAILABLE'), -- 1E
-       ('DVK102', 15, 'AVAILABLE'), -- 1F
-       ('DVK102', 16, 'AVAILABLE'), -- 1G
-       ('DVK102', 17, 'AVAILABLE'), -- 1H
-       ('DVK102', 18, 'AVAILABLE');
--- 1J
+VALUES ('DVK102', 271, 'AVAILABLE'), -- 1A
+       ('DVK102', 272, 'AVAILABLE'), -- 1B
+       ('DVK102', 273, 'AVAILABLE'), -- 1C
+       ('DVK102', 274, 'AVAILABLE'), -- 1D
+       ('DVK102', 275, 'AVAILABLE'), -- 1E
+       ('DVK102', 276, 'AVAILABLE');
+-- 1F
+--        ('DVK102', 277,'AVAILABLE'), -- 1G
+--        ('DVK102', 278,'AVAILABLE'), -- 1H
+--        ('DVK102', 279,'AVAILABLE'); -- 1J
 
 -- Khoang Economy cho Airbus A350
 INSERT INTO public.seat_availability (flight_id, seat_id, status)
@@ -756,14 +849,13 @@ WHERE model_id = 2
 -- Chỉ cho ghế Economy
 
 -- Airbus A320 NEO
-INSERT INTO public.seat_availability (flight_id, seat_id, status)
-VALUES ('DVK103', 19, 'AVAILABLE'), -- 1A
-       ('DVK103', 20, 'AVAILABLE'), -- 1B
-       ('DVK103', 21, 'AVAILABLE'), -- 1C
-       ('DVK103', 22, 'AVAILABLE'), -- 1D
-       ('DVK103', 23, 'AVAILABLE'), -- 1E
-       ('DVK103', 24, 'AVAILABLE');
--- 1F
+-- INSERT INTO public.seat_availability (flight_id, seat_id, status)
+-- VALUES ('DVK103', 541, 'AVAILABLE'), -- 1A
+--        ('DVK103', 542, 'AVAILABLE'), -- 1B
+--        ('DVK103', 543, 'AVAILABLE'), -- 1C
+--        ('DVK103', 544, 'AVAILABLE'), -- 1D
+--        ('DVK103', 545, 'AVAILABLE'), -- 1E
+--        ('DVK103', 546, 'AVAILABLE'); -- 1F
 
 -- Khoang Economy cho Airbus A320 NEO
 INSERT INTO public.seat_availability (flight_id, seat_id, status)
@@ -777,22 +869,191 @@ WHERE model_id = 3
 
 -- Airbus A321
 INSERT INTO public.seat_availability (flight_id, seat_id, status)
-VALUES ('DVK104', 25, 'AVAILABLE'), -- 1A
-       ('DVK104', 26, 'AVAILABLE'), -- 1B
-       ('DVK104', 27, 'AVAILABLE'), -- 1C
-       ('DVK104', 28, 'AVAILABLE'), -- 1D
-       ('DVK104', 29, 'AVAILABLE'), -- 1E
-       ('DVK104', 30, 'AVAILABLE');
+VALUES ('DVK104', 721, 'AVAILABLE'), -- 1A
+       ('DVK104', 722, 'AVAILABLE'), -- 1B
+       ('DVK104', 723, 'AVAILABLE'), -- 1C
+       ('DVK104', 724, 'AVAILABLE'), -- 1D
+       ('DVK104', 725, 'AVAILABLE'), -- 1E
+       ('DVK104', 726, 'AVAILABLE');
 -- 1F
 
 -- Khoang Economy cho Airbus A321
+-- INSERT INTO public.seat_availability (flight_id, seat_id, status)
+-- SELECT 'DVK104',
+--        seat_id,
+--        'AVAILABLE'
+-- FROM public.seats
+-- WHERE model_id = 4
+--   AND ticket_class = 'ECONOMY'; -- Chỉ cho ghế Economy
+
+
 INSERT INTO public.seat_availability (flight_id, seat_id, status)
-SELECT 'DVK104',
+VALUES ('DVK107', 1, 'AVAILABLE'), -- 1A
+       ('DVK107', 2, 'AVAILABLE');
+-- 1B
+--        ('DVK107', 3, 'AVAILABLE'), -- 1C
+--        ('DVK107', 4, 'AVAILABLE'), -- 1D
+--        ('DVK107', 5, 'AVAILABLE'), -- 1E
+--        ('DVK107', 6, 'AVAILABLE'), -- 1F
+--        ('DVK107', 7, 'AVAILABLE'), -- 1G
+--        ('DVK107', 8, 'AVAILABLE'), -- 1H
+--        ('DVK107', 9, 'AVAILABLE');
+-- 1J
+
+-- Khoang Economy cho Boeing 787
+-- INSERT INTO public.seat_availability (flight_id, seat_id, status)
+-- SELECT 'DVK107',
+--        seat_id,
+--        'AVAILABLE'
+-- FROM public.seats
+-- WHERE model_id = 1
+--   AND ticket_class = 'ECONOMY';
+-- Chỉ cho ghế Economy
+
+-- Airbus A350
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
+VALUES ('DVK108', 271, 'AVAILABLE'), -- 1A
+       ('DVK108', 272, 'AVAILABLE'), -- 1B
+       ('DVK108', 273, 'AVAILABLE'), -- 1C
+       ('DVK108', 274, 'AVAILABLE'), -- 1D
+       ('DVK108', 275, 'AVAILABLE'), -- 1E
+       ('DVK108', 276, 'AVAILABLE'), -- 1F
+       ('DVK108', 277, 'AVAILABLE'), -- 1G
+       ('DVK108', 278, 'AVAILABLE'), -- 1H
+       ('DVK108', 279, 'AVAILABLE');-- 1J
+
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
+VALUES ('DVK108', 280, 'AVAILABLE'),
+       ('DVK108', 280, 'AVAILABLE');
+
+-- Khoang Economy cho Airbus A350
+-- INSERT INTO public.seat_availability (flight_id, seat_id, status)
+-- SELECT 'DVK108',
+--        seat_id,
+--        'AVAILABLE'
+-- FROM public.seats
+-- WHERE model_id = 2
+--   AND ticket_class = 'ECONOMY';
+-- Chỉ cho ghế Economy
+
+-- Airbus A320 NEO
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
+VALUES ('DVK109', 541, 'AVAILABLE'), -- 1A
+       ('DVK109', 542, 'AVAILABLE'), -- 1B
+       ('DVK109', 543, 'AVAILABLE');
+-- 1C
+--        ('DVK109', 544, 'AVAILABLE'), -- 1D
+--        ('DVK109', 545, 'AVAILABLE'), -- 1E
+--        ('DVK109', 546, 'AVAILABLE'); -- 1F
+
+-- Khoang Economy cho Airbus A320 NEO
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
+SELECT 'DVK109',
        seat_id,
        'AVAILABLE'
 FROM public.seats
-WHERE model_id = 4
-  AND ticket_class = 'ECONOMY'; -- Chỉ cho ghế Economy
+WHERE model_id = 3
+  AND ticket_class = 'ECONOMY';
+-- Chỉ cho ghế Economy
+
+-- Airbus A321
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
+VALUES ('DVK110', 721, 'AVAILABLE'), -- 1A
+       ('DVK110', 722, 'AVAILABLE'), -- 1B
+       ('DVK110', 723, 'AVAILABLE'), -- 1C
+       ('DVK110', 724, 'AVAILABLE'), -- 1D
+       ('DVK110', 725, 'AVAILABLE'), -- 1E
+       ('DVK110', 726, 'AVAILABLE');
+-- 1F
+
+-- Khoang Economy cho Airbus A321
+-- INSERT INTO public.seat_availability (flight_id, seat_id, status)
+-- SELECT 'DVK110',
+--        seat_id,
+--        'AVAILABLE'
+-- FROM public.seats
+-- WHERE model_id = 4
+--   AND ticket_class = 'ECONOMY'; -- Chỉ cho ghế Economy
 
 
+-- MEALS
+INSERT INTO public.meals (meal_name)
+VALUES ('Bánh gạo hấp'),
+       ('Cơm chiên hải sản'),
+       ('Pad Thái'),
+       ('Mỳ ý'),
+       ('Xôi thịt kho trứng'),
+       ('Nước suối'),
+       ('Sữa tươi'),
+       ('Trà lipton'),
+       ('Trà xanh'),
+       ('Milo dầm'),
+       ('Trà sữa trân châu'),
+       ('Cacao uống liền'),
+       ('Cà phê không đường'),
+       ('Cà phê sữa'),
+       ('Cà phê đen'),
+       ('Red bull'),
+       ('Nước cam Teppy'),
+       ('Trà đào hạt chia'),
+       ('Sprite'),
+       ('Coca cola');
 
+--MEAL-PRICING
+-- MEAL-PRICING
+INSERT INTO public.meal_pricing (meal_id, price, valid_from, valid_to)
+VALUES (1, 80000, '2024-10-01', '2024-12-31'),
+       (2, 80000, '2024-10-01', '2024-12-31'),
+       (3, 80000, '2024-10-01', '2024-12-31'),
+       (4, 80000, '2024-10-01', '2024-12-31'),
+       (5, 80000, '2024-10-01', '2024-12-31'),
+       (6, 30000, '2024-10-01', '2024-12-31'),
+       (7, 30000, '2024-10-01', '2024-12-31'),
+       (8, 30000, '2024-10-01', '2024-12-31'),
+       (9, 30000, '2024-10-01', '2024-12-31'),
+       (10, 50000, '2024-10-01', '2024-12-31'),
+       (11, 50000, '2024-10-01', '2024-12-31'),
+       (12, 35000, '2024-10-01', '2024-12-31'),
+       (13, 35000, '2024-10-01', '2024-12-31'),
+       (14, 35000, '2024-10-01', '2024-12-31'),
+       (15, 35000, '2024-10-01', '2024-12-31'),
+       (16, 35000, '2024-10-01', '2024-12-31'),
+       (17, 35000, '2024-10-01', '2024-12-31'),
+       (18, 35000, '2024-10-01', '2024-12-31'),
+       (19, 35000, '2024-10-01', '2024-12-31'),
+       (20, 35000, '2024-10-01', '2024-12-31');
+
+
+--BAGGAGE
+INSERT INTO public.baggages (baggage_weight, route_type)
+VALUES ('10', 'DOMESTIC'),
+       ('10', 'INTERNATIONAL'),
+       ('20', 'DOMESTIC'),
+       ('20', 'INTERNATIONAL'),
+       ('30', 'DOMESTIC'),
+       ('30', 'INTERNATIONAL'),
+       ('40', 'DOMESTIC'),
+       ('40', 'INTERNATIONAL'),
+       ('50', 'DOMESTIC'),
+       ('50', 'INTERNATIONAL'),
+       ('60', 'DOMESTIC'),
+       ('60', 'INTERNATIONAL');
+
+
+INSERT INTO public.baggage_pricing (baggage_id, price, valid_from, valid_to)
+VALUES (1, 130000, '2024-01-01', '2024-12-31'),
+       (2, 300000, '2024-01-01', '2024-12-31'),
+       (3, 260000, '2024-01-01', '2024-12-31'),
+       (4, 600000, '2024-01-01', '2024-12-31'),
+       (5, 390000, '2024-01-01', '2024-12-31'),
+       (6, 900000, '2024-01-01', '2024-12-31'),
+       (7, 520000, '2024-01-01', '2024-12-31'),
+       (8, 500000, '2024-01-01', '2024-12-31'),
+       (9, 650000, '2024-01-01', '2024-12-31'),
+       (10, 1200000, '2024-01-01', '2024-12-31'),
+       (11, 780000, '2024-01-01', '2024-12-31'),
+       (12, 1800000, '2024-01-01', '2024-12-31');
+
+
+INSERT INTO public.payment_methods (payment_method_name)
+VALUES ('VN_PAY');

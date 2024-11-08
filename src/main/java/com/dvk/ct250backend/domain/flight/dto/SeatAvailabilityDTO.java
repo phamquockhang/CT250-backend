@@ -13,8 +13,6 @@ import lombok.experimental.FieldDefaults;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SeatAvailabilityDTO {
     Integer seatAvailabilityId;
-
     SeatDTO seat;
-
     String status;
 }

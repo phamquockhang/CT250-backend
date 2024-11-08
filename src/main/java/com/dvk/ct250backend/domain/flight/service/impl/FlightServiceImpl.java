@@ -3,16 +3,23 @@ package com.dvk.ct250backend.domain.flight.service.impl;
 import com.dvk.ct250backend.app.dto.response.Meta;
 import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
+import com.dvk.ct250backend.domain.booking.enums.PassengerTypeEnum;
 import com.dvk.ct250backend.domain.flight.config.FlightUploadJobListener;
 import com.dvk.ct250backend.domain.flight.dto.FlightDTO;
 import com.dvk.ct250backend.domain.flight.dto.FlightOverview;
 import com.dvk.ct250backend.domain.flight.dto.request.FlightSearchRequest;
-import com.dvk.ct250backend.domain.flight.entity.Flight;
-import com.dvk.ct250backend.domain.flight.entity.FlightPricing;
+import com.dvk.ct250backend.domain.flight.dto.request.PassengerTypeQuantityRequest;
+import com.dvk.ct250backend.domain.flight.entity.*;
+import com.dvk.ct250backend.domain.flight.enums.RouteTypeEnum;
+import com.dvk.ct250backend.domain.flight.enums.SeatAvailabilityStatus;
+import com.dvk.ct250backend.domain.flight.enums.TicketClassEnum;
 import com.dvk.ct250backend.domain.flight.mapper.FlightMapper;
+import com.dvk.ct250backend.domain.flight.repository.FeeRepository;
 import com.dvk.ct250backend.domain.flight.repository.FlightRepository;
 import com.dvk.ct250backend.domain.flight.service.FlightService;
+import com.dvk.ct250backend.infrastructure.utils.DateUtils;
 import com.dvk.ct250backend.infrastructure.utils.FileUtils;
+import com.dvk.ct250backend.infrastructure.utils.NumberUtils;
 import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +41,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -46,12 +55,15 @@ import java.util.stream.Collectors;
 public class FlightServiceImpl implements FlightService {
 
     FlightRepository flightRepository;
+    FeeRepository feeRepository;
     FlightMapper flightMapper;
     JobLauncher jobLauncher;
     Job flightUploadJob;
     FlightUploadJobListener flightUploadJobListener;
     FileUtils fileUtils;
     RequestParamUtils requestParamUtils;
+    NumberUtils numberUtils;
+    DateUtils dateUtils;
 
     @Override
     public List<FlightDTO> getAllFlights() {
@@ -73,21 +85,26 @@ public class FlightServiceImpl implements FlightService {
     public void uploadFlights(List<MultipartFile> files) throws IOException {
         String flightFilePath = "";
         String flightPricingFilePath = "";
+        String seatAvailabilityFilePath = "";
         for (MultipartFile file : files) {
             if (Objects.equals(file.getOriginalFilename(), "flights.csv")) {
                 flightFilePath = fileUtils.saveTempFile(file);
             } else if (Objects.equals(file.getOriginalFilename(), "flight_pricing.csv")) {
                 flightPricingFilePath = fileUtils.saveTempFile(file);
+            } else if (Objects.equals(file.getOriginalFilename(), "seat_availability.csv")) {
+                seatAvailabilityFilePath = fileUtils.saveTempFile(file);
             }
         }
 
         JobParameters jobParameters = new JobParametersBuilder()
                 .addString("flightFile", flightFilePath)
                 .addString("flightPricingFile", flightPricingFilePath)
+                .addString("seatAvailabilityFile", seatAvailabilityFilePath)
                 .addLong("startAt", System.currentTimeMillis())
                 .toJobParameters();
         flightUploadJobListener.setFlightFilePath(flightFilePath);
         flightUploadJobListener.setFlightPricingFilePath(flightPricingFilePath);
+        flightUploadJobListener.setSeatAvailabilityFilePath(seatAvailabilityFilePath);
 
         try {
             jobLauncher.run(flightUploadJob, jobParameters);
@@ -106,32 +123,57 @@ public class FlightServiceImpl implements FlightService {
         LocalDate arrivalDate = flightSearchRequest.getArrivalDate() != null ? parseDate(flightSearchRequest.getArrivalDate()) : null;
         Specification<Flight> spec = getFlightSpec(flightSearchRequest, departureDate, arrivalDate);
         List<Flight> flights = flightRepository.findAll(spec);
-        return flights.stream()
+        List<Flight> filteredFlights = flights.stream()
+                .filter(flight -> {
+                    int requiredSeats = Optional.ofNullable(flightSearchRequest.getPassengerTypeQuantityRequests())
+                            .orElse(Collections.emptyList())
+                            .stream()
+                            .mapToInt(PassengerTypeQuantityRequest::getQuantity)
+                            .sum();
+                    int availableSeats = flight.getSeatAvailability().stream()
+                            .filter(seatAvailability -> seatAvailability.getStatus() == SeatAvailabilityStatus.AVAILABLE)
+                            .mapToInt(SeatAvailability::getAvailableSeats)
+                            .sum();
+                    return availableSeats >= requiredSeats;
+                })
+                .collect(Collectors.toList());
+
+        return filteredFlights.stream()
                 .map(flightMapper::toFlightDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<FlightOverview> getFlightOverview(String startDate, String endDate) {
-        LocalDate start = parseDate(startDate);
-        LocalDate end = parseDate(endDate);
-        Specification<Flight> spec = getFlightRangeSpec(new FlightSearchRequest(), start, end);
+    public List<FlightOverview> getFlightOverview(FlightSearchRequest flightSearchRequest) {
+        LocalDate start = parseDate(flightSearchRequest.getDepartureDate());
+        LocalDate end = parseDate(flightSearchRequest.getArrivalDate());
+        Specification<Flight> spec = getFlightRangeSpec(flightSearchRequest, start, end);
         List<Flight> flights = flightRepository.findAll(spec);
         TreeMap<String, List<Flight>> flightMap = new TreeMap<>();
+        int totalPassenger = flightSearchRequest.getPassengerTypeQuantityRequests().stream()
+                .mapToInt(PassengerTypeQuantityRequest::getQuantity)
+                .sum();
         flights.forEach(flight -> {
             String date = formatDate(flight.getDepartureDateTime().toLocalDate());
-            if (flightMap.containsKey(date)) {
+            int availableBusinessSeats = flight.getSeatAvailability().stream()
+                    .filter(seatAvailability -> seatAvailability.getSeat().getTicketClass().equals(TicketClassEnum.BUSINESS)
+                            && seatAvailability.getStatus().equals(SeatAvailabilityStatus.AVAILABLE))
+                    .toList().size();
+            int availableEconomySeats = flight.getSeatAvailability().stream()
+                    .filter(seatAvailability -> seatAvailability.getSeat().getTicketClass().equals(TicketClassEnum.ECONOMY)
+                            && seatAvailability.getStatus().equals(SeatAvailabilityStatus.AVAILABLE))
+                    .toList().size();
+            //Cả 2 hạng vé đều hết chỗ => không thêm vào flightMap tính toán overview
+            if (flightMap.containsKey(date) && !(availableBusinessSeats == 0 && availableEconomySeats == 0)) {
                 flightMap.get(date).add(flight);
             } else {
-                flightMap.put(date, new ArrayList<>(List.of(flight)));
+                flightMap.put(date, new ArrayList<>(new ArrayList<>()));
             }
         });
         LocalDate currentDate = start;
+        //Thêm các ngày không có chuyến bay vào flightMap để tính toán overview
         while (currentDate.isBefore(end) || currentDate.isEqual(end)) {
             String date = formatDate(currentDate);
-//            if (!flightMap.containsKey(date)) {
-//                flightMap.put(date, List.of());
-//            }
             flightMap.putIfAbsent(date, new ArrayList<>());
             currentDate = currentDate.plusDays(1);
         }
@@ -139,24 +181,120 @@ public class FlightServiceImpl implements FlightService {
                 .map(entry -> {
                     FlightOverview flightOverview = new FlightOverview();
                     flightOverview.setDate(entry.getKey());
-                    if(entry.getValue().isEmpty()) {
-                        flightOverview.setMinPriceOfDay(0.0);
+                    if (entry.getValue().isEmpty()) {
+                        flightOverview.setMinPriceOfDay(BigDecimal.valueOf(0.0));
                         flightOverview.setHasFlight(false);
                     } else {
                         flightOverview.setHasFlight(true);
-                        double minPrice = entry.getValue().stream()
+                        BigDecimal minPrice = entry.getValue().stream()
                                 .map(flight -> flight.getFlightPricing().stream()
-                                        .map(FlightPricing::getTicketPrice)
-                                        .min(Double::compareTo)
-                                        .orElse(0.0))
-                                .min(Double::compareTo)
-                                .orElse(0.0);
+                                        //Lọc ra các hạng vé còn chỗ trống đủ cho tổng số hành khách
+                                        .filter(flightPricing -> {
+                                            int availableSeats = flight.getSeatAvailability().stream()
+                                                    .filter(seatAvailability -> seatAvailability.getSeat().getTicketClass().equals(flightPricing.getTicketClass().getTicketClassName())
+                                                            && seatAvailability.getStatus().equals(SeatAvailabilityStatus.AVAILABLE))
+                                                    .toList().size();
+                                            return availableSeats > 0 && availableSeats >= totalPassenger;
+                                        })
+                                        //Tính giá vé thấp nhất của các hạng vé còn chỗ trống của chuyến bay
+                                        .map(flightPricing -> getTotalTicketPrice(flight,
+                                                flightSearchRequest.getPassengerTypeQuantityRequests(),
+                                                flightPricing.getTicketClass()))
+                                        .min((a, b) -> {
+                                            if (a == null) {
+                                                return 1;
+                                            } else if (b == null) {
+                                                return -1;
+                                            } else {
+                                                return a.compareTo(b);
+                                            }
+                                        })
+                                        .orElse(null))
+                                //Tìm giá vé thấp nhất của tất cả cả chuyến bay trong ngày
+                                .min((a, b) -> {
+                                    if (a == null) {
+                                        return 1;
+                                    } else if (b == null) {
+                                        return -1;
+                                    } else {
+                                        return a.compareTo(b);
+                                    }
+                                })
+                                .orElse(BigDecimal.valueOf(0.0));
                         flightOverview.setMinPriceOfDay(minPrice);
                     }
                     return flightOverview;
                 }).toList();
 
     }
+
+    private BigDecimal getTotalTicketPrice(Flight flight,
+                                           List<PassengerTypeQuantityRequest> passengerTypeQuantityRequests,
+                                           TicketClass ticketClass) {
+        //Tính tổng giá vé cho mỗi loại hành khách
+        return passengerTypeQuantityRequests.stream()
+                .map(passengerTypeQuantityRequest ->
+                        getPassengerTotalFee(flight,
+                                PassengerTypeEnum.valueOf(passengerTypeQuantityRequest.getPassengerType()),
+                                ticketClass)
+                                .multiply(BigDecimal.valueOf(passengerTypeQuantityRequest.getQuantity()))).reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    private BigDecimal getPassengerTotalFee(Flight flight,
+                                            PassengerTypeEnum passengerType,
+                                            TicketClass ticketClass) {
+        BigDecimal basePrice = flight.getFlightPricing().stream()
+                .filter(flightPricing -> Objects.equals(flightPricing.getTicketClass().getTicketClassId(), ticketClass.getTicketClassId())
+                        && dateUtils.isInDateRange(LocalDate.now(), flightPricing.getValidFrom(), flightPricing.getValidTo()))
+                .map(FlightPricing::getTicketPrice)
+                .findFirst()
+                .orElse(BigDecimal.valueOf(0.0));
+
+        List<Fee> flightFees = feeRepository.findAll();
+        //Tính tổng phí cho mỗi hành khách (vé + phí)
+        return flightFees.stream()
+                .map(fee -> {
+                            //VAT
+                            if (fee.getFeeId() == 5) {
+                                Fee ticketPriceFee = feeRepository.findById(1).orElse(null);
+                                assert ticketPriceFee != null;
+                                FeePricing ticketFeePricing = ticketPriceFee.getFeePricing().stream()
+                                        .filter(feePricing -> feePricing.getPassengerType().equals(passengerType)
+                                                && feePricing.getRouteType().equals(flight.getRoute().getRouteType())
+                                                && dateUtils.isInDateRange(LocalDate.now(), feePricing.getValidFrom(), feePricing.getValidTo()))
+                                        .findFirst()
+                                        .orElse(null);
+                                assert ticketFeePricing != null;
+                                if (ticketFeePricing.getIsPercentage().equals(Boolean.TRUE)) {
+                                    return getFee(fee, passengerType, flight.getRoute().getRouteType(),
+                                            numberUtils.roundToThousand(basePrice.multiply(ticketFeePricing.getFeeAmount())
+                                                    .divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP)));
+                                } else {
+                                    return getFee(fee, passengerType, flight.getRoute().getRouteType(), ticketFeePricing.getFeeAmount());
+                                }
+                            }
+                            return getFee(fee, passengerType, flight.getRoute().getRouteType(), basePrice);
+                        }
+                )
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    private BigDecimal getFee(Fee fee, PassengerTypeEnum passengerType, RouteTypeEnum routeType, BigDecimal basePrice) {
+        return fee.getFeePricing().stream()
+                .filter(feePricing -> feePricing.getPassengerType().equals(passengerType)
+                        && feePricing.getRouteType().equals(routeType)
+                        && dateUtils.isInDateRange(LocalDate.now(), feePricing.getValidFrom(), feePricing.getValidTo()))
+                .map(feePricing -> {
+                    if (feePricing.getIsPercentage().equals(Boolean.TRUE)) {
+                        return numberUtils.roundToThousand(basePrice.multiply(feePricing.getFeeAmount())
+                                .divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP));
+                    } else {
+                        return feePricing.getFeeAmount();
+                    }
+                })
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
 
     @Override
     public Page<FlightDTO> getFlights(Map<String, String> params) {
@@ -185,6 +323,7 @@ public class FlightServiceImpl implements FlightService {
                 .map(flightMapper::toFlightDTO)
                 .orElseThrow(() -> new ResourceNotFoundException("Flight not found for this id :: " + id));
     }
+
 
     private Specification<Flight> getFlightSpec(FlightSearchRequest flightSearchRequest, LocalDate departureDate, LocalDate arrivalDate) {
         return Specification.where(getDateRangeSpec("departureDateTime", departureDate))
@@ -218,6 +357,7 @@ public class FlightServiceImpl implements FlightService {
         return LocalDate.parse(date, formatter);
     }
 
+
     private String formatDate(LocalDate date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return date.format(formatter);
@@ -233,4 +373,5 @@ public class FlightServiceImpl implements FlightService {
             return null;
         };
     }
+
 }

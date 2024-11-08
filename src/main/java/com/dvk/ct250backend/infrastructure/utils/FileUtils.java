@@ -43,8 +43,26 @@ public class FileUtils {
     }
 
     public String uploadFileToCloudinary(File file) throws IOException {
-        var uploadResult = cloudinary.uploader().upload(file, ObjectUtils.asMap("folder", "/airports/"));
+        var uploadResult = cloudinary.uploader().upload(file, ObjectUtils.asMap("folder", "/ct250/"));
         return uploadResult.get("url").toString();
+    }
+
+    public void deleteFileFromCloudinary(String name) throws IOException {
+        cloudinary.uploader().destroy(name, ObjectUtils.emptyMap());
+    }
+
+    public String getPublicIdFromCloudinary(String imageUrl) {
+        String[] parts = imageUrl.split("/");
+        return parts[parts.length - 2] + "/" + parts[parts.length - 1].substring(0, parts[parts.length - 1].lastIndexOf('.'));
+    }
+
+
+    public File saveTempFile(byte[] fileData, String fileName) throws IOException {
+        File tempFile = File.createTempFile("temp", fileName);
+        try (FileOutputStream outputStream = new FileOutputStream(tempFile)) {
+            outputStream.write(fileData);
+        }
+        return tempFile;
     }
 
 }

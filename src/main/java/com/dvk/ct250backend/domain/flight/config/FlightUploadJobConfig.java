@@ -2,10 +2,13 @@ package com.dvk.ct250backend.domain.flight.config;
 
 import com.dvk.ct250backend.domain.flight.batch.FlightPricingReader;
 import com.dvk.ct250backend.domain.flight.batch.FlightReader;
+import com.dvk.ct250backend.domain.flight.batch.SeatAvailabilityReader;
 import com.dvk.ct250backend.domain.flight.entity.Flight;
 import com.dvk.ct250backend.domain.flight.entity.FlightPricing;
+import com.dvk.ct250backend.domain.flight.entity.SeatAvailability;
 import com.dvk.ct250backend.domain.flight.repository.FlightPricingRepository;
 import com.dvk.ct250backend.domain.flight.repository.FlightRepository;
+import com.dvk.ct250backend.domain.flight.repository.SeatAvailabilityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -30,6 +33,7 @@ public class FlightUploadJobConfig {
     private final PlatformTransactionManager transactionManager;
     private final FlightRepository flightRepository;
     private final FlightPricingRepository flightPricingRepository;
+    private final SeatAvailabilityRepository seatAvailabilityRepository;
 
     @Bean
     @StepScope
@@ -38,7 +42,7 @@ public class FlightUploadJobConfig {
     }
 
     @Bean
-    public ItemProcessor<Flight,Flight> flightProcessor() {
+    public ItemProcessor<Flight, Flight> flightProcessor() {
         return flight -> flight;
     }
 
@@ -57,7 +61,7 @@ public class FlightUploadJobConfig {
     }
 
     @Bean
-    public ItemProcessor<FlightPricing,FlightPricing> flightPricingProcessor() {
+    public ItemProcessor<FlightPricing, FlightPricing> flightPricingProcessor() {
         return flightPricing -> flightPricing;
     }
 
@@ -70,43 +74,78 @@ public class FlightUploadJobConfig {
     }
 
     @Bean
+    @StepScope
+    public SeatAvailabilityReader seatAvailabilityReader(@Value("#{jobParameters['seatAvailabilityFile']}") String seatAvailabilityFile) {
+        return new SeatAvailabilityReader(new FileSystemResource(seatAvailabilityFile));
+    }
+
+    @Bean
+    public ItemProcessor<SeatAvailability, SeatAvailability> seatAvailabilityItemProcessor() {
+        return seatAvailability -> seatAvailability;
+    }
+
+    @Bean
+    public RepositoryItemWriter<SeatAvailability> seatAvailabilityWriter() {
+        RepositoryItemWriter<SeatAvailability> writer = new RepositoryItemWriter<>();
+        writer.setRepository(seatAvailabilityRepository);
+        writer.setMethodName("save");
+        return writer;
+    }
+
+    @Bean
+    public Step importSeatAvailabilityStep(
+            SeatAvailabilityReader seatAvailabilityReader,
+            ItemProcessor<SeatAvailability, SeatAvailability> seatAvailabilityItemProcessor,
+            RepositoryItemWriter<SeatAvailability> seatAvailabilityWriter
+    ) {
+        return new StepBuilder("Import Seat Availability Step", jobRepository)
+                .<SeatAvailability, SeatAvailability>chunk(50, transactionManager)
+                .reader(seatAvailabilityReader)
+                .processor(seatAvailabilityItemProcessor)
+                .writer(seatAvailabilityWriter)
+                .build();
+    }
+
+    @Bean
     public Step importFlightStep(
-        FlightReader flightReader,
-        ItemProcessor<Flight,Flight> flightProcessor,
-        RepositoryItemWriter<Flight> flightWriter
+            FlightReader flightReader,
+            ItemProcessor<Flight, Flight> flightProcessor,
+            RepositoryItemWriter<Flight> flightWriter
     ) {
         return new StepBuilder("Import Flights Step", jobRepository)
-            .<Flight, Flight>chunk(50, transactionManager)
-            .reader(flightReader)
-            .processor(flightProcessor)
-            .writer(flightWriter)
-            .build();
+                .<Flight, Flight>chunk(50, transactionManager)
+                .reader(flightReader)
+                .processor(flightProcessor)
+                .writer(flightWriter)
+                .build();
     }
 
     @Bean
     public Step importFlightPricingStep(
-        FlightPricingReader flightPricingReader,
-        ItemProcessor<FlightPricing,FlightPricing> flightPricingProcessor,
-        RepositoryItemWriter<FlightPricing> flightPricingWriter
+            FlightPricingReader flightPricingReader,
+            ItemProcessor<FlightPricing, FlightPricing> flightPricingProcessor,
+            RepositoryItemWriter<FlightPricing> flightPricingWriter
     ) {
         return new StepBuilder("Import Flight Pricing Step", jobRepository)
-            .<FlightPricing, FlightPricing>chunk(50, transactionManager)
-            .reader(flightPricingReader)
-            .processor(flightPricingProcessor)
-            .writer(flightPricingWriter)
-            .build();
+                .<FlightPricing, FlightPricing>chunk(50, transactionManager)
+                .reader(flightPricingReader)
+                .processor(flightPricingProcessor)
+                .writer(flightPricingWriter)
+                .build();
     }
 
     @Bean
     public Job flightUploadJob(
-        Step importFlightStep,
-        Step importFlightPricingStep,
-        FlightUploadJobListener flightUploadJobListener
+            Step importFlightStep,
+            Step importFlightPricingStep,
+            Step importSeatAvailabilityStep,
+            FlightUploadJobListener flightUploadJobListener
     ) {
         return new JobBuilder("Flight Upload Job", jobRepository)
-            .start(importFlightStep)
-            .next(importFlightPricingStep)
-            .listener(flightUploadJobListener)
-            .build();
+                .start(importFlightStep)
+                .next(importFlightPricingStep)
+                .next(importSeatAvailabilityStep)
+                .listener(flightUploadJobListener)
+                .build();
     }
 }

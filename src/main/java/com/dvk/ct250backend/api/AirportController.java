@@ -5,7 +5,6 @@ import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.flight.dto.AirportDTO;
 import com.dvk.ct250backend.domain.flight.service.AirportService;
-import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -53,10 +52,10 @@ public class AirportController {
     }
 
     @PutMapping("/{id}")
-    public ApiResponse<AirportDTO> updateAirport(@PathVariable("id") Integer id, @Valid @RequestBody AirportDTO airportDTO) throws ResourceNotFoundException {
+    public ApiResponse<AirportDTO> updateAirport(@PathVariable("id") Integer id, @ModelAttribute  AirportDTO airportDTO, @RequestParam(required = false) MultipartFile cityImg) throws ResourceNotFoundException, IOException {
         return ApiResponse.<AirportDTO>builder()
                 .status(HttpStatus.OK.value())
-                .payload(airportService.updateAirport(id, airportDTO))
+                .payload(airportService.updateAirport(id, airportDTO, cityImg))
                 .build();
     }
 

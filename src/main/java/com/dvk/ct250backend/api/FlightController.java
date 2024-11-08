@@ -8,6 +8,7 @@ import com.dvk.ct250backend.domain.flight.dto.FlightDTO;
 import com.dvk.ct250backend.domain.flight.dto.FlightOverview;
 import com.dvk.ct250backend.domain.flight.dto.request.FlightSearchRequest;
 import com.dvk.ct250backend.domain.flight.service.FlightService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -68,20 +69,19 @@ public class FlightController {
                 .build();
     }
 
-    @GetMapping("/search")
-    public ApiResponse<List<FlightDTO>> searchFlights(@ModelAttribute FlightSearchRequest flightSearchRequest) {
+    @PostMapping("/search")
+    public ApiResponse<List<FlightDTO>> searchFlights(@Valid @RequestBody FlightSearchRequest flightSearchRequest) {
         return ApiResponse.<List<FlightDTO>>builder()
                 .status(HttpStatus.OK.value())
                 .payload(flightService.searchFlights(flightSearchRequest))
                 .build();
     }
 
-    @GetMapping("/overview")
-    public ApiResponse<List<FlightOverview>> getFlightOverview(@RequestParam("startDate") String startDate,
-                                                          @RequestParam("endDate") String endDate) {
+    @PostMapping("/overview")
+    public ApiResponse<List<FlightOverview>> getFlightOverview(@Valid @RequestBody FlightSearchRequest flightSearchRequest) {
         return ApiResponse.<List<FlightOverview>>builder()
                 .status(HttpStatus.OK.value())
-                .payload(flightService.getFlightOverview(startDate, endDate))
+                .payload(flightService.getFlightOverview(flightSearchRequest))
                 .build();
     }
 

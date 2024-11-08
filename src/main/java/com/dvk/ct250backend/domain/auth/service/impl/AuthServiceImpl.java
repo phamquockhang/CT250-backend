@@ -12,7 +12,8 @@ import com.dvk.ct250backend.domain.auth.repository.PermissionRepository;
 import com.dvk.ct250backend.domain.auth.repository.RoleRepository;
 import com.dvk.ct250backend.domain.auth.repository.UserRepository;
 import com.dvk.ct250backend.domain.auth.service.AuthService;
-import com.dvk.ct250backend.domain.auth.service.EmailService;
+import com.dvk.ct250backend.domain.common.service.EmailService;
+import com.dvk.ct250backend.domain.common.service.RedisService;
 import com.dvk.ct250backend.infrastructure.audit.AuditAwareImpl;
 import com.dvk.ct250backend.infrastructure.utils.JwtUtils;
 import jakarta.mail.MessagingException;
@@ -33,7 +34,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.UUID;
@@ -52,7 +52,7 @@ public class AuthServiceImpl implements AuthService {
     AuditAwareImpl auditAware;
     PermissionRepository permissionRepository;
     EmailService emailService;
-
+    RedisService redisService;
 
     @Override
     @Transactional
@@ -64,9 +64,9 @@ public class AuthServiceImpl implements AuthService {
         User user = userMapper.toUser(userDTO);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setActive(false);
-        user.setVerificationToken(UUID.randomUUID().toString());
-
-        emailService.sendVerificationEmail(user,siteUrl);
+        String verifyToken = UUID.randomUUID().toString();
+        redisService.set(verifyToken, user.getEmail() , 60 * 60 * 24 * 1000); // 24h expiration in milliseconds
+        emailService.sendVerificationEmail(user, siteUrl, verifyToken);
         Optional<Role> role = roleRepository.findByRoleName("USER");
         if (role.isEmpty()) {
             role = Optional.of(new Role());
@@ -81,19 +81,21 @@ public class AuthServiceImpl implements AuthService {
                 role.get().setPermissions(Collections.emptyList());
             }
             role = Optional.of(roleRepository.save(role.get()));
-
         }
         user.setRole(role.get());
 
         return userMapper.toUserDTO(userRepository.save(user));
     }
 
-    public UserDTO verifyUser(String token) throws ResourceNotFoundException {
-        User user = userRepository.findByVerificationToken(token)
-                .orElseThrow(() -> new ResourceNotFoundException("Invalid verification token"));
+    public UserDTO verifyUser(String verifyToken) throws ResourceNotFoundException {
+        String email = (String) redisService.get(verifyToken);
+        if (email == null) {
+            throw new ResourceNotFoundException("Invalid verification token");
+        }
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         user.setActive(true);
-        user.setVerificationToken(null);
         User updatedUser = userRepository.save(user);
 
         return userMapper.toUserDTO(updatedUser);
@@ -113,9 +115,7 @@ public class AuthServiceImpl implements AuthService {
         // Store refresh token in http only cookie
         Cookie refreshTokenCookie = new Cookie("refresh_token", refreshToken);
         refreshTokenCookie.setHttpOnly(true);
-        // refreshTokenCookie.setSecure(true); // HTTPS
         refreshTokenCookie.setPath("/");
-        // prevent CSRF attacks
         refreshTokenCookie.setAttribute("SameSite", "Strict");
         refreshTokenCookie.setMaxAge(7 * 24 * 60 * 60); // 7 days
 
@@ -189,38 +189,39 @@ public class AuthServiceImpl implements AuthService {
     public void forgotPassword(String email, String siteUrl) throws ResourceNotFoundException, MessagingException, UnsupportedEncodingException {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("Email not found"));
+        if (!user.isActive()) {
+            throw new ResourceNotFoundException("User account is not active");
+        }
 
-        String token = UUID.randomUUID().toString();
-        user.setVerificationToken(token);
-        user.setTokenExpiryDate(LocalDateTime.now().plusHours(2)); // 2 tiếng hết hạn
-        userRepository.save(user);
+        String tokenMail = UUID.randomUUID().toString();
+        redisService.set(tokenMail, user.getEmail(), 60 * 60 * 2 * 1000); // 2 hours expiration in milliseconds
 
-        String resetPasswordLink = siteUrl + "/reset-password?token=" + token;
+        String resetPasswordLink = siteUrl + "/reset-password?token=" + tokenMail;
         emailService.sendPasswordResetEmail(user, resetPasswordLink);
     }
 
     @Override
-    public void resetPassword(String token, String newPassword) throws ResourceNotFoundException {
-        User user = userRepository.findByVerificationToken(token)
-                .orElseThrow(() -> new ResourceNotFoundException("Invalid token"));
-
-        if (user.getTokenExpiryDate().isBefore(LocalDateTime.now())) {
-            throw new ResourceNotFoundException("Token has expired");
+    public void resetPassword(String verifyToken, String newPassword) throws ResourceNotFoundException {
+        String email = (String) redisService.get(verifyToken);
+        if (email == null) {
+            throw new ResourceNotFoundException("Invalid token");
         }
 
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        if (!user.isActive()) {
+            throw new ResourceNotFoundException("User account is not active");
+        }
         user.setPassword(passwordEncoder.encode(newPassword));
-        user.setVerificationToken(null);
-        user.setTokenExpiryDate(null);
         userRepository.save(user);
     }
 
     @Override
-    public void verifyResetToken(String token) throws ResourceNotFoundException {
-        User user = userRepository.findByVerificationToken(token)
-                .orElseThrow(() -> new ResourceNotFoundException("Invalid token"));
-
-        if (user.getTokenExpiryDate().isBefore(LocalDateTime.now())) {
-            throw new ResourceNotFoundException("Token has expired");
+    public void verifyResetToken(String verifyToken) throws ResourceNotFoundException {
+        String email = (String) redisService.get(verifyToken);
+        if (email == null) {
+            throw new ResourceNotFoundException("Invalid token");
         }
     }
 }

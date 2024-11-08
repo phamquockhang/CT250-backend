@@ -12,13 +12,11 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SeatDTO {
-   Integer seatId;
+
+    Integer seatId;
 
     String ticketClass;
 
     String seatCode;
 
-//    List<SeatAvailabilityDTO> seatAvailability;
-//
-//    AirplaneDTO airplane;
 }

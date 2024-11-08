@@ -3,7 +3,6 @@ package com.dvk.ct250backend.api;
 import com.dvk.ct250backend.app.dto.response.ApiResponse;
 import com.dvk.ct250backend.domain.flight.dto.ModelDTO;
 import com.dvk.ct250backend.domain.flight.service.ModelService;
-import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;

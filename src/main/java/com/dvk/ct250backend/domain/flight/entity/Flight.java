@@ -1,13 +1,14 @@
 package com.dvk.ct250backend.domain.flight.entity;
 
+import com.dvk.ct250backend.domain.booking.entity.BookingFlight;
 import com.dvk.ct250backend.domain.common.entity.BaseEntity;
 import com.dvk.ct250backend.domain.flight.enums.FlightStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -22,7 +23,6 @@ public class Flight extends BaseEntity {
 
     @Id
     String flightId;
-
 
     LocalDateTime departureDateTime;
     LocalDateTime arrivalDateTime;
@@ -44,17 +44,14 @@ public class Flight extends BaseEntity {
     @Enumerated(EnumType.STRING)
     FlightStatusEnum flightStatus;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "flight_fee",
+            joinColumns = @JoinColumn(name = "flight_id"),
+            inverseJoinColumns = @JoinColumn(name = "fee_id")
+    )
+    List<Fee> fees;
 
-
-    @Transient
-    public String getFlightDuration() {
-        if (departureDateTime != null && arrivalDateTime != null) {
-            Duration duration = Duration.between(departureDateTime, arrivalDateTime);
-            long totalMinutes = duration.toMinutes();
-            return totalMinutes + " minutes";
-        }
-        return null;
-    }
-
-
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "flight", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    List<BookingFlight> bookingFlights = new ArrayList<>();
 }

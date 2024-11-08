@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface RouteService {
-    RouteDTO createRoute(RouteDTO RouteDTO);
+    RouteDTO createRoute(RouteDTO routeDTO) throws ResourceNotFoundException;
     void deleteRoute(Integer id) throws ResourceNotFoundException;
-    RouteDTO updateRoute(Integer id, RouteDTO RouteDTO) throws ResourceNotFoundException;
+    RouteDTO updateRoute(Integer id, RouteDTO routeDTO) throws ResourceNotFoundException;
     Page<RouteDTO> getRoutes(Map<String, String> params);
     List<RouteDTO> getAllRoutes();
 }
