@@ -12,6 +12,7 @@ import com.dvk.ct250backend.domain.booking.service.BookingService;
 import com.dvk.ct250backend.domain.booking.utils.BookingCodeUtils;
 import com.dvk.ct250backend.domain.common.service.EmailService;
 import com.dvk.ct250backend.domain.common.service.LockService;
+import com.dvk.ct250backend.domain.common.service.RedisService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -37,6 +38,7 @@ public class BookingServiceImpl implements BookingService {
     BookingFlightService bookingFlightService;
     BookingCodeUtils bookingCodeUtils;
     EmailService emailService;
+    RedisService redisService;
 
     @Override
     @Transactional
@@ -64,7 +66,7 @@ public class BookingServiceImpl implements BookingService {
         if (!lockAcquired) {
             throw new RuntimeException("Could not acquire lock for booking " + bookingId);
         }
-        try {
+         try {
             String bookingCode = bookingCodeUtils.generateBookingCode();
             Booking booking = bookingRepository.findById(bookingId).orElseThrow();
             booking.setBookingStatus(BookingStatusEnum.RESERVED);
@@ -72,6 +74,7 @@ public class BookingServiceImpl implements BookingService {
             booking.getBookingFlights().forEach(bookingFlightService::processBookingFlight);
 
             Booking savedBooking = bookingRepository.save(booking);
+            redisService.setWithTTL("booking:" + bookingId, bookingId.toString(), 30, TimeUnit.SECONDS);
             LocalDateTime paymentDeadline = LocalDateTime.now().plusHours(1);
             emailService.sendTemporaryBookingCodeEmail(bookingCode, paymentDeadline);
             return bookingMapper.toBookingDTO(savedBooking);
