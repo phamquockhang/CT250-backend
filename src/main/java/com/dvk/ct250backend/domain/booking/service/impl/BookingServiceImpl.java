@@ -10,6 +10,7 @@ import com.dvk.ct250backend.domain.booking.service.BookingFlightService;
 import com.dvk.ct250backend.domain.booking.service.BookingPassengerService;
 import com.dvk.ct250backend.domain.booking.service.BookingService;
 import com.dvk.ct250backend.domain.booking.utils.BookingCodeUtils;
+import com.dvk.ct250backend.domain.common.service.EmailService;
 import com.dvk.ct250backend.domain.common.service.LockService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -34,6 +36,7 @@ public class BookingServiceImpl implements BookingService {
     LockService lockService;
     BookingFlightService bookingFlightService;
     BookingCodeUtils bookingCodeUtils;
+    EmailService emailService;
 
     @Override
     @Transactional
@@ -62,13 +65,15 @@ public class BookingServiceImpl implements BookingService {
             throw new RuntimeException("Could not acquire lock for booking " + bookingId);
         }
         try {
+            String bookingCode = bookingCodeUtils.generateBookingCode();
             Booking booking = bookingRepository.findById(bookingId).orElseThrow();
             booking.setBookingStatus(BookingStatusEnum.RESERVED);
-            booking.setBookingCode(bookingCodeUtils.generateBookingCode());
+            booking.setBookingCode(bookingCode);
             booking.getBookingFlights().forEach(bookingFlightService::processBookingFlight);
 
             Booking savedBooking = bookingRepository.save(booking);
-            //redisService.set("booking_" + bookingId, booking, 60 * 60 * 1000);
+            LocalDateTime paymentDeadline = LocalDateTime.now().plusHours(1);
+            emailService.sendTemporaryBookingCodeEmail(bookingCode, paymentDeadline);
             return bookingMapper.toBookingDTO(savedBooking);
         } finally {
             lockService.releaseLock(lockKey);

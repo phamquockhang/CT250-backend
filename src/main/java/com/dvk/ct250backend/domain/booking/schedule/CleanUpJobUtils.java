@@ -1,4 +1,4 @@
-package com.dvk.ct250backend.domain.booking.utils;
+package com.dvk.ct250backend.domain.booking.schedule;
 
 import com.dvk.ct250backend.domain.booking.entity.Booking;
 import com.dvk.ct250backend.domain.booking.enums.BookingStatusEnum;
