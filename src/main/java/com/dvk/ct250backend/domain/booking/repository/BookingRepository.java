@@ -12,4 +12,5 @@ import java.util.Optional;
 public interface BookingRepository extends JpaRepository<Booking, Integer> , JpaSpecificationExecutor<Booking> {
     List<Booking> findByBookingStatusAndCreatedAtBefore(BookingStatusEnum status, LocalDateTime cutoffTime);
     Optional<Booking> findByBookingCode(String bookingCode);
+    List<Booking> findAllByBookingStatus(BookingStatusEnum bookingStatus);
 }

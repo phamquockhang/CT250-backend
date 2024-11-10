@@ -1,7 +1,6 @@
 package com.dvk.ct250backend.infrastructure.config.redis;
 
 import com.dvk.ct250backend.infrastructure.config.kryo.KryoSerializer;
-import com.dvk.ct250backend.infrastructure.service.redis.BookingExpirationListener;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -13,7 +12,7 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.listener.ChannelTopic;
+import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.serializer.*;
@@ -25,6 +24,7 @@ import java.time.Duration;
 @RequiredArgsConstructor
 public class RedisConfig {
     private final KryoSerializer kryoSerializer;
+    private final com.dvk.ct250backend.infrastructure.redis.RedisKeyExpirationListener redisKeyExpirationListener;
 
     @Bean
     public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
@@ -75,21 +75,10 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisMessageListenerContainer redisContainer(RedisConnectionFactory connectionFactory,
-                                                        MessageListenerAdapter listenerAdapter) {
+    RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        container.addMessageListener(listenerAdapter, topic());
+        container.addMessageListener(new MessageListenerAdapter(redisKeyExpirationListener), new PatternTopic("__keyevent@*__:expired"));
         return container;
-    }
-
-    @Bean
-    public MessageListenerAdapter listenerAdapter(BookingExpirationListener listener) {
-        return new MessageListenerAdapter(listener, "onMessage");
-    }
-
-    @Bean
-    public ChannelTopic topic() {
-        return new ChannelTopic("booking-expired");
     }
 }

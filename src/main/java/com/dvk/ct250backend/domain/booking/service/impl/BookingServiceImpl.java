@@ -66,7 +66,7 @@ public class BookingServiceImpl implements BookingService {
         if (!lockAcquired) {
             throw new RuntimeException("Could not acquire lock for booking " + bookingId);
         }
-         try {
+        try {
             String bookingCode = bookingCodeUtils.generateBookingCode();
             Booking booking = bookingRepository.findById(bookingId).orElseThrow();
             booking.setBookingStatus(BookingStatusEnum.RESERVED);
@@ -74,9 +74,13 @@ public class BookingServiceImpl implements BookingService {
             booking.getBookingFlights().forEach(bookingFlightService::processBookingFlight);
 
             Booking savedBooking = bookingRepository.save(booking);
-            redisService.setWithTTL("booking:" + bookingId, bookingId.toString(), 30, TimeUnit.SECONDS);
+
             LocalDateTime paymentDeadline = LocalDateTime.now().plusHours(1);
+            int timeout = (int) java.time.Duration.between(LocalDateTime.now(), paymentDeadline).getSeconds();
+            String redisKey = "booking:" + bookingId;
+            redisService.set(redisKey, bookingId, timeout);
             emailService.sendTemporaryBookingCodeEmail(bookingCode, paymentDeadline);
+
             return bookingMapper.toBookingDTO(savedBooking);
         } finally {
             lockService.releaseLock(lockKey);

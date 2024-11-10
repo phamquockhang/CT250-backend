@@ -106,36 +106,97 @@ public class EmailServiceImpl implements EmailService {
         emailKafkaProducer.sendEmailEvent(emailMessage);
     }
 
-    @Override
-    public void sendTemporaryBookingCodeEmail(String bookingCode, LocalDateTime paymentDeadline) {
-        Booking booking = bookingRepository.findByBookingCode(bookingCode)
-                .orElseThrow(() -> new IllegalArgumentException("Booking not found for code: " + bookingCode));
+//    @Override
+//    public void sendTemporaryBookingCodeEmail(String bookingCode, LocalDateTime paymentDeadline) {
+//        Booking booking = bookingRepository.findByBookingCode(bookingCode)
+//                .orElseThrow(() -> new IllegalArgumentException("Booking not found for code: " + bookingCode));
+//
+//        String toAddress = booking.getBookingFlights().stream()
+//                .flatMap(bookingFlight -> bookingFlight.getBookingPassengers().stream())
+//                .filter(BookingPassenger::getIsPrimaryContact)
+//                .findFirst()
+//                .orElseThrow(() -> new IllegalArgumentException("Primary contact not found"))
+//                .getPassenger()
+//                .getEmail();
+//
+//        ZonedDateTime zonedPaymentDeadline = paymentDeadline.atZone(ZoneId.systemDefault());
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, d MMMM HH:mm (z)", new Locale("vi", "VN"));
+//        String formattedDeadline = zonedPaymentDeadline.format(formatter);
+//        Map<String, Object> context = Map.of(
+//                "bookingCode", bookingCode,
+//                "paymentDeadline", formattedDeadline
+//        );
+//
+//        EmailMessage emailMessage = EmailMessage.builder()
+//                .toAddress(toAddress)
+//                .subject("Đặt Chỗ Tạm Thời Davika Airways")
+//                .templateName("verify-reserve-booking")
+//                .context(context)
+//                .build();
+//
+//        emailKafkaProducer.sendEmailEvent(emailMessage);
+//    }
 
-        String toAddress = booking.getBookingFlights().stream()
-                .flatMap(bookingFlight -> bookingFlight.getBookingPassengers().stream())
-                .filter(BookingPassenger::getIsPrimaryContact)
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Primary contact not found"))
-                .getPassenger()
-                .getEmail();
+//    @Override
+//    public void sendTicketConfirmationEmail(Booking booking) throws Exception {
+//        String toAddress = booking.getBookingFlights().stream()
+//                .flatMap(bookingFlight -> bookingFlight.getBookingPassengers().stream())
+//                .filter(BookingPassenger::getIsPrimaryContact)
+//                .findFirst()
+//                .orElseThrow(() -> new IllegalArgumentException("Primary contact not found"))
+//                .getPassenger()
+//                .getEmail();
+//        String subject = generateSubject(booking);
+//
+//        Context context = new Context();
+//        context.setVariable("booking", booking);
+//
+//        String content = templateEngine.process("verify-booking-email", context);
+//
+//        String pdfContent = templateEngine.process("ticket", context);
+//        byte[] pdfData = PdfGeneratorUtils.generateTicketPdf(pdfContent);
+//
+//        PdfMessage pdfMessage = PdfMessage.builder()
+//                .bookingId(booking.getBookingId().toString())
+//                .context(Map.of(
+//                        "toAddress", toAddress,
+//                        "subject", subject,
+//                        "content", content,
+//                        "pdfData", pdfData
+//                ))
+//                .build();
+//        pdfKafkaProducer.sendPdfEvent(pdfMessage);
+//    }
+@Override
+public void sendTemporaryBookingCodeEmail(String bookingCode, LocalDateTime paymentDeadline) {
+    Booking booking = bookingRepository.findByBookingCode(bookingCode)
+            .orElseThrow(() -> new IllegalArgumentException("Booking not found for code: " + bookingCode));
 
-        ZonedDateTime zonedPaymentDeadline = paymentDeadline.atZone(ZoneId.systemDefault());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, d MMMM HH:mm (z)", new Locale("vi", "VN"));
-        String formattedDeadline = zonedPaymentDeadline.format(formatter);
-        Map<String, Object> context = Map.of(
-                "bookingCode", bookingCode,
-                "paymentDeadline", formattedDeadline
-        );
+    String toAddress = booking.getBookingFlights().stream()
+            .flatMap(bookingFlight -> bookingFlight.getBookingPassengers().stream())
+            .filter(BookingPassenger::getIsPrimaryContact)
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("Primary contact not found"))
+            .getPassenger()
+            .getEmail();
 
-        EmailMessage emailMessage = EmailMessage.builder()
-                .toAddress(toAddress)
-                .subject("Đặt Chỗ Tạm Thời Davika Airways")
-                .templateName("verify-reserve-booking")
-                .context(context)
-                .build();
+    ZonedDateTime zonedPaymentDeadline = paymentDeadline.atZone(ZoneId.systemDefault());
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, d MMMM HH:mm (z)", new Locale("vi", "VN"));
+    String formattedDeadline = zonedPaymentDeadline.format(formatter);
+    Map<String, Object> context = Map.of(
+            "bookingCode", bookingCode,
+            "paymentDeadline", formattedDeadline
+    );
 
-        emailKafkaProducer.sendEmailEvent(emailMessage);
-    }
+    EmailMessage emailMessage = EmailMessage.builder()
+            .toAddress(toAddress)
+            .subject("Đặt Chỗ Tạm Thời Davika Airways")
+            .templateName("verify-reserve-booking")
+            .context(context)
+            .build();
+
+    emailKafkaProducer.sendEmailEvent(emailMessage);
+}
 
     @Override
     public void sendTicketConfirmationEmail(Booking booking) throws Exception {
@@ -148,12 +209,15 @@ public class EmailServiceImpl implements EmailService {
                 .getEmail();
         String subject = generateSubject(booking);
 
-        Context context = new Context();
-        context.setVariable("booking", booking);
+        // Context for email content
+        Context emailContext = new Context();
+        emailContext.setVariable("booking", booking);
+        String content = templateEngine.process("verify-booking-email", emailContext);
 
-        String content = templateEngine.process("verify-booking-email", context);
-
-        String pdfContent = templateEngine.process("ticket", context);
+        // Separate context for PDF content
+        Context pdfContext = new Context();
+        pdfContext.setVariable("booking", booking);
+        String pdfContent = templateEngine.process("ticket", pdfContext);
         byte[] pdfData = PdfGeneratorUtils.generateTicketPdf(pdfContent);
 
         PdfMessage pdfMessage = PdfMessage.builder()
@@ -213,3 +277,4 @@ public class EmailServiceImpl implements EmailService {
         return "Đặt chỗ " + departureDate + " tới " + destination + " của " + passengerName;
     }
 }
+
