@@ -3,7 +3,6 @@ package com.dvk.ct250backend.domain.booking.schedule;
 import com.dvk.ct250backend.domain.booking.entity.Booking;
 import com.dvk.ct250backend.domain.booking.enums.BookingStatusEnum;
 import com.dvk.ct250backend.domain.booking.repository.BookingRepository;
-import com.dvk.ct250backend.domain.common.service.RedisService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -21,7 +20,6 @@ import java.util.List;
 @Slf4j
 public class CleanUpJobUtils {
     BookingRepository bookingRepository;
-    RedisService redisService;
 
     @Scheduled(fixedRate = 3600000)
     public void cleanUpInitBookings() {

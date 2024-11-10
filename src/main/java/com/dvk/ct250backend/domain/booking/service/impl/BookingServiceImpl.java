@@ -81,6 +81,7 @@ public class BookingServiceImpl implements BookingService {
             redisService.set(redisKey, bookingId, timeout);
             emailService.sendTemporaryBookingCodeEmail(bookingCode, paymentDeadline);
 
+            bookingDTO.setPaymentDeadline(paymentDeadline);
             return bookingMapper.toBookingDTO(savedBooking);
         } finally {
             lockService.releaseLock(lockKey);

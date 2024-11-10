@@ -3,7 +3,6 @@ package com.dvk.ct250backend.infrastructure.redis;
 import com.dvk.ct250backend.domain.booking.entity.Booking;
 import com.dvk.ct250backend.domain.booking.enums.BookingStatusEnum;
 import com.dvk.ct250backend.domain.booking.repository.BookingRepository;
-import com.dvk.ct250backend.infrastructure.config.kryo.KryoSerializer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.connection.Message;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Component;
 public class RedisKeyExpirationListener implements MessageListener {
 
     private final BookingRepository bookingRepository;
-    private final KryoSerializer kryoSerializer;
     @Override
     public void onMessage(Message message, byte[] pattern) {
         String expiredKey = new String(message.getBody());

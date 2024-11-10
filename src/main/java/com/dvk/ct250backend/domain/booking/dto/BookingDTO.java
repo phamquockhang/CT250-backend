@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -31,4 +32,9 @@ public class BookingDTO {
 
     @NotBlank(message = "Booking status is required")
     String bookingStatus;
+
+    LocalDateTime paymentDeadline;
+
+    LocalDateTime createdAt;
+    LocalDateTime updatedAt;
 }
