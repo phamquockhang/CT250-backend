@@ -20,7 +20,7 @@ services:
       - redis:/data
     ports:
       - "6379:6379"
-
+    command: ["redis-server", "--notify-keyspace-events", "Ex", "--protected-mode", "no"]
   zoo1:
     image: confluentinc/cp-zookeeper:7.5.3
     hostname: zoo1

@@ -2,12 +2,12 @@ package com.dvk.ct250backend.domain.common.service;
 
 import com.dvk.ct250backend.domain.auth.entity.User;
 import com.dvk.ct250backend.domain.booking.entity.Booking;
-import jakarta.mail.MessagingException;
 
-import java.io.UnsupportedEncodingException;
+import java.time.LocalDateTime;
 
 public interface EmailService {
-    void sendVerificationEmail(User user, String siteURL, String verifyToken) throws MessagingException, UnsupportedEncodingException;
-    void sendPasswordResetEmail(User user, String resetURL) throws MessagingException, UnsupportedEncodingException;
+    void sendVerificationEmail(User user, String siteURL, String verifyToken) ;
+    void sendPasswordResetEmail(User user, String resetURL) ;
     void sendTicketConfirmationEmail(Booking booking) throws Exception;
+    void sendTemporaryBookingCodeEmail(String bookingCode, LocalDateTime paymentDeadline);
 }

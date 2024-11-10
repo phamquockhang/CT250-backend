@@ -1,5 +1,9 @@
+
 package com.dvk.ct250backend.infrastructure.config.payment.vnpay;
 
+import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
+import com.dvk.ct250backend.domain.booking.entity.Booking;
+import com.dvk.ct250backend.domain.booking.repository.BookingRepository;
 import com.dvk.ct250backend.domain.booking.utils.BookingCodeUtils;
 import com.dvk.ct250backend.infrastructure.utils.VNPayUtils;
 import lombok.Getter;
@@ -35,14 +39,25 @@ public class VNPayConfig {
     @Autowired
     BookingCodeUtils bookingCodeUtils;
 
-    public Map<String, String> getVNPayConfig() {
+    @Autowired
+    BookingRepository bookingRepository;
+
+    public Map<String, String> getVNPayConfig(Integer bookingId) throws ResourceNotFoundException {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
+
+        String bookingCode = booking.getBookingCode();
+        if (bookingCode == null || bookingCode.isEmpty()) {
+            bookingCode = bookingCodeUtils.generateBookingCode();
+        }
+
         Map<String, String> vnpParamsMap = new HashMap<>();
         vnpParamsMap.put("vnp_Version", this.vnp_Version);
         vnpParamsMap.put("vnp_Command", this.vnp_Command);
         vnpParamsMap.put("vnp_TmnCode", this.vnp_TmnCode);
         vnpParamsMap.put("vnp_CurrCode", "VND");
         vnpParamsMap.put("vnp_TxnRef", VNPayUtils.getRandomNumber(8));
-        vnpParamsMap.put("vnp_OrderInfo", bookingCodeUtils.generateBookingCode());
+        vnpParamsMap.put("vnp_OrderInfo", bookingCode);
         vnpParamsMap.put("vnp_OrderType", this.orderType);
         vnpParamsMap.put("vnp_Locale", "vn");
         vnpParamsMap.put("vnp_ReturnUrl", this.vnp_ReturnUrl);
@@ -56,4 +71,3 @@ public class VNPayConfig {
         return vnpParamsMap;
     }
 }
-
