@@ -1,5 +1,6 @@
 package com.dvk.ct250backend.domain.booking.entity;
 
+import com.dvk.ct250backend.domain.booking.enums.CouponTypeEnum;
 import com.dvk.ct250backend.domain.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,6 +29,9 @@ public class Coupon extends BaseEntity {
 
     BigDecimal discountAmount;
     BigDecimal discountPercentage;
+
+    @Enumerated(EnumType.STRING)
+    CouponTypeEnum couponType;
 
     LocalDate validFrom;
     LocalDate validTo;

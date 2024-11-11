@@ -19,6 +19,7 @@ public class CouponDTO {
     String couponCode;
     BigDecimal discountAmount;
     BigDecimal discountPercentage;
+    String couponType;
     LocalDate validFrom;
     LocalDate validTo;
     LocalDate createdAt;

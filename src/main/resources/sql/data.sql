@@ -441,7 +441,13 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
 
        ('Create a booking', '/api/v1/bookings', 'POST', 'BOOKINGS'),
 
-       ('Create a transaction', '/api/v1/transactions', 'POST', 'TRANSACTION');
+       ('Create a transaction', '/api/v1/transactions', 'POST', 'TRANSACTION'),
+
+       ('Get coupons with pagination', '/api/v1/coupons', 'GET', 'COUPONS'),
+       ('Get all coupons', '/api/v1/coupons/all', 'GET', 'COUPONS'),
+       ('Create a coupon', '/api/v1/coupons', 'POST', 'COUPONS'),
+       ('Update a coupon', '/api/v1/coupons/{id}', 'PUT', 'COUPONS'),
+       ('Delete a coupon', '/api/v1/coupons/{id}', 'DELETE', 'COUPONS');
 
 
 --USER
