@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,9 +15,14 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class MealPricingDTO {
-    Integer mealPricingId;
-    BigDecimal price;
+public class CouponDTO {
+    Integer couponId;
+    String couponCode;
+    BigDecimal discountAmount;
+    BigDecimal discountPercentage;
     LocalDate validFrom;
     LocalDate validTo;
+    List<BookingDTO> bookings;
+    LocalDate createdAt;
+    LocalDate updatedAt;
 }

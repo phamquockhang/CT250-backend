@@ -26,7 +26,6 @@ public class MealPricing extends BaseEntity {
     LocalDate validFrom;
     LocalDate validTo;
 
-
     @ManyToOne
     @JoinColumn(name = "meal_id")
     Meal meal;

@@ -33,6 +33,10 @@ public class BookingController {
                 .payload(bookingService.reserveBooking(bookingId, bookingDTO))
                 .build();
     }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 }
 
 

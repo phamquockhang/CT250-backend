@@ -1,5 +1,6 @@
 package com.dvk.ct250backend.domain.booking.dto;
 
+import com.dvk.ct250backend.domain.auth.dto.UserDTO;
 import com.dvk.ct250backend.domain.auth.enums.GenderEnum;
 import com.dvk.ct250backend.domain.country.dto.CountryDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -41,4 +42,6 @@ public class PassengerDTO {
     Boolean isPrimaryContact;
 
     CountryDTO country;
+
+    UserDTO user;
 }
