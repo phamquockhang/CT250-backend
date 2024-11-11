@@ -17,8 +17,7 @@ import java.time.LocalDate;
 public class CouponDTO {
     Integer couponId;
     String couponCode;
-    BigDecimal discountAmount;
-    BigDecimal discountPercentage;
+    BigDecimal discountValue;
     String couponType;
     LocalDate validFrom;
     LocalDate validTo;

@@ -27,8 +27,7 @@ public class Coupon extends BaseEntity {
     @Column(unique = true)
     String couponCode;
 
-    BigDecimal discountAmount;
-    BigDecimal discountPercentage;
+    BigDecimal discountValue;
 
     @Enumerated(EnumType.STRING)
     CouponTypeEnum couponType;

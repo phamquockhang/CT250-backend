@@ -1,5 +1,6 @@
 package com.dvk.ct250backend.domain.booking.service.impl;
 
+import com.dvk.ct250backend.app.dto.request.SearchCriteria;
 import com.dvk.ct250backend.app.dto.response.Meta;
 import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
@@ -10,6 +11,7 @@ import com.dvk.ct250backend.domain.booking.repository.CouponRepository;
 import com.dvk.ct250backend.domain.booking.service.CouponService;
 import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
 import com.dvk.ct250backend.infrastructure.utils.StringUtils;
+import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.PageRequest;
@@ -92,6 +94,18 @@ public class CouponServiceImpl implements CouponService {
                             likePattern
                     )
             );
+        }
+
+        if (params.containsKey("couponType")) {
+            List<SearchCriteria> couponTypeCriteria = requestParamUtils.getSearchCriteria(params, "couponType");
+            if (!couponTypeCriteria.isEmpty()) {
+                spec = spec.and((root, query, cb) -> {
+                    List<Predicate> predicates = couponTypeCriteria.stream()
+                            .map(criteria -> cb.equal(root.get(criteria.getKey()), criteria.getValue()))
+                            .toList();
+                    return cb.or(predicates.toArray(new Predicate[0]));
+                });
+            }
         }
         return spec;
     }
