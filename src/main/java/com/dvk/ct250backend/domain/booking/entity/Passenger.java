@@ -1,5 +1,6 @@
 package com.dvk.ct250backend.domain.booking.entity;
 
+import com.dvk.ct250backend.domain.auth.entity.User;
 import com.dvk.ct250backend.domain.auth.enums.GenderEnum;
 import com.dvk.ct250backend.domain.booking.enums.PassengerTypeEnum;
 import com.dvk.ct250backend.domain.country.entity.Country;
@@ -47,8 +48,8 @@ public class Passenger {
     @OneToMany(mappedBy = "passenger", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     List<BookingPassenger> bookingPassengers;
 
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = true)
-//    User user;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = true)
+    User user;
 
 }
