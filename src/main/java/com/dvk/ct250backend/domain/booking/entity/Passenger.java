@@ -47,12 +47,9 @@ public class Passenger {
 
     @OneToMany(mappedBy = "passenger", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     List<BookingPassenger> bookingPassengers;
-<<<<<<< Updated upstream
-=======
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     User user;
 
->>>>>>> Stashed changes
 }

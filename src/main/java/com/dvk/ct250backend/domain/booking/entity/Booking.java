@@ -40,13 +40,11 @@ public class Booking extends BaseEntity {
     @OneToMany(mappedBy = "booking", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     List<Transaction> transactions;
 
-<<<<<<< Updated upstream
-=======
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "coupon_id")
     Coupon coupon;
 
->>>>>>> Stashed changes
     @Enumerated(EnumType.STRING)
     BookingStatusEnum bookingStatus;
 
