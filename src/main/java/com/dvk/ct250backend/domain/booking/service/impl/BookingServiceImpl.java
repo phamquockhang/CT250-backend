@@ -76,9 +76,9 @@ public class BookingServiceImpl implements BookingService {
             Booking savedBooking = bookingRepository.save(booking);
 
             LocalDateTime paymentDeadline = LocalDateTime.now().plusHours(1);
-            int timeout = (int) java.time.Duration.between(LocalDateTime.now(), paymentDeadline).getSeconds();
+            int timeoutInMillis = (int) java.time.Duration.between(LocalDateTime.now(), paymentDeadline).toMillis();
             String redisKey = "booking:" + bookingId;
-            redisService.set(redisKey, bookingId, timeout);
+            redisService.set(redisKey, bookingId, timeoutInMillis);
             emailService.sendTemporaryBookingCodeEmail(bookingCode, paymentDeadline);
 
             bookingDTO.setPaymentDeadline(paymentDeadline);
