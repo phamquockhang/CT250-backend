@@ -1,6 +1,7 @@
 package com.dvk.ct250backend.api;
 
 import com.dvk.ct250backend.app.dto.response.ApiResponse;
+import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.transaction.dto.TransactionDTO;
 import com.dvk.ct250backend.domain.transaction.dto.request.VNPayCallbackRequest;
@@ -13,6 +14,8 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/transactions")
@@ -57,4 +60,30 @@ public class TransactionController {
                 .payload(transactionDTO)
                 .build();
     }
+
+    @PutMapping("/{id}")
+    public ApiResponse<TransactionDTO> updateTransaction(@PathVariable Integer id, @RequestBody TransactionDTO transactionDTO) throws ResourceNotFoundException {
+        return ApiResponse.<TransactionDTO>builder()
+                .status(HttpStatus.OK.value())
+                .payload(transactionService.updateTransaction(id, transactionDTO))
+                .build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ApiResponse<String> deleteTransaction(@PathVariable Integer id) throws ResourceNotFoundException {
+        transactionService.deleteTransaction(id);
+        return ApiResponse.<String>builder()
+                .status(HttpStatus.OK.value())
+                .build();
+    }
+
+    @GetMapping
+    public ApiResponse<Page<TransactionDTO>> getTransactions(@RequestParam Map<String, String> params){
+        return ApiResponse.<Page<TransactionDTO>>builder()
+                .status(HttpStatus.OK.value())
+                .payload(transactionService.getAllTransactions(params))
+                .build();
+    }
+
+
 }

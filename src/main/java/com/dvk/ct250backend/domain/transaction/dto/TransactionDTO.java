@@ -7,6 +7,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -30,4 +31,7 @@ public class TransactionDTO {
     String status;
 
     BigDecimal amount;
+
+    LocalDateTime createdAt;
+    LocalDateTime updatedAt;
 }

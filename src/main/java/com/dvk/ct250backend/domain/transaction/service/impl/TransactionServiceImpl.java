@@ -1,5 +1,7 @@
 package com.dvk.ct250backend.domain.transaction.service.impl;
 
+import com.dvk.ct250backend.app.dto.response.Meta;
+import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.booking.entity.Booking;
 import com.dvk.ct250backend.domain.booking.enums.BookingStatusEnum;
@@ -15,13 +17,21 @@ import com.dvk.ct250backend.domain.transaction.mapper.TransactionMapper;
 import com.dvk.ct250backend.domain.transaction.repository.TransactionRepository;
 import com.dvk.ct250backend.domain.transaction.service.TransactionService;
 import com.dvk.ct250backend.infrastructure.service.PaymentServiceImpl;
+import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
 import com.dvk.ct250backend.infrastructure.utils.VNPayUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +43,7 @@ public class TransactionServiceImpl implements TransactionService {
     BookingRepository bookingRepository;
     TicketServiceImpl ticketServiceImpl;
     BookingFlightService bookingFlightService;
+    RequestParamUtils requestParamUtils;
 
 
     @Override
@@ -106,5 +117,40 @@ public class TransactionServiceImpl implements TransactionService {
         bookingRepository.save(booking);
 
         return transactionMapper.toTransactionDTO(transaction);
+    }
+
+
+    @Override
+    public TransactionDTO updateTransaction(Integer transactionId, TransactionDTO transactionDTO) throws ResourceNotFoundException {
+       Transaction transaction = transactionRepository.findById(transactionId).orElseThrow(() -> new ResourceNotFoundException("Transaction not found"));
+       transactionMapper.updateTransactionFromDTO(transaction, transactionDTO);
+         return transactionMapper.toTransactionDTO(transactionRepository.save(transaction));
+    }
+
+    @Override
+    public void deleteTransaction(Integer transactionId) throws ResourceNotFoundException {
+        Transaction transaction = transactionRepository.findById(transactionId).orElseThrow(() -> new ResourceNotFoundException("Transaction not found"));
+        transactionRepository.delete(transaction);
+    }
+
+    @Override
+    public Page<TransactionDTO> getAllTransactions(Map<String, String> params) {
+        int page = Integer.parseInt(params.getOrDefault("page", "1"));
+        int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
+        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params);
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortOrders));
+        org.springframework.data.domain.Page<Transaction> transactionPage = transactionRepository.findAll(pageable);
+        Meta meta = Meta.builder()
+                .page(pageable.getPageNumber() + 1)
+                .pageSize(pageable.getPageSize())
+                .pages(transactionPage.getTotalPages())
+                .total(transactionPage.getTotalElements())
+                .build();
+        return Page.<TransactionDTO>builder()
+                .meta(meta)
+                .content(transactionPage.getContent().stream()
+                        .map(transactionMapper::toTransactionDTO)
+                        .collect(Collectors.toList()))
+                .build();
     }
 }
