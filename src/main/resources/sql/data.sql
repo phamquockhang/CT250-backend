@@ -447,7 +447,12 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Get all coupons', '/api/v1/coupons/all', 'GET', 'COUPONS'),
        ('Create a coupon', '/api/v1/coupons', 'POST', 'COUPONS'),
        ('Update a coupon', '/api/v1/coupons/{id}', 'PUT', 'COUPONS'),
-       ('Delete a coupon', '/api/v1/coupons/{id}', 'DELETE', 'COUPONS');
+       ('Delete a coupon', '/api/v1/coupons/{id}', 'DELETE', 'COUPONS'),
+
+       ('Get payment methods with pagination', '/api/v1/payment-methods', 'GET', 'PAYMENT-METHODS'),
+         ('Create a payment method', '/api/v1/payment-methods', 'POST', 'PAYMENT-METHODS'),
+         ('Update a payment method', '/api/v1/payment-methods/{id}', 'PUT', 'PAYMENT-METHODS'),
+         ('Delete a payment method', '/api/v1/payment-methods/{id}', 'DELETE', 'PAYMENT-METHODS');
 
 
 --USER

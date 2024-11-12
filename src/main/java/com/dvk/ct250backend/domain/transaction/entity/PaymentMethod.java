@@ -1,5 +1,6 @@
 package com.dvk.ct250backend.domain.transaction.entity;
 
+import com.dvk.ct250backend.domain.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -14,7 +15,7 @@ import java.util.List;
 @Entity
 @Table(name = "payment_methods")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PaymentMethod {
+public class PaymentMethod extends BaseEntity {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.SEQUENCE, generator = "payment_method_id_seq")
     @SequenceGenerator(name = "payment_method_id_seq", sequenceName = "payment_methods_seq", allocationSize = 1)
