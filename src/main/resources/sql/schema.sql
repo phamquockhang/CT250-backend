@@ -179,3 +179,12 @@ CREATE SEQUENCE payment_methods_seq
     INCREMENT BY 1;
 ALTER TABLE public.payment_methods
     ALTER COLUMN payment_method_id SET DEFAULT nextval('payment_methods_seq');
+
+--COUPON
+DROP SEQUENCE IF EXISTS coupons_seq;
+CREATE SEQUENCE coupons_seq
+    START WITH 1
+    INCREMENT BY 1;
+ALTER TABLE public.coupons
+    ALTER COLUMN coupon_id SET DEFAULT nextval('coupons_seq'),
+ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP;
