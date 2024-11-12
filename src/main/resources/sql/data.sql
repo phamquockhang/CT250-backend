@@ -441,7 +441,13 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
 
        ('Create a booking', '/api/v1/bookings', 'POST', 'BOOKINGS'),
 
-       ('Create a transaction', '/api/v1/transactions', 'POST', 'TRANSACTION');
+       ('Create a transaction', '/api/v1/transactions', 'POST', 'TRANSACTION'),
+
+       ('Get coupons with pagination', '/api/v1/coupons', 'GET', 'COUPONS'),
+       ('Get all coupons', '/api/v1/coupons/all', 'GET', 'COUPONS'),
+       ('Create a coupon', '/api/v1/coupons', 'POST', 'COUPONS'),
+       ('Update a coupon', '/api/v1/coupons/{id}', 'PUT', 'COUPONS'),
+       ('Delete a coupon', '/api/v1/coupons/{id}', 'DELETE', 'COUPONS');
 
 
 --USER
@@ -1057,3 +1063,7 @@ VALUES (1, 130000, '2024-01-01', '2024-12-31'),
 
 INSERT INTO public.payment_methods (payment_method_name)
 VALUES ('VN_PAY');
+
+INSERT INTO public.coupons(coupon_code, discount_value, coupon_type, valid_from, valid_to)
+values ('DVK20224', 100000, 'AMOUNT', '2024-11-01', '2024-12-31'),
+       ('CT250', 10, 'PERCENTAGE', '2024-11-01', '2024-12-31');

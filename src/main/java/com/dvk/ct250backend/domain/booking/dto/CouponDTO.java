@@ -1,11 +1,13 @@
 package com.dvk.ct250backend.domain.booking.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -18,11 +20,13 @@ import java.util.List;
 public class CouponDTO {
     Integer couponId;
     String couponCode;
-    BigDecimal discountAmount;
-    BigDecimal discountPercentage;
+    BigDecimal discountValue;
+
+    @NotBlank(message = "Coupon type is required")
+    String couponType;
     LocalDate validFrom;
     LocalDate validTo;
-    List<BookingDTO> bookings;
-    LocalDate createdAt;
-    LocalDate updatedAt;
+
+    LocalDateTime createdAt;
+    LocalDateTime updatedAt;
 }

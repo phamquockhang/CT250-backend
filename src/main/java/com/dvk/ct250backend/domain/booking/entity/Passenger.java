@@ -49,7 +49,7 @@ public class Passenger {
     List<BookingPassenger> bookingPassengers;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = true)
     User user;
 
 }

@@ -37,4 +37,6 @@ public class BookingDTO {
 
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
+
+    CouponDTO coupon;
 }

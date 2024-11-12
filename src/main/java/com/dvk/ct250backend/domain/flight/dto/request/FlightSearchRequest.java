@@ -30,4 +30,6 @@ public class FlightSearchRequest {
 
     @NotEmptyCollection(message = "Passenger type quantity is required")
     List<PassengerTypeQuantityRequest> passengerTypeQuantityRequests;
+
+    String couponCode;
 }

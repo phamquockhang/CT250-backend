@@ -32,7 +32,7 @@ public class AirplaneController {
     }
 
     @GetMapping("/all")
-  public ApiResponse<List<AirplaneDTO>> getAllAirplanes() {
+    public ApiResponse<List<AirplaneDTO>> getAllAirplanes() {
     return ApiResponse.<List<AirplaneDTO>>builder()
         .status(HttpStatus.OK.value())
         .payload(airplaneService.getAllAirplane())

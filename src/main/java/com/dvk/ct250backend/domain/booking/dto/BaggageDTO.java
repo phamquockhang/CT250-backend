@@ -6,7 +6,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -28,8 +28,8 @@ public class BaggageDTO {
     @NotBlank(message = "Route type is required")
     String routeType;
 
-    LocalDate createdAt;
-    LocalDate updatedAt;
+    LocalDateTime createdAt;
+    LocalDateTime updatedAt;
 
     @NotBlank(message = "Baggage pricing is required")
     List<BaggagePricingDTO> baggagePricing;
