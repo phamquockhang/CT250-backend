@@ -1,5 +1,4 @@
 package com.dvk.ct250backend.domain.booking.entity;
-
 import com.dvk.ct250backend.domain.booking.enums.CouponTypeEnum;
 import com.dvk.ct250backend.domain.common.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -35,6 +34,6 @@ public class Coupon extends BaseEntity {
     LocalDate validFrom;
     LocalDate validTo;
 
-   @OneToMany(fetch = FetchType.LAZY, mappedBy = "coupon", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "coupon", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     List<Booking> bookings;
 }

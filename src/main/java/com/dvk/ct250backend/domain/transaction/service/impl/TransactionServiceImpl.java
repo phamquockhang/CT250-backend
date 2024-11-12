@@ -34,6 +34,14 @@ public class TransactionServiceImpl implements TransactionService {
     TicketServiceImpl ticketServiceImpl;
     BookingFlightService bookingFlightService;
 
+
+    @Override
+    public TransactionDTO getTransactionById(Integer transactionId) {
+        return transactionRepository.findById(transactionId)
+                .map(transactionMapper::toTransactionDTO)
+                .orElse(null);
+    }
+
     @Override
     @Transactional
     public TransactionDTO createTransaction(HttpServletRequest request, TransactionDTO transactionDTO) throws ResourceNotFoundException {
