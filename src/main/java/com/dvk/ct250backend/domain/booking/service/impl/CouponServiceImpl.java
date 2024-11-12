@@ -109,4 +109,11 @@ public class CouponServiceImpl implements CouponService {
         }
         return spec;
     }
+
+    @Override
+    public CouponDTO findCouponByCode(String couponCode) throws ResourceNotFoundException {
+        Coupon coupon = couponRepository.findByCouponCode(couponCode)
+                .orElseThrow(() -> new ResourceNotFoundException("Coupon not found for code: " + couponCode));
+        return couponMapper.toCouponDTO(coupon);
+    }
 }

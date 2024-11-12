@@ -3,7 +3,10 @@ package com.dvk.ct250backend.domain.flight.service.impl;
 import com.dvk.ct250backend.app.dto.response.Meta;
 import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
+import com.dvk.ct250backend.domain.booking.dto.CouponDTO;
+import com.dvk.ct250backend.domain.booking.enums.CouponTypeEnum;
 import com.dvk.ct250backend.domain.booking.enums.PassengerTypeEnum;
+import com.dvk.ct250backend.domain.booking.service.CouponService;
 import com.dvk.ct250backend.domain.flight.config.FlightUploadJobListener;
 import com.dvk.ct250backend.domain.flight.dto.FlightDTO;
 import com.dvk.ct250backend.domain.flight.dto.FlightOverview;
@@ -64,6 +67,7 @@ public class FlightServiceImpl implements FlightService {
     RequestParamUtils requestParamUtils;
     NumberUtils numberUtils;
     DateUtils dateUtils;
+    CouponService couponService;
 
     @Override
     public List<FlightDTO> getAllFlights() {
@@ -153,6 +157,7 @@ public class FlightServiceImpl implements FlightService {
         int totalPassenger = flightSearchRequest.getPassengerTypeQuantityRequests().stream()
                 .mapToInt(PassengerTypeQuantityRequest::getQuantity)
                 .sum();
+        String couponCode = flightSearchRequest.getCouponCode();
         flights.forEach(flight -> {
             String date = formatDate(flight.getDepartureDateTime().toLocalDate());
             int availableBusinessSeats = flight.getSeatAvailability().stream()
@@ -221,6 +226,15 @@ public class FlightServiceImpl implements FlightService {
                                     }
                                 })
                                 .orElse(BigDecimal.valueOf(0.0));
+
+                        if (couponCode != null && !couponCode.isEmpty()) {
+                            try {
+                                BigDecimal discount = getCouponDiscount(couponCode, minPrice);
+                                minPrice = minPrice.subtract(discount);
+                            } catch (ResourceNotFoundException e) {
+                                e.printStackTrace();
+                            }
+                        }
                         flightOverview.setMinPriceOfDay(minPrice);
                     }
                     return flightOverview;
@@ -372,6 +386,16 @@ public class FlightServiceImpl implements FlightService {
             }
             return null;
         };
+    }
+
+    private BigDecimal getCouponDiscount(String couponCode, BigDecimal minPrice) throws ResourceNotFoundException {
+        CouponDTO coupon = couponService.findCouponByCode(couponCode);
+        if (coupon.getCouponType().equals(CouponTypeEnum.PERCENTAGE.toString())) {
+            return minPrice.multiply(coupon.getDiscountValue()).divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP);
+        } else if (coupon.getCouponType().equals(CouponTypeEnum.AMOUNT.toString())) {
+            return coupon.getDiscountValue();
+        }
+        return BigDecimal.ZERO;
     }
 
 }

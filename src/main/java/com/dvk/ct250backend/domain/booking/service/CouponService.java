@@ -13,4 +13,5 @@ public interface CouponService {
     void deleteCoupon(Integer couponId) throws ResourceNotFoundException;
     List<CouponDTO> getAllCoupon();
     Page<CouponDTO> getCoupon(Map<String, String> params);
+    CouponDTO findCouponByCode(String couponCode) throws ResourceNotFoundException;
 }
