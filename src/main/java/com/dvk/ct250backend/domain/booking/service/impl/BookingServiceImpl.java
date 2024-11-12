@@ -80,9 +80,9 @@ public class BookingServiceImpl implements BookingService {
             String redisKey = "booking:" + bookingId;
             redisService.set(redisKey, bookingId, timeout);
             emailService.sendTemporaryBookingCodeEmail(bookingCode, paymentDeadline);
-
-            bookingDTO.setPaymentDeadline(paymentDeadline);
-            return bookingMapper.toBookingDTO(savedBooking);
+            BookingDTO reservedBookingDTO = bookingMapper.toBookingDTO(savedBooking);
+            reservedBookingDTO.setPaymentDeadline(paymentDeadline);
+            return reservedBookingDTO;
         } finally {
             lockService.releaseLock(lockKey);
         }
