@@ -1067,7 +1067,12 @@ VALUES (1, 130000, '2024-01-01', '2024-12-31'),
 
 
 INSERT INTO public.payment_methods (payment_method_name)
-VALUES ('VN_PAY');
+VALUES ('VN_PAY'),
+         ('MOMO'),
+         ('ZALO_PAY'),
+         ('CREDIT_CARD'),
+         ('DEBIT_CARD'),
+         ('CASH');
 
 INSERT INTO public.coupons(coupon_code, discount_value, coupon_type, valid_from, valid_to)
 values ('DVK20224', 100000, 'AMOUNT', '2024-11-01', '2024-12-31'),
