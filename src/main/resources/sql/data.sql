@@ -445,6 +445,7 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
 
        ('Get coupons with pagination', '/api/v1/coupons', 'GET', 'COUPONS'),
        ('Get all coupons', '/api/v1/coupons/all', 'GET', 'COUPONS'),
+       ('Get coupon by code', '/api/v1/coupons/{code}', 'GET', 'COUPONS'),
        ('Create a coupon', '/api/v1/coupons', 'POST', 'COUPONS'),
        ('Update a coupon', '/api/v1/coupons/{id}', 'PUT', 'COUPONS'),
        ('Delete a coupon', '/api/v1/coupons/{id}', 'DELETE', 'COUPONS');
