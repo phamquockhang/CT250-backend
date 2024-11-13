@@ -230,7 +230,7 @@ public class FlightServiceImpl implements FlightService {
                         if (couponCode != null && !couponCode.isEmpty()) {
                             try {
                                 BigDecimal discount = getCouponDiscount(couponCode, minPrice);
-                                minPrice = minPrice.subtract(discount);
+                                minPrice = numberUtils.roundToThousand(minPrice.subtract(discount));
                             } catch (ResourceNotFoundException e) {
                                 e.printStackTrace();
                             }
