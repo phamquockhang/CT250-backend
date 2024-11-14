@@ -610,9 +610,9 @@ VALUES ('Giá vé cơ bản', 1),
 --FEE-PRICING
 INSERT INTO public.fee_pricing (fee_id, passenger_type, fee_amount, is_percentage, route_type, valid_from, valid_to)
 VALUES (1, 'ADULT', 100, true, 'DOMESTIC', '2024-01-01', '2024-12-31'),
-       (1, 'CHILD', 75, true, 'DOMESTIC', '2024-01-01', '2024-12-3'),
-       (1, 'INFANT', 100000, false, 'DOMESTIC', '2024-01-01', '2024-12-3'),
-       (1, 'ADULT', 100, true, 'INTERNATIONAL', '2024-01-01', '2024-12-3'),
+       (1, 'CHILD', 75, true, 'DOMESTIC', '2024-01-01', '2024-12-31'),
+       (1, 'INFANT', 100000, false, 'DOMESTIC', '2024-01-01', '2024-12-31'),
+       (1, 'ADULT', 100, true, 'INTERNATIONAL', '2024-01-01', '2024-12-31'),
        (1, 'CHILD', 75, true, 'INTERNATIONAL', '2024-01-01', '2024-12-31'),
        (1, 'INFANT', 200000, false, 'INTERNATIONAL', '2024-01-01', '2024-12-31'),
 

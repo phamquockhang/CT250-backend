@@ -4,8 +4,10 @@ import com.dvk.ct250backend.app.dto.response.Meta;
 import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.booking.dto.CouponDTO;
+import com.dvk.ct250backend.domain.booking.entity.Coupon;
 import com.dvk.ct250backend.domain.booking.enums.CouponTypeEnum;
 import com.dvk.ct250backend.domain.booking.enums.PassengerTypeEnum;
+import com.dvk.ct250backend.domain.booking.repository.CouponRepository;
 import com.dvk.ct250backend.domain.booking.service.CouponService;
 import com.dvk.ct250backend.domain.flight.config.FlightUploadJobListener;
 import com.dvk.ct250backend.domain.flight.dto.FlightDTO;
@@ -27,6 +29,7 @@ import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
@@ -52,6 +55,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -68,6 +72,7 @@ public class FlightServiceImpl implements FlightService {
     NumberUtils numberUtils;
     DateUtils dateUtils;
     CouponService couponService;
+    CouponRepository couponRepository;
 
     @Override
     public List<FlightDTO> getAllFlights() {
@@ -157,7 +162,7 @@ public class FlightServiceImpl implements FlightService {
         int totalPassenger = flightSearchRequest.getPassengerTypeQuantityRequests().stream()
                 .mapToInt(PassengerTypeQuantityRequest::getQuantity)
                 .sum();
-        String couponCode = flightSearchRequest.getCouponCode();
+        Coupon coupon = couponRepository.findByCouponCode(flightSearchRequest.getCouponCode()).orElse(null);
         flights.forEach(flight -> {
             String date = formatDate(flight.getDepartureDateTime().toLocalDate());
             int availableBusinessSeats = flight.getSeatAvailability().stream()
@@ -202,9 +207,15 @@ public class FlightServiceImpl implements FlightService {
                                             return availableSeats > 0 && availableSeats >= totalPassenger;
                                         })
                                         //Tính giá vé thấp nhất của các hạng vé còn chỗ trống của chuyến bay
-                                        .map(flightPricing -> getTotalTicketPrice(flight,
-                                                flightSearchRequest.getPassengerTypeQuantityRequests(),
-                                                flightPricing.getTicketClass()))
+                                        .map(flightPricing -> {
+
+                                            BigDecimal totalTicketPrice = getTotalTicketPrice(flight,
+                                                    flightSearchRequest.getPassengerTypeQuantityRequests(),
+                                                    flightPricing.getTicketClass(),
+                                                    coupon);
+//                                            log.info("Total ticket price: {}", totalTicketPrice);
+                                            return totalTicketPrice;
+                                            })
                                         .min((a, b) -> {
                                             if (a == null) {
                                                 return 1;
@@ -227,14 +238,14 @@ public class FlightServiceImpl implements FlightService {
                                 })
                                 .orElse(BigDecimal.valueOf(0.0));
 
-                        if (couponCode != null && !couponCode.isEmpty()) {
-                            try {
-                                BigDecimal discount = getCouponDiscount(couponCode, minPrice);
-                                minPrice = numberUtils.roundToThousand(minPrice.subtract(discount));
-                            } catch (ResourceNotFoundException e) {
-                                e.printStackTrace();
-                            }
-                        }
+//                        if (couponCode != null && !couponCode.isEmpty()) {
+//                            try {
+//                                BigDecimal discount = getCouponDiscount(couponCode, minPrice);
+//                                minPrice = numberUtils.roundToThousand(minPrice.subtract(discount));
+//                            } catch (ResourceNotFoundException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
                         flightOverview.setMinPriceOfDay(minPrice);
                     }
                     return flightOverview;
@@ -244,19 +255,23 @@ public class FlightServiceImpl implements FlightService {
 
     private BigDecimal getTotalTicketPrice(Flight flight,
                                            List<PassengerTypeQuantityRequest> passengerTypeQuantityRequests,
-                                           TicketClass ticketClass) {
+                                           TicketClass ticketClass,
+                                           Coupon coupon) {
         //Tính tổng giá vé cho mỗi loại hành khách
         return passengerTypeQuantityRequests.stream()
                 .map(passengerTypeQuantityRequest ->
                         getPassengerTotalFee(flight,
                                 PassengerTypeEnum.valueOf(passengerTypeQuantityRequest.getPassengerType()),
-                                ticketClass)
-                                .multiply(BigDecimal.valueOf(passengerTypeQuantityRequest.getQuantity()))).reduce(BigDecimal.ZERO, BigDecimal::add);
+                                ticketClass,
+                                coupon)
+                                .multiply(BigDecimal.valueOf(passengerTypeQuantityRequest.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     private BigDecimal getPassengerTotalFee(Flight flight,
                                             PassengerTypeEnum passengerType,
-                                            TicketClass ticketClass) {
+                                            TicketClass ticketClass,
+                                            Coupon coupon) {
         BigDecimal basePrice = flight.getFlightPricing().stream()
                 .filter(flightPricing -> Objects.equals(flightPricing.getTicketClass().getTicketClassId(), ticketClass.getTicketClassId())
                         && dateUtils.isInDateRange(LocalDate.now(), flightPricing.getValidFrom(), flightPricing.getValidTo()))
@@ -268,6 +283,7 @@ public class FlightServiceImpl implements FlightService {
         //Tính tổng phí cho mỗi hành khách (vé + phí)
         return flightFees.stream()
                 .map(fee -> {
+
                             //VAT
                             if (fee.getFeeId() == 5) {
                                 Fee ticketPriceFee = feeRepository.findById(1).orElse(null);
@@ -282,29 +298,49 @@ public class FlightServiceImpl implements FlightService {
                                 if (ticketFeePricing.getIsPercentage().equals(Boolean.TRUE)) {
                                     return getFee(fee, passengerType, flight.getRoute().getRouteType(),
                                             numberUtils.roundToThousand(basePrice.multiply(ticketFeePricing.getFeeAmount())
-                                                    .divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP)));
+                                                    .divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP)), null);
                                 } else {
-                                    return getFee(fee, passengerType, flight.getRoute().getRouteType(), ticketFeePricing.getFeeAmount());
+                                    return getFee(fee, passengerType, flight.getRoute().getRouteType(), ticketFeePricing.getFeeAmount(), null);
                                 }
                             }
-                            return getFee(fee, passengerType, flight.getRoute().getRouteType(), basePrice);
+                            return getFee(fee, passengerType, flight.getRoute().getRouteType(), basePrice, coupon);
                         }
                 )
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    private BigDecimal getFee(Fee fee, PassengerTypeEnum passengerType, RouteTypeEnum routeType, BigDecimal basePrice) {
+    private BigDecimal getFee(Fee fee,
+                              PassengerTypeEnum passengerType,
+                              RouteTypeEnum routeType,
+                              BigDecimal basePrice,
+                              Coupon coupon) {
+
         return fee.getFeePricing().stream()
                 .filter(feePricing -> feePricing.getPassengerType().equals(passengerType)
                         && feePricing.getRouteType().equals(routeType)
                         && dateUtils.isInDateRange(LocalDate.now(), feePricing.getValidFrom(), feePricing.getValidTo()))
                 .map(feePricing -> {
                     if (feePricing.getIsPercentage().equals(Boolean.TRUE)) {
+                        //Gia ve co ban
+                        if (fee.getFeeId() == 1) {
+                            log.info("Base price with coupon: {}", couponService.getActualPrice(basePrice.multiply(feePricing.getFeeAmount())
+                                    .divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP), coupon));
+                            return numberUtils.roundToThousand(
+                                    couponService.getActualPrice(basePrice.multiply(feePricing.getFeeAmount())
+                                            .divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP), coupon)
+                            );
+                        }
+
                         return numberUtils.roundToThousand(basePrice.multiply(feePricing.getFeeAmount())
                                 .divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP));
-                    } else {
-                        return feePricing.getFeeAmount();
                     }
+                    if(fee.getFeeId() == 1){
+                        return numberUtils.roundToThousand(
+                                couponService.getActualPrice(feePricing.getFeeAmount(), coupon)
+                        );
+                    }
+                    return numberUtils.roundToThousand(feePricing.getFeeAmount());
+
                 })
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
