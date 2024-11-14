@@ -443,10 +443,10 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
 
 
        ('Create a transaction', '/api/v1/transactions', 'POST', 'TRANSACTION'),
-         ('Get transactions with pagination', '/api/v1/transactions', 'GET', 'TRANSACTION'),
-         ('Get a transaction by id', '/api/v1/transactions/{id}', 'GET', 'TRANSACTION'),
-         ('Update a transaction', '/api/v1/transactions/{id}', 'PUT', 'TRANSACTION'),
-         ('Delete a transaction', '/api/v1/transactions/{id}', 'DELETE', 'TRANSACTION'),
+       ('Get transactions with pagination', '/api/v1/transactions', 'GET', 'TRANSACTION'),
+       ('Get a transaction by id', '/api/v1/transactions/{id}', 'GET', 'TRANSACTION'),
+--        ('Update a transaction', '/api/v1/transactions/{id}', 'PUT', 'TRANSACTION'),
+--          ('Delete a transaction', '/api/v1/transactions/{id}', 'DELETE', 'TRANSACTION'),
 
 
        ('Get coupons with pagination', '/api/v1/coupons', 'GET', 'COUPONS'),
@@ -456,9 +456,10 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Delete a coupon', '/api/v1/coupons/{id}', 'DELETE', 'COUPONS'),
 
        ('Get payment methods with pagination', '/api/v1/payment-methods', 'GET', 'PAYMENT-METHODS'),
-         ('Create a payment method', '/api/v1/payment-methods', 'POST', 'PAYMENT-METHODS'),
-         ('Update a payment method', '/api/v1/payment-methods/{id}', 'PUT', 'PAYMENT-METHODS'),
-         ('Delete a payment method', '/api/v1/payment-methods/{id}', 'DELETE', 'PAYMENT-METHODS');
+       ('Get all payment methods', '/api/v1/payment-methods/all', 'GET', 'PAYMENT-METHODS'),
+       ('Create a payment method', '/api/v1/payment-methods', 'POST', 'PAYMENT-METHODS'),
+       ('Update a payment method', '/api/v1/payment-methods/{id}', 'PUT', 'PAYMENT-METHODS'),
+       ('Delete a payment method', '/api/v1/payment-methods/{id}', 'DELETE', 'PAYMENT-METHODS');
 
 
 --USER
@@ -730,10 +731,9 @@ VALUES (1, '1A', 'BUSINESS'),
 -- Giả lập cho các hàng ghế còn lại của Boeing 787
 INSERT INTO public.seats (model_id, seat_code, ticket_class)
 SELECT 1,
-       i::TEXT || j,
-       'ECONOMY'
+       i::TEXT || j, 'ECONOMY'
 FROM generate_series(2, 30) AS i,
-     unnest(ARRAY ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J']) AS j;
+     unnest(ARRAY['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J']) AS j;
 
 -- Airbus A350
 INSERT INTO public.seats (model_id, seat_code, ticket_class)
@@ -750,10 +750,9 @@ VALUES (2, '1A', 'BUSINESS'),
 -- Giả lập cho các hàng ghế còn lại của Airbus A350
 INSERT INTO public.seats (model_id, seat_code, ticket_class)
 SELECT 2,
-       i::TEXT || j,
-       'ECONOMY'
+       i::TEXT || j, 'ECONOMY'
 FROM generate_series(2, 30) AS i,
-     unnest(ARRAY ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J']) AS j;
+     unnest(ARRAY['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J']) AS j;
 
 -- Airbus A320 NEO
 INSERT INTO public.seats (model_id, seat_code, ticket_class)
@@ -767,10 +766,9 @@ VALUES (3, '1A', 'BUSINESS'),
 -- Giả lập cho các hàng ghế còn lại của Airbus A320 NEO
 INSERT INTO public.seats (model_id, seat_code, ticket_class)
 SELECT 3,
-       i::TEXT || j,
-       'ECONOMY'
+       i::TEXT || j, 'ECONOMY'
 FROM generate_series(2, 30) AS i,
-     unnest(ARRAY ['A', 'B', 'C', 'D', 'E', 'F']) AS j;
+     unnest(ARRAY['A', 'B', 'C', 'D', 'E', 'F']) AS j;
 
 -- Airbus A321
 INSERT INTO public.seats (model_id, seat_code, ticket_class)
@@ -784,10 +782,9 @@ VALUES (4, '1A', 'BUSINESS'),
 -- Giả lập cho các hàng ghế còn lại của Airbus A321
 INSERT INTO public.seats (model_id, seat_code, ticket_class)
 SELECT 4,
-       i::TEXT || j,
-       'ECONOMY'
+       i::TEXT || j, 'ECONOMY'
 FROM generate_series(2, 30) AS i,
-     unnest(ARRAY ['A', 'B', 'C', 'D', 'E', 'F']) AS j;
+     unnest(ARRAY['A', 'B', 'C', 'D', 'E', 'F']) AS j;
 -- Tổng số ghế cho mỗi model
 -- Boeing 787
 --
@@ -1074,11 +1071,11 @@ VALUES (1, 130000, '2024-01-01', '2024-12-31'),
 
 INSERT INTO public.payment_methods (payment_method_name)
 VALUES ('VN_PAY'),
-         ('MOMO'),
-         ('ZALO_PAY'),
-         ('CREDIT_CARD'),
-         ('DEBIT_CARD'),
-         ('CASH');
+       ('MOMO'),
+       ('ZALO_PAY'),
+       ('CREDIT_CARD'),
+       ('DEBIT_CARD'),
+       ('CASH');
 
 INSERT INTO public.coupons(coupon_code, discount_value, coupon_type, valid_from, valid_to)
 values ('DVK20224', 100000, 'AMOUNT', '2024-11-01', '2024-12-31'),

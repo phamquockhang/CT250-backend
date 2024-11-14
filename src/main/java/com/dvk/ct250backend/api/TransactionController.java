@@ -40,6 +40,7 @@ public class TransactionController {
                 .payload(transactionService.createTransaction(request,transactionDTO))
                 .build();
     }
+
     @GetMapping("/vn-pay-callback")
     public ApiResponse<TransactionDTO> payCallbackHandler(HttpServletRequest request, HttpServletResponse response) throws Exception {
         VNPayCallbackRequest callbackRequest = new VNPayCallbackRequest();
@@ -61,22 +62,6 @@ public class TransactionController {
                 .build();
     }
 
-    @PutMapping("/{id}")
-    public ApiResponse<TransactionDTO> updateTransaction(@PathVariable Integer id, @RequestBody TransactionDTO transactionDTO) throws ResourceNotFoundException {
-        return ApiResponse.<TransactionDTO>builder()
-                .status(HttpStatus.OK.value())
-                .payload(transactionService.updateTransaction(id, transactionDTO))
-                .build();
-    }
-
-    @DeleteMapping("/{id}")
-    public ApiResponse<String> deleteTransaction(@PathVariable Integer id) throws ResourceNotFoundException {
-        transactionService.deleteTransaction(id);
-        return ApiResponse.<String>builder()
-                .status(HttpStatus.OK.value())
-                .build();
-    }
-
     @GetMapping
     public ApiResponse<Page<TransactionDTO>> getTransactions(@RequestParam Map<String, String> params){
         return ApiResponse.<Page<TransactionDTO>>builder()
@@ -84,6 +69,4 @@ public class TransactionController {
                 .payload(transactionService.getAllTransactions(params))
                 .build();
     }
-
-
 }

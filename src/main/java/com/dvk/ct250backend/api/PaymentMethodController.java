@@ -11,6 +11,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -50,6 +51,14 @@ public class PaymentMethodController {
         paymentMethodService.deletePaymentMethod(id);
         return ApiResponse.<Void>builder()
                 .status(HttpStatus.OK.value())
+                .build();
+    }
+
+    @GetMapping("/all")
+    public ApiResponse<List<PaymentMethodDTO>> getAllPaymentMethods(){
+        return ApiResponse.<List<PaymentMethodDTO>>builder()
+                .status(200)
+                .payload(paymentMethodService.getAllPaymentMethods())
                 .build();
     }
 }

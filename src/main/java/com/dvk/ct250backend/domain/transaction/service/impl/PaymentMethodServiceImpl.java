@@ -67,4 +67,11 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
                         .collect(Collectors.toList()))
                 .build();
     }
+
+    @Override
+    public List<PaymentMethodDTO> getAllPaymentMethods() {
+        return paymentMethodRepository.findAll().stream()
+                .map(paymentMethodMapper::toPaymentMethodDTO)
+                .collect(Collectors.toList());
+    }
 }

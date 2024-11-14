@@ -32,6 +32,12 @@ public class TransactionDTO {
 
     BigDecimal amount;
 
+    String txnRef;
+
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
+
+    //response
+    String passengerName;
+    String bookingCode;
 }

@@ -40,9 +40,9 @@ public class Booking extends BaseEntity {
     @OneToMany(mappedBy = "booking", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     List<Transaction> transactions;
 
-   @ManyToOne(fetch = FetchType.LAZY)
-   @JoinColumn(name = "coupon_id")
-   Coupon coupon;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "coupon_id")
+    Coupon coupon;
 
     @Enumerated(EnumType.STRING)
     BookingStatusEnum bookingStatus;
