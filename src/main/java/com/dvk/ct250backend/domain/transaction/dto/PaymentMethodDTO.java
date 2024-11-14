@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Builder
@@ -19,4 +21,7 @@ public class PaymentMethodDTO {
     String paymentMethodName;
     VNPayResponse vnPayResponse;
     String paymentUrl;
+
+    LocalDateTime createdAt;
+    LocalDateTime updatedAt;
 }

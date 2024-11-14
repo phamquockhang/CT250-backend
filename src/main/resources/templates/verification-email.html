@@ -13,7 +13,7 @@
         <h2 style="margin: 0; font-size: 24px;">Chào mừng đến với DaViKa Airways!</h2>
     </div>
     <div style="margin: 20px; color: #333; line-height: 1.5;">
-        <p>Thân gửi <b th:text="${firstName} + ' ' + ${lastName}"></b>,</p>
+        <p>Thân gửi <b th:text="${lastName} + ' ' + ${firstName}"></b>,</p>
         <p>Cảm ơn bạn đã đăng ký với DaViKa Airways! Chúng tôi rất vui mừng được chào đón bạn.</p>
         <p>Để hoàn tất đăng ký và kích hoạt tài khoản của bạn, vui lòng xác nhận địa chỉ email của bạn bằng cách nhấp vào liên kết dưới đây:</p>
         <a th:href="@{${verifyURL}}" style="display: inline-block; padding: 15px 30px; background-color: #0056b3; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s, transform 0.2s; text-align: center;">

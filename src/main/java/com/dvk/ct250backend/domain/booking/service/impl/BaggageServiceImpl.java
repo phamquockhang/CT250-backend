@@ -99,7 +99,7 @@ public class BaggageServiceImpl implements BaggageService {
     private Specification<Baggage> getBaggageSpec(Map<String, String> params) {
         Specification<Baggage> spec = Specification.where(null);
         List<SearchCriteria> routeTypeCriteria = requestParamUtils.getSearchCriteria(params, "routeType");
-        if (!routeTypeCriteria.isEmpty()) {
+        if ( routeTypeCriteria != null && !routeTypeCriteria.isEmpty()) {
             spec = spec.and((root, query, cb) -> {
                 List<Predicate> predicates = routeTypeCriteria.stream()
                         .map(criteria -> cb.equal(root.get(criteria.getKey()), criteria.getValue()))

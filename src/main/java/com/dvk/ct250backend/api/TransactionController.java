@@ -1,6 +1,7 @@
 package com.dvk.ct250backend.api;
 
 import com.dvk.ct250backend.app.dto.response.ApiResponse;
+import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.transaction.dto.TransactionDTO;
 import com.dvk.ct250backend.domain.transaction.dto.request.VNPayCallbackRequest;
@@ -13,6 +14,8 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/transactions")
@@ -37,6 +40,7 @@ public class TransactionController {
                 .payload(transactionService.createTransaction(request,transactionDTO))
                 .build();
     }
+
     @GetMapping("/vn-pay-callback")
     public ApiResponse<TransactionDTO> payCallbackHandler(HttpServletRequest request, HttpServletResponse response) throws Exception {
         VNPayCallbackRequest callbackRequest = new VNPayCallbackRequest();
@@ -55,6 +59,14 @@ public class TransactionController {
         return ApiResponse.<TransactionDTO>builder()
                 .status(HttpStatus.OK.value())
                 .payload(transactionDTO)
+                .build();
+    }
+
+    @GetMapping
+    public ApiResponse<Page<TransactionDTO>> getTransactions(@RequestParam Map<String, String> params){
+        return ApiResponse.<Page<TransactionDTO>>builder()
+                .status(HttpStatus.OK.value())
+                .payload(transactionService.getAllTransactions(params))
                 .build();
     }
 }
