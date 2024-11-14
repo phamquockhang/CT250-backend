@@ -3,9 +3,7 @@ package com.dvk.ct250backend.domain.flight.service.impl;
 import com.dvk.ct250backend.app.dto.response.Meta;
 import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
-import com.dvk.ct250backend.domain.booking.dto.CouponDTO;
 import com.dvk.ct250backend.domain.booking.entity.Coupon;
-import com.dvk.ct250backend.domain.booking.enums.CouponTypeEnum;
 import com.dvk.ct250backend.domain.booking.enums.PassengerTypeEnum;
 import com.dvk.ct250backend.domain.booking.repository.CouponRepository;
 import com.dvk.ct250backend.domain.booking.service.CouponService;
@@ -237,15 +235,6 @@ public class FlightServiceImpl implements FlightService {
                                     }
                                 })
                                 .orElse(BigDecimal.valueOf(0.0));
-
-//                        if (couponCode != null && !couponCode.isEmpty()) {
-//                            try {
-//                                BigDecimal discount = getCouponDiscount(couponCode, minPrice);
-//                                minPrice = numberUtils.roundToThousand(minPrice.subtract(discount));
-//                            } catch (ResourceNotFoundException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
                         flightOverview.setMinPriceOfDay(minPrice);
                     }
                     return flightOverview;
@@ -422,16 +411,6 @@ public class FlightServiceImpl implements FlightService {
             }
             return null;
         };
-    }
-
-    private BigDecimal getCouponDiscount(String couponCode, BigDecimal minPrice) throws ResourceNotFoundException {
-        CouponDTO coupon = couponService.findCouponByCode(couponCode);
-        if (coupon.getCouponType().equals(CouponTypeEnum.PERCENTAGE.toString())) {
-            return minPrice.multiply(coupon.getDiscountValue()).divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP);
-        } else if (coupon.getCouponType().equals(CouponTypeEnum.AMOUNT.toString())) {
-            return coupon.getDiscountValue();
-        }
-        return BigDecimal.ZERO;
     }
 
 }
