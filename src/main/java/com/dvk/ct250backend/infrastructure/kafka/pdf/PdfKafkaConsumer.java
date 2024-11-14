@@ -5,13 +5,9 @@ import com.dvk.ct250backend.infrastructure.utils.FileUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.common.errors.RetriableException;
 import org.springframework.kafka.annotation.DltHandler;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.annotation.RetryableTopic;
-import org.springframework.kafka.retrytopic.DltStrategy;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.retry.annotation.Backoff;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -24,13 +20,13 @@ public class PdfKafkaConsumer {
     private final EmailServiceImpl emailService;
     private final FileUtils fileUtils;
 
-    @RetryableTopic(
-            attempts = "3",
-            backoff = @Backoff(delay = 1000, multiplier = 2.0),
-            dltStrategy = DltStrategy.FAIL_ON_ERROR,
-            autoCreateTopics = "true",
-            include = {RetriableException.class}
-    )
+//    @RetryableTopic(
+//            attempts = "3",
+//            backoff = @Backoff(delay = 1000, multiplier = 2.0),
+//            dltStrategy = DltStrategy.FAIL_ON_ERROR,
+//            autoCreateTopics = "true",
+//            include = {RetriableException.class}
+//    )
     @KafkaListener(topics = "${kafka.pdf.topic}", concurrency = "${kafka.pdf.concurrency}", properties = {"spring.json.value.default.type=com.dvk.ct250backend.infrastructure.kafka.pdf.PdfMessageKafka"})
     @SneakyThrows
     public void listenPdfNotifications(@Payload PdfMessageKafka pdfMessage) {

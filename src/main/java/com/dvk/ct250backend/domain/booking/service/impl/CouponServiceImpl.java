@@ -6,14 +6,18 @@ import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.booking.dto.CouponDTO;
 import com.dvk.ct250backend.domain.booking.entity.Coupon;
+import com.dvk.ct250backend.domain.booking.enums.CouponTypeEnum;
 import com.dvk.ct250backend.domain.booking.mapper.CouponMapper;
 import com.dvk.ct250backend.domain.booking.repository.CouponRepository;
 import com.dvk.ct250backend.domain.booking.service.CouponService;
+import com.dvk.ct250backend.infrastructure.utils.DateUtils;
+import com.dvk.ct250backend.infrastructure.utils.NumberUtils;
 import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
 import com.dvk.ct250backend.infrastructure.utils.StringUtils;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -21,12 +25,16 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import static lombok.AccessLevel.PRIVATE;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = PRIVATE, makeFinal = true)
@@ -35,6 +43,8 @@ public class CouponServiceImpl implements CouponService {
     CouponRepository couponRepository;
     RequestParamUtils requestParamUtils;
     StringUtils stringUtils;
+    DateUtils dateUtils;
+    NumberUtils numberUtils;
 
     @Override
     @Transactional
@@ -115,5 +125,24 @@ public class CouponServiceImpl implements CouponService {
         Coupon coupon = couponRepository.findByCouponCode(couponCode)
                 .orElseThrow(() -> new ResourceNotFoundException("Coupon not found for code: " + couponCode));
         return couponMapper.toCouponDTO(coupon);
+    }
+
+    @Override
+    public boolean isValidCoupon(Coupon coupon) {
+        return coupon.getDiscountValue().compareTo(BigDecimal.ZERO) > 0 &&
+                dateUtils.isInDateRange(LocalDate.now(), coupon.getValidFrom(), coupon.getValidTo());
+    }
+
+    @Override
+    public BigDecimal getActualPrice(BigDecimal originalPrice, Coupon coupon) {
+        if (coupon != null && isValidCoupon(coupon)) {
+            if (coupon.getCouponType().equals(CouponTypeEnum.PERCENTAGE)) {
+                BigDecimal discountAmount = originalPrice.multiply(coupon.getDiscountValue().divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP));
+                return originalPrice.subtract(discountAmount);
+            } else {
+                return originalPrice.subtract(coupon.getDiscountValue());
+            }
+        }
+        return originalPrice;
     }
 }

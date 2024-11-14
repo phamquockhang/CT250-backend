@@ -37,6 +37,14 @@ public class CouponController {
                 .build();
     }
 
+    @GetMapping("/{code}")
+    public ApiResponse<CouponDTO> getCouponByCode(@PathVariable String code) throws ResourceNotFoundException {
+        return ApiResponse.<CouponDTO>builder()
+                .status(HttpStatus.OK.value())
+                .payload(couponService.findCouponByCode(code))
+                .build();
+    }
+
     @PostMapping
     public ApiResponse<CouponDTO> createCoupon(@RequestBody CouponDTO couponDTO) {
         return ApiResponse.<CouponDTO>builder()

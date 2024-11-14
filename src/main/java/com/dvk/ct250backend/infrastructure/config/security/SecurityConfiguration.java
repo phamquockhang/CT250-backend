@@ -68,6 +68,7 @@ public class SecurityConfiguration {
                                 "/api/v1/meals/all",
                                 "/api/v1/baggage/all",
                                 "/api/v1/transactions/**",
+                                "/api/v1/coupons/{code}",
                                 "/oauth2/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

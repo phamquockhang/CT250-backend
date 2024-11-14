@@ -25,7 +25,7 @@ import java.util.UUID;
 public class User extends BaseEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name= "user_id")
+    @Column(name = "user_id")
     UUID userId;
     String email;
     String password;

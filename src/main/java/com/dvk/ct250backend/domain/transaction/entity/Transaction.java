@@ -1,6 +1,7 @@
 package com.dvk.ct250backend.domain.transaction.entity;
 
 import com.dvk.ct250backend.domain.booking.entity.Booking;
+import com.dvk.ct250backend.domain.common.entity.BaseEntity;
 import com.dvk.ct250backend.domain.transaction.enums.TransactionStatusEnum;
 import com.dvk.ct250backend.domain.transaction.enums.TransactionTypeEnum;
 import jakarta.persistence.*;
@@ -17,7 +18,7 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "transactions")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Transaction {
+public class Transaction extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_id_seq")
     @SequenceGenerator(name = "transaction_id_seq", sequenceName = "transaction_seq", allocationSize = 1)
