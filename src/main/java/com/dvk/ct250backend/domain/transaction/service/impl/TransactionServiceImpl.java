@@ -206,14 +206,12 @@ public class TransactionServiceImpl implements TransactionService {
             LocalDate startDate = dateUtils.parseDate(startDateStr, type);
             spec = spec.and((root, query, cb) -> {
                 LocalDate endDate;
-                if (type.equalsIgnoreCase("day")) {
+                if (type.equalsIgnoreCase("date")) {
                     endDate = startDate.plusDays(1);
                 } else if (type.equalsIgnoreCase("month")) {
                     endDate = startDate.withDayOfMonth(startDate.lengthOfMonth()).plusDays(1);
                 } else if (type.equalsIgnoreCase("quarter")) {
                     endDate = startDate.plusMonths(3).withDayOfMonth(1).minusDays(1).plusDays(1);
-                } else if (type.equalsIgnoreCase("week")) {
-                    endDate = startDate.plusDays(6).plusDays(1);
                 } else if (type.equalsIgnoreCase("year")) {
                     endDate = startDate.withDayOfYear(startDate.lengthOfYear()).plusDays(1);
                 } else {

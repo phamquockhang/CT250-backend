@@ -16,7 +16,7 @@ public class DateUtils {
     }
 
     private static final Map<String, Function<String, LocalDate>> DATE_PARSERS = Map.of(
-            "day", LocalDate::parse,
+            "date", LocalDate::parse,
             "month", dateStr -> LocalDate.parse(dateStr + "-01"),
             "quarter", dateStr -> {
                 String[] parts = dateStr.split("-Q");
@@ -24,12 +24,6 @@ public class DateUtils {
                 int quarter = Integer.parseInt(parts[1]);
                 int month = (quarter - 1) * 3 + 1;
                 return LocalDate.of(year, month, 1);
-            },
-            "week", dateStr -> {
-                String[] parts = dateStr.split("-");
-                int year = Integer.parseInt(parts[0]);
-                int week = Integer.parseInt(parts[1]);
-                return LocalDate.ofYearDay(year, 1).with(java.time.temporal.WeekFields.ISO.weekOfYear(), week);
             },
             "year", dateStr -> LocalDate.parse(dateStr + "-01-01")
     );
