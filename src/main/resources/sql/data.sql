@@ -430,6 +430,12 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Delete a baggage', '/api/v1/baggage/{id}', 'DELETE', 'BAGGAGE'),
        ('Update a baggage', '/api/v1/baggage/{id}', 'PUT', 'BAGGAGE'),
 
+       ('Get special services with pagination', '/api/v1/special-services', 'GET', 'SPECIAL-SERVICES'),
+       ('Get all special services', '/api/v1/special-services/all', 'GET', 'SPECIAL-SERVICES'),
+       ('Create a special service', '/api/v1/special-services', 'POST', 'SPECIAL-SERVICES'),
+       ('Update a special service', '/api/v1/special-services/{id}', 'PUT', 'SPECIAL-SERVICES'),
+       ('Delete a special service', '/api/v1/special-services/{id}', 'DELETE', 'SPECIAL-SERVICES'),
+
        ('Get fees with pagination', '/api/v1/fees', 'GET', 'FEES'),
        ('Create a fee', '/api/v1/fees', 'POST', 'FEES'),
        ('Update a fee', '/api/v1/fees/{id}', 'PUT', 'FEES'),

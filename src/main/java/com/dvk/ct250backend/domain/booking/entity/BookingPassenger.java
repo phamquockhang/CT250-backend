@@ -29,6 +29,10 @@ public class BookingPassenger {
     @JoinTable(name = "booking_passenger_meal", joinColumns = @JoinColumn(name = "booking_passenger_id"), inverseJoinColumns = @JoinColumn(name = "meal_id"))
     List<Meal> meals;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "booking_passenger_special_service", joinColumns = @JoinColumn(name = "booking_passenger_id"), inverseJoinColumns = @JoinColumn(name = "special_service_id"))
+    List<SpecialService> specialServices;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="baggage_id")

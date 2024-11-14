@@ -21,6 +21,7 @@ public class BookingPassengerDTO {
     PassengerDTO passenger;
     BaggageDTO baggage;
     List<MealDTO> meals;
+    List<SpecialServiceDTO> specialServices;
     SeatDTO seat;
     Boolean isPrimaryContact;
     Boolean isSharedSeat;
