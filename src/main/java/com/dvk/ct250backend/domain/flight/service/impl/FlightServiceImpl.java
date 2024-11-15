@@ -172,10 +172,15 @@ public class FlightServiceImpl implements FlightService {
                             && seatAvailability.getStatus().equals(SeatAvailabilityStatus.AVAILABLE))
                     .toList().size();
             //Cả 2 hạng vé đều hết chỗ => không thêm vào flightMap tính toán overview
-            if (flightMap.containsKey(date) && !(availableBusinessSeats == 0 && availableEconomySeats == 0)) {
-                flightMap.get(date).add(flight);
+            if (!(availableBusinessSeats == 0 && availableEconomySeats == 0)) {
+                if(flightMap.containsKey(date)){
+                    flightMap.get(date).add(flight);
+                } else {
+                    flightMap.put(date, new ArrayList<>());
+                    flightMap.get(date).add(flight);
+                }
             } else {
-                flightMap.put(date, new ArrayList<>(new ArrayList<>()));
+                flightMap.put(date, new ArrayList<>());
             }
         });
         LocalDate currentDate = start;
@@ -205,15 +210,10 @@ public class FlightServiceImpl implements FlightService {
                                             return availableSeats > 0 && availableSeats >= totalPassenger;
                                         })
                                         //Tính giá vé thấp nhất của các hạng vé còn chỗ trống của chuyến bay
-                                        .map(flightPricing -> {
-
-                                            BigDecimal totalTicketPrice = getTotalTicketPrice(flight,
-                                                    flightSearchRequest.getPassengerTypeQuantityRequests(),
-                                                    flightPricing.getTicketClass(),
-                                                    coupon);
-//                                            log.info("Total ticket price: {}", totalTicketPrice);
-                                            return totalTicketPrice;
-                                            })
+                                        .map(flightPricing -> getTotalTicketPrice(flight,
+                                                flightSearchRequest.getPassengerTypeQuantityRequests(),
+                                                flightPricing.getTicketClass(),
+                                                coupon))
                                         .min((a, b) -> {
                                             if (a == null) {
                                                 return 1;
@@ -312,8 +312,6 @@ public class FlightServiceImpl implements FlightService {
                     if (feePricing.getIsPercentage().equals(Boolean.TRUE)) {
                         //Gia ve co ban
                         if (fee.getFeeId() == 1) {
-                            log.info("Base price with coupon: {}", couponService.getActualPrice(basePrice.multiply(feePricing.getFeeAmount())
-                                    .divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP), coupon));
                             return numberUtils.roundToThousand(
                                     couponService.getActualPrice(basePrice.multiply(feePricing.getFeeAmount())
                                             .divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP), coupon)
