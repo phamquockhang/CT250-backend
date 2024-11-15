@@ -696,19 +696,19 @@ VALUES (1200000, 'DVK101', 1, '2024-11-01', '2024-12-05'),
        (1120000, 'DVK106', 1, '2024-11-01', '2024-12-06'),
        (2640000, 'DVK106', 2, '2024-11-01', '2024-12-06'),
 
-       (1739000, 'DVK107', 1, '2024-11-01', '2024-12-09'),
-       (4623000, 'DVK107', 2, '2024-11-01', '2024-12-09'),
-       (1739000, 'DVK108', 1, '2024-11-01', '2024-12-09'),
-       (4623000, 'DVK108', 2, '2024-11-01', '2024-12-09'),
-       (1933000, 'DVK109', 1, '2024-11-01', '2024-12-09'),
-       (5335000, 'DVK109', 2, '2024-11-01', '2024-12-09'),
-       (1933000, 'DVK110', 1, '2024-11-01', '2024-12-09'),
-       (5335000, 'DVK110', 2, '2024-11-01', '2024-12-09'),
+       (700000, 'DVK107', 1, '2024-11-01', '2024-12-09'),
+       (1820000, 'DVK107', 2, '2024-11-01', '2024-12-09'),
+       (730000, 'DVK108', 1, '2024-11-01', '2024-12-09'),
+       (1920000, 'DVK108', 2, '2024-11-01', '2024-12-09'),
+       (710000, 'DVK109', 1, '2024-11-01', '2024-12-09'),
+       (1880000, 'DVK109', 2, '2024-11-01', '2024-12-09'),
+       (650000, 'DVK110', 1, '2024-11-01', '2024-12-09'),
+       (1558000, 'DVK110', 2, '2024-11-01', '2024-12-09'),
 
-       (1566000, 'DVK111', 1, '2024-11-01', '2024-12-08'),
-       (3412000, 'DVK111', 2, '2024-11-01', '2024-12-08'),
-       (1739000, 'DVK112', 1, '2024-11-01', '2024-12-08'),
-       (4623000, 'DVK112', 2, '2024-11-01', '2024-12-08');
+       (650000, 'DVK111', 1, '2024-11-01', '2024-12-08'),
+       (1458000, 'DVK111', 2, '2024-11-01', '2024-12-08'),
+       (720000, 'DVK112', 1, '2024-11-01', '2024-12-08'),
+       (1730000, 'DVK112', 2, '2024-11-01', '2024-12-08');
 --
 
 
@@ -903,6 +903,51 @@ VALUES ('DVK104', 721, 'AVAILABLE'), -- 1A
 
 
 INSERT INTO public.seat_availability (flight_id, seat_id, status)
+VALUES ('DVK105', 1, 'AVAILABLE'), -- 1A
+       ('DVK105', 2, 'AVAILABLE'), -- 1B
+       ('DVK105', 3, 'AVAILABLE'), -- 1C
+       ('DVK105', 4, 'AVAILABLE'), -- 1D
+       ('DVK105', 5, 'AVAILABLE'), -- 1E
+       ('DVK105', 6, 'AVAILABLE'), -- 1F
+       ('DVK105', 7, 'AVAILABLE'), -- 1G
+       ('DVK105', 8, 'AVAILABLE'), -- 1H
+       ('DVK105', 9, 'AVAILABLE');
+-- 1J
+
+-- Khoang Economy cho Boeing 787
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
+SELECT 'DVK105',
+       seat_id,
+       'AVAILABLE'
+FROM public.seats
+WHERE model_id = 1
+  AND ticket_class = 'ECONOMY';
+
+
+
+-- Airbus A350
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
+VALUES ('DVK106', 271, 'AVAILABLE'), -- 1A
+       ('DVK106', 272, 'AVAILABLE'), -- 1B
+       ('DVK106', 273, 'AVAILABLE'), -- 1C
+       ('DVK106', 274, 'AVAILABLE'), -- 1D
+       ('DVK106', 275, 'AVAILABLE'), -- 1E
+       ('DVK106', 276, 'AVAILABLE');
+-- 1F
+--        ('DVK106', 277,'AVAILABLE'), -- 1G
+--        ('DVK106', 278,'AVAILABLE'), -- 1H
+--        ('DVK106', 279,'AVAILABLE'); -- 1J
+
+-- Khoang Economy cho Airbus A350
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
+SELECT 'DVK106',
+       seat_id,
+       'AVAILABLE'
+FROM public.seats
+WHERE model_id = 2
+  AND ticket_class = 'ECONOMY';
+
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
 VALUES ('DVK107', 1, 'AVAILABLE'), -- 1A
        ('DVK107', 2, 'AVAILABLE');
 -- 1B
@@ -990,6 +1035,50 @@ VALUES ('DVK110', 721, 'AVAILABLE'), -- 1A
 -- WHERE model_id = 4
 --   AND ticket_class = 'ECONOMY'; -- Chỉ cho ghế Economy
 
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
+VALUES ('DVK111', 1, 'AVAILABLE'), -- 1A
+       ('DVK111', 2, 'AVAILABLE'), -- 1B
+       ('DVK111', 3, 'AVAILABLE'), -- 1C
+       ('DVK111', 4, 'AVAILABLE'), -- 1D
+       ('DVK111', 5, 'AVAILABLE'), -- 1E
+       ('DVK111', 6, 'AVAILABLE'), -- 1F
+       ('DVK111', 7, 'AVAILABLE'), -- 1G
+       ('DVK111', 8, 'AVAILABLE'), -- 1H
+       ('DVK111', 9, 'AVAILABLE');
+-- 1J
+
+-- Khoang Economy cho Boeing 787
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
+SELECT 'DVK111',
+       seat_id,
+       'AVAILABLE'
+FROM public.seats
+WHERE model_id = 1
+  AND ticket_class = 'ECONOMY';
+
+
+
+-- Airbus A350
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
+VALUES ('DVK112', 271, 'AVAILABLE'), -- 1A
+       ('DVK112', 272, 'AVAILABLE'), -- 1B
+       ('DVK112', 273, 'AVAILABLE'), -- 1C
+       ('DVK112', 274, 'AVAILABLE'), -- 1D
+       ('DVK112', 275, 'AVAILABLE'), -- 1E
+       ('DVK112', 276, 'AVAILABLE');
+-- 1F
+--        ('DVK112', 277,'AVAILABLE'), -- 1G
+--        ('DVK112', 278,'AVAILABLE'), -- 1H
+--        ('DVK112', 279,'AVAILABLE'); -- 1J
+
+-- Khoang Economy cho Airbus A350
+INSERT INTO public.seat_availability (flight_id, seat_id, status)
+SELECT 'DVK112',
+       seat_id,
+       'AVAILABLE'
+FROM public.seats
+WHERE model_id = 2
+  AND ticket_class = 'ECONOMY';
 
 -- MEALS
 INSERT INTO public.meals (meal_name)
