@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Builder
@@ -21,6 +23,9 @@ public class SpecialServiceDTO {
     Boolean healthVerification;
     String bookingLeadTime;
     String specialInstructions;
-    String serviceType;
+    Boolean status;
     String imgUrl;
+
+    LocalDateTime createdAt;
+    LocalDateTime updatedAt;
 }

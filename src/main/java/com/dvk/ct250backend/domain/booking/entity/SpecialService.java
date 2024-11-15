@@ -1,5 +1,6 @@
 package com.dvk.ct250backend.domain.booking.entity;
 
+import com.dvk.ct250backend.domain.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -14,7 +15,7 @@ import java.util.List;
 @Entity
 @Table(name = "special_services")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class SpecialService {
+public class SpecialService extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "special_service_id_seq")
     @SequenceGenerator(name = "special_service_id_seq", sequenceName = "special_services_seq", allocationSize = 1)
@@ -28,7 +29,7 @@ public class SpecialService {
     Boolean healthVerification;
     String bookingLeadTime;
     String specialInstructions;
-    String serviceType;
+    Boolean status;
     String imgUrl;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "specialServices", cascade = {CascadeType.PERSIST, CascadeType.MERGE})

@@ -124,7 +124,7 @@ public class SpecialServiceImpl implements SpecialServiceInterface {
         if (params.containsKey("status")) {
             String status = params.get("status").trim();
             spec = spec.and((root, query, criteriaBuilder) ->
-                    criteriaBuilder.equal(criteriaBuilder.lower(root.get("status")), status)
+                    criteriaBuilder.equal(criteriaBuilder.lower(root.get("status").as(String.class)), status)
             );
         }
         return spec;
