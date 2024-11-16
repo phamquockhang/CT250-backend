@@ -8,6 +8,7 @@ import com.dvk.ct250backend.domain.booking.enums.PassengerTypeEnum;
 import com.dvk.ct250backend.domain.booking.repository.CouponRepository;
 import com.dvk.ct250backend.domain.booking.service.CouponService;
 import com.dvk.ct250backend.domain.flight.config.FlightUploadJobListener;
+import com.dvk.ct250backend.domain.flight.constants.FeeConstants;
 import com.dvk.ct250backend.domain.flight.dto.FlightDTO;
 import com.dvk.ct250backend.domain.flight.dto.FlightOverview;
 import com.dvk.ct250backend.domain.flight.dto.request.FlightSearchRequest;
@@ -274,7 +275,7 @@ public class FlightServiceImpl implements FlightService {
                 .map(fee -> {
 
                             //VAT
-                            if (fee.getFeeId() == 5) {
+                            if (fee.getFeeId() == FeeConstants.VAT_ID) {
                                 Fee ticketPriceFee = feeRepository.findById(1).orElse(null);
                                 assert ticketPriceFee != null;
                                 FeePricing ticketFeePricing = ticketPriceFee.getFeePricing().stream()
@@ -311,7 +312,7 @@ public class FlightServiceImpl implements FlightService {
                 .map(feePricing -> {
                     if (feePricing.getIsPercentage().equals(Boolean.TRUE)) {
                         //Gia ve co ban
-                        if (fee.getFeeId() == 1) {
+                        if (fee.getFeeId() == FeeConstants.BASE_PRICE_ID) {
                             return numberUtils.roundToThousand(
                                     couponService.getActualPrice(basePrice.multiply(feePricing.getFeeAmount())
                                             .divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP), coupon)
