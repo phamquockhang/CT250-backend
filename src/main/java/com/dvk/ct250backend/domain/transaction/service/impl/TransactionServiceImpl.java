@@ -200,53 +200,35 @@ public class TransactionServiceImpl implements TransactionService {
             }
         }
 
-//        if (params.containsKey("startDate") && params.containsKey("type")) {
-//            String startDateStr = params.get("startDate");
-//            String type = params.get("type");
-//            LocalDate startDate = dateUtils.parseDate(startDateStr, type);
-//            spec = spec.and((root, query, cb) -> {
-//                LocalDate endDate;
-//                if (type.equalsIgnoreCase("date")) {
-//                    endDate = startDate.plusDays(1);
-//                } else if (type.equalsIgnoreCase("month")) {
-//                    endDate = startDate.withDayOfMonth(startDate.lengthOfMonth()).plusDays(1);
-//                } else if (type.equalsIgnoreCase("quarter")) {
-//                    endDate = startDate.plusMonths(3).withDayOfMonth(1).minusDays(1).plusDays(1);
-//                } else if (type.equalsIgnoreCase("year")) {
-//                    endDate = startDate.withDayOfYear(startDate.lengthOfYear()).plusDays(1);
-//                } else {
-//                    throw new IllegalArgumentException("Invalid date type: " + type);
-//                }
-//                return cb.between(root.get("createdAt"), startDate.atStartOfDay(), endDate.atStartOfDay());
-//            });
-//        }
+        if (params.containsKey("startDate") && params.containsKey("type")) {
+            String startDateStr = params.get("startDate");
+            String type = params.get("type");
+            LocalDate startDate = dateUtils.parseDate(startDateStr, type);
+            spec = spec.and((root, query, cb) -> {
+                LocalDate endDate;
+                if (type.equalsIgnoreCase("date")) {
+                    endDate = startDate.plusDays(1);
+                } else if (type.equalsIgnoreCase("month")) {
+                    endDate = startDate.withDayOfMonth(startDate.lengthOfMonth()).plusDays(1);
+                } else if (type.equalsIgnoreCase("quarter")) {
+                    endDate = startDate.plusMonths(3).withDayOfMonth(1).minusDays(1).plusDays(1);
+                } else if (type.equalsIgnoreCase("year")) {
+                    endDate = startDate.withDayOfYear(startDate.lengthOfYear()).plusDays(1);
+                } else {
+                    throw new IllegalArgumentException("Invalid date type: " + type);
+                }
+                return cb.between(root.get("createdAt"), startDate.atStartOfDay(), endDate.atStartOfDay());
+            });
+        }
 
-        if (params.containsKey("startDate")) {
+        if(params.containsKey("startDate") && params.containsKey("endDate")) {
             String startDateStr = params.get("startDate");
             LocalDate startDate = dateUtils.parseDate(startDateStr, "date");
-            LocalDate endDate;
-
-            if (params.containsKey("endDate")) {
-                String endDateStr = params.get("endDate");
-                endDate = dateUtils.parseDate(endDateStr, "date");
-                if (!endDate.isAfter(startDate)) {
-                    throw new IllegalArgumentException("endDate must be after startDate");
-                }
-            } else if (params.containsKey("type")) {
-                String type = params.get("type");
-                endDate = switch (type.toLowerCase()) {
-                    case "date" -> startDate.plusDays(1);
-                    case "month" -> startDate.withDayOfMonth(startDate.lengthOfMonth()).plusDays(1);
-                    case "quarter" -> startDate.plusMonths(3).withDayOfMonth(1).minusDays(1).plusDays(1);
-                    case "year" -> startDate.withDayOfYear(startDate.lengthOfYear()).plusDays(1);
-                    default -> throw new IllegalArgumentException("Invalid date type: " + type);
-                };
-            } else {
-                throw new IllegalArgumentException("Either endDate or type must be provided");
-            }
-
-            spec = spec.and((root, query, cb) -> cb.between(root.get("createdAt"), startDate.atStartOfDay(), endDate.atStartOfDay().plusDays(1)));
+            String endDateStr = params.get("endDate");
+            LocalDate endDate = dateUtils.parseDate(endDateStr, "date").plusDays(1);
+            spec = spec.and((root, query, cb) -> cb.between(root.get("createdAt"), startDate.atStartOfDay(), endDate.atStartOfDay()));
         }
+
 
         return spec;
     }
