@@ -221,6 +221,15 @@ public class TransactionServiceImpl implements TransactionService {
             });
         }
 
+        if(params.containsKey("startDate") && params.containsKey("endDate")) {
+            String startDateStr = params.get("startDate");
+            LocalDate startDate = dateUtils.parseDate(startDateStr, "date");
+            String endDateStr = params.get("endDate");
+            LocalDate endDate = dateUtils.parseDate(endDateStr, "date").plusDays(1);
+            spec = spec.and((root, query, cb) -> cb.between(root.get("createdAt"), startDate.atStartOfDay(), endDate.atStartOfDay()));
+        }
+
+
         return spec;
     }
 
