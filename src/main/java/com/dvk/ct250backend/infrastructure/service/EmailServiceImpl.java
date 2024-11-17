@@ -2,6 +2,7 @@ package com.dvk.ct250backend.infrastructure.service;
 
 import com.dvk.ct250backend.domain.auth.entity.User;
 import com.dvk.ct250backend.domain.booking.entity.Booking;
+import com.dvk.ct250backend.domain.booking.entity.BookingFlight;
 import com.dvk.ct250backend.domain.booking.entity.BookingPassenger;
 import com.dvk.ct250backend.domain.booking.repository.BookingRepository;
 import com.dvk.ct250backend.domain.common.service.EmailService;
@@ -10,6 +11,7 @@ import com.dvk.ct250backend.infrastructure.kafka.mail.EmailMessage;
 import com.dvk.ct250backend.infrastructure.kafka.pdf.PdfKafkaProducer;
 import com.dvk.ct250backend.infrastructure.kafka.pdf.PdfMessage;
 import com.dvk.ct250backend.infrastructure.utils.PdfGeneratorUtils;
+import com.dvk.ct250backend.infrastructure.utils.QrCodeGeneratorUtils;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.AccessLevel;
@@ -150,6 +152,28 @@ public class EmailServiceImpl implements EmailService {
 
         Context context = new Context();
         context.setVariable("booking", booking);
+
+        StringBuilder qrCodeText = new StringBuilder();
+        qrCodeText.append("Booking Code: ").append(booking.getBookingCode()).append("\n");
+        for (BookingFlight bookingFlight : booking.getBookingFlights()) {
+            qrCodeText.append("Flight ID: ").append(bookingFlight.getFlight().getFlightId()).append("\n");
+            qrCodeText.append("Departure: ").append(bookingFlight.getFlight().getRoute().getDepartureAirport().getAirportCode())
+                    .append(" - ").append(bookingFlight.getFlight().getRoute().getDepartureAirport().getAirportName()).append("\n");
+            qrCodeText.append("Arrival: ").append(bookingFlight.getFlight().getRoute().getArrivalAirport().getAirportCode())
+                    .append(" - ").append(bookingFlight.getFlight().getRoute().getArrivalAirport().getAirportName()).append("\n");
+            qrCodeText.append("Departure Time: ").append(bookingFlight.getFlight().getDepartureDateTime()).append("\n");
+            qrCodeText.append("Arrival Time: ").append(bookingFlight.getFlight().getArrivalDateTime()).append("\n");
+            for (BookingPassenger bookingPassenger : bookingFlight.getBookingPassengers()) {
+                qrCodeText.append("Passenger: ").append(bookingPassenger.getPassenger().getFirstName())
+                        .append(" ").append(bookingPassenger.getPassenger().getLastName()).append("\n");
+                qrCodeText.append("Seat: ").append(bookingPassenger.getSeat().getSeatCode()).append("\n");
+                qrCodeText.append("Ticket Number: ").append(bookingPassenger.getTickets().getFirst().getTicketNumber()).append("\n");
+            }
+        }
+
+        // Generate QR code
+        String qrCodeImage = QrCodeGeneratorUtils.generateQRCodeImage(qrCodeText.toString(), 200, 200);
+        context.setVariable("qrCodeImage", qrCodeImage);
 
         String content = templateEngine.process("verify-booking-email", context);
 
