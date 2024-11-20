@@ -2,7 +2,7 @@ package com.dvk.ct250backend.infrastructure.utils;
 
 import com.dvk.ct250backend.app.dto.request.SearchCriteria;
 import jakarta.persistence.EntityManager;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-@RequiredArgsConstructor
 public class RequestParamUtils {
 
+    @Autowired
     private EntityManager entityManager;
     public List<Sort.Order> toSortOrders(Map<String, String> params, Class<?> entityClass) {
         List<Sort.Order> sortOrders = new ArrayList<>();
