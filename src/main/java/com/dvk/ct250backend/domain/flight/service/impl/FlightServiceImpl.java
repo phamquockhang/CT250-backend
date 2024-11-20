@@ -162,6 +162,9 @@ public class FlightServiceImpl implements FlightService {
                 .mapToInt(PassengerTypeQuantityRequest::getQuantity)
                 .sum();
         Coupon coupon = couponRepository.findByCouponCode(flightSearchRequest.getCouponCode()).orElse(null);
+        if (coupon != null && coupon.getMaxUsage() <= 0) {
+            coupon = null;
+        }
         flights.forEach(flight -> {
             String date = formatDate(flight.getDepartureDateTime().toLocalDate());
             int availableBusinessSeats = flight.getSeatAvailability().stream()
@@ -191,6 +194,7 @@ public class FlightServiceImpl implements FlightService {
             flightMap.putIfAbsent(date, new ArrayList<>());
             currentDate = currentDate.plusDays(1);
         }
+        Coupon finalCoupon = coupon;
         return flightMap.entrySet().stream()
                 .map(entry -> {
                     FlightOverview flightOverview = new FlightOverview();
@@ -214,7 +218,7 @@ public class FlightServiceImpl implements FlightService {
                                         .map(flightPricing -> getTotalTicketPrice(flight,
                                                 flightSearchRequest.getPassengerTypeQuantityRequests(),
                                                 flightPricing.getTicketClass(),
-                                                coupon))
+                                                finalCoupon))
                                         .min((a, b) -> {
                                             if (a == null) {
                                                 return 1;
