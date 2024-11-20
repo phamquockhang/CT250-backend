@@ -38,7 +38,7 @@ public class PermissionServiceImpl implements PermissionService {
         int page = Integer.parseInt(params.getOrDefault("page", "1"));
         int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
 
-        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params);
+        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params, Permission.class);
         Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortOrders));
         Specification<Permission> spec = getPermissionSpec(params);
         org.springframework.data.domain.Page<Permission> permissionPage = permissionRepository.findAll(spec, pageable);

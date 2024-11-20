@@ -68,7 +68,7 @@ public class RouteServiceImpl implements RouteService {
         int page = Integer.parseInt(params.getOrDefault("page", "1"));
         int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
         Specification<Route> spec = getRouteSpec(params);
-        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params);
+        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params, Route.class);
         Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortOrders));
         org.springframework.data.domain.Page<Route> routePage = routeRepository.findAll(spec, pageable);
         Meta meta = Meta.builder()

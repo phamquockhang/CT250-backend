@@ -51,7 +51,7 @@ public class AirportServiceImpl implements AirportService {
         int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
 
         Specification<Airport> spec = getAirportSpec(params);
-        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params);
+        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params, Airport.class);
         Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortOrders));
         org.springframework.data.domain.Page<Airport> airportPage = airportRepository.findAll(spec, pageable);
         Meta meta = Meta.builder()

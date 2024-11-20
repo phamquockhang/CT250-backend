@@ -1,6 +1,8 @@
 package com.dvk.ct250backend.infrastructure.utils;
 
 import com.dvk.ct250backend.app.dto.request.SearchCriteria;
+import jakarta.persistence.EntityManager;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
@@ -9,27 +11,21 @@ import java.util.List;
 import java.util.Map;
 
 @Component
+@RequiredArgsConstructor
 public class RequestParamUtils {
 
-    public List<Sort.Order> toSortOrders(Map<String, String> params) {
+    private EntityManager entityManager;
+    public List<Sort.Order> toSortOrders(Map<String, String> params, Class<?> entityClass) {
         List<Sort.Order> sortOrders = new ArrayList<>();
         String sortBy = params.getOrDefault("sortBy", "createdAt");
         String direction = params.getOrDefault("direction", "desc");
-        if(sortBy != null && !sortBy.isEmpty()) {
+        String idFieldName = EntityUtils.getIdFieldName(entityManager, entityClass);
+
+        if (sortBy != null && !sortBy.isEmpty()) {
             Sort.Order createdAtOrder = new Sort.Order(Sort.Direction.fromString(direction), sortBy);
             Sort.Order updatedAtOrder = new Sort.Order(Sort.Direction.fromString("asc"), "updatedAt");
-            sortOrders.addAll(List.of(createdAtOrder, updatedAtOrder));
-        }
-        return sortOrders;
-    }
-
-    public List<Sort.Order> toSortOrdersByElastic(Map<String, String> params) {
-        List<Sort.Order> sortOrders = new ArrayList<>();
-        String sortBy = params.getOrDefault("sort", "created_at");
-        String direction = params.getOrDefault("order", "desc");
-        if(sortBy != null && !sortBy.isEmpty()) {
-            Sort.Order order = new Sort.Order(Sort.Direction.fromString(direction), sortBy);
-            sortOrders.add(order);
+            Sort.Order idOrder = new Sort.Order(Sort.Direction.ASC, idFieldName);
+            sortOrders.addAll(List.of(createdAtOrder, updatedAtOrder, idOrder));
         }
         return sortOrders;
     }

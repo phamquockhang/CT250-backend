@@ -137,7 +137,7 @@ public class TransactionServiceImpl implements TransactionService {
         int page = Integer.parseInt(params.getOrDefault("page", "1"));
         int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
         Specification<Transaction> spec = getTransactionSpec(params);
-        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params);
+        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params, Transaction.class);
         Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortOrders));
         org.springframework.data.domain.Page<Transaction> transactionPage = transactionRepository.findAll(spec, pageable);
         Meta meta = Meta.builder()

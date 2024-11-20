@@ -91,7 +91,7 @@ public class SpecialServiceImpl implements SpecialServiceInterface {
         int page = Integer.parseInt(params.getOrDefault("page", "1"));
         int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
         Specification<SpecialService> spec = getSpecialServiceSpec(params);
-        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params);
+        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params, SpecialService.class);
         Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortOrders));
         org.springframework.data.domain.Page<SpecialService> specialServicesPage = specialServiceRepository.findAll(spec, pageable);
         Meta meta = Meta.builder()

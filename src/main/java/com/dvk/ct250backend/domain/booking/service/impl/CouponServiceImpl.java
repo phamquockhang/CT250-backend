@@ -76,7 +76,7 @@ public class CouponServiceImpl implements CouponService {
         int page = Integer.parseInt(params.getOrDefault("page", "1"));
         int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
         Specification<Coupon> spec = getCouponSpec(params);
-        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params);
+        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params, Coupon.class);
         Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortOrders));
         org.springframework.data.domain.Page<Coupon> couponPage = couponRepository.findAll(spec, pageable);
         Meta meta = Meta.builder()

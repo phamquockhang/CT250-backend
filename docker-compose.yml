@@ -89,48 +89,11 @@ services:
     depends_on:
       - zoo1
 
-
-#  elasticsearch:
-#    container_name: elasticsearch
-#    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.2
-#    environment:
-#      - discovery.type=single-node
-#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-#      - xpack.security.enabled=false
-#    restart: always
-#    ports:
-#      - "9200:9200"
-#      - "9300:9300"
-#    volumes:
-#      - elasticsearch:/usr/share/elasticsearch/data
-#
-#  logstash:
-#    container_name: logstash
-#    build:
-#      context: ./logstash/
-#      dockerfile: Dockerfile
-#    image: ct250-logstash:8.15.2
-#    restart: always
-#    ports:
-#      - "5044:5044"
-#    environment:
-#      - CONFIG_SUPPORT_ESCAPE=true
-#      - ELASTICSEARCH_URL=http://elasticsearch:9200
-#    depends_on:
-#      - elasticsearch
-#      - postgres
-#    volumes:
-#      - logstash:/usr/share/logstash/data
-
 volumes:
   postgres:
     name: postgres
   redis:
     name: redis
-#  elasticsearch:
-#    name: elasticsearch
-#  logstash:
-#    name: logstash
 networks:
   default:
     name: ct250

@@ -342,7 +342,7 @@ public class FlightServiceImpl implements FlightService {
     public Page<FlightDTO> getFlights(Map<String, String> params) {
         int page = Integer.parseInt(params.getOrDefault("page", "1"));
         int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
-        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params);
+        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params, Flight.class);
         Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortOrders));
         org.springframework.data.domain.Page<Flight> flightPage = flightRepository.findAll(pageable);
         Meta meta = Meta.builder()
