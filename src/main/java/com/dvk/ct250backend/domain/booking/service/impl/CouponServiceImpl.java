@@ -145,4 +145,13 @@ public class CouponServiceImpl implements CouponService {
         }
         return originalPrice;
     }
+
+    @Override
+    @Transactional
+    public void decreaseCouponMaxUsage(Coupon coupon) {
+        if (coupon.getMaxUsage() > 0) {
+            coupon.setMaxUsage(coupon.getMaxUsage() - 1);
+            couponRepository.save(coupon);
+        }
+    }
 }

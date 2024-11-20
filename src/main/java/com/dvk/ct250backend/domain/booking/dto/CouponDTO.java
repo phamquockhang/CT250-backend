@@ -8,7 +8,6 @@ import lombok.experimental.FieldDefaults;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
@@ -24,6 +23,8 @@ public class CouponDTO {
 
     @NotBlank(message = "Coupon type is required")
     String couponType;
+    @NotBlank(message = "Max usage is required")
+    Integer maxUsage;
     LocalDate validFrom;
     LocalDate validTo;
 

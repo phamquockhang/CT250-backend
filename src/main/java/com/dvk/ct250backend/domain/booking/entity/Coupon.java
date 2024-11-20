@@ -34,6 +34,8 @@ public class Coupon extends BaseEntity {
     LocalDate validFrom;
     LocalDate validTo;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "coupon", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "coupon", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     List<Booking> bookings;
+
+    Integer maxUsage;
 }

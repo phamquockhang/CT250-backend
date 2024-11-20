@@ -6,6 +6,7 @@ import com.dvk.ct250backend.domain.booking.entity.Passenger;
 import com.dvk.ct250backend.domain.booking.enums.BookingStatusEnum;
 import com.dvk.ct250backend.domain.booking.mapper.BookingMapper;
 import com.dvk.ct250backend.domain.booking.repository.BookingRepository;
+import com.dvk.ct250backend.domain.booking.repository.CouponRepository;
 import com.dvk.ct250backend.domain.booking.service.BookingFlightService;
 import com.dvk.ct250backend.domain.booking.service.BookingPassengerService;
 import com.dvk.ct250backend.domain.booking.service.BookingService;
@@ -39,12 +40,16 @@ public class BookingServiceImpl implements BookingService {
     BookingCodeUtils bookingCodeUtils;
     EmailService emailService;
     RedisService redisService;
+    CouponRepository couponRepository;
 
     @Override
     @Transactional
     public BookingDTO createInitBooking(BookingDTO bookingDTO) {
         Booking booking = bookingMapper.toBooking(bookingDTO);
         booking.setBookingStatus(BookingStatusEnum.INIT);
+        if (booking.getCoupon() != null && booking.getCoupon().getCouponId() == null) {
+            couponRepository.save(booking.getCoupon());
+        }
         Map<String, Passenger> passengerMap = new HashMap<>();
         AtomicBoolean isPrimaryContactSet = new AtomicBoolean(false);
         String passengerGroup = UUID.randomUUID().toString();

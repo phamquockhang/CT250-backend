@@ -1,5 +1,6 @@
 package com.dvk.ct250backend.domain.country.service.impl;
 
+import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.country.dto.CountryDTO;
 import com.dvk.ct250backend.domain.country.entity.Country;
 import com.dvk.ct250backend.domain.country.mapper.CountryMapper;
@@ -9,7 +10,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.elasticsearch.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,7 +34,7 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public CountryDTO getCountry(Integer id) {
+    public CountryDTO getCountry(Integer id) throws ResourceNotFoundException {
         Country country =  countryRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Country not found with id: " + id)
         );

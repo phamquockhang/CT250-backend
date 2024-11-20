@@ -18,4 +18,5 @@ public interface CouponService {
     CouponDTO findCouponByCode(String couponCode) throws ResourceNotFoundException;
     boolean isValidCoupon(Coupon coupon);
     BigDecimal getActualPrice(BigDecimal originalPrice, Coupon coupon);
+    void decreaseCouponMaxUsage(Coupon coupon);
 }

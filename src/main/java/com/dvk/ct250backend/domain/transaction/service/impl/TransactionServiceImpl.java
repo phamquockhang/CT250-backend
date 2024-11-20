@@ -9,6 +9,7 @@ import com.dvk.ct250backend.domain.booking.entity.BookingPassenger;
 import com.dvk.ct250backend.domain.booking.enums.BookingStatusEnum;
 import com.dvk.ct250backend.domain.booking.repository.BookingRepository;
 import com.dvk.ct250backend.domain.booking.service.BookingFlightService;
+import com.dvk.ct250backend.domain.booking.service.CouponService;
 import com.dvk.ct250backend.domain.booking.service.impl.TicketServiceImpl;
 import com.dvk.ct250backend.domain.booking.utils.BookingCodeUtils;
 import com.dvk.ct250backend.domain.transaction.dto.TransactionDTO;
@@ -55,6 +56,7 @@ public class TransactionServiceImpl implements TransactionService {
     StringUtils stringUtils;
     BookingCodeUtils bookingCodeUtils;
     DateUtils dateUtils;
+    CouponService couponService;
     @Override
     public TransactionDTO getTransactionById(Integer transactionId) {
         return transactionRepository.findById(transactionId)
@@ -116,6 +118,9 @@ public class TransactionServiceImpl implements TransactionService {
         if ("00".equals(status)) {
             booking.setBookingCode(bookingCode);
             booking.setBookingStatus(BookingStatusEnum.PAID);
+            if (booking.getCoupon() != null) {
+                couponService.decreaseCouponMaxUsage(booking.getCoupon());
+            }
             booking.getBookingFlights().forEach(bookingFlightService::processBookingFlight);
             ticketServiceImpl.createTicketsForBooking(booking);
         } else {
@@ -232,7 +237,6 @@ public class TransactionServiceImpl implements TransactionService {
 
         return spec;
     }
-
 
     private void setPassengerName(TransactionDTO transactionDTO, Booking booking) {
         booking.getBookingFlights().stream()
