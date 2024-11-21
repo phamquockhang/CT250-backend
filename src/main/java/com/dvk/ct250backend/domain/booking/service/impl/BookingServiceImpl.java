@@ -1,5 +1,9 @@
 package com.dvk.ct250backend.domain.booking.service.impl;
 
+import com.dvk.ct250backend.app.dto.request.SearchCriteria;
+import com.dvk.ct250backend.app.dto.response.Meta;
+import com.dvk.ct250backend.app.dto.response.Page;
+import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.booking.dto.BookingDTO;
 import com.dvk.ct250backend.domain.booking.entity.Booking;
 import com.dvk.ct250backend.domain.booking.entity.Passenger;
@@ -14,18 +18,27 @@ import com.dvk.ct250backend.domain.booking.utils.BookingCodeUtils;
 import com.dvk.ct250backend.domain.common.service.EmailService;
 import com.dvk.ct250backend.domain.common.service.LockService;
 import com.dvk.ct250backend.domain.common.service.RedisService;
+import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
+import com.dvk.ct250backend.infrastructure.utils.StringUtils;
+import jakarta.persistence.criteria.Predicate;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +54,8 @@ public class BookingServiceImpl implements BookingService {
     EmailService emailService;
     RedisService redisService;
     CouponRepository couponRepository;
+    RequestParamUtils requestParamUtils;
+    StringUtils stringUtils;
 
     @Override
     @Transactional
@@ -91,6 +106,81 @@ public class BookingServiceImpl implements BookingService {
         } finally {
             lockService.releaseLock(lockKey);
         }
+    }
+
+    @Override
+    public Page<BookingDTO> getBookings(Map<String, String> params) {
+        int page = Integer.parseInt(params.getOrDefault("page", "1"));
+        int pageSize = Integer.parseInt(params.getOrDefault("pageSize", "10"));
+        Specification<Booking> spec = getBookingSpec(params);
+        List<Sort.Order> sortOrders = requestParamUtils.toSortOrders(params, Booking.class);
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortOrders));
+        org.springframework.data.domain.Page<Booking> bookingPage = bookingRepository.findAll(spec, pageable);
+        Meta meta = Meta.builder()
+                .page(pageable.getPageNumber() + 1)
+                .pageSize(pageable.getPageSize())
+                .pages(bookingPage.getTotalPages())
+                .total(bookingPage.getTotalElements())
+                .build();
+        return Page.<BookingDTO>builder()
+                .meta(meta)
+                .content(bookingPage.getContent().stream()
+                        .map(bookingMapper::toBookingDTO)
+                        .collect(Collectors.toList()))
+                .build();
+    }
+
+    @Override
+    public void deleteBooking(Integer bookingId) throws ResourceNotFoundException {
+        Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
+        bookingRepository.delete(booking);
+    }
+
+    @Override
+    public BookingDTO updateBooking(Integer bookingId, BookingDTO bookingDTO) throws ResourceNotFoundException {
+        Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
+        bookingMapper.updateBookingFromDTO(booking, bookingDTO);
+        return bookingMapper.toBookingDTO(bookingRepository.save(booking));
+    }
+
+    private Specification<Booking> getBookingSpec(Map<String, String> params) {
+        Specification<Booking> spec = Specification.where(null);
+
+        if (params.containsKey("query")) {
+            String searchValue = stringUtils.normalizeString(params.get("query").trim().toLowerCase());
+            String likePattern = "%" + searchValue + "%";
+            spec = spec.or((root, query, criteriaBuilder) -> {
+                query.distinct(true);
+                return criteriaBuilder.or(
+                        criteriaBuilder.like(
+                                criteriaBuilder.function("unaccent", String.class, criteriaBuilder.lower(root.get("bookingCode"))),
+                                likePattern
+                        ),
+                        criteriaBuilder.like(
+                                criteriaBuilder.function("unaccent", String.class, criteriaBuilder.lower(
+                                        criteriaBuilder.concat(
+                                                criteriaBuilder.concat(root.get("bookingFlights").get("bookingPassengers").get("passenger").get("lastName"), " "),
+                                                root.get("bookingFlights").get("bookingPassengers").get("passenger").get("firstName")
+                                        )
+                                )),
+                                likePattern
+                        )
+                );
+            });
+        }
+
+        if (params.containsKey("status")) {
+            List<SearchCriteria> bookingStatusCriteria = requestParamUtils.getSearchCriteria(params, "bookingStatus");
+            if (!bookingStatusCriteria.isEmpty()) {
+                spec = spec.and((root, query, cb) -> {
+                    List<Predicate> predicates = bookingStatusCriteria.stream()
+                            .map(criteria -> cb.equal(root.get(criteria.getKey()), criteria.getValue()))
+                            .toList();
+                    return cb.or(predicates.toArray(new Predicate[0]));
+                });
+            }
+        }
+        return spec;
     }
 
 }

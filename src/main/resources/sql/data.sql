@@ -739,7 +739,7 @@ VALUES (1, '1A', 'BUSINESS'),
 INSERT INTO public.seats (model_id, seat_code, ticket_class)
 SELECT 1,
        i::TEXT || j, 'ECONOMY'
-FROM generate_series(1, 30) AS i,
+FROM generate_series(2, 30) AS i,
      unnest(ARRAY['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J']) AS j;
 
 -- Airbus A350
@@ -758,7 +758,7 @@ VALUES (2, '1A', 'BUSINESS'),
 INSERT INTO public.seats (model_id, seat_code, ticket_class)
 SELECT 2,
        i::TEXT || j, 'ECONOMY'
-FROM generate_series(1, 30) AS i,
+FROM generate_series(2, 30) AS i,
      unnest(ARRAY['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J']) AS j;
 
 -- Airbus A320 NEO
@@ -774,7 +774,7 @@ VALUES (3, '1A', 'BUSINESS'),
 INSERT INTO public.seats (model_id, seat_code, ticket_class)
 SELECT 3,
        i::TEXT || j, 'ECONOMY'
-FROM generate_series(1, 30) AS i,
+FROM generate_series(2, 30) AS i,
      unnest(ARRAY['A', 'B', 'C', 'D', 'E', 'F']) AS j;
 
 -- Airbus A321
@@ -790,7 +790,7 @@ VALUES (4, '1A', 'BUSINESS'),
 INSERT INTO public.seats (model_id, seat_code, ticket_class)
 SELECT 4,
        i::TEXT || j, 'ECONOMY'
-FROM generate_series(1, 30) AS i,
+FROM generate_series(2, 30) AS i,
      unnest(ARRAY['A', 'B', 'C', 'D', 'E', 'F']) AS j;
 -- Tổng số ghế cho mỗi model
 -- Boeing 787
