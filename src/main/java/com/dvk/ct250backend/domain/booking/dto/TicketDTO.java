@@ -14,5 +14,6 @@ import lombok.experimental.FieldDefaults;
 public class TicketDTO {
     Integer ticketId;
     String ticketNumber;
+    String pdfUrl;
     BookingPassengerDTO bookingPassenger;
 }

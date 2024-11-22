@@ -171,7 +171,6 @@ public class EmailServiceImpl implements EmailService {
             }
         }
 
-        // Generate QR code
         String qrCodeImage = QrCodeGeneratorUtils.generateQRCodeImage(qrCodeText.toString(), 200, 200);
         context.setVariable("qrCodeImage", qrCodeImage);
 

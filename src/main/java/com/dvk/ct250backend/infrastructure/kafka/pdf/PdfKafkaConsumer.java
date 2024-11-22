@@ -1,5 +1,6 @@
 package com.dvk.ct250backend.infrastructure.kafka.pdf;
 
+import com.dvk.ct250backend.domain.booking.service.TicketService;
 import com.dvk.ct250backend.infrastructure.service.EmailServiceImpl;
 import com.dvk.ct250backend.infrastructure.utils.FileUtils;
 import lombok.RequiredArgsConstructor;
@@ -19,14 +20,8 @@ import java.util.Base64;
 public class PdfKafkaConsumer {
     private final EmailServiceImpl emailService;
     private final FileUtils fileUtils;
+    private final TicketService ticketService;
 
-//    @RetryableTopic(
-//            attempts = "3",
-//            backoff = @Backoff(delay = 1000, multiplier = 2.0),
-//            dltStrategy = DltStrategy.FAIL_ON_ERROR,
-//            autoCreateTopics = "true",
-//            include = {RetriableException.class}
-//    )
     @KafkaListener(topics = "${kafka.pdf.topic}", concurrency = "${kafka.pdf.concurrency}", properties = {"spring.json.value.default.type=com.dvk.ct250backend.infrastructure.kafka.pdf.PdfMessageKafka"})
     @SneakyThrows
     public void listenPdfNotifications(@Payload PdfMessageKafka pdfMessage) {
@@ -41,10 +36,9 @@ public class PdfKafkaConsumer {
             if (pdfDataObj instanceof String) {
                 byte[] pdfData = Base64.getDecoder().decode((String) pdfDataObj);
                 File tempFile = fileUtils.saveTempFile(pdfData, "temp_ticket.pdf");
-
                 String cloudinaryUrl = fileUtils.uploadFileToCloudinary(tempFile);
                 log.info("Uploaded PDF to Cloudinary: {}", cloudinaryUrl);
-
+                ticketService.updatePdfUrl(Integer.parseInt(pdfMessage.getPayload().getBookingId()), cloudinaryUrl);
                 emailService.sendEmailWithAttachmentAsync(toAddress, subject, content, tempFile)
                         .thenRun(() -> {
                             if (!tempFile.delete()) {
