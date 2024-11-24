@@ -18,6 +18,7 @@ import com.dvk.ct250backend.domain.booking.utils.BookingCodeUtils;
 import com.dvk.ct250backend.domain.common.service.EmailService;
 import com.dvk.ct250backend.domain.common.service.LockService;
 import com.dvk.ct250backend.domain.common.service.RedisService;
+import com.dvk.ct250backend.infrastructure.utils.DateUtils;
 import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
 import com.dvk.ct250backend.infrastructure.utils.StringUtils;
 import jakarta.persistence.criteria.Predicate;
@@ -34,6 +35,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -60,6 +62,7 @@ public class BookingServiceImpl implements BookingService {
     RequestParamUtils requestParamUtils;
     StringUtils stringUtils;
     Environment env;
+    DateUtils dateUtils;
 
     @Override
     @Transactional
@@ -138,11 +141,11 @@ public class BookingServiceImpl implements BookingService {
                 .build();
     }
 
-    @Override
-    public void deleteBooking(Integer bookingId) throws ResourceNotFoundException {
-        Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
-        bookingRepository.delete(booking);
-    }
+//    @Override
+//    public void deleteBooking(Integer bookingId) throws ResourceNotFoundException {
+//        Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
+//        bookingRepository.delete(booking);
+//    }
 
     @Override
     public BookingDTO updateBooking(Integer bookingId, BookingDTO bookingDTO) throws ResourceNotFoundException {
@@ -171,11 +174,24 @@ public class BookingServiceImpl implements BookingService {
                                         )
                                 )),
                                 likePattern
+                        ),
+                        criteriaBuilder.like(
+                                criteriaBuilder.function("unaccent", String.class, criteriaBuilder.lower(root.get("bookingFlights").get("bookingPassengers").get("passengerGroup"))),
+                                likePattern
+                        ),
+                        criteriaBuilder.like(
+                                criteriaBuilder.function("unaccent", String.class, criteriaBuilder.lower(root.get("bookingFlights").get("bookingPassengers").get("passenger").get("email"))),
+                                likePattern
+                        ),
+                        criteriaBuilder.like(
+                                criteriaBuilder.function("unaccent", String.class, criteriaBuilder.lower(root.get("bookingFlights").get("bookingPassengers").get("passenger").get("phoneNumber"))),
+                                likePattern
                         )
+
                 );
             });
         }
-        if (params.containsKey("status")) {
+        if (params.containsKey("bookingStatus")) {
             List<SearchCriteria> bookingStatusCriteria = requestParamUtils.getSearchCriteria(params, "bookingStatus");
             if (!bookingStatusCriteria.isEmpty()) {
                 spec = spec.and((root, query, cb) -> {
@@ -185,6 +201,45 @@ public class BookingServiceImpl implements BookingService {
                     return cb.or(predicates.toArray(new Predicate[0]));
                 });
             }
+        }
+        if (params.containsKey("tripType")) {
+            List<SearchCriteria> bookingStatusCriteria = requestParamUtils.getSearchCriteria(params, "tripType");
+            if (!bookingStatusCriteria.isEmpty()) {
+                spec = spec.and((root, query, cb) -> {
+                    List<Predicate> predicates = bookingStatusCriteria.stream()
+                            .map(criteria -> cb.equal(root.get(criteria.getKey()), criteria.getValue()))
+                            .toList();
+                    return cb.or(predicates.toArray(new Predicate[0]));
+                });
+            }
+        }
+        if (params.containsKey("startDate") && params.containsKey("type")) {
+            String startDateStr = params.get("startDate");
+            String type = params.get("type");
+            LocalDate startDate = dateUtils.parseDate(startDateStr, type);
+            spec = spec.and((root, query, cb) -> {
+                LocalDate endDate;
+                if (type.equalsIgnoreCase("date")) {
+                    endDate = startDate.plusDays(1);
+                } else if (type.equalsIgnoreCase("month")) {
+                    endDate = startDate.withDayOfMonth(startDate.lengthOfMonth()).plusDays(1);
+                } else if (type.equalsIgnoreCase("quarter")) {
+                    endDate = startDate.plusMonths(3).withDayOfMonth(1).minusDays(1).plusDays(1);
+                } else if (type.equalsIgnoreCase("year")) {
+                    endDate = startDate.withDayOfYear(startDate.lengthOfYear()).plusDays(1);
+                } else {
+                    throw new IllegalArgumentException("Invalid date type: " + type);
+                }
+                return cb.between(root.get("createdAt"), startDate.atStartOfDay(), endDate.atStartOfDay());
+            });
+        }
+
+        if(params.containsKey("startDate") && params.containsKey("endDate")) {
+            String startDateStr = params.get("startDate");
+            LocalDate startDate = dateUtils.parseDate(startDateStr, "date");
+            String endDateStr = params.get("endDate");
+            LocalDate endDate = dateUtils.parseDate(endDateStr, "date").plusDays(1);
+            spec = spec.and((root, query, cb) -> cb.between(root.get("createdAt"), startDate.atStartOfDay(), endDate.atStartOfDay()));
         }
         return spec;
     }

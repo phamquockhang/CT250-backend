@@ -451,7 +451,6 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Create a booking', '/api/v1/bookings', 'POST', 'BOOKINGS'),
        ('Get bookings with pagination', '/api/v1/bookings', 'GET', 'BOOKINGS'),
        ('Update a booking', '/api/v1/bookings/{id}', 'PUT', 'BOOKINGS'),
-       ('Delete a booking', '/api/v1/bookings/{id}', 'DELETE', 'BOOKINGS'),
 
        ('Get tickets with pagination', '/api/v1/tickets', 'GET', 'TICKETS'),
        ('Update a ticket', '/api/v1/tickets/{id}', 'PUT', 'TICKETS'),
