@@ -69,7 +69,7 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionDTO createTransaction(HttpServletRequest request, TransactionDTO transactionDTO) throws ResourceNotFoundException {
         Booking booking = bookingRepository.findById(transactionDTO.getBooking().getBookingId())
                 .orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
-        booking.setBookingCode(bookingCodeUtils.generateBookingCode());
+      booking.setBookingCode(booking.getBookingCode() == null ? bookingCodeUtils.generateBookingCode() : booking.getBookingCode());
         booking.setBookingStatus(BookingStatusEnum.PENDING);
         bookingRepository.save(booking);
 
