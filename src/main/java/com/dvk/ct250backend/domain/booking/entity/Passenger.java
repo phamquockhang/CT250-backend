@@ -51,4 +51,6 @@ public class Passenger extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     User user;
+
+
 }

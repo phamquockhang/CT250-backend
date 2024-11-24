@@ -50,4 +50,7 @@ public class PassengerDTO {
 
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
+
+    //response
+    String passengerGroup;
 }

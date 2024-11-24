@@ -80,7 +80,11 @@ public class PassengerServiceImpl implements PassengerService {
         return Page.<PassengerDTO>builder()
                 .meta(meta)
                 .content(passengerPage.getContent().stream()
-                        .map(passengerMapper::toPassengerDTO)
+                        .map(
+                            passenger -> {PassengerDTO passengerDTO = passengerMapper.toPassengerDTO(passenger);
+                            passengerDTO.setPassengerGroup(passenger.getBookingPassengers().getFirst().getPassengerGroup());
+                            return passengerDTO;
+                        })
                         .collect(Collectors.toList()))
                 .build();
     }
@@ -100,6 +104,10 @@ public class PassengerServiceImpl implements PassengerService {
                         ),
                         criteriaBuilder.like(
                                 criteriaBuilder.function("unaccent", String.class, criteriaBuilder.lower(root.get("email"))),
+                                likePattern
+                        ),
+                        criteriaBuilder.like(
+                                criteriaBuilder.function("unaccent", String.class, criteriaBuilder.lower(root.get("bookingPassengers").get("passengerGroup"))),
                                 likePattern
                         ),
                         criteriaBuilder.like(
