@@ -363,7 +363,10 @@ VALUES ('Sân bay quốc tế Tân Sơn Nhất', 'SGN', 'Tp. Hồ Chí Minh', 'S
 
 --ROLE
 INSERT INTO public.roles (role_name, description, active)
-VALUES ('ADMIN', 'Admin thì full permissions', true);
+VALUES ('ADMIN', 'Admin', true),
+       ('MANAGER', 'Quản lý', true),
+       ('EMPLOYEE', 'Nhân viên', true),
+       ('USER', 'Người dùng', true);
 
 --PERMISSION
 INSERT INTO public.permissions (name, api_path, method, module)
@@ -474,6 +477,114 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Update a payment method', '/api/v1/payment-methods/{id}', 'PUT', 'PAYMENT-METHODS'),
        ('Delete a payment method', '/api/v1/payment-methods/{id}', 'DELETE', 'PAYMENT-METHODS');
 
+
+--ROLE_PERMISSION
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (5, 4);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (7, 4);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (21, 4);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (40, 4);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (41, 4);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (45, 4);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (50, 4);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (55, 4);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (65, 4);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (66, 4);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (68, 4);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (71, 4);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (76, 4);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (4, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (5, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (6, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (7, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (2, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (20, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (21, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (22, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (23, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (24, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (25, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (26, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (27, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (28, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (29, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (30, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (31, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (32, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (33, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (34, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (35, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (36, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (37, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (38, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (39, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (40, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (41, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (42, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (43, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (44, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (45, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (46, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (47, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (48, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (49, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (50, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (51, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (52, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (53, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (54, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (55, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (56, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (57, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (58, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (59, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (60, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (61, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (62, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (63, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (64, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (65, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (66, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (67, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (68, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (69, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (70, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (71, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (72, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (73, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (74, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (75, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (76, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (77, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (78, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (79, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (17, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (18, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (19, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (11, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (13, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (12, 2);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (37, 3);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (40, 3);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (41, 3);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (42, 3);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (43, 3);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (45, 3);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (46, 3);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (50, 3);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (51, 3);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (54, 3);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (55, 3);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (59, 3);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (62, 3);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (63, 3);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (65, 3);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (67, 3);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (68, 3);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (69, 3);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (70, 3);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (71, 3);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (75, 3);
+INSERT INTO public.permission_role (permission_id, role_id) VALUES (76, 3);
 
 --USER
 INSERT INTO public.users (user_id, email, gender, first_name, last_name, password, phone_number, identity_number,
