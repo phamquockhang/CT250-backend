@@ -118,6 +118,10 @@ public class PassengerServiceImpl implements PassengerService {
                                         )
                                 )),
                                 likePattern
+                        ),
+                        criteriaBuilder.like(
+                                criteriaBuilder.function("unaccent", String.class, criteriaBuilder.lower(root.get("country").get("countryName"))),
+                                likePattern
                         )
                 );
             });
