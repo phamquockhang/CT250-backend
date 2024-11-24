@@ -38,7 +38,6 @@ public class PdfKafkaConsumer {
                 File tempFile = fileUtils.saveTempFile(pdfData, "temp_ticket.pdf");
                 String cloudinaryUrl = fileUtils.uploadFileToCloudinary(tempFile);
                 log.info("Uploaded PDF to Cloudinary: {}", cloudinaryUrl);
-                ticketService.updatePdfUrl(Integer.parseInt(pdfMessage.getPayload().getBookingId()), cloudinaryUrl);
                 emailService.sendEmailWithAttachmentAsync(toAddress, subject, content, tempFile)
                         .thenRun(() -> {
                             if (!tempFile.delete()) {
@@ -49,6 +48,7 @@ public class PdfKafkaConsumer {
                             log.error("Failed to send email with attachment", ex);
                             return null;
                         });
+                ticketService.exportPdfForPassengersAndUploadCloudinary(Integer.parseInt(pdfMessage.getPayload().getBookingId()));
             } else {
                 log.error("Invalid pdfData type: {}", pdfDataObj.getClass().getName());
             }

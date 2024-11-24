@@ -67,14 +67,18 @@ public class BookingServiceImpl implements BookingService {
         }
         Map<String, Passenger> passengerMap = new HashMap<>();
         AtomicBoolean isPrimaryContactSet = new AtomicBoolean(false);
-        String passengerGroup = UUID.randomUUID().toString();
+        String randomAlphanumeric = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 8);
+        String passengerGroup = randomAlphanumeric + "-" +
+                booking.getBookingFlights().stream()
+                        .map(bookingFlight -> bookingFlight.getFlight().getFlightId().toString())
+                        .collect(Collectors.joining("-"));
 
         booking.getBookingFlights().forEach(bookingFlight -> {
             bookingFlight.setBooking(booking);
             bookingPassengerService.processBookingPassengers(bookingFlight, passengerMap, isPrimaryContactSet, passengerGroup);
         });
-
         Booking savedBooking = bookingRepository.save(booking);
+
         return bookingMapper.toBookingDTO(savedBooking);
     }
 
@@ -145,7 +149,6 @@ public class BookingServiceImpl implements BookingService {
 
     private Specification<Booking> getBookingSpec(Map<String, String> params) {
         Specification<Booking> spec = Specification.where(null);
-
         if (params.containsKey("query")) {
             String searchValue = stringUtils.normalizeString(params.get("query").trim().toLowerCase());
             String likePattern = "%" + searchValue + "%";
@@ -168,7 +171,6 @@ public class BookingServiceImpl implements BookingService {
                 );
             });
         }
-
         if (params.containsKey("status")) {
             List<SearchCriteria> bookingStatusCriteria = requestParamUtils.getSearchCriteria(params, "bookingStatus");
             if (!bookingStatusCriteria.isEmpty()) {

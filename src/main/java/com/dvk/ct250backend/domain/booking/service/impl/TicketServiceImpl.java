@@ -1,10 +1,13 @@
 package com.dvk.ct250backend.domain.booking.service.impl;
 
+import com.dvk.ct250backend.app.dto.request.SearchCriteria;
 import com.dvk.ct250backend.app.dto.response.Meta;
 import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.booking.dto.TicketDTO;
 import com.dvk.ct250backend.domain.booking.entity.Booking;
+import com.dvk.ct250backend.domain.booking.entity.BookingFlight;
+import com.dvk.ct250backend.domain.booking.entity.BookingPassenger;
 import com.dvk.ct250backend.domain.booking.entity.Ticket;
 import com.dvk.ct250backend.domain.booking.enums.TicketStatusEnum;
 import com.dvk.ct250backend.domain.booking.mapper.TicketMapper;
@@ -13,9 +16,9 @@ import com.dvk.ct250backend.domain.booking.repository.TicketRepository;
 import com.dvk.ct250backend.domain.booking.service.TicketService;
 import com.dvk.ct250backend.domain.booking.utils.TicketNumberUtils;
 import com.dvk.ct250backend.domain.common.service.EmailService;
-import com.dvk.ct250backend.infrastructure.utils.DateUtils;
-import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
-import com.dvk.ct250backend.infrastructure.utils.StringUtils;
+import com.dvk.ct250backend.infrastructure.utils.*;
+import com.google.zxing.WriterException;
+import jakarta.persistence.criteria.Predicate;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -25,7 +28,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +51,8 @@ public class TicketServiceImpl implements TicketService {
     RequestParamUtils requestParamUtils;
     StringUtils stringUtils;
     DateUtils dateUtils;
+    TemplateEngine templateEngine;
+    FileUtils fileUtils;
 
     @Override
     @Transactional
@@ -110,7 +119,14 @@ public class TicketServiceImpl implements TicketService {
         return Page.<TicketDTO>builder()
                 .meta(meta)
                 .content(ticketPage.getContent().stream()
-                        .map(ticketMapper::toTicketDTO)
+                        .map(ticket -> {
+                            TicketDTO ticketDTO = ticketMapper.toTicketDTO(ticket);
+                            ticketDTO.setPassengerName(ticket.getBookingPassenger().getPassenger().getLastName() + " " + ticket.getBookingPassenger().getPassenger().getFirstName());
+                            ticketDTO.setBookingCode(ticket.getBookingPassenger().getBookingFlight().getBooking().getBookingCode());
+                            ticketDTO.setPassengerGroup(ticket.getBookingPassenger().getPassengerGroup());
+                            ticketDTO.setPhoneNumber(ticket.getBookingPassenger().getPassenger().getPhoneNumber());
+                            return ticketDTO;
+                        })
                         .collect(Collectors.toList()))
                 .build();
     }
@@ -124,7 +140,7 @@ public class TicketServiceImpl implements TicketService {
             spec = spec.or((root, query, criteriaBuilder) -> {
                 query.distinct(true);
                 return criteriaBuilder.or(
-                        criteriaBuilder.equal(
+                        criteriaBuilder.like(
                                 criteriaBuilder.function("unaccent", String.class, criteriaBuilder.lower(root.get("ticketNumber"))),
                                 likePattern
                         ),
@@ -141,12 +157,28 @@ public class TicketServiceImpl implements TicketService {
                                 )),
                                 likePattern
                         ),
-                        criteriaBuilder.equal(
-                                criteriaBuilder.function("unaccent", String.class, criteriaBuilder.lower(root.get("bookingPassenger").get("bookingFlight").get("bookingFlight").get("booking").get("bookingCode"))),
+                        criteriaBuilder.like(
+                                criteriaBuilder.function("unaccent", String.class, criteriaBuilder.lower(root.get("bookingPassenger").get("passenger").get("phoneNumber"))),
+                                likePattern
+                        ),
+                        criteriaBuilder.like(
+                                criteriaBuilder.function("unaccent", String.class, criteriaBuilder.lower(root.get("bookingPassenger").get("bookingFlight").get("booking").get("bookingCode"))),
                                 likePattern
                         )
                 );
             });
+        }
+
+        if (params.containsKey("status")) {
+            List<SearchCriteria> transactionStatusCriteria = requestParamUtils.getSearchCriteria(params, "status");
+            if (!transactionStatusCriteria.isEmpty()) {
+                spec = spec.and((root, query, cb) -> {
+                    List<Predicate> predicates = transactionStatusCriteria.stream()
+                            .map(criteria -> cb.equal(root.get(criteria.getKey()), criteria.getValue()))
+                            .toList();
+                    return cb.or(predicates.toArray(new Predicate[0]));
+                });
+            }
         }
 
         if (params.containsKey("startDate") && params.containsKey("type")) {
@@ -179,6 +211,47 @@ public class TicketServiceImpl implements TicketService {
         }
 
         return spec;
+    }
+
+    @Override
+    @Transactional
+    public void exportPdfForPassengersAndUploadCloudinary(Integer bookingId) throws ResourceNotFoundException, IOException, WriterException {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new ResourceNotFoundException("Booking not found with id: " + bookingId));
+
+        for (BookingFlight bookingFlight : booking.getBookingFlights()) {
+            for (BookingPassenger bookingPassenger : bookingFlight.getBookingPassengers()) {
+                StringBuilder qrCodeText = new StringBuilder();
+                qrCodeText.append("Booking Code: ").append(booking.getBookingCode()).append("\n");
+                qrCodeText.append("Flight ID: ").append(bookingFlight.getFlight().getFlightId()).append("\n");
+                qrCodeText.append("Departure: ").append(bookingFlight.getFlight().getRoute().getDepartureAirport().getAirportCode())
+                        .append(" - ").append(bookingFlight.getFlight().getRoute().getDepartureAirport().getAirportName()).append("\n");
+                qrCodeText.append("Arrival: ").append(bookingFlight.getFlight().getRoute().getArrivalAirport().getAirportCode())
+                        .append(" - ").append(bookingFlight.getFlight().getRoute().getArrivalAirport().getAirportName()).append("\n");
+                qrCodeText.append("Departure Time: ").append(bookingFlight.getFlight().getDepartureDateTime()).append("\n");
+                qrCodeText.append("Arrival Time: ").append(bookingFlight.getFlight().getArrivalDateTime()).append("\n");
+                qrCodeText.append("Passenger: ").append(bookingPassenger.getPassenger().getFirstName())
+                        .append(" ").append(bookingPassenger.getPassenger().getLastName()).append("\n");
+                qrCodeText.append("Seat: ").append(bookingPassenger.getSeat().getSeatCode()).append("\n");
+                qrCodeText.append("Ticket Number: ").append(bookingPassenger.getTickets().getFirst().getTicketNumber()).append("\n");
+
+                String qrCodeImage = QrCodeGeneratorUtils.generateQRCodeImage(qrCodeText.toString(), 200, 200);
+                Context context = new Context();
+                context.setVariable("qrCodeImage", qrCodeImage);
+                context.setVariable("booking", booking);
+                context.setVariable("bookingPassenger", bookingPassenger);
+
+                String pdfContent = templateEngine.process("ticket-passenger", context);
+                byte[] pdfData = PdfGeneratorUtils.generateTicketPdf(pdfContent);
+                File tempFile = fileUtils.saveTempFile(pdfData, "temp_ticket.pdf");
+                String cloudinaryUrl = fileUtils.uploadFileToCloudinary(tempFile);
+
+                for (Ticket ticket : bookingPassenger.getTickets()) {
+                    ticket.setPdfUrl(cloudinaryUrl);
+                    ticketRepository.save(ticket);
+                }
+            }
+        }
     }
 
 }

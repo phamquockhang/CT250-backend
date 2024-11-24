@@ -4,7 +4,9 @@ import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.booking.dto.TicketDTO;
 import com.dvk.ct250backend.domain.booking.entity.Booking;
+import com.google.zxing.WriterException;
 
+import java.io.IOException;
 import java.util.Map;
 
 public interface TicketService {
@@ -13,4 +15,5 @@ public interface TicketService {
    void updateTicket(Integer ticketId, TicketDTO ticketDTO) throws ResourceNotFoundException;
    void deleteTicket(Integer ticketId) throws ResourceNotFoundException;
    Page<TicketDTO> getTickets(Map<String, String> params);
+   void exportPdfForPassengersAndUploadCloudinary(Integer bookingId) throws ResourceNotFoundException, IOException, WriterException;
 }
