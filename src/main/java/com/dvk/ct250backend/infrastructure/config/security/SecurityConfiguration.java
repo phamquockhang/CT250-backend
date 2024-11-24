@@ -50,8 +50,8 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(corsConfig -> corsConfig.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
-                    config.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:5000"));
-                    config.setAllowedMethods(Collections.singletonList("*"));
+                    config.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:5000", "http://localhost:5173/"));
+                    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                     config.setAllowCredentials(true);
                     config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept", "siteUrl"));
                     config.setMaxAge(3600L);
@@ -64,6 +64,7 @@ public class SecurityConfiguration {
                                 "/api/v1/flights/search",
                                 "/api/v1/flights/overview" ,
                                 "/api/v1/bookings",
+                                "/api/v1/bookings/search",
                                 "/api/v1/bookings/{bookingId}/reserve",
                                 "/api/v1/meals/all",
                                 "/api/v1/baggage/all",

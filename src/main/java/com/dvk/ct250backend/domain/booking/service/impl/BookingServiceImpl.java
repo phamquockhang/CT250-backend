@@ -21,9 +21,11 @@ import com.dvk.ct250backend.domain.common.service.RedisService;
 import com.dvk.ct250backend.infrastructure.utils.RequestParamUtils;
 import com.dvk.ct250backend.infrastructure.utils.StringUtils;
 import jakarta.persistence.criteria.Predicate;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -31,6 +33,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -56,6 +59,7 @@ public class BookingServiceImpl implements BookingService {
     CouponRepository couponRepository;
     RequestParamUtils requestParamUtils;
     StringUtils stringUtils;
+    Environment env;
 
     @Override
     @Transactional
@@ -185,4 +189,16 @@ public class BookingServiceImpl implements BookingService {
         return spec;
     }
 
+    @Override
+    public String searchBooking(String code, HttpServletResponse response) throws ResourceNotFoundException, IOException {
+        Booking booking = bookingRepository.findByBookingCode(code)
+                .orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
+        if(booking.getBookingStatus().equals(BookingStatusEnum.RESERVED)){
+            final String FRONTEND_URL = env.getProperty("FRONTEND_URL");
+            return FRONTEND_URL + "/book/payment/confirmation";
+        } else {
+            throw new ResourceNotFoundException("Booking not found");
+        }
+
+    }
 }

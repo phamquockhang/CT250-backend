@@ -3,7 +3,9 @@ package com.dvk.ct250backend.domain.booking.service;
 import com.dvk.ct250backend.app.dto.response.Page;
 import com.dvk.ct250backend.app.exception.ResourceNotFoundException;
 import com.dvk.ct250backend.domain.booking.dto.BookingDTO;
+import jakarta.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
 import java.util.Map;
 
 public interface BookingService {
@@ -12,4 +14,5 @@ public interface BookingService {
     Page<BookingDTO> getBookings(Map<String, String> params);
     void deleteBooking(Integer bookingId) throws ResourceNotFoundException;
     BookingDTO updateBooking(Integer bookingId, BookingDTO bookingDTO) throws ResourceNotFoundException;
+    String searchBooking(String code, HttpServletResponse response) throws ResourceNotFoundException, IOException;
 }
