@@ -3,6 +3,7 @@ package com.dvk.ct250backend.domain.booking.entity;
 import com.dvk.ct250backend.domain.auth.entity.User;
 import com.dvk.ct250backend.domain.auth.enums.GenderEnum;
 import com.dvk.ct250backend.domain.booking.enums.PassengerTypeEnum;
+import com.dvk.ct250backend.domain.common.entity.BaseEntity;
 import com.dvk.ct250backend.domain.country.entity.Country;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,7 +20,7 @@ import java.util.List;
 @Entity
 @Table(name = "passengers")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Passenger {
+public class Passenger extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "passenger_id_seq")
@@ -27,7 +28,6 @@ public class Passenger {
     Integer passengerId;
 
     String email;
-
     String firstName;
     String lastName;
     LocalDate dateOfBirth;
@@ -51,5 +51,6 @@ public class Passenger {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     User user;
+
 
 }

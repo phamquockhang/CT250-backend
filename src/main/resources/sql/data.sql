@@ -460,8 +460,12 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Create a transaction', '/api/v1/transactions', 'POST', 'TRANSACTION'),
        ('Get transactions with pagination', '/api/v1/transactions', 'GET', 'TRANSACTION'),
        ('Get a transaction by id', '/api/v1/transactions/{id}', 'GET', 'TRANSACTION'),
---        ('Update a transaction', '/api/v1/transactions/{id}', 'PUT', 'TRANSACTION'),
---          ('Delete a transaction', '/api/v1/transactions/{id}', 'DELETE', 'TRANSACTION'),
+
+       ('Get passengers with pagination', '/api/v1/passengers', 'GET', 'PASSENGERS'),
+--        ('Get all passengers', '/api/v1/passengers/all', 'GET', 'PASSENGERS'),
+--        ('Create a passenger', '/api/v1/passengers', 'POST', 'PASSENGERS'),
+       ('Update a passenger', '/api/v1/passengers/{id}', 'PUT', 'PASSENGERS'),
+       ('Delete a passenger', '/api/v1/passengers/{id}', 'DELETE', 'PASSENGERS'),
 
 
        ('Get coupons with pagination', '/api/v1/coupons', 'GET', 'COUPONS'),
