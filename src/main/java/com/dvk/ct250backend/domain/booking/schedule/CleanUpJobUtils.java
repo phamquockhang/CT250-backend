@@ -25,6 +25,7 @@ public class CleanUpJobUtils {
     public void cleanUpInitBookings() {
         LocalDateTime cutoffTime = LocalDateTime.now().minus(3, ChronoUnit.HOURS);
         List<Booking> bookingsToDelete = bookingRepository.findByBookingStatusAndCreatedAtBefore(BookingStatusEnum.INIT, cutoffTime);
-        bookingRepository.deleteAll(bookingsToDelete);
+        bookingsToDelete.forEach(booking -> booking.setBookingStatus(BookingStatusEnum.CANCELLED));
+        bookingRepository.saveAll(bookingsToDelete);
     }
 }

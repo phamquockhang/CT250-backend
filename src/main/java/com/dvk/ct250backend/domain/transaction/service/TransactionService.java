@@ -12,7 +12,5 @@ public interface TransactionService {
     TransactionDTO createTransaction(HttpServletRequest request, TransactionDTO transactionDTO) throws ResourceNotFoundException;
     TransactionDTO handleVNPayCallback(VNPayCallbackRequest request) throws Exception;
     TransactionDTO getTransactionById(Integer transactionId);
-    //TransactionDTO updateTransaction(Integer transactionId,TransactionDTO transactionDTO) throws ResourceNotFoundException;
-//    void deleteTransaction(Integer transactionId) throws ResourceNotFoundException;
     Page<TransactionDTO> getAllTransactions(Map<String, String> params);
 }

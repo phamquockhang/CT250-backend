@@ -10,6 +10,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -19,6 +20,7 @@ import java.time.LocalDate;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PassengerDTO {
     String passengerId;
+
     @NotBlank(message = "Passenger name is required")
     String passengerType;
 
@@ -30,6 +32,7 @@ public class PassengerDTO {
 
     @NotBlank(message = "Last name is required")
     String lastName;
+
     LocalDate dateOfBirth;
 
     @NotBlank(message = "Gender is required")
@@ -44,4 +47,10 @@ public class PassengerDTO {
     CountryDTO country;
 
     UserDTO user;
+
+    LocalDateTime createdAt;
+    LocalDateTime updatedAt;
+
+    //response
+    String passengerGroup;
 }

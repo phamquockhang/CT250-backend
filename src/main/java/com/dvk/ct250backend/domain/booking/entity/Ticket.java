@@ -25,6 +25,7 @@ public class Ticket extends BaseEntity {
 
 
     String ticketNumber;
+    String pdfUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booking_passenger_id")
