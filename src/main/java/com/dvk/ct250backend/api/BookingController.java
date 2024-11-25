@@ -55,6 +55,14 @@ public class BookingController {
                 .build();
     }
 
+    @GetMapping("/{id}")
+    public ApiResponse<BookingDTO> getBookingById(@PathVariable Integer id) throws ResourceNotFoundException {
+        return ApiResponse.<BookingDTO>builder()
+                .status(HttpStatus.OK.value())
+                .payload(bookingService.getBookingById(id))
+                .build();
+    }
+
 }
 
 

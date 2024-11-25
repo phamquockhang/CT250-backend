@@ -242,4 +242,10 @@ public class BookingServiceImpl implements BookingService {
         }
 
     }
+
+    @Override
+    public BookingDTO getBookingById(Integer id) throws ResourceNotFoundException {
+        Booking booking = bookingRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
+        return bookingMapper.toBookingDTO(booking);
+    }
 }
