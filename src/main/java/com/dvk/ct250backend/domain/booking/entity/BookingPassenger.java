@@ -1,5 +1,6 @@
 package com.dvk.ct250backend.domain.booking.entity;
 
+import com.dvk.ct250backend.domain.common.entity.BaseEntity;
 import com.dvk.ct250backend.domain.flight.entity.Seat;
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,7 +16,7 @@ import java.util.List;
 @Entity
 @Table(name = "booking_passenger")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BookingPassenger {
+public class BookingPassenger extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "booking_passenger_id_seq")
     @SequenceGenerator(name = "booking_passenger_id_seq", sequenceName = "booking_passengers_seq", allocationSize = 1)
@@ -38,7 +39,7 @@ public class BookingPassenger {
     @JoinColumn(name ="baggage_id")
     Baggage baggage;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "booking_flight_id")
     BookingFlight bookingFlight;
 

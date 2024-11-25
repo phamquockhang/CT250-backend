@@ -34,7 +34,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -141,19 +140,6 @@ public class BookingServiceImpl implements BookingService {
                 .build();
     }
 
-//    @Override
-//    public void deleteBooking(Integer bookingId) throws ResourceNotFoundException {
-//        Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
-//        bookingRepository.delete(booking);
-//    }
-
-    @Override
-    public BookingDTO updateBooking(Integer bookingId, BookingDTO bookingDTO) throws ResourceNotFoundException {
-        Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
-        bookingMapper.updateBookingFromDTO(booking, bookingDTO);
-        return bookingMapper.toBookingDTO(bookingRepository.save(booking));
-    }
-
     private Specification<Booking> getBookingSpec(Map<String, String> params) {
         Specification<Booking> spec = Specification.where(null);
         if (params.containsKey("query")) {
@@ -245,7 +231,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public String searchBooking(String code, HttpServletResponse response) throws ResourceNotFoundException, IOException {
+    public String searchBooking(String code, HttpServletResponse response) throws ResourceNotFoundException {
         Booking booking = bookingRepository.findByBookingCode(code)
                 .orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
         if(booking.getBookingStatus().equals(BookingStatusEnum.RESERVED)){

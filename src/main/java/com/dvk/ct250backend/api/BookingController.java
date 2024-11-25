@@ -55,21 +55,6 @@ public class BookingController {
                 .build();
     }
 
-//    @DeleteMapping("/{bookingId}")
-//    public ApiResponse<Void> deleteBooking(@PathVariable Integer bookingId) throws ResourceNotFoundException {
-//        bookingService.deleteBooking(bookingId);
-//        return ApiResponse.<Void>builder()
-//                .status(HttpStatus.NO_CONTENT.value())
-//                .build();
-//    }
-
-    @PutMapping("/{bookingId}")
-    public ApiResponse<BookingDTO> updateBooking(@PathVariable Integer bookingId, @RequestBody BookingDTO bookingDTO) throws ResourceNotFoundException {
-        return ApiResponse.<BookingDTO>builder()
-                .status(HttpStatus.OK.value())
-                .payload(bookingService.updateBooking(bookingId, bookingDTO))
-                .build();
-    }
 }
 
 

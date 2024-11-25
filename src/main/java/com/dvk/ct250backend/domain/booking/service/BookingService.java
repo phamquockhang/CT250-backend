@@ -12,7 +12,5 @@ public interface BookingService {
     BookingDTO createInitBooking(BookingDTO bookingDTO);
     BookingDTO reserveBooking(Integer bookingId ,BookingDTO bookingDTO) throws ResourceNotFoundException;
     Page<BookingDTO> getBookings(Map<String, String> params);
-//    void deleteBooking(Integer bookingId) throws ResourceNotFoundException;
-    BookingDTO updateBooking(Integer bookingId, BookingDTO bookingDTO) throws ResourceNotFoundException;
     String searchBooking(String code, HttpServletResponse response) throws ResourceNotFoundException, IOException;
 }

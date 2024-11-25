@@ -12,6 +12,7 @@ import com.dvk.ct250backend.domain.booking.service.BookingFlightService;
 import com.dvk.ct250backend.domain.booking.service.CouponService;
 import com.dvk.ct250backend.domain.booking.service.impl.TicketServiceImpl;
 import com.dvk.ct250backend.domain.booking.utils.BookingCodeUtils;
+import com.dvk.ct250backend.domain.common.service.LockService;
 import com.dvk.ct250backend.domain.transaction.dto.TransactionDTO;
 import com.dvk.ct250backend.domain.transaction.dto.request.VNPayCallbackRequest;
 import com.dvk.ct250backend.domain.transaction.dto.response.VNPayResponse;
@@ -57,6 +58,7 @@ public class TransactionServiceImpl implements TransactionService {
     BookingCodeUtils bookingCodeUtils;
     DateUtils dateUtils;
     CouponService couponService;
+    LockService lockService;
     @Override
     public TransactionDTO getTransactionById(Integer transactionId) {
         return transactionRepository.findById(transactionId)
