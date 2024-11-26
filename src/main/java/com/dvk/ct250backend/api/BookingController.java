@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Map;
 
 @RestController
@@ -60,6 +61,22 @@ public class BookingController {
         return ApiResponse.<BookingDTO>builder()
                 .status(HttpStatus.OK.value())
                 .payload(bookingService.getBookingById(id))
+                .build();
+    }
+
+    @GetMapping("/last-30-days-sales")
+    public ApiResponse<BigDecimal> getLast30DaysSales() {
+        return ApiResponse.<BigDecimal>builder()
+                .status(HttpStatus.OK.value())
+                .payload(bookingService.getLast30DaysSales())
+                .build();
+    }
+
+    @GetMapping("/last-30-days-count")
+    public ApiResponse<Integer> getLast30DaysBookingCount() {
+        return ApiResponse.<Integer>builder()
+                .status(HttpStatus.OK.value())
+                .payload(bookingService.getLast30DaysBookingCount())
                 .build();
     }
 

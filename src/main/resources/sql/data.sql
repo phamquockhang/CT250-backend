@@ -481,6 +481,16 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Update a payment method', '/api/v1/payment-methods/{id}', 'PUT', 'PAYMENT-METHODS'),
        ('Delete a payment method', '/api/v1/payment-methods/{id}', 'DELETE', 'PAYMENT-METHODS');
 
+--NEW PERMISSION
+INSERT INTO public.permissions (name, api_path, method, module)
+VALUES ('Get last 30 days booking sales', '/api/v1/bookings/last-30-days-sales', 'GET', 'BOOKINGS');
+
+INSERT INTO public.permissions (name, api_path, method, module)
+VALUES ('Get last 30 days booking count', '/api/v1/bookings/last-30-days-count', 'GET', 'BOOKINGS');
+
+INSERT INTO public.permissions (name, api_path, method, module)
+VALUES ('Get last 30 days ticket count', '/api/v1/tickets/last-30-days-count', 'GET', 'TICKETS');
+
 
 --ROLE_PERMISSION
 INSERT INTO public.permission_role (permission_id, role_id) VALUES (5, 4);

@@ -34,6 +34,8 @@ import org.thymeleaf.context.Context;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -254,4 +256,14 @@ public class TicketServiceImpl implements TicketService {
         }
     }
 
+    @Override
+    public Integer getLast30DaysTicketCount() {
+        LocalDateTime startDate = LocalDateTime.now().minusDays(30).with(LocalTime.MIN);
+        LocalDateTime endDate = LocalDateTime.now();
+
+        return ticketRepository.findTicketInRange(startDate, endDate).stream()
+                .filter(ticket -> ticket.getStatus().equals(TicketStatusEnum.BOOKED))
+                .mapToInt(ticket -> 1)
+                .sum();
+    }
 }

@@ -44,4 +44,12 @@ public class TicketController {
                 .payload(ticketService.getTickets(params))
                 .build();
     }
+
+    @GetMapping("/last-30-days-count")
+    public ApiResponse<Integer> getLast30DaysTicketCount() {
+        return ApiResponse.<Integer>builder()
+                .status(HttpStatus.OK.value())
+                .payload(ticketService.getLast30DaysTicketCount())
+                .build();
+    }
 }

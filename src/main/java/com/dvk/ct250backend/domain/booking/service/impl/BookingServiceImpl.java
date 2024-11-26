@@ -34,8 +34,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -247,5 +249,25 @@ public class BookingServiceImpl implements BookingService {
     public BookingDTO getBookingById(Integer id) throws ResourceNotFoundException {
         Booking booking = bookingRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
         return bookingMapper.toBookingDTO(booking);
+    }
+
+    @Override
+    public BigDecimal getLast30DaysSales() {
+        LocalDateTime startDate = LocalDateTime.now().minusDays(30).with(LocalTime.MIN);
+        LocalDateTime endDate = LocalDateTime.now();
+        return bookingRepository.findBookingInRange(startDate, endDate).stream()
+                .filter(booking -> booking.getBookingStatus().equals(BookingStatusEnum.PAID))
+                .map(Booking::getTotalPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    @Override
+    public Integer getLast30DaysBookingCount() {
+        LocalDateTime startDate = LocalDateTime.now().minusDays(30).with(LocalTime.MIN);
+        LocalDateTime endDate = LocalDateTime.now();
+        return bookingRepository.findBookingInRange(startDate, endDate).stream()
+                .filter(booking -> booking.getBookingStatus().equals(BookingStatusEnum.PAID))
+                .mapToInt(booking -> 1)
+                .sum();
     }
 }
