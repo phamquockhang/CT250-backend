@@ -119,11 +119,14 @@ public class TransactionServiceImpl implements TransactionService {
                 .orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
         if ("00".equals(status)) {
             booking.setBookingCode(bookingCode);
-            booking.setBookingStatus(BookingStatusEnum.PAID);
+
             if (booking.getCoupon() != null) {
                 couponService.decreaseCouponMaxUsage(booking.getCoupon());
             }
-            booking.getBookingFlights().forEach(bookingFlightService::processBookingFlight);
+            if(booking.getBookingStatus() == BookingStatusEnum.RESERVED) {
+                booking.getBookingFlights().forEach(bookingFlightService::processBookingFlight);
+            }
+            booking.setBookingStatus(BookingStatusEnum.PAID);
             ticketServiceImpl.createTicketsForBooking(booking);
         } else {
             booking.setBookingStatus(BookingStatusEnum.INIT);
