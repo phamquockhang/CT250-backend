@@ -1,7 +1,5 @@
 package com.dvk.ct250backend.infrastructure.kafka.pdf;
 
-import com.dvk.ct250backend.domain.booking.entity.Booking;
-import com.dvk.ct250backend.domain.booking.enums.BookingStatusEnum;
 import com.dvk.ct250backend.domain.booking.repository.BookingRepository;
 import com.dvk.ct250backend.domain.booking.service.TicketService;
 import com.dvk.ct250backend.infrastructure.service.EmailServiceImpl;
@@ -52,11 +50,7 @@ public class PdfKafkaConsumer {
                             log.error("Failed to send email with attachment", ex);
                             return null;
                         });
-                String bookingId = pdfMessage.getPayload().getBookingId();
-                Booking booking = bookingRepository.findById(Integer.parseInt(bookingId)).orElse(null);
-                if(booking != null && booking.getBookingStatus().equals(BookingStatusEnum.PAID)) {
                     ticketService.exportPdfForPassengersAndUploadCloudinary(Integer.parseInt(pdfMessage.getPayload().getBookingId()));
-                }
 
             } else {
                 log.error("Invalid pdfData type: {}", pdfDataObj.getClass().getName());
