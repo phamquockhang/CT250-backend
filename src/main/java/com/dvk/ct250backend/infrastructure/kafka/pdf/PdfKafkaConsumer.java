@@ -1,5 +1,8 @@
 package com.dvk.ct250backend.infrastructure.kafka.pdf;
 
+import com.dvk.ct250backend.domain.booking.entity.Booking;
+import com.dvk.ct250backend.domain.booking.enums.BookingStatusEnum;
+import com.dvk.ct250backend.domain.booking.repository.BookingRepository;
 import com.dvk.ct250backend.domain.booking.service.TicketService;
 import com.dvk.ct250backend.infrastructure.service.EmailServiceImpl;
 import com.dvk.ct250backend.infrastructure.utils.FileUtils;
@@ -21,6 +24,7 @@ public class PdfKafkaConsumer {
     private final EmailServiceImpl emailService;
     private final FileUtils fileUtils;
     private final TicketService ticketService;
+    private final BookingRepository bookingRepository;
 
     @KafkaListener(topics = "${kafka.pdf.topic}", concurrency = "${kafka.pdf.concurrency}", properties = {"spring.json.value.default.type=com.dvk.ct250backend.infrastructure.kafka.pdf.PdfMessageKafka"})
     @SneakyThrows
@@ -48,7 +52,12 @@ public class PdfKafkaConsumer {
                             log.error("Failed to send email with attachment", ex);
                             return null;
                         });
-                ticketService.exportPdfForPassengersAndUploadCloudinary(Integer.parseInt(pdfMessage.getPayload().getBookingId()));
+                String bookingId = pdfMessage.getPayload().getBookingId();
+                Booking booking = bookingRepository.findById(Integer.parseInt(bookingId)).orElse(null);
+                if(booking != null && booking.getBookingStatus().equals(BookingStatusEnum.PAID)) {
+                    ticketService.exportPdfForPassengersAndUploadCloudinary(Integer.parseInt(pdfMessage.getPayload().getBookingId()));
+                }
+
             } else {
                 log.error("Invalid pdfData type: {}", pdfDataObj.getClass().getName());
             }
