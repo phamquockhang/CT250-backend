@@ -11,7 +11,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,23 +19,43 @@ public class BookingFlightServiceImpl implements BookingFlightService {
 
     SeatService seatService;
 
-    @Override
-    @Transactional
-    public void processBookingFlight(BookingFlight bookingFlight) {
-        bookingFlight.getBookingPassengers().forEach(bookingPassenger -> {
-            TicketClassEnum ticketClass = bookingPassenger.getBookingFlight().getTicketClass().getTicketClassName();
+//    @Override
+//    public void processBookingFlight(BookingFlight bookingFlight) {
+//        bookingFlight.getBookingPassengers().forEach(bookingPassenger -> {
+//            TicketClassEnum ticketClass = bookingPassenger.getBookingFlight().getTicketClass().getTicketClassName();
+//            if (bookingPassenger.getIsSharedSeat()) {
+//                BookingPassenger adultPassenger = bookingFlight.getBookingPassengers().stream()
+//                        .filter(bp -> bp.getPassenger().getPassengerType() == PassengerTypeEnum.ADULT)
+//                        .findFirst()
+//                        .orElseThrow(() -> new IllegalStateException("No adult passenger found to share seat with infant"));
+//                bookingPassenger.setSeat(adultPassenger.getSeat());
+//            } else {
+//                Seat availableSeat = seatService.findAvailableSeat(bookingFlight.getFlight().getSeatAvailability(), ticketClass);
+//                seatService.bookSeat(bookingFlight.getFlight().getSeatAvailability(), availableSeat);
+//                bookingPassenger.setSeat(availableSeat);
+//            }
+//        });
+//    }
+@Override
+public void processBookingFlight(BookingFlight bookingFlight) {
+    bookingFlight.getBookingPassengers().forEach(bookingPassenger -> {
 
-            if (bookingPassenger.getIsSharedSeat()) {
-                BookingPassenger adultPassenger = bookingFlight.getBookingPassengers().stream()
-                        .filter(bp -> bp.getPassenger().getPassengerType() == PassengerTypeEnum.ADULT)
-                        .findFirst()
-                        .orElseThrow(() -> new IllegalStateException("No adult passenger found to share seat with infant"));
-                bookingPassenger.setSeat(adultPassenger.getSeat());
-            } else {
-                Seat availableSeat = seatService.findAvailableSeat(bookingFlight.getFlight().getSeatAvailability(), ticketClass);
-                seatService.bookSeat(bookingFlight.getFlight().getSeatAvailability(), availableSeat);
-                bookingPassenger.setSeat(availableSeat);
-            }
-        });
-    }
+        TicketClassEnum ticketClass = bookingPassenger.getBookingFlight().getTicketClass().getTicketClassName();
+        if (bookingPassenger.getSeat() != null) {
+            return;
+        }
+        if (bookingPassenger.getIsSharedSeat()) {
+            BookingPassenger adultPassenger = bookingFlight.getBookingPassengers().stream()
+                    .filter(bp -> bp.getPassenger().getPassengerType() == PassengerTypeEnum.ADULT)
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalStateException("No adult passenger found to share seat with infant"));
+            bookingPassenger.setSeat(adultPassenger.getSeat());
+        } else {
+            Seat availableSeat = seatService.findAvailableSeat(bookingFlight.getFlight().getSeatAvailability(), ticketClass);
+            seatService.bookSeat(bookingFlight.getFlight().getSeatAvailability(), availableSeat);
+            bookingPassenger.setSeat(availableSeat);
+        }
+    });
+}
+
 }

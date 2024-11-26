@@ -1,4 +1,4 @@
-package com.dvk.ct250backend.infrastructure.redis;
+package com.dvk.ct250backend.infrastructure.config.redis;
 
 import com.dvk.ct250backend.domain.booking.entity.Booking;
 import com.dvk.ct250backend.domain.booking.enums.BookingStatusEnum;

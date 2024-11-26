@@ -5,7 +5,6 @@ import com.dvk.ct250backend.domain.flight.entity.SeatAvailability;
 import com.dvk.ct250backend.domain.flight.enums.SeatAvailabilityStatus;
 import com.dvk.ct250backend.domain.flight.enums.TicketClassEnum;
 import com.dvk.ct250backend.domain.flight.service.SeatService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
@@ -18,6 +17,7 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
 public class SeatServiceImpl implements SeatService {
+
     @Override
     public Seat findAvailableSeat(List<SeatAvailability> seatAvailabilities, TicketClassEnum ticketClass) {
         return seatAvailabilities.stream()
@@ -30,14 +30,12 @@ public class SeatServiceImpl implements SeatService {
     }
 
     @Override
-    @Transactional
     public void bookSeat(List<SeatAvailability> seatAvailabilities, Seat seat) {
         SeatAvailability seatAvailabilityToUpdate = seatAvailabilities.stream()
                 .filter(seatAvailability -> seatAvailability.getSeat().equals(seat) &&
                         seatAvailability.getStatus() == SeatAvailabilityStatus.AVAILABLE)
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("SeatAvailability not found for the seat"));
-
         seatAvailabilityToUpdate.setStatus(SeatAvailabilityStatus.BOOKED);
     }
 }

@@ -74,7 +74,6 @@ public class TransactionServiceImpl implements TransactionService {
       booking.setBookingCode(booking.getBookingCode() == null ? bookingCodeUtils.generateBookingCode() : booking.getBookingCode());
         booking.setBookingStatus(BookingStatusEnum.PENDING);
         bookingRepository.save(booking);
-
         Transaction transaction = transactionMapper.toTransaction(transactionDTO);
         transaction.setStatus(TransactionStatusEnum.PENDING);
         transaction.setBooking(booking);
@@ -119,14 +118,11 @@ public class TransactionServiceImpl implements TransactionService {
                 .orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
         if ("00".equals(status)) {
             booking.setBookingCode(bookingCode);
-
+            booking.setBookingStatus(BookingStatusEnum.PAID);
             if (booking.getCoupon() != null) {
                 couponService.decreaseCouponMaxUsage(booking.getCoupon());
             }
-            if(booking.getBookingStatus() == BookingStatusEnum.RESERVED) {
-                booking.getBookingFlights().forEach(bookingFlightService::processBookingFlight);
-            }
-            booking.setBookingStatus(BookingStatusEnum.PAID);
+            booking.getBookingFlights().forEach(bookingFlightService::processBookingFlight);
             ticketServiceImpl.createTicketsForBooking(booking);
         } else {
             booking.setBookingStatus(BookingStatusEnum.INIT);

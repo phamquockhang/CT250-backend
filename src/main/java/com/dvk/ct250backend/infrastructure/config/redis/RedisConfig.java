@@ -24,7 +24,7 @@ import java.time.Duration;
 @RequiredArgsConstructor
 public class RedisConfig {
     private final KryoSerializer kryoSerializer;
-    private final com.dvk.ct250backend.infrastructure.redis.RedisKeyExpirationListener redisKeyExpirationListener;
+    private final com.dvk.ct250backend.infrastructure.config.redis.RedisKeyExpirationListener redisKeyExpirationListener;
 
     @Bean
     public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {

@@ -55,7 +55,6 @@ public class TicketServiceImpl implements TicketService {
     FileUtils fileUtils;
 
     @Override
-    @Transactional
     public void createTicketsForBooking(Booking booking) throws Exception {
         booking.getBookingFlights().forEach(bookingFlight -> {
             bookingFlight.getBookingPassengers().forEach(bookingPassenger -> {
