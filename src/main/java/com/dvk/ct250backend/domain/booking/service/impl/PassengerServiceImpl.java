@@ -8,6 +8,7 @@ import com.dvk.ct250backend.domain.booking.dto.PassengerDTO;
 import com.dvk.ct250backend.domain.booking.entity.BookingPassenger;
 import com.dvk.ct250backend.domain.booking.entity.Passenger;
 import com.dvk.ct250backend.domain.booking.enums.BookingStatusEnum;
+import com.dvk.ct250backend.domain.booking.enums.PassengerTypeEnum;
 import com.dvk.ct250backend.domain.booking.mapper.PassengerMapper;
 import com.dvk.ct250backend.domain.booking.repository.PassengerRepository;
 import com.dvk.ct250backend.domain.booking.service.PassengerService;
@@ -197,5 +198,19 @@ public class PassengerServiceImpl implements PassengerService {
         return passengerMapper.toPassengerDTO(passengerRepository.save(passenger));
     }
 
+    @Override
+    public Map<String, Integer> getPassengerShareStats() {
+        List<Passenger> passengers = passengerRepository.findAll();
+        return passengers.stream()
+                .map(passenger -> {
+                    String key = switch (passenger.getPassengerType()) {
+                        case PassengerTypeEnum.ADULT -> "Người lớn";
+                        case PassengerTypeEnum.CHILD -> "Trẻ em";
+                        case PassengerTypeEnum.INFANT -> "Em bé";
+                    };
+                    return Map.entry(key, 1);
+                }).collect(Collectors.groupingBy(Map.Entry::getKey,
+                        Collectors.summingInt(Map.Entry::getValue)));
+    }
 }
 

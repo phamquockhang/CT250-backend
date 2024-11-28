@@ -43,4 +43,12 @@ public class PassengerController {
                 .status(HttpStatus.OK.value())
                 .build();
     }
+
+    @GetMapping("/share-stats")
+    public ApiResponse<Map<String, Integer>> getPassengerShareStats() {
+        return ApiResponse.<Map<String, Integer>>builder()
+                .status(HttpStatus.OK.value())
+                .payload(passengerService.getPassengerShareStats())
+                .build();
+    }
 }

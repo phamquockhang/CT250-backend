@@ -492,6 +492,9 @@ INSERT INTO public.permissions (name, api_path, method, module)
 VALUES ('Get last 30 days booking count', '/api/v1/bookings/last-30-days-count', 'GET', 'BOOKINGS');
 
 INSERT INTO public.permissions (name, api_path, method, module)
+VALUES ('Get passenger share stats', '/api/v1/passengers/share-stats', 'GET', 'PASSENGERS');
+
+INSERT INTO public.permissions (name, api_path, method, module)
 VALUES ('Get last 30 days ticket count', '/api/v1/tickets/last-30-days-count', 'GET', 'TICKETS');
 
 
