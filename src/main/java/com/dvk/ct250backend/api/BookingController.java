@@ -80,6 +80,14 @@ public class BookingController {
                 .build();
     }
 
+    @GetMapping("/sales-stats")
+    public ApiResponse<Map<String, BigDecimal>> getSalesStats(@RequestParam Map<String, String> params) {
+        return ApiResponse.<Map<String, BigDecimal>>builder()
+                .status(HttpStatus.OK.value())
+                .payload(bookingService.getSalesStatistics(params))
+                .build();
+    }
+
 }
 
 

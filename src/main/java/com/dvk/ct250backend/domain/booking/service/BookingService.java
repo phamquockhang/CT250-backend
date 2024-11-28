@@ -17,4 +17,5 @@ public interface BookingService {
     BookingDTO getBookingById(Integer id) throws ResourceNotFoundException;
     BigDecimal getLast30DaysSales();
     Integer getLast30DaysBookingCount();
+    Map<String, BigDecimal> getSalesStatistics(Map<String, String> params);
 }

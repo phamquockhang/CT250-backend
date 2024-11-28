@@ -38,13 +38,13 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -222,7 +222,7 @@ public class BookingServiceImpl implements BookingService {
             });
         }
 
-        if(params.containsKey("startDate") && params.containsKey("endDate")) {
+        if (params.containsKey("startDate") && params.containsKey("endDate")) {
             String startDateStr = params.get("startDate");
             LocalDate startDate = dateUtils.parseDate(startDateStr, "date");
             String endDateStr = params.get("endDate");
@@ -236,7 +236,7 @@ public class BookingServiceImpl implements BookingService {
     public String searchBooking(String code, HttpServletResponse response) throws ResourceNotFoundException {
         Booking booking = bookingRepository.findByBookingCode(code)
                 .orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
-        if(booking.getBookingStatus().equals(BookingStatusEnum.RESERVED)){
+        if (booking.getBookingStatus().equals(BookingStatusEnum.RESERVED)) {
             final String FRONTEND_URL = env.getProperty("FRONTEND_URL");
             return FRONTEND_URL + "/book/payment/confirmation";
         } else {
@@ -269,5 +269,75 @@ public class BookingServiceImpl implements BookingService {
                 .filter(booking -> booking.getBookingStatus().equals(BookingStatusEnum.PAID))
                 .mapToInt(booking -> 1)
                 .sum();
+    }
+
+    @Override
+    public Map<String, BigDecimal> getSalesStatistics(Map<String, String> params) {
+        Specification<Booking> spec = getBookingSpec(params);
+        String type = params.getOrDefault("type", null);
+        String startDateStr = params.getOrDefault("startDate", LocalDate.now().toString());
+        String endDateStr = params.getOrDefault("endDate", null);
+
+        Map<String, BigDecimal> salesStatistics = new TreeMap<>();
+        if (type.equals("year")) {
+            int currentYear = LocalDate.now().getYear();
+            IntStream.rangeClosed(1, 12).forEach(month -> {
+                String key = YearMonth.of(currentYear, month).toString();
+                salesStatistics.put(key, BigDecimal.ZERO);
+            });
+        }
+        if (type.equals("month")) {
+            LocalDate now = LocalDate.now();
+            int currentMonth = now.getMonthValue();
+            int currentDateOfMonth;
+            int requestedMonth = Integer.parseInt(startDateStr.split("-")[1]);
+            YearMonth yearMonth = YearMonth.of(now.getYear(), requestedMonth);
+            if (currentMonth == requestedMonth) {
+                currentDateOfMonth = now.getDayOfMonth();
+            } else {
+                currentDateOfMonth = yearMonth.lengthOfMonth();
+            }
+            IntStream.rangeClosed(1, currentDateOfMonth).forEach(day -> {
+                String key = yearMonth.atDay(day).toString();
+                salesStatistics.put(key, BigDecimal.ZERO);
+            });
+        }
+
+        if (type.equals("quarter")) {
+            LocalDate startDate = dateUtils.parseDate(startDateStr, "quarter");
+            LocalDate endDate = startDate.plusMonths(3).withDayOfMonth(1).minusDays(1);
+            while (!startDate.isAfter(endDate)) {
+                String key = startDate.toString();
+                salesStatistics.put(key, BigDecimal.ZERO);
+                startDate = startDate.plusDays(1);
+            }
+        }
+
+        if (startDateStr != null && endDateStr != null) {
+            LocalDate startDate = dateUtils.parseDate(startDateStr, "date");
+            LocalDate endDate = dateUtils.parseDate(endDateStr, "date");
+            while (!startDate.isAfter(endDate)) {
+                String key = startDate.toString();
+                salesStatistics.put(key, BigDecimal.ZERO);
+                startDate = startDate.plusDays(1);
+            }
+        }
+
+        bookingRepository.findAll(spec).stream()
+                .filter(booking -> booking.getBookingStatus().equals(BookingStatusEnum.PAID))
+                .forEach(booking -> {
+                    LocalDateTime createdAt = booking.getCreatedAt();
+                    String key = switch (type) {
+                        case "month", "quarter" -> createdAt.toLocalDate().toString();
+                        case "year" -> {
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+                            yield createdAt.format(formatter);
+                        }
+                        default -> throw new IllegalArgumentException("Invalid date type: " + type);
+                    };
+                    salesStatistics.merge(key, booking.getTotalPrice(), BigDecimal::add);
+                });
+
+        return salesStatistics;
     }
 }
