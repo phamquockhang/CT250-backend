@@ -481,6 +481,25 @@ VALUES ('Create a user', '/api/v1/users', 'POST', 'USERS'),
        ('Update a payment method', '/api/v1/payment-methods/{id}', 'PUT', 'PAYMENT-METHODS'),
        ('Delete a payment method', '/api/v1/payment-methods/{id}', 'DELETE', 'PAYMENT-METHODS');
 
+--NEW PERMISSION
+INSERT INTO public.permissions (name, api_path, method, module)
+VALUES ('Get last 30 days booking sales', '/api/v1/bookings/last-30-days-sales', 'GET', 'BOOKINGS');
+
+INSERT INTO public.permissions (name, api_path, method, module)
+VALUES ('Get booking sales statistic', '/api/v1/bookings/sales-stats', 'GET', 'BOOKINGS');
+
+INSERT INTO public.permissions (name, api_path, method, module)
+VALUES ('Get last 30 days booking count', '/api/v1/bookings/last-30-days-count', 'GET', 'BOOKINGS');
+
+INSERT INTO public.permissions (name, api_path, method, module)
+VALUES ('Get top 10 destinations', '/api/v1/bookings/top-10-destinations', 'GET', 'BOOKINGS');
+
+INSERT INTO public.permissions (name, api_path, method, module)
+VALUES ('Get passenger share stats', '/api/v1/passengers/share-stats', 'GET', 'PASSENGERS');
+
+INSERT INTO public.permissions (name, api_path, method, module)
+VALUES ('Get last 30 days ticket count', '/api/v1/tickets/last-30-days-count', 'GET', 'TICKETS');
+
 
 --ROLE_PERMISSION
 INSERT INTO public.permission_role (permission_id, role_id) VALUES (5, 4);

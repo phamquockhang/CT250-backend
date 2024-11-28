@@ -13,4 +13,5 @@ public interface PassengerService {
     Page<PassengerDTO> getPassengers(Map<String, String> params);
     void deletePassenger(Integer id) throws ResourceNotFoundException;
     PassengerDTO updatePassenger(Integer id, PassengerDTO passengerDTO) throws ResourceNotFoundException;
+    Map<String, Integer> getPassengerShareStats();
 }
