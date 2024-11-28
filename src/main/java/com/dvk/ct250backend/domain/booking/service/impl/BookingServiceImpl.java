@@ -340,4 +340,22 @@ public class BookingServiceImpl implements BookingService {
 
         return salesStatistics;
     }
+
+    @Override
+    public Map<String, Integer> getTop10PopularDestination() {
+//        Specification<Booking> spec = getBookingSpec(params);
+        List<Booking> bookings = bookingRepository.findAll().stream()
+                .filter(booking -> booking.getBookingStatus().equals(BookingStatusEnum.PAID))
+                .collect(Collectors.toList());
+
+        Map<String, Integer> destinationCount = bookings.stream()
+                .flatMap(booking -> booking.getBookingFlights().stream())
+                .map(bookingFlight -> bookingFlight.getFlight().getRoute().getArrivalAirport().getCityName())
+                .collect(Collectors.groupingBy(cityName -> cityName, Collectors.summingInt(cityName -> 1)));
+
+        return destinationCount.entrySet().stream()
+                .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+                .limit(10)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+    }
 }

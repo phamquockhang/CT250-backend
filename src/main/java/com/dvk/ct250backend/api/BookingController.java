@@ -88,6 +88,14 @@ public class BookingController {
                 .build();
     }
 
+    @GetMapping("/top-10-destinations")
+    public ApiResponse<Map<String, Integer>> getTop10PopularDestination() {
+        return ApiResponse.<Map<String, Integer>>builder()
+                .status(HttpStatus.OK.value())
+                .payload(bookingService.getTop10PopularDestination())
+                .build();
+    }
+
 }
 
 

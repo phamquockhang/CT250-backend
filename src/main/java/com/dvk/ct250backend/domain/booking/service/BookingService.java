@@ -18,4 +18,5 @@ public interface BookingService {
     BigDecimal getLast30DaysSales();
     Integer getLast30DaysBookingCount();
     Map<String, BigDecimal> getSalesStatistics(Map<String, String> params);
+    Map<String, Integer> getTop10PopularDestination();
 }
