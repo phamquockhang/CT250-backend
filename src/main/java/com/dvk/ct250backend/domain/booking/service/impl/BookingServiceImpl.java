@@ -201,7 +201,7 @@ public class BookingServiceImpl implements BookingService {
                 });
             }
         }
-        if (params.containsKey("startDate") && params.containsKey("type")) {
+        if (params.containsKey("startDate") && params.containsKey("type") && !params.containsKey("endDate")) {
             String startDateStr = params.get("startDate");
             String type = params.get("type");
             LocalDate startDate = dateUtils.parseDate(startDateStr, type);
@@ -274,8 +274,8 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Map<String, BigDecimal> getSalesStatistics(Map<String, String> params) {
         Specification<Booking> spec = getBookingSpec(params);
-        String type = params.getOrDefault("type", null);
-        String startDateStr = params.getOrDefault("startDate", LocalDate.now().toString());
+        String type = params.getOrDefault("type", "");
+        String startDateStr = params.getOrDefault("startDate", null);
         String endDateStr = params.getOrDefault("endDate", null);
 
         Map<String, BigDecimal> salesStatistics = new TreeMap<>();
@@ -313,22 +313,28 @@ public class BookingServiceImpl implements BookingService {
             }
         }
 
-        if (startDateStr != null && endDateStr != null) {
+        if (startDateStr != null && endDateStr != null && type.equals("date")) {
             LocalDate startDate = dateUtils.parseDate(startDateStr, "date");
             LocalDate endDate = dateUtils.parseDate(endDateStr, "date");
-            while (!startDate.isAfter(endDate)) {
-                String key = startDate.toString();
+            LocalDate currentDate = startDate;
+            while (!currentDate.isAfter(endDate)) {
+                String key = currentDate.toString();
                 salesStatistics.put(key, BigDecimal.ZERO);
-                startDate = startDate.plusDays(1);
+                currentDate = currentDate.plusDays(1);
             }
         }
 
-        bookingRepository.findAll(spec).stream()
+        if (spec == null) {
+            spec = Specification.where(null); // Đảm bảo spec không null
+        }
+
+    List<Booking> bookings = bookingRepository.findAll(spec);
+        bookings.stream()
                 .filter(booking -> booking.getBookingStatus().equals(BookingStatusEnum.PAID))
                 .forEach(booking -> {
                     LocalDateTime createdAt = booking.getCreatedAt();
                     String key = switch (type) {
-                        case "month", "quarter" -> createdAt.toLocalDate().toString();
+                        case "month", "quarter", "date" -> createdAt.toLocalDate().toString();
                         case "year" -> {
                             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
                             yield createdAt.format(formatter);
