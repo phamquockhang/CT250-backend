@@ -1,9 +1,9 @@
 application-name: ct250-backend
 spring:
   datasource:
-    url: ${DATABASE_URL:jdbc:postgresql://ct250-davika-airways.l.aivencloud.com:24893/ct250?sslmode=require}
-    username: ${DATABASE_USER:avnadmin}
-    password: ${DATABASE_PASSWORD:AVNS_RtkjrmnXf9d8sxZHkz1}
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USER:}
+    password: ${DATABASE_PASSWORD}
 
   jpa:
     show-sql: false
@@ -41,8 +41,8 @@ spring:
     host: smtp.gmail.com
     port: 587
     default-encoding: UTF-8
-    username: davikaairways1109@gmail.com
-    password: zfxjbsfmcwpcebte
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
     properties:
       mail:
         smtp:
@@ -104,7 +104,7 @@ application:
       refresh-token-validity-in-seconds: 604800 # 7 days
 
 cloudinary:
-  url: ${CLOUDINARY_URL:cloudinary://146776767144144:S28Z_bYDWnTZCpfrgMHwJw2k4cw@dq9aigkgv}
+  url: ${CLOUDINARY_URL}
 
 payment:
   vnPay:
