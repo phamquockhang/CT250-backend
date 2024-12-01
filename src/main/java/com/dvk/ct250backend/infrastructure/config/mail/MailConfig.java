@@ -1,3 +1,4 @@
+
 package com.dvk.ct250backend.infrastructure.config.mail;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -40,6 +41,7 @@ public class MailConfig {
         mailSender.setUsername(username);
         mailSender.setPassword(password);
         mailSender.setDefaultEncoding(encoding);
+
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");

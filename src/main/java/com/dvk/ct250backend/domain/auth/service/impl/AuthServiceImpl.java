@@ -32,6 +32,8 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
@@ -63,7 +65,7 @@ public class AuthServiceImpl implements AuthService {
         }
         User user = userMapper.toUser(userDTO);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setActive(false);
+
         String verifyToken = UUID.randomUUID().toString();
         redisService.set(verifyToken, user.getEmail() , 60 * 60 * 24 * 1000); // 24h expiration in milliseconds
         emailService.sendVerificationEmail(user, siteUrl, verifyToken);
