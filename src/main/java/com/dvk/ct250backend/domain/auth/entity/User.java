@@ -25,6 +25,7 @@ import java.util.UUID;
 public class User extends BaseEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "user_id")
     UUID userId;
     String email;
     String password;
@@ -33,9 +34,6 @@ public class User extends BaseEntity implements UserDetails {
     String avatar;
 
     LocalDate dateOfBirth;
-
-    @Column(unique = true)
-    String verificationToken;
 
     @Column(name = "identity_number", unique = true, length = 20)
     String identityNumber;
@@ -46,11 +44,11 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "phone_number", length = 20)
     String phoneNumber;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "country_id")
     Country country;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
     Role role;
 

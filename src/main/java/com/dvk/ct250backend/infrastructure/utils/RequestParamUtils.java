@@ -1,6 +1,8 @@
 package com.dvk.ct250backend.infrastructure.utils;
 
 import com.dvk.ct250backend.app.dto.request.SearchCriteria;
+import jakarta.persistence.EntityManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
@@ -11,16 +13,19 @@ import java.util.Map;
 @Component
 public class RequestParamUtils {
 
-    public List<Sort.Order> toSortOrders(String sortParams) {
-        if(sortParams == null || sortParams.isEmpty()) {
-            return new ArrayList<>();
-        }
-        String[] sortArr = sortParams.split(";");
+    @Autowired
+    private EntityManager entityManager;
+    public List<Sort.Order> toSortOrders(Map<String, String> params, Class<?> entityClass) {
         List<Sort.Order> sortOrders = new ArrayList<>();
-        for (String s : sortArr) {
-            String[] sortStr = s.split(",");
-            Sort.Order order = new Sort.Order(Sort.Direction.fromString(sortStr[1]), sortStr[0]);
-            sortOrders.add(order);
+        String sortBy = params.getOrDefault("sortBy", "createdAt");
+        String direction = params.getOrDefault("direction", "desc");
+        String idFieldName = EntityUtils.getIdFieldName(entityManager, entityClass);
+
+        if (sortBy != null && !sortBy.isEmpty()) {
+            Sort.Order createdAtOrder = new Sort.Order(Sort.Direction.fromString(direction), sortBy);
+            Sort.Order updatedAtOrder = new Sort.Order(Sort.Direction.fromString("asc"), "updatedAt");
+            Sort.Order idOrder = new Sort.Order(Sort.Direction.ASC, idFieldName);
+            sortOrders.addAll(List.of(createdAtOrder, updatedAtOrder, idOrder));
         }
         return sortOrders;
     }
@@ -42,3 +47,4 @@ public class RequestParamUtils {
         return searchCriteriaList;
     }
 }
+

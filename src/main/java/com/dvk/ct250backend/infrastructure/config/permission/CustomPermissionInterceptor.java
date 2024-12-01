@@ -1,6 +1,5 @@
 package com.dvk.ct250backend.infrastructure.config.permission;
 
-import com.dvk.ct250backend.app.exception.PermissionException;
 import com.dvk.ct250backend.domain.auth.entity.Permission;
 import com.dvk.ct250backend.domain.auth.entity.Role;
 import com.dvk.ct250backend.domain.auth.entity.User;
@@ -8,8 +7,13 @@ import com.dvk.ct250backend.domain.auth.repository.UserRepository;
 import com.dvk.ct250backend.infrastructure.audit.AuditAwareImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
@@ -18,24 +22,24 @@ import java.util.List;
 import java.util.Optional;
 
 
+@Component
+@Slf4j
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CustomPermissionInterceptor implements HandlerInterceptor {
-    @Autowired
-    private AuditAwareImpl auditAware;
-    @Autowired
-    private UserRepository userRepository;
+    private final AuditAwareImpl auditAware;
+    private final UserRepository userRepository;
 
     @Override
     @Transactional
     public boolean preHandle(
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
-            @NonNull Object handler)
-            throws Exception {
+            @NonNull Object handler) {
 
         String path = (String) request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);
-        String requestURI = request.getRequestURI();
         String httpMethod = request.getMethod();
-        logRequestDetails(path, requestURI, httpMethod);
+        logRequestDetails(path, httpMethod);
 
         String email = auditAware.getCurrentAuditor().orElse("");
         if (!email.isEmpty()) {
@@ -48,14 +52,11 @@ public class CustomPermissionInterceptor implements HandlerInterceptor {
         return true;
     }
 
-    private void logRequestDetails(String path, String requestURI, String httpMethod) {
-        System.out.println(">>> RUN preHandle");
-        System.out.println(">>> path= " + path);
-        System.out.println(">>> httpMethod= " + httpMethod);
-        System.out.println(">>> requestURI= " + requestURI);
+    private void logRequestDetails(String path,  String httpMethod) {
+        log.info("[PATH={}, METHOD={}]", path, httpMethod);
     }
 
-    private void checkPermissions(User user, String path, String httpMethod) throws PermissionException {
+    private void checkPermissions(User user, String path, String httpMethod) throws AccessDeniedException {
         Role role = user.getRole();
         if (role != null) {
             List<Permission> permissions = role.getPermissions();
@@ -63,10 +64,10 @@ public class CustomPermissionInterceptor implements HandlerInterceptor {
                     && item.getMethod().equals(httpMethod));
 
             if (!isAllow) {
-                throw new PermissionException("You do not have permission to access this endpoint.");
+                throw new AccessDeniedException("You do not have permission to access endpoint: " + path);
             }
         } else {
-            throw new PermissionException("You do not have permission to access this endpoint.");
+            throw new AccessDeniedException("You do not have permission to access endpoint: " + path);
         }
     }
 }

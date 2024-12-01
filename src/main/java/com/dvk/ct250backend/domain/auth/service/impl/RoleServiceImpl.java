@@ -8,6 +8,8 @@ import com.dvk.ct250backend.domain.auth.entity.Role;
 import com.dvk.ct250backend.domain.auth.mapper.RoleMapper;
 import com.dvk.ct250backend.domain.auth.repository.RoleRepository;
 import com.dvk.ct250backend.domain.auth.service.RoleService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -26,6 +28,8 @@ import java.util.stream.Collectors;
 public class RoleServiceImpl implements RoleService {
     RoleRepository roleRepository;
     RoleMapper roleMapper;
+    @PersistenceContext
+    EntityManager entityManager;
 
     @Override
     public Page<RoleDTO> getRoles(Map<String, String> params) {
@@ -42,10 +46,13 @@ public class RoleServiceImpl implements RoleService {
 
         return Page.<RoleDTO>builder()
                 .meta(meta)
-                .content(pageRole.getContent().stream().map(roleMapper::toRoleDTO).collect(Collectors.toList()))
+                .content(pageRole.getContent().stream()
+                        .map(roleMapper::toRoleDTO)
+                        .collect(Collectors.toList()))
                 .build();
     }
 
+    @Override
     public List<RoleDTO> getAllRoles() {
         List<Role> roles = roleRepository.findAll();
         return roles.stream().map(roleMapper::toRoleDTO).collect(Collectors.toList());
@@ -79,8 +86,13 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional
     public RoleDTO createRole(RoleDTO roleDTO) throws ResourceNotFoundException {
-        Role newRole = roleRepository.save(roleMapper.toRole(roleDTO));
-        return roleMapper.toRoleDTO(newRole);
+        Role newRole = roleMapper.toRole(roleDTO);
+//        newRole.getPermissions().forEach(permission -> {
+//            if (permission.getPermissionId() != null) {
+//                entityManager.merge(permission);
+//            }
+//        });
+        return roleMapper.toRoleDTO(roleRepository.save(newRole));
     }
 
 }

@@ -14,4 +14,6 @@ public class CountryDTO {
     Integer countryId;
     String countryName;
     Integer countryCode;
+    String iso2Code;
+    String iso3Code;
 }

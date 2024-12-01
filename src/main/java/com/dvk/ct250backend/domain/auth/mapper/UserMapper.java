@@ -6,7 +6,10 @@ import com.dvk.ct250backend.domain.auth.entity.User;
 import com.dvk.ct250backend.domain.auth.enums.GenderEnum;
 import com.dvk.ct250backend.domain.country.entity.Country;
 import com.dvk.ct250backend.domain.country.mapper.CountryMapper;
-import org.mapstruct.*;
+import org.mapstruct.BeforeMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 
 @Mapper(componentModel = "spring", uses = {RoleMapper.class, CountryMapper.class})

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>Vé Máy Bay</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 10mm 5mm;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fff;
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 190mm;
+            padding: 5mm;
+            box-shadow: none;
+            color: #333;
+            border: none;
+            border-radius: 0;
+        }
+
+        .ticket {
+            margin-bottom: 10mm;
+            padding: 5mm;
+            border: 3px solid #ddd;
+            border-radius: 8px;
+            page-break-after: always;
+        }
+
+        .header {
+            display: block;
+            padding-bottom: 5mm;
+            border-bottom: 3px solid #ddd;
+        }
+
+        .header h2 {
+            font-size: 18px;
+            color: #333;
+            margin: 0;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .booking-info {
+            text-align: center;
+            font-size: 16px;
+            color: #555;
+            margin-top: 2mm;
+        }
+
+        .section {
+            display: block;
+            padding: 2mm 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .details {
+            margin-bottom: 2mm;
+            font-size: 13px;
+            color: #333;
+            width: 30%;
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .details h3 {
+            font-size: 14px;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 1mm;
+            text-transform: uppercase;
+        }
+
+        .details p {
+            margin: 0;
+            color: #333;
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #0066cc;
+            text-align: center;
+        }
+
+        .top-info {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 4mm;
+        }
+
+        .qr-code {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div th:each="bookingFlight : ${booking.bookingFlights}">
+        <div th:each="bookingPassenger : ${bookingFlight.bookingPassengers}">
+            <div class="ticket">
+                <div class="top-info">
+                    <span th:text="'Ngày ' + ${#temporals.format(bookingFlight.flight.departureDateTime, 'dd')} + ' tháng ' + ${#temporals.format(bookingFlight.flight.departureDateTime, 'M')} + ', ' + ${#temporals.format(bookingFlight.flight.departureDateTime, 'yyyy')}"></span>
+                    CHUYẾN ĐI ĐẾN
+                    <span th:text="${bookingFlight.flight.route.arrivalAirport.cityName}"></span>
+                </div>
+                <div class="header">
+                    <div class="logo">DaViKa Airways</div>
+                    <div class="booking-info">
+                        Chuẩn bị cho: <span class="highlight"
+                                            th:text="${bookingPassenger.passenger.lastName + ' ' + bookingPassenger.passenger.firstName}"></span><br/>
+                        Mã Đặt Chỗ: <span class="highlight" th:text="${booking.bookingCode}"></span>
+                    </div>
+                    <div class="qr-code">
+                        <img th:src="'data:image/png;base64,' + ${qrCodeImage}" alt="QR Code" width="250" height="250"/>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="details">
+                        <h3><span class="highlight" th:text="${bookingFlight.flight.flightId}"></span></h3>
+                        <p>Hạng: <span class="highlight" th:text="${bookingFlight.ticketClass.ticketClassName}"></span>
+                        </p>
+                        <p>Tình trạng chỗ: <span class="highlight">Đã Xác Nhận</span></p>
+                    </div>
+                    <div class="details">
+                        <h3>Điểm Xuất Phát</h3>
+                        <p th:text="${bookingFlight.flight.route.departureAirport.airportCode + ' - ' + bookingFlight.flight.route.departureAirport.airportName}"></p>
+                        <p>Giờ Khởi Hành: <span class="highlight"
+                                                th:text="${#temporals.format(bookingFlight.flight.departureDateTime, 'HH:mm')}"></span>
+                        </p>
+                    </div>
+                    <div class="details">
+                        <h3>Điểm Đến</h3>
+                        <p th:text="${bookingFlight.flight.route.arrivalAirport.airportCode + ' - ' + bookingFlight.flight.route.arrivalAirport.airportName}"></p>
+                        <p>Giờ Đến: <span class="highlight"
+                                          th:text="${#temporals.format(bookingFlight.flight.arrivalDateTime, 'HH:mm')}"></span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="details">
+                        <h3>Tên Hành Khách</h3>
+                        <p th:text="${bookingPassenger.passenger.firstName + ' ' + bookingPassenger.passenger.lastName}"></p>
+                    </div>
+                    <div class="details">
+                        <h3>Ghế</h3>
+                        <p th:text="${bookingPassenger.seat.seatCode}"></p>
+                    </div>
+                    <div class="details">
+                        <h3>Biên nhận eTicket</h3>
+                        <p th:text="${bookingPassenger.tickets[0].ticketNumber}"></p>
+                    </div>
+                </div>
+
+                <div class="section"
+                     th:if="${(bookingPassenger.meals != null && !#lists.isEmpty(bookingPassenger.meals)) || bookingPassenger.baggage != null}">
+                    <h3>Dịch Vụ Mua Thêm</h3>
+                    <div class="details"
+                         th:if="${bookingPassenger.meals != null && !#lists.isEmpty(bookingPassenger.meals)}">
+                        <h3>Bữa Ăn</h3>
+                        <p th:each="meal : ${bookingPassenger.meals}" th:text="${meal.mealName}"></p>
+                    </div>
+                    <div class="details" th:if="${bookingPassenger.baggage != null}">
+                        <h3>Hành Lý</h3>
+                        <p th:text="${bookingPassenger.baggage.baggageWeight + ' kg'}"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

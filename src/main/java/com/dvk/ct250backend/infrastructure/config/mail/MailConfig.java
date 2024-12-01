@@ -1,11 +1,11 @@
-// src/main/java/com/dvk/ct250backend/infrastructure/config/MailConfig.java
+
 package com.dvk.ct250backend.infrastructure.config.mail;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Properties;
 
@@ -30,6 +30,9 @@ public class MailConfig {
     @Value("${spring.mail.properties.mail.smtp.starttls.enable}")
     private boolean starttls;
 
+    @Value("${spring.mail.default-encoding}")
+    private String encoding;
+
     @Bean
     public JavaMailSender javaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
@@ -37,6 +40,8 @@ public class MailConfig {
         mailSender.setPort(port);
         mailSender.setUsername(username);
         mailSender.setPassword(password);
+        mailSender.setDefaultEncoding(encoding);
+
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
@@ -46,4 +51,5 @@ public class MailConfig {
 
         return mailSender;
     }
+
 }
